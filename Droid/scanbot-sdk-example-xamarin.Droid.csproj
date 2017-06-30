@@ -43,6 +43,36 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.22.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.AppCompat">
+      <HintPath>..\packages\Xamarin.Android.Support.v7.AppCompat.22.1.1\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+    </Reference>
+    <Reference Include="Camera">
+      <HintPath>..\packages\ScanbotSDK.Xamarin.Android.1.1.2\lib\MonoAndroid41\Camera.dll</HintPath>
+    </Reference>
+    <Reference Include="Detector">
+      <HintPath>..\packages\ScanbotSDK.Xamarin.Android.1.1.2\lib\MonoAndroid41\Detector.dll</HintPath>
+    </Reference>
+    <Reference Include="Licensing">
+      <HintPath>..\packages\ScanbotSDK.Xamarin.Android.1.1.2\lib\MonoAndroid41\Licensing.dll</HintPath>
+    </Reference>
+    <Reference Include="ScanbotSDK">
+      <HintPath>..\packages\ScanbotSDK.Xamarin.Android.1.1.2\lib\MonoAndroid41\ScanbotSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="ScanbotSDK.Xamarin.Android">
+      <HintPath>..\packages\ScanbotSDK.Xamarin.Android.1.1.2\lib\MonoAndroid41\ScanbotSDK.Xamarin.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="ScanbotSDK.Xamarin">
+      <HintPath>..\packages\ScanbotSDK.Xamarin.Android.1.1.2\lib\MonoAndroid41\ScanbotSDK.Xamarin.dll</HintPath>
+    </Reference>
+    <Reference Include="ScanbotSDK1">
+      <HintPath>..\packages\ScanbotSDK.Xamarin.Android.1.1.2\lib\MonoAndroid41\ScanbotSDK1.dll</HintPath>
+    </Reference>
+    <Reference Include="ScanbotSDK2">
+      <HintPath>..\packages\ScanbotSDK.Xamarin.Android.1.1.2\lib\MonoAndroid41\ScanbotSDK2.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -53,6 +83,7 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
