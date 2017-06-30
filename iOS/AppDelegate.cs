@@ -1,5 +1,8 @@
 ﻿using Foundation;
 using UIKit;
+using System;
+
+using ScanbotSDK.Xamarin.iOS.Wrapper;
 
 namespace scanbotsdkexamplexamarin.iOS
 {
@@ -8,9 +11,14 @@ namespace scanbotsdkexamplexamarin.iOS
     [Register("AppDelegate")]
     public class AppDelegate : UIApplicationDelegate
     {
-        // class-level declarations
+		// Add your Scanbot SDK license key here.
+		// You can test all Scanbot SDK features and develop your app without a license. 
+		// However, if you do not specify the license key when initializing the SDK, 
+		// it will work in trial mode (trial period of 1 minute). 
+		// To get another trial period you have to restart your app.
+		const string licenseKey = "";
 
-        public override UIWindow Window
+		public override UIWindow Window
         {
             get;
             set;
@@ -20,6 +28,9 @@ namespace scanbotsdkexamplexamarin.iOS
         {
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
+
+            Console.WriteLine("Initializing Scanbot SDK...");
+            SBSDK.Initialize(application, licenseKey, true);
 
             return true;
         }
