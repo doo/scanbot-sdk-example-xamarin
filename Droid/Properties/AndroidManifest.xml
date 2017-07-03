@@ -5,5 +5,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<application android:label="Scanbot SDK Example Xamarin">
+		<!-- 
+		Eddy: Dummy "ocr_blobs_path" as a workaround. A real fix is already provided in the newest native SDK.
+		TODO Change it as soon as OCR feature is released for our Xamarin wrapper.
+		-->
+		<meta-data android:name="ocr_blobs_path" android:value="assets/scanbot-sdk-dummy" />
 	</application>
 </manifest>
