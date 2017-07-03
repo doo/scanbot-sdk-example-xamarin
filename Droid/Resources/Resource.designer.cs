@@ -2585,6 +2585,21 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f02003a
 			public const int abc_textfield_search_material = 2130837562;
 			
+			// aapt resource value: 0x7f02003b
+			public const int ui_crop_corner_handle = 2130837563;
+			
+			// aapt resource value: 0x7f02003c
+			public const int ui_crop_magnifier = 2130837564;
+			
+			// aapt resource value: 0x7f02003d
+			public const int ui_crop_side_handle = 2130837565;
+			
+			// aapt resource value: 0x7f02003e
+			public const int ui_edit_ico_cancel = 2130837566;
+			
+			// aapt resource value: 0x7f02003f
+			public const int ui_edit_ico_save = 2130837567;
+			
 			static Drawable()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -2646,11 +2661,17 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0a0016
 			public const int always = 2131361814;
 			
+			// aapt resource value: 0x7f0a005f
+			public const int applyImageFilterButton = 2131361887;
+			
 			// aapt resource value: 0x7f0a0013
 			public const int beginning = 2131361811;
 			
 			// aapt resource value: 0x7f0a0036
 			public const int buttonPanel = 2131361846;
+			
+			// aapt resource value: 0x7f0a0055
+			public const int cancelButton = 2131361877;
 			
 			// aapt resource value: 0x7f0a0038
 			public const int checkbox = 2131361848;
@@ -2660,6 +2681,15 @@ namespace scanbotsdkexamplexamarin.Droid
 			
 			// aapt resource value: 0x7f0a0031
 			public const int contentPanel = 2131361841;
+			
+			// aapt resource value: 0x7f0a0061
+			public const int copyrightTextView = 2131361889;
+			
+			// aapt resource value: 0x7f0a0060
+			public const int createPdfButton = 2131361888;
+			
+			// aapt resource value: 0x7f0a005d
+			public const int croppingUIButton = 2131361885;
 			
 			// aapt resource value: 0x7f0a0035
 			public const int custom = 2131361845;
@@ -2678,6 +2708,12 @@ namespace scanbotsdkexamplexamarin.Droid
 			
 			// aapt resource value: 0x7f0a000c
 			public const int disableHome = 2131361804;
+			
+			// aapt resource value: 0x7f0a005e
+			public const int documentDetectionButton = 2131361886;
+			
+			// aapt resource value: 0x7f0a0056
+			public const int doneButton = 2131361878;
 			
 			// aapt resource value: 0x7f0a001c
 			public const int dropdown = 2131361820;
@@ -2709,6 +2745,9 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0a0028
 			public const int image = 2131361832;
 			
+			// aapt resource value: 0x7f0a005b
+			public const int imageView = 2131361883;
+			
 			// aapt resource value: 0x7f0a0009
 			public const int listMode = 2131361801;
 			
@@ -2720,9 +2759,6 @@ namespace scanbotsdkexamplexamarin.Droid
 			
 			// aapt resource value: 0x7f0a001e
 			public const int multiply = 2131361822;
-			
-			// aapt resource value: 0x7f0a004f
-			public const int myButton = 2131361871;
 			
 			// aapt resource value: 0x7f0a0019
 			public const int never = 2131361817;
@@ -2736,6 +2772,9 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0a002d
 			public const int parentPanel = 2131361837;
 			
+			// aapt resource value: 0x7f0a0059
+			public const int processImageProgressBar = 2131361881;
+			
 			// aapt resource value: 0x7f0a0005
 			public const int progress_circular = 2131361797;
 			
@@ -2745,11 +2784,38 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0a003a
 			public const int radio = 2131361850;
 			
+			// aapt resource value: 0x7f0a004f
+			public const int scanbotCameraView = 2131361871;
+			
+			// aapt resource value: 0x7f0a0057
+			public const int scanbotEditImageView = 2131361879;
+			
+			// aapt resource value: 0x7f0a0053
+			public const int scanbotFlashButton = 2131361875;
+			
+			// aapt resource value: 0x7f0a0058
+			public const int scanbotMagnifierView = 2131361880;
+			
+			// aapt resource value: 0x7f0a0050
+			public const int scanbotPolygonView = 2131361872;
+			
+			// aapt resource value: 0x7f0a0051
+			public const int scanbotResultImageView = 2131361873;
+			
+			// aapt resource value: 0x7f0a0052
+			public const int scanbotSnapButton = 2131361874;
+			
+			// aapt resource value: 0x7f0a005c
+			public const int scanningUIButton = 2131361884;
+			
 			// aapt resource value: 0x7f0a001f
 			public const int screen = 2131361823;
 			
 			// aapt resource value: 0x7f0a0032
 			public const int scrollView = 2131361842;
+			
+			// aapt resource value: 0x7f0a005a
+			public const int scrollView1 = 2131361882;
 			
 			// aapt resource value: 0x7f0a0044
 			public const int search_badge = 2131361860;
@@ -2831,6 +2897,9 @@ namespace scanbotsdkexamplexamarin.Droid
 			
 			// aapt resource value: 0x7f0a0012
 			public const int useLogo = 2131361810;
+			
+			// aapt resource value: 0x7f0a0054
+			public const int userGuidanceTextView = 2131361876;
 			
 			// aapt resource value: 0x7f0a001a
 			public const int withText = 2131361818;
@@ -2949,19 +3018,28 @@ namespace scanbotsdkexamplexamarin.Droid
 			public const int abc_simple_dropdown_hint = 2130968600;
 			
 			// aapt resource value: 0x7f040019
-			public const int Main = 2130968601;
+			public const int CameraViewDemo = 2130968601;
 			
 			// aapt resource value: 0x7f04001a
-			public const int select_dialog_item_material = 2130968602;
+			public const int CroppingActionBarView = 2130968602;
 			
 			// aapt resource value: 0x7f04001b
-			public const int select_dialog_multichoice_material = 2130968603;
+			public const int CroppingImageDemo = 2130968603;
 			
 			// aapt resource value: 0x7f04001c
-			public const int select_dialog_singlechoice_material = 2130968604;
+			public const int Main = 2130968604;
 			
 			// aapt resource value: 0x7f04001d
-			public const int support_simple_spinner_dropdown_item = 2130968605;
+			public const int select_dialog_item_material = 2130968605;
+			
+			// aapt resource value: 0x7f04001e
+			public const int select_dialog_multichoice_material = 2130968606;
+			
+			// aapt resource value: 0x7f04001f
+			public const int select_dialog_singlechoice_material = 2130968607;
+			
+			// aapt resource value: 0x7f040020
+			public const int support_simple_spinner_dropdown_item = 2130968608;
 			
 			static Layout()
 			{
