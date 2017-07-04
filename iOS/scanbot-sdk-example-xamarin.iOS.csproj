@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
-    <ProjectGuid>{8D0B3044-3002-48A8-B141-1167219DC038}</ProjectGuid>
+    <ProjectGuid>{9795473E-7790-43E8-B91B-61B2B41F8463}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>scanbotsdkexamplexamarin.iOS</RootNamespace>
-    <AssemblyName>scanbot-sdk-example-xamarin.iOS</AssemblyName>
+    <AssemblyName>scanbot_sdk_xamarin_demo.iOS</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
@@ -19,14 +19,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <MtouchDebug>true</MtouchDebug>
-    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchFastDev>true</MtouchFastDev>
-    <IOSDebuggerPort>17819</IOSDebuggerPort>
-    <MtouchLink>None</MtouchLink>
-    <MtouchArch>i386, x86_64</MtouchArch>
+    <IOSDebuggerPort>20161</IOSDebuggerPort>
+    <MtouchLink>Full</MtouchLink>
+    <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchTlsProvider>Default</MtouchTlsProvider>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
@@ -41,6 +40,7 @@
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchTlsProvider>Default</MtouchTlsProvider>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -50,11 +50,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <DeviceSpecificBuild>true</DeviceSpecificBuild>
-    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchLink>None</MtouchLink>
-    <MtouchArch>i386, x86_64</MtouchArch>
+    <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchTlsProvider>Default</MtouchTlsProvider>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
@@ -68,14 +67,13 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <MtouchDebug>true</MtouchDebug>
-    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchFastDev>true</MtouchFastDev>
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <IOSDebuggerPort>47802</IOSDebuggerPort>
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchTlsProvider>Default</MtouchTlsProvider>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
@@ -96,13 +94,19 @@
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\Contents.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
+    <ImageAsset Include="Assets.xcassets\ui_action_checkmark.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ui_action_checkmark.imageset\ui_action_checkmark.png" />
+    <ImageAsset Include="Assets.xcassets\ui_action_checkmark.imageset\ui_action_checkmark%402x.png" />
+    <ImageAsset Include="Assets.xcassets\ui_action_checkmark.imageset\ui_action_checkmark%403x.png" />
+    <ImageAsset Include="Assets.xcassets\ui_action_close.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ui_action_close.imageset\ui_action_close.png" />
+    <ImageAsset Include="Assets.xcassets\ui_action_close.imageset\ui_action_close%402x.png" />
+    <ImageAsset Include="Assets.xcassets\ui_action_close.imageset\ui_action_close%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Main.storyboard" />
+    <InterfaceDefinition Include="Views\ProgressHUD.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -112,10 +116,24 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="ViewController.cs" />
-    <Compile Include="ViewController.designer.cs">
-      <DependentUpon>ViewController.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Utils\ExampleImageUtils.cs" />
+    <Compile Include="ViewControllers\CameraDemoViewController.cs" />
+    <Compile Include="ViewControllers\CroppingDemoNavigationController.cs" />
+    <Compile Include="ViewControllers\MainSelectionTableViewController.cs" />
+    <Compile Include="ViewControllers\MainSelectionTableViewController.designer.cs" />
+    <Compile Include="ViewControllers\PDFCreationViewController.cs" />
+    <Compile Include="ViewControllers\PDFCreationViewController.designer.cs" />
+    <Compile Include="ViewControllers\PDFViewController.cs" />
+    <Compile Include="ViewControllers\PDFViewController.designer.cs" />
+    <Compile Include="Views\ProgressHUD.cs" />
+    <Compile Include="Views\ProgressHUD.designer.cs" />
+    <Compile Include="Views\ThumbnailCollectionViewCell.cs" />
+    <Compile Include="Views\ThumbnailCollectionViewCell.designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets.xcassets\ui_action_checkmark.imageset\" />
+    <Folder Include="Assets.xcassets\ui_action_close\.imageset\" />
+    <Folder Include="Assets.xcassets\ui_action_close.imageset\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

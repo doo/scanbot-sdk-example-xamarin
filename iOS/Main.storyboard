@@ -1,40 +1,376 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6750" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
-	<dependencies>
-		<plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6735" />
-	</dependencies>
-	<scenes>
-		<!--View Controller-->
-		<scene sceneID="tne-QT-ifu">
-			<objects>
-				<viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
-					<layoutGuides>
-						<viewControllerLayoutGuide type="top" id="y3c-jy-aDJ" />
-						<viewControllerLayoutGuide type="bottom" id="wfy-db-euE" />
-					</layoutGuides>
-					<view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-						<rect key="frame" x="0.0" y="0.0" width="600" height="600" />
-						<autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
-						<subviews>
-							<button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oBE-Ac-vcx">
-								<rect key="frame" x="224" y="285" width="152" height="30" />
-								<state key="normal" title="Hello World, Click Me!">
-									<color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite" />
-								</state>
-							</button>
-						</subviews>
-						<color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite" />
-						<constraints>
-							<constraint firstItem="oBE-Ac-vcx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="HiD-uS-i16" />
-							<constraint firstItem="oBE-Ac-vcx" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="YgX-7e-bMc" />
-						</constraints>
-					</view>
-					<connections>
-						<outlet property="Button" destination="oBE-Ac-vcx" id="OkX-0Z-gth" />
-					</connections>
-				</viewController>
-				<placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder" />
-			</objects>
-		</scene>
-	</scenes>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="299">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="298">
+            <objects>
+                <navigationController id="299" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="301">
+                        <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="719" kind="relationship" relationship="rootViewController" id="955"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="302" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-660" y="-55"/>
+        </scene>
+        <!--View Controller Filter Images-->
+        <!--Select demo-->
+        <scene sceneID="718">
+            <objects>
+                <tableViewController id="719" customClass="MainSelectionTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="720">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <sections>
+                            <tableViewSection id="727">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="730">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="730" id="731">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="735">
+                                                    <rect key="frame" x="20" y="7" width="560" height="30"/>
+                                                    <state key="normal" title="Scanning UI">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="CameraUITouchUpInside:" destination="719" id="1543" eventType="touchUpInside"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="735" firstAttribute="leading" secondItem="731" secondAttribute="leading" constant="20" id="979"/>
+                                                <constraint firstAttribute="trailing" secondItem="735" secondAttribute="trailing" constant="20" id="980"/>
+                                                <constraint firstAttribute="bottom" secondItem="735" secondAttribute="bottom" constant="6" id="981"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="44" id="966">
+                                        <rect key="frame" x="0.0" y="44" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="966" id="967">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="968">
+                                                    <rect key="frame" x="20" y="7" width="560" height="30"/>
+                                                    <state key="normal" title="Cropping UI">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="CroppingUITouchUpInside:" destination="719" id="1532" eventType="touchUpInside"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="968" firstAttribute="top" secondItem="967" secondAttribute="top" constant="7" id="982"/>
+                                                <constraint firstAttribute="trailing" secondItem="968" secondAttribute="trailing" constant="20" id="983"/>
+                                                <constraint firstItem="968" firstAttribute="leading" secondItem="967" secondAttribute="leading" constant="20" id="984"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="732">
+                                        <rect key="frame" x="0.0" y="88" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="732" id="733">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="743">
+                                                    <rect key="frame" x="20" y="7" width="560" height="30"/>
+                                                    <state key="normal" title="Document Detection on Image">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="DocumentDetectionTouchUpInside:" destination="719" id="1533" eventType="touchUpInside"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="743" firstAttribute="top" secondItem="733" secondAttribute="top" constant="7" id="985"/>
+                                                <constraint firstAttribute="trailing" secondItem="743" secondAttribute="trailing" constant="20" id="986"/>
+                                                <constraint firstItem="743" firstAttribute="leading" secondItem="733" secondAttribute="leading" constant="20" id="987"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="736">
+                                        <rect key="frame" x="0.0" y="132" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="736" id="737">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="747">
+                                                    <rect key="frame" x="20" y="7" width="560" height="30"/>
+                                                    <state key="normal" title="Apply Image Filter">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="ApplyImageFilterTouchUpInside:" destination="719" id="1546" eventType="touchUpInside"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="747" firstAttribute="top" secondItem="737" secondAttribute="top" constant="7" id="988"/>
+                                                <constraint firstItem="747" firstAttribute="leading" secondItem="737" secondAttribute="leading" constant="20" id="989"/>
+                                                <constraint firstAttribute="trailing" secondItem="747" secondAttribute="trailing" constant="20" id="990"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="738">
+                                        <rect key="frame" x="0.0" y="176" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="738" id="739">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="748">
+                                                    <rect key="frame" x="20" y="7" width="560" height="30"/>
+                                                    <state key="normal" title="PDF Creation">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <segue destination="1161" kind="show" id="1306"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="748" firstAttribute="top" secondItem="739" secondAttribute="top" constant="7" id="991"/>
+                                                <constraint firstItem="748" firstAttribute="leading" secondItem="739" secondAttribute="leading" constant="20" id="992"/>
+                                                <constraint firstAttribute="trailing" secondItem="748" secondAttribute="trailing" constant="20" id="993"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="316" id="749">
+                                        <rect key="frame" x="0.0" y="220" width="600" height="316"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="749" id="750">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="315"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="755" text="Please snap a document image via Scanning UI or run Document Detection on an image file from the PhotoLibrary.">
+                                                    <rect key="frame" x="20" y="20" width="560" height="249"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="754">
+                                                    <rect key="frame" x="20" y="20" width="560" height="276"/>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="754" firstAttribute="top" secondItem="750" secondAttribute="top" constant="20" id="994"/>
+                                                <constraint firstItem="754" firstAttribute="leading" secondItem="750" secondAttribute="leading" constant="20" id="995"/>
+                                                <constraint firstAttribute="trailing" secondItem="754" secondAttribute="trailing" constant="20" id="996"/>
+                                                <constraint firstAttribute="bottom" secondItem="754" secondAttribute="bottom" constant="19" id="997"/>
+                                                <constraint firstItem="755" firstAttribute="leading" secondItem="750" secondAttribute="leading" constant="20" id="998"/>
+                                                <constraint firstItem="755" firstAttribute="top" secondItem="750" secondAttribute="top" constant="20" id="999"/>
+                                                <constraint firstItem="754" firstAttribute="bottom" secondItem="755" secondAttribute="bottom" constant="27" id="1000"/>
+                                                <constraint firstAttribute="trailing" secondItem="755" secondAttribute="trailing" constant="20" id="1001"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="34" id="751">
+                                        <rect key="frame" x="0.0" y="536" width="600" height="34"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="751" id="752">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="33"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="753" misplaced="YES" text="This example app will only run 1 minute before terminating." numberOfLines="0">
+                                                    <rect key="frame" x="20" y="6" width="560" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13" weight="semibold"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="753" firstAttribute="top" secondItem="752" secondAttribute="top" constant="6" id="1004"/>
+                                                <constraint firstItem="753" firstAttribute="leading" secondItem="752" secondAttribute="leading" constant="20" id="1005"/>
+                                                <constraint firstAttribute="trailing" secondItem="753" secondAttribute="trailing" constant="20" id="1006"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="34" id="1553">
+                                        <rect key="frame" x="0.0" y="570" width="600" height="34"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1553" id="1554">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="33"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1555" misplaced="YES" text="...">
+                                                    <rect key="frame" x="20" y="6" width="560" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="1555" firstAttribute="top" secondItem="1554" secondAttribute="top" constant="6" id="1556"/>
+                                                <constraint firstItem="1555" firstAttribute="leading" secondItem="1554" secondAttribute="leading" constant="20" id="1557"/>
+                                                <constraint firstAttribute="trailing" secondItem="1555" secondAttribute="trailing" constant="20" id="1558"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="719" id="721"/>
+                            <outlet property="delegate" destination="719" id="722"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="845" title="Scanbot SDK Example Xamarin"/>
+                    <connections>
+                        <outlet property="applyImageFilterButton" destination="747" id="name-outlet-747"/>
+                        <outlet property="documentDetectionButton" destination="743" id="name-outlet-743"/>
+                        <outlet property="goToPdfViewButton" destination="748" id="name-outlet-748"/>
+                        <outlet property="scanbotCameraButton" destination="735" id="name-outlet-735"/>
+                        <outlet property="scanbotCroppingButton" destination="968" id="name-outlet-968"/>
+                        <outlet property="selectImageLabel" destination="755" id="name-outlet-755"/>
+                        <outlet property="selectedImageView" destination="754" id="name-outlet-754"/>
+                        <outlet property="tableView" destination="720" id="name-outlet-720"/>
+                        <segue destination="1105" kind="show" identifier="showPDFView" id="1143"/>
+                        <outlet property="demoLicenseLabel" destination="753" id="name-outlet-753"/>
+                        <outlet property="copyrightLabel" destination="1555" id="name-outlet-1555"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="725" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="124" y="-52"/>
+        </scene>
+        <!--Result View Controller-->
+        <!--View Controller-->
+        <scene sceneID="1104">
+            <objects>
+                <viewController id="1105" customClass="PDFViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1102"/>
+                        <viewControllerLayoutGuide type="bottom" id="1103"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1106">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1145">
+                                <rect key="frame" x="2" y="0.0" width="598" height="600"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="1145" firstAttribute="trailing" secondItem="1106" secondAttribute="trailing" id="1146"/>
+                            <constraint firstItem="1102" firstAttribute="bottom" secondItem="1145" secondAttribute="top" constant="64" id="1147"/>
+                            <constraint firstItem="1145" firstAttribute="leading" secondItem="1106" secondAttribute="leading" constant="2" id="1148"/>
+                            <constraint firstItem="1145" firstAttribute="bottom" secondItem="1103" secondAttribute="top" id="1149"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="1145" id="name-outlet-1145"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1107" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1018" y="1070"/>
+        </scene>
+        <!--Creation View Controller-->
+        <scene sceneID="1160">
+            <objects>
+                <viewController id="1161" customClass="PDFCreationViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1158"/>
+                        <viewControllerLayoutGuide type="bottom" id="1159"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1162">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1224">
+                                <rect key="frame" x="20" y="77" width="138" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="138" id="1236"/>
+                                </constraints>
+                                <state key="normal" title="Add Image (0)">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1225">
+                                <rect key="frame" x="174" y="77" width="107" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="107" id="1239"/>
+                                </constraints>
+                                <state key="normal" title="Create PDF">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1226">
+                                <rect key="frame" x="0.0" y="115" width="600" height="485"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="1228">
+                                    <size key="itemSize" width="100" height="150"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="thumbCell" id="1227" customClass="ThumbnailCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1229">
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="150"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                            </subviews>
+                                        </view>
+                                        <size key="customSize" width="100" height="150"/>
+                                        <connections>
+                                            <outlet property="thumbnailImage" destination="1229" id="name-outlet-1229"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="1226" firstAttribute="leading" secondItem="1162" secondAttribute="leading" id="1231"/>
+                            <constraint firstItem="1226" firstAttribute="bottom" secondItem="1159" secondAttribute="top" id="1232"/>
+                            <constraint firstItem="1226" firstAttribute="trailing" secondItem="1162" secondAttribute="trailing" id="1233"/>
+                            <constraint firstItem="1224" firstAttribute="top" secondItem="1158" secondAttribute="bottom" constant="13" id="1234"/>
+                            <constraint firstItem="1224" firstAttribute="leading" secondItem="1162" secondAttribute="leading" constant="20" id="1235"/>
+                            <constraint firstItem="1225" firstAttribute="leading" secondItem="1224" secondAttribute="trailing" constant="16" id="1237"/>
+                            <constraint firstItem="1225" firstAttribute="top" secondItem="1158" secondAttribute="bottom" constant="13" id="1238"/>
+                            <constraint firstItem="1226" firstAttribute="top" secondItem="1158" secondAttribute="bottom" constant="51" id="1240"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="addImageButton" destination="1224" id="name-outlet-1224"/>
+                        <outlet property="collectionView" destination="1226" id="name-outlet-1226"/>
+                        <outlet property="createPDFButton" destination="1225" id="name-outlet-1225"/>
+                        <segue destination="1105" kind="show" identifier="showGeneratedPDF" id="1352"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1163" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="648" y="-927"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="ui_action_checkmark" width="18" height="14"/>
+        <image name="ui_action_close" width="16" height="16"/>
+    </resources>
 </document>
