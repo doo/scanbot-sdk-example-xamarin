@@ -2,6 +2,7 @@
 using Foundation;
 
 using ScanbotSDK.iOS;
+using CoreGraphics;
 
 namespace scanbotsdkexamplexamarin.iOS
 {
@@ -14,6 +15,8 @@ namespace scanbotsdkexamplexamarin.iOS
     public class CameraDemoViewController : UIViewController
     {
         protected SBSDKScannerViewController scannerViewController;
+
+        protected UIButton flashButton;
 
         protected bool viewAppeared;
 
@@ -33,6 +36,12 @@ namespace scanbotsdkexamplexamarin.iOS
 
             // We want unscaled images in full size:
             scannerViewController.ImageScale = 1.0f;
+        }
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            PlaceFlashButton();
         }
 
         public override void ViewWillDisappear(bool animated)
@@ -63,6 +72,32 @@ namespace scanbotsdkexamplexamarin.iOS
         {
             // White statusbar
             return UIStatusBarStyle.LightContent;
+        }
+
+        void PlaceFlashButton()
+        {
+            CGSize screenSize = UIScreen.MainScreen.Bounds.Size;
+            CGRect buttonFrame = new CGRect(screenSize.Width - 80, screenSize.Height - 100, 40, 40);
+
+		    if (flashButton == null)
+            {
+                flashButton = new UIButton(buttonFrame);
+                flashButton.AddTarget(delegate {
+                    scannerViewController.CameraSession.TorchLightEnabled = !scannerViewController.CameraSession.TorchLightEnabled;
+                    flashButton.Selected = scannerViewController.CameraSession.TorchLightEnabled;
+                }, UIControlEvent.TouchUpInside);
+
+                flashButton.SetImage(UIImage.FromBundle("ui_flash_off"), UIControlState.Normal);
+                flashButton.SetImage(UIImage.FromBundle("ui_flash_on"), UIControlState.Selected);
+
+                flashButton.Selected = scannerViewController.CameraSession.TorchLightEnabled;
+            }
+            else 
+            {
+                flashButton.Frame = buttonFrame;
+		    }
+            View.AddSubview(flashButton);
+            View.BringSubviewToFront(flashButton);
         }
 
 
