@@ -51,6 +51,11 @@ namespace scanbotsdkexamplexamarin.Droid
             PolygonView polygonView = FindViewById<PolygonView>(Resource.Id.scanbotPolygonView);
             contourDetectorFrameHandler.AddResultHandler(polygonView);
             contourDetectorFrameHandler.AddResultHandler(this);
+
+            // Please note: https://github.com/doo/Scanbot-SDK-Examples/wiki/Detecting-and-drawing-contours#contour-detection-parameters
+            contourDetectorFrameHandler.SetAcceptedAngleScore(50);
+            contourDetectorFrameHandler.SetAcceptedSizeScore(60);
+
             autoSnappingController = AutoSnappingController.Attach(cameraView, contourDetectorFrameHandler);
 
             cameraView.AddPictureCallback(this);
@@ -171,9 +176,12 @@ namespace scanbotsdkexamplexamarin.Droid
                 return;
             }
 
-            // continue camera preview
-            cameraView.StartPreview();
-            cameraView.ContinuousFocus();
+            RunOnUiThread(() =>
+            {
+                // continue camera preview
+                cameraView.StartPreview();
+                cameraView.ContinuousFocus();
+            });
         }
 
     }
