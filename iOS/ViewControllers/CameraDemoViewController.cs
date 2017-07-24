@@ -36,6 +36,11 @@ namespace scanbotsdkexamplexamarin.iOS
 
             // We want unscaled images in full size:
             scannerViewController.ImageScale = 1.0f;
+
+            // Please note: Lower values result in more blurred / low resolution document images.
+            // See https://scanbotsdk.github.io/documentation/ios/html/interface_s_b_s_d_k_scanner_view_controller.html
+            scannerViewController.AcceptedAngleScore = 60;
+            scannerViewController.AcceptedSizeScore = 60;
         }
 
         public override void ViewWillAppear(bool animated)
