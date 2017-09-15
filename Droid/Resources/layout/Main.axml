@@ -40,6 +40,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/createPdfButton" />
+        <Button
+            android:text="Fetch / Download OCR blobs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fetchOcrBlobsButton" />
+        <Button
+            android:text="Perform OCR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/performOcrButton" />
         <TextView
             android:text="..."
             android:textAppearance="?android:attr/textAppearanceSmall"

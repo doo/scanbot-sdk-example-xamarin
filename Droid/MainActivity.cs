@@ -16,6 +16,15 @@ using Java.Util;
 using AndroidNetUri = Android.Net.Uri;
 using AndroidOS = Android.OS;
 using Android.Util;
+using Net.Doo.Snap.Process;
+using Net.Doo.Snap.Persistence;
+using Net.Doo.Snap.Persistence.Cleanup;
+using Net.Doo.Snap.Blob;
+using Net.Doo.Snap.Process.Draft;
+using System.Collections.Generic;
+using Net.Doo.Snap.Entity;
+using Net.Doo.Snap.Util;
+using Android.Preferences;
 
 namespace scanbotsdkexamplexamarin.Droid
 {
@@ -36,6 +45,25 @@ namespace scanbotsdkexamplexamarin.Droid
 
         ImageView imageView;
 
+        Button performOcrButton;
+
+        DocumentProcessor documentProcessor;
+        PageFactory pageFactory;
+        IDocumentDraftExtractor documentDraftExtractor;
+        ITextRecognition textRecognition;
+        Cleaner cleaner;
+        BlobManager blobManager;
+        BlobFactory blobFactory;
+
+        static List<Language> ocrLanguages = new List<Language>();
+
+        static MainActivity()
+        {
+            // set required OCR languages ...
+            ocrLanguages.Add(Language.Eng); // english
+            ocrLanguages.Add(Language.Deu); // german
+        }
+
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -45,12 +73,74 @@ namespace scanbotsdkexamplexamarin.Droid
 
             imageView = FindViewById<ImageView>(Resource.Id.imageView);
 
+            InitScanbotSDKDependencies();
+
             AssignCopyrightText();
             AssignStartCameraButtonHandler();
             AssingCroppingUIButtonHandler();
             AssignApplyImageFilterButtonHandler();
             AssignDocumentDetectionButtonHandler();
             AssignCreatePdfButtonHandler();
+            AssignOcrButtonsHandler();
+        }
+
+
+        void InitScanbotSDKDependencies()
+        {
+            var scanbotSDK = new Net.Doo.Snap.ScanbotSDK(this);
+            documentProcessor = scanbotSDK.DocumentProcessor();
+            pageFactory = scanbotSDK.PageFactory();
+            documentDraftExtractor = scanbotSDK.DocumentDraftExtractor();
+            textRecognition = scanbotSDK.TextRecognition();
+            cleaner = scanbotSDK.Cleaner();
+            blobManager = scanbotSDK.BlobManager();
+            blobFactory = scanbotSDK.BlobFactory();
+        }
+
+        List<Blob> OcrBlobs()
+        {
+            // Create a collection of required OCR blobs:
+            var blobs = new List<Blob>();
+
+            // Language detector blobs of the Scanbot SDK. (see "language_classifier_blob_path" in AndroidManifest.xml!)
+            foreach (var b in blobFactory.LanguageDetectorBlobs())
+            {
+                blobs.Add(b);
+            }
+
+            // OCR blobs of languages (see "ocr_blobs_path" in AndroidManifest.xml!)
+            foreach (var lng in ocrLanguages)
+            {
+                foreach (var b in blobFactory.OcrLanguageBlobs(lng))
+                {
+                    blobs.Add(b);
+                }
+            }
+
+            return blobs;
+        }
+
+        void FetchOcrBlobFiles()
+        {
+            // Fetch OCR blob files from the sources defined in AndroidManifest.xml
+            Task.Run(() =>
+            {
+                try
+                {
+                    foreach (var blob in OcrBlobs())
+                    {
+                        if (!blobManager.IsBlobAvailable(blob))
+                        {
+                            DebugLog("Fetching OCR blob file: " + blob);
+                            blobManager.Fetch(blob, false);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    ErrorLog("Error fetching OCR blob files", e);
+                }
+            });
         }
 
 
@@ -152,6 +242,65 @@ namespace scanbotsdkexamplexamarin.Droid
             };
         }
 
+        void AssignOcrButtonsHandler()
+        {
+            var fetchOcrBlobsButton = FindViewById<Button>(Resource.Id.fetchOcrBlobsButton);
+            fetchOcrBlobsButton.Click += delegate
+            {
+                FetchOcrBlobFiles();
+            };
+
+            performOcrButton = FindViewById<Button>(Resource.Id.performOcrButton);
+            performOcrButton.Click += delegate
+            {
+                if (!CheckDocumentImage()) { return; }
+                if (!CheckOcrBlobFiles()) { return; }
+
+                performOcrButton.Post(() => {
+                    performOcrButton.Text = "Running OCR ... Please wait ...";
+                    performOcrButton.Enabled = false;
+                });
+
+                Task.Run(() => {
+                    try
+                    {
+                        var targetFile = System.IO.Path.Combine(GetPublicExternalStorageDirectory(), UUID.RandomUUID() + ".pdf");
+                        var pdfOutputUri = AndroidNetUri.FromFile(new Java.IO.File(targetFile));
+
+                        var images = new AndroidNetUri[] { documentImageUri }; // add more images for OCR here
+                        var ocrText = PerformOCR(images, pdfOutputUri);
+                        DebugLog("Recognized OCR text: " + ocrText);
+                        DebugLog("Sandwiched PDF file created: " + pdfOutputUri);
+                        OpenPDFFile(pdfOutputUri);
+                    }
+                    catch (Exception e)
+                    {
+                        ErrorLog("Error performing OCR", e);
+                    }
+                    finally
+                    {
+                        performOcrButton.Post(() => {
+                            performOcrButton.Text = "Perform OCR";
+                            performOcrButton.Enabled = true;
+                        });
+                    }
+                });
+            };
+        }
+
+        bool CheckOcrBlobFiles()
+        {
+            foreach (var blob in OcrBlobs())
+            {
+                if (!blobManager.IsBlobAvailable(blob))
+                {
+                    Toast.MakeText(this, "Please fetch OCR blob files first!", ToastLength.Long).Show();
+                    return false;
+                }
+            }
+            return true;
+        }
+
         bool CheckDocumentImage()
         {
             if (documentImageUri == null)
@@ -238,6 +387,65 @@ namespace scanbotsdkexamplexamarin.Droid
             });
         }
 
+
+        string PerformOCR(AndroidNetUri[] images, AndroidNetUri pdfOutputFileUri = null)
+        {
+            DebugLog("Performing OCR...");
+
+            var pages = new List<Page>();
+            foreach (AndroidNetUri imageUri in images)
+            {
+                var path = FileChooserUtils.GetPath(this, imageUri);
+                var imageFile = new Java.IO.File(path);
+                DebugLog("Creating a page of image file: " + imageFile);
+                var page = pageFactory.BuildPage(imageFile);
+                pages.Add(page);
+            }
+
+            if (pdfOutputFileUri == null)
+            {
+                // Perform OCR only for plain text result:
+                var ocrResultWithTextOnly = textRecognition.WithoutPDF(ocrLanguages, pages).Recognize();
+                return ocrResultWithTextOnly.RecognizedText;
+            }
+
+            // Perform OCR for PDF file with OCR information (sandwiched PDF):
+            var document = new Document();
+            document.Name = "document.pdf";
+            document.OcrStatus = OcrStatus.Pending;
+            document.Id = Java.Util.UUID.RandomUUID().ToString();
+            var fullOcrResult = textRecognition.WithPDF(ocrLanguages, document, pages).Recognize();
+
+            // move sandwiched PDF result file into requested target:
+            Java.IO.File tempPdfFile = null;
+            try
+            {
+                ISharedPreferences preferences = PreferenceManager.GetDefaultSharedPreferences(this);
+                DocumentStoreStrategy documentStoreStrategy = new DocumentStoreStrategy(this, preferences);
+                tempPdfFile = documentStoreStrategy.GetDocumentFile(fullOcrResult.SandwichedPdfDocument.Id, fullOcrResult.SandwichedPdfDocument.Name);
+                DebugLog("Got temp PDF file from SDK: " + tempPdfFile);
+                if (tempPdfFile != null && tempPdfFile.Exists())
+                {
+                    DebugLog("Copying temp file to target output file: " + pdfOutputFileUri);
+                    File.Copy(tempPdfFile.AbsolutePath, new Java.IO.File(pdfOutputFileUri.Path).AbsolutePath);
+                }
+                else
+                {
+                    ErrorLog("Could not get sandwiched PDF document file from SDK!");
+                }
+            }
+            finally
+            {
+                if (tempPdfFile != null && tempPdfFile.Exists())
+                {
+                    DebugLog("Deleting temp file: " + tempPdfFile);
+                    tempPdfFile.Delete();
+                }
+            }
+
+            return fullOcrResult.RecognizedText;
+        }
+
         void ShowImageView(Bitmap bitmap)
         {
             imageView.Post(() =>
@@ -278,6 +486,11 @@ namespace scanbotsdkexamplexamarin.Droid
         void DebugLog(string msg)
         {
             Log.Debug(LOG_TAG, msg);
+        }
+
+        void ErrorLog(string msg)
+        {
+            Log.Error(LOG_TAG, msg);
         }
 
         void ErrorLog(string msg, Exception ex)
