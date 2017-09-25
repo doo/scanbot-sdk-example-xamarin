@@ -190,6 +190,15 @@ namespace scanbotsdkexamplexamarin.iOS
             }
         }
 
+        [Export("scannerController:shouldAutocropCapturedImageWithMode:manualShutter:")]
+        public bool ScannerControllerShouldAutocropCapturedImageWithModeManualShutter(SBSDKScannerViewController controller, SBSDKShutterMode mode, bool manual)
+        {
+            // Here you control whether to automatically crop the document image or not, 
+            // depending on the current shutter mode and how the shutter was released: manually or automatically.
+            // Return true, if the detected polygon should be applied to the captured document image, false otherwise.
+            return true;
+        }
+
         #endregion
 
     }
