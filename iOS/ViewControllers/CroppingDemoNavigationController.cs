@@ -14,7 +14,7 @@ namespace scanbotsdkexamplexamarin.iOS
     {
         UIImage Image;
 
-        SBSDKCropViewController sdkCropViewController;
+        SBSDKImageEditingViewController imageEditingViewController;
 
         public CroppingDemoDelegate croppingDelegate;
 
@@ -27,24 +27,42 @@ namespace scanbotsdkexamplexamarin.iOS
         {
             base.ViewDidLoad();
 
-            sdkCropViewController = new SBSDKCropViewController();
-            sdkCropViewController.Image = Image;
-            sdkCropViewController.WeakDelegate = this;
+            imageEditingViewController = new SBSDKImageEditingViewController();
+            imageEditingViewController.Image = Image;
+            imageEditingViewController.WeakDelegate = this;
 
-            if (sdkCropViewController.Polygon == null)
+            if (imageEditingViewController.Polygon == null)
             {
                 // if no polygon was detected, we set a default polygon
-                sdkCropViewController.Polygon = new SBSDKPolygon(); // {0,0}, {1,0}, {1,1}, {0,1}
+                imageEditingViewController.Polygon = new SBSDKPolygon(); // {0,0}, {1,0}, {1,1}, {0,1}
             }
 
-            PushViewController(sdkCropViewController, false);
+            PushViewController(imageEditingViewController, false);
         }
 
 
-        #region SBSDKCropViewControllerDelegate
+        #region SBSDKImageEditingViewControllerDelegate
 
-        [Export("cropViewController:didApplyChangesWithPolygon:croppedImage:")]
-        public void CropViewControllerDidApplyChangesWithPolygon(SBSDKCropViewController cropViewController, SBSDKPolygon polygon, UIImage croppedImage)
+        [Export("imageEditingViewControllerToolbarStyle:")]
+        public UIBarStyle ImageEditingViewControllerToolbarStyle(SBSDKImageEditingViewController editingViewController)
+        {
+            return UIBarStyle.Default;
+        }
+
+        [Export("imageEditingViewControllerToolbarItemTintColor:")]
+        public UIColor ImageEditingViewControllerToolbarItemTintColor(SBSDKImageEditingViewController editingViewController)
+        {
+            return UIColor.White;
+        }
+
+        [Export("imageEditingViewControllerToolbarTintColor:")]
+        public UIColor ImageEditingViewControllerToolbarTintColor(SBSDKImageEditingViewController editingViewController)
+        {
+            return UIColor.Black;
+        }
+
+        [Export("imageEditingViewController:didApplyChangesWithPolygon:croppedImage:")]
+        public void ImageEditingViewController(SBSDKImageEditingViewController editingViewController, SBSDKPolygon polygon, UIImage croppedImage)
         {
             if (croppingDelegate != null)
             {
@@ -54,22 +72,30 @@ namespace scanbotsdkexamplexamarin.iOS
             DismissViewController(true, null);
         }
 
-        [Export("cropViewControllerDidCancelChanges:")]
-        public void CropViewControllerDidCancelChanges(SBSDKCropViewController cropViewController)
+        [Export("imageEditingViewControllerDidCancelChanges:")]
+        public void ImageEditingViewControllerDidCancelChanges(SBSDKImageEditingViewController editingViewController)
         {
             DismissViewController(true, null);
         }
 
-        [Export("cancelButtonImageForCropViewController:")]
-        public UIImage CancelButtonImageForCropViewController(SBSDKCropViewController cropViewController)
+        [Export("imageEditingViewControllerApplyButtonItem:")]
+        UIBarButtonItem ImageEditingViewControllerApplyButtonItem(SBSDKImageEditingViewController editingViewController)
         {
-            return UIImage.FromBundle("ui_action_close");
+            return new UIBarButtonItem(UIImage.FromBundle("ui_action_checkmark"), UIBarButtonItemStyle.Plain, null);
         }
 
-        [Export("applyButtonImageForCropViewController:")]
-        public UIImage ApplyButtonImageForCropViewController(SBSDKCropViewController cropViewController)
+        [Export("imageEditingViewControllerCancelButtonItem:")]
+        UIBarButtonItem ImageEditingViewControllerCancelButtonItem(SBSDKImageEditingViewController editingViewController)
         {
-            return UIImage.FromBundle("ui_action_checkmark");
+            return new UIBarButtonItem(UIImage.FromBundle("ui_action_close"), UIBarButtonItemStyle.Plain, null);
+        }
+
+        [Export("imageEditingViewControllerRotateClockwiseToolbarItem:")]
+        public UIBarButtonItem ImageEditingViewControllerRotateClockwiseToolbarItem(SBSDKImageEditingViewController editingViewController)
+        {
+            return new UIBarButtonItem(UIImage.FromBundle("ui_edit_rotate"), UIBarButtonItemStyle.Plain, (sender, e) => {
+                imageEditingViewController.RotateInputImageClockwise(true, true);
+            });
         }
 
         #endregion
