@@ -167,22 +167,29 @@ namespace scanbotsdkexamplexamarin.Droid
             {
                 if (!CheckDocumentImage()) { return; }
 
-                DebugLog("Applying image filter on image: " + documentImageUri);
-                try
-                {
-                    Task.Run(() =>
-                    {
-                        // The SDK call is sync!
-                        var resultImage = SBSDK.ApplyImageFilter(documentImageUri, ImageFilter.Binarized, this);
-                        documentImageUri = TempImageStorage.AddImage(resultImage);
-                        ShowImageView(resultImage);
-                    });
-                }
-                catch (Exception e)
-                {
-                    ErrorLog("Error applying image filter", e);
-                }
+                var transaction = FragmentManager.BeginTransaction();
+                var dialogFragment = new ImageFilterDialog(ApplyImageFilter);
+                dialogFragment.Show(transaction, "ImageFilterDialog");
             };
+        }
+
+        void ApplyImageFilter(ImageFilter filter)
+        {
+            DebugLog("Applying image filter "+filter+" on image: " + documentImageUri);
+            try
+            {
+                Task.Run(() =>
+                {
+                    // The SDK call is sync!
+                    var resultImage = SBSDK.ApplyImageFilter(documentImageUri, filter, this);
+                    documentImageUri = TempImageStorage.AddImage(resultImage);
+                    ShowImageView(resultImage);
+                });
+            }
+            catch (Exception e)
+            {
+                ErrorLog("Error applying image filter", e);
+            }
         }
 
         void AssignDocumentDetectionButtonHandler()
@@ -498,6 +505,39 @@ namespace scanbotsdkexamplexamarin.Droid
             Log.Error(LOG_TAG, Java.Lang.Throwable.FromException(ex), msg);
         }
 
+    }
+
+    class ImageFilterDialog : DialogFragment
+    {
+        static List<string> ImageFilterItems = new List<string>();
+
+        static ImageFilterDialog()
+        {
+            ImageFilterItems.Add(ImageFilter.Binarized.ToString());
+            ImageFilterItems.Add(ImageFilter.Grayscale.ToString());
+            ImageFilterItems.Add(ImageFilter.ColorEnhanced.ToString());
+            ImageFilterItems.Add(ImageFilter.ColorDocument.ToString());
+        }
+
+        Action<ImageFilter> ApplyFilterAction;
+
+        internal ImageFilterDialog(Action<ImageFilter> applyFilterAction)
+        {
+            ApplyFilterAction = applyFilterAction;
+        }
+            
+        public override Dialog OnCreateDialog(Bundle savedInstanceState)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(Activity);
+            builder.SetTitle("Pick an Image Filter");
+            builder.SetItems(ImageFilterItems.ToArray(), (sender, args) => {
+                var filterName = ImageFilterItems[args.Which];
+                var filter = (ImageFilter)Enum.Parse(typeof(ImageFilter), filterName);
+                ApplyFilterAction?.Invoke(filter);
+            });
+
+            return builder.Create();
+        }
     }
 }
 
