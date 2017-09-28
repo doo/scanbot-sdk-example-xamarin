@@ -7,13 +7,14 @@ using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using Android.Content;
+using Android.Util;
 
 using AndroidNetUri = Android.Net.Uri;
 
 using Net.Doo.Snap.Lib.Detector;
 using Net.Doo.Snap.UI;
-using Android.Content;
-using Android.Util;
+using ScanbotSDK.Xamarin.Android.Wrapper;
 
 namespace scanbotsdkexamplexamarin.Droid
 {
@@ -39,7 +40,10 @@ namespace scanbotsdkexamplexamarin.Droid
         EditPolygonImageView editPolygonImageView;
         MagnifierView scanbotMagnifierView;
         ProgressBar processImageProgressBar;
-        View cancelBtn, doneBtn;
+        View cancelBtn, doneBtn, rotateCWButton;
+
+        int rotationDegrees = 0;
+        long lastRotationEventTs = 0L;
 
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -69,7 +73,20 @@ namespace scanbotsdkexamplexamarin.Droid
             {
                 cancelBtn.Enabled = false;
                 doneBtn.Enabled = false;
+                rotateCWButton.Enabled = false;
                 CropAndSaveImage();
+            };
+
+            rotateCWButton = FindViewById<View>(Resource.Id.rotateCWButton);
+            rotateCWButton.Click += delegate
+            {
+                if ((Java.Lang.JavaSystem.CurrentTimeMillis() - lastRotationEventTs) < 350)
+                {
+                    return;
+                }
+                rotationDegrees += 90;
+                editPolygonImageView.RotateClockwise();
+                lastRotationEventTs = Java.Lang.JavaSystem.CurrentTimeMillis();
             };
 
             String imageFileUri = Intent.Extras.GetString(EXTRAS_ARG_IMAGE_FILE_URI);
@@ -126,20 +143,22 @@ namespace scanbotsdkexamplexamarin.Droid
             processImageProgressBar.Visibility = ViewStates.Visible;
             cancelBtn.Visibility = ViewStates.Gone;
             doneBtn.Visibility = ViewStates.Gone;
+            rotateCWButton.Visibility = ViewStates.Gone;
 
             Task.Run(() =>
             {
                 try
                 {
-                    ContourDetector detector = new ContourDetector();
-                    Bitmap documentImage = detector.ProcessImageAndRelease(originalBitmap, editPolygonImageView.Polygon, ContourDetector.ImageFilterNone);
+                    var detector = new ContourDetector();
+                    var documentImage = detector.ProcessImageAndRelease(originalBitmap, editPolygonImageView.Polygon, ContourDetector.ImageFilterNone);
+                    documentImage = SBSDK.RotateImage(documentImage, -rotationDegrees);
                     var documentImgUri = MainActivity.TempImageStorage.AddImage(documentImage);
 
                     RunOnUiThread(() =>
                     {
-                        Bundle extras = new Bundle();
+                        var extras = new Bundle();
                         extras.PutString(EXTRAS_ARG_IMAGE_FILE_URI, documentImgUri.ToString());
-                        Intent intent = new Intent();
+                        var intent = new Intent();
                         intent.PutExtras(extras);
                         SetResult(Result.Ok, intent);
                         Finish();

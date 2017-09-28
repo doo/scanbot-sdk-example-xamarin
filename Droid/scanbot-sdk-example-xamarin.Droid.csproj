@@ -137,6 +137,10 @@
     <AndroidResource Include="Resources\layout\CroppingActionBarView.axml" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ui_edit_ico_cancel.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ui_edit_ico_save.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ui_edit_rotate.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ui_edit_rotate.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ui_edit_rotate.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ui_edit_rotate.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Activities\" />

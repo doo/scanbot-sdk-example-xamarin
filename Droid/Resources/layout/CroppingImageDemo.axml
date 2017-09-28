@@ -1,29 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyCroppingActivity">
-    <net.doo.snap.ui.EditPolygonImageView
-        android:id="@+id/scanbotEditImageView"
+    android:orientation="vertical"
+    tools:context=".CroppingImageDemoActivity">
+    <FrameLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cornerImageSrc="@drawable/ui_crop_corner_handle"
-        app:edgeImageSrc="@drawable/ui_crop_side_handle"
-        app:editPolygonStrokeWidth="3dp"
-        app:edgeColor="@android:color/holo_blue_dark" />
-    <net.doo.snap.ui.MagnifierView
-        android:id="@+id/scanbotMagnifierView"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <net.doo.snap.ui.EditPolygonImageView
+            android:id="@+id/scanbotEditImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cornerImageSrc="@drawable/ui_crop_corner_handle"
+            app:edgeImageSrc="@drawable/ui_crop_side_handle"
+            app:edgeColor="@android:color/holo_blue_dark" />
+        <net.doo.snap.ui.MagnifierView
+            android:id="@+id/scanbotMagnifierView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:magnifierImageSrc="@drawable/ui_crop_magnifier" />
+        <ProgressBar
+            android:id="@+id/processImageProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:indeterminate="true"
+            style="?android:attr/progressBarStyleLarge"
+            android:visibility="gone" />
+    </FrameLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/scanbotEditImageToolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:magnifierImageSrc="@drawable/ui_crop_magnifier" />
-    <ProgressBar
-        android:id="@+id/processImageProgressBar"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:indeterminate="true"
-        style="?android:attr/progressBarStyleLarge"
-        android:visibility="gone" />
-</FrameLayout>
+        android:layout_gravity="bottom">
+        <ImageView
+            android:id="@+id/rotateCWButton"
+            android:layout_gravity="center_vertical|center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ui_edit_rotate" />
+    </android.support.v7.widget.Toolbar>
+</LinearLayout>
