@@ -86,6 +86,11 @@ namespace scanbotsdkexamplexamarin.iOS
                 ApplyFilterOnDocumentImage(ImageFilter.ColorEnhanced);
             }));
 
+            actionSheetAlert.AddAction(UIAlertAction.Create("Color document", UIAlertActionStyle.Default, (action) =>
+            {
+                ApplyFilterOnDocumentImage(ImageFilter.ColorDocument);
+            }));
+
             actionSheetAlert.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null));
             PresentViewController(actionSheetAlert, true, null);
         }
