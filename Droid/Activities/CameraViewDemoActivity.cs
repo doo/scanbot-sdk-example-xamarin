@@ -18,7 +18,7 @@ using ScanbotSDK.Xamarin.Android.Wrapper;
 
 namespace scanbotsdkexamplexamarin.Droid
 {
-    [Activity(Theme = "@style/Theme.AppCompat")]
+    [Activity(Theme = "@style/Theme.AppCompat", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class CameraViewDemoActivity : AppCompatActivity, IPictureCallback, ContourDetectorFrameHandler.IResultHandler, ICameraOpenCallback
     {
 
@@ -41,7 +41,10 @@ namespace scanbotsdkexamplexamarin.Droid
             SupportActionBar.Hide();
 
             cameraView = FindViewById<ScanbotCameraView>(Resource.Id.scanbotCameraView);
-            cameraView.LockToPortrait();
+            //cameraView.LockToPortrait();
+
+            // disable AutoFocus by manually touching the camera view:
+            cameraView.SetAutoFocusOnTouch(false);
 
             resultImageView = FindViewById<ImageView>(Resource.Id.scanbotResultImageView);
 
@@ -53,8 +56,8 @@ namespace scanbotsdkexamplexamarin.Droid
             contourDetectorFrameHandler.AddResultHandler(this);
 
             // Please note: https://github.com/doo/Scanbot-SDK-Examples/wiki/Detecting-and-drawing-contours#contour-detection-parameters
-            contourDetectorFrameHandler.SetAcceptedAngleScore(50);
-            contourDetectorFrameHandler.SetAcceptedSizeScore(60);
+            contourDetectorFrameHandler.SetAcceptedAngleScore(55);
+            contourDetectorFrameHandler.SetAcceptedSizeScore(65);
 
             autoSnappingController = AutoSnappingController.Attach(cameraView, contourDetectorFrameHandler);
 
@@ -75,10 +78,23 @@ namespace scanbotsdkexamplexamarin.Droid
 
         public void OnCameraOpened()
         {
-            cameraView.Post(() =>
+            cameraView.PostDelayed(() =>
             {
+                // Disable auto-focus sound:
+                cameraView.SetAutoFocusSound(false);
+
+                // Uncomment to disable shutter sound (supported since Android 4.2+):
+                // Please note that some devices may not allow disabling the camera shutter sound. 
+                // If the shutter sound state cannot be set to the desired value, this method will be ignored.
+                /*
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.JellyBeanMr1) {
+                    cameraView.SetShutterSound(false);
+                }
+                */
+
+                // Enable ContinuousFocus mode:
                 cameraView.ContinuousFocus();
-            });
+            }, 500);
         }
 
         protected override void OnResume()

@@ -28,7 +28,8 @@ using Android.Preferences;
 
 namespace scanbotsdkexamplexamarin.Droid
 {
-    [Activity(Label = "Scanbot SDK Example Xamarin", MainLauncher = true, Icon = "@mipmap/icon")]
+    [Activity(Label = "Scanbot SDK Example Xamarin", MainLauncher = true, Icon = "@mipmap/icon", 
+              ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class MainActivity : Activity
     {
         public static TempImageStorage TempImageStorage = new TempImageStorage();
