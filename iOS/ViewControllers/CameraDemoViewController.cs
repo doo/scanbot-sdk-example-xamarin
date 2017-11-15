@@ -34,13 +34,23 @@ namespace scanbotsdkexamplexamarin.iOS
             // Set the delegate to self.
             scannerViewController.WeakDelegate = this;
 
+            // Please check the API docs of our native Scanbot SDK for iOS, since all methods and properties also also available in Xamarin bindings:
+            // https://scanbotsdk.github.io/documentation/ios/html/interface_s_b_s_d_k_scanner_view_controller.html
+
             // We want unscaled images in full size:
             scannerViewController.ImageScale = 1.0f;
 
-            // Please note: Lower values result in more blurred / low resolution document images.
-            // See https://scanbotsdk.github.io/documentation/ios/html/interface_s_b_s_d_k_scanner_view_controller.html
-            scannerViewController.AcceptedAngleScore = 60;
-            scannerViewController.AcceptedSizeScore = 60;
+            // The minimum score in percent (0 - 100) of the perspective distortion to accept a detected document. 
+            // Default is 75.0. Set lower values to accept more perspective distortion. Warning: Lower values result in more blurred document images.
+            scannerViewController.AcceptedAngleScore = 65;
+
+            // The minimum size in percent (0 - 100) of the screen size to accept a detected document. It is sufficient that height or width match the score. 
+            // Default is 80.0. Warning: Lower values result in low resolution document images.
+            scannerViewController.AcceptedSizeScore = 70;
+
+            // Sensitivity factor for automatic capturing. Must be in the range [0.0...1.0]. Invalid values are threated as 1.0. 
+            // Defaults to 0.66 (1 sec).s A value of 1.0 triggers automatic capturing immediately, a value of 0.0 delays the automatic by 3 seconds.
+            scannerViewController.AutoCaptureSensitivity = 0.7f;
         }
 
         public override void ViewWillAppear(bool animated)
