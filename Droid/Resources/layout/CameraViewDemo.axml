@@ -39,4 +39,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal" />
+    <ProgressBar
+        android:id="@+id/imageProcessingProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:indeterminate="true"
+        style="?android:attr/progressBarStyleLarge"
+        android:visibility="gone" />
 </FrameLayout>

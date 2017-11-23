@@ -5,6 +5,7 @@ using Android.OS;
 using Android.Support.V4.View;
 using Android.Support.V7.App;
 using Android.Widget;
+using Android.Views;
 
 // native SDK namespace
 using Net.Doo.Snap.Camera;
@@ -30,6 +31,7 @@ namespace scanbotsdkexamplexamarin.Droid
         protected bool flashEnabled;
         protected ImageView resultImageView;
         protected TextView userGuidanceTextView;
+        protected ProgressBar imageProcessingProgress;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -49,6 +51,8 @@ namespace scanbotsdkexamplexamarin.Droid
             resultImageView = FindViewById<ImageView>(Resource.Id.scanbotResultImageView);
 
             userGuidanceTextView = FindViewById<TextView>(Resource.Id.userGuidanceTextView);
+
+            imageProcessingProgress = FindViewById<ProgressBar>(Resource.Id.imageProcessingProgress);
 
             ContourDetectorFrameHandler contourDetectorFrameHandler = ContourDetectorFrameHandler.Attach(cameraView);
             PolygonView polygonView = FindViewById<PolygonView>(Resource.Id.scanbotPolygonView);
@@ -158,6 +162,12 @@ namespace scanbotsdkexamplexamarin.Droid
             // Here we get the full image from the camera and apply document detection on it.
             // Implement a suitable async(!) detection and image handling here.
             // This is just a demo showing detected image as downscaled preview image.
+
+            // Show progress spinner:
+            RunOnUiThread(() => {
+                imageProcessingProgress.Visibility = ViewStates.Visible;
+                userGuidanceTextView.Visibility = ViewStates.Gone;
+            });
 
             // decode bytes as Bitmap
             BitmapFactory.Options options = new BitmapFactory.Options();
