@@ -155,7 +155,7 @@ namespace scanbotsdkexamplexamarin.Droid
 
         public void OnPictureTaken(byte[] image, int imageOrientation)
         {
-            // Here we get the full image from the camera.
+            // Here we get the full image from the camera and apply document detection on it.
             // Implement a suitable async(!) detection and image handling here.
             // This is just a demo showing detected image as downscaled preview image.
 
@@ -173,31 +173,41 @@ namespace scanbotsdkexamplexamarin.Droid
                 originalBitmap = Bitmap.CreateBitmap(originalBitmap, 0, 0, originalBitmap.Width, originalBitmap.Height, matrix, false);
             }
 
+            // Store the original image as file:
+            var originalImgUri = MainActivity.TempImageStorage.AddImage(originalBitmap);
+
+            Android.Net.Uri documentImgUri = null;
             // Run document detection on original image:
             var detectionResult = SBSDK.DocumentDetection(originalBitmap);
             if (detectionResult.Status.IsOk())
             {
                 var documentImage = detectionResult.Image as Bitmap;
-                var documentImgUri = MainActivity.TempImageStorage.AddImage(documentImage);
-                var originalImgUri = MainActivity.TempImageStorage.AddImage(originalBitmap);
-
-                Bundle extras = new Bundle();
-                extras.PutString(EXTRAS_ARG_DOC_IMAGE_FILE_URI, documentImgUri.ToString());
-                extras.PutString(EXTRAS_ARG_ORIGINAL_IMAGE_FILE_URI, originalImgUri.ToString());
-                Intent intent = new Intent();
-                intent.PutExtras(extras);
-                SetResult(Result.Ok, intent);
-
-                Finish();
-                return;
+                // Store the document image as file:
+                documentImgUri = MainActivity.TempImageStorage.AddImage(documentImage);
+            }
+            else
+            {
+                // No document detected! Use original image as document image, so user can try to apply manual cropping.
+                documentImgUri = originalImgUri;
             }
 
-            RunOnUiThread(() =>
-            {
+            Bundle extras = new Bundle();
+            extras.PutString(EXTRAS_ARG_DOC_IMAGE_FILE_URI, documentImgUri.ToString());
+            extras.PutString(EXTRAS_ARG_ORIGINAL_IMAGE_FILE_URI, originalImgUri.ToString());
+            Intent intent = new Intent();
+            intent.PutExtras(extras);
+            SetResult(Result.Ok, intent);
+
+            Finish();
+            return;
+
+            /* If you want to continue scanning:
+            RunOnUiThread(() => {
                 // continue camera preview
                 cameraView.StartPreview();
                 cameraView.ContinuousFocus();
             });
+            */
         }
 
     }
