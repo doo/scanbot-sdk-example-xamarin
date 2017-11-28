@@ -22,6 +22,17 @@ namespace scanbotsdkexamplexamarin.Droid
         // To get another trial period you have to restart your app.
         const string licenseKey = "";
 
+        static MainApplication()
+        {
+            // Workaround for an Android issue (Android <= 4.2):
+            // load native libs manually which are required by Scanbot SDK native libs
+            if (Android.OS.Build.VERSION.SdkInt <= Android.OS.BuildVersionCodes.JellyBeanMr1)
+            {
+                Java.Lang.JavaSystem.LoadLibrary("lept");
+                Java.Lang.JavaSystem.LoadLibrary("tess");
+            }
+        }
+
 
         public MainApplication(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         { }
