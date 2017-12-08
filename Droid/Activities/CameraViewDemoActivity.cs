@@ -15,13 +15,14 @@ using Net.Doo.Snap.UI;
 // Wrapper namespace
 using ScanbotSDK.Xamarin;
 using ScanbotSDK.Xamarin.Android.Wrapper;
-
+using Android.Util;
 
 namespace scanbotsdkexamplexamarin.Droid
 {
-    [Activity(Theme = "@style/Theme.AppCompat", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
+    [Activity(Theme = "@style/Theme.AppCompat")]
     public class CameraViewDemoActivity : AppCompatActivity, IPictureCallback, ContourDetectorFrameHandler.IResultHandler, ICameraOpenCallback
     {
+        static string LOG_TAG = typeof(CameraViewDemoActivity).Name;
 
         public static string EXTRAS_ARG_DOC_IMAGE_FILE_URI = "documentImageFileUri";
         public static string EXTRAS_ARG_ORIGINAL_IMAGE_FILE_URI = "originalImageFileUri";
@@ -43,7 +44,6 @@ namespace scanbotsdkexamplexamarin.Droid
             SupportActionBar.Hide();
 
             cameraView = FindViewById<ScanbotCameraView>(Resource.Id.scanbotCameraView);
-            //cameraView.LockToPortrait();
 
             // disable AutoFocus by manually touching the camera view:
             cameraView.SetAutoFocusOnTouch(false);
@@ -162,6 +162,8 @@ namespace scanbotsdkexamplexamarin.Droid
             // Here we get the full image from the camera and apply document detection on it.
             // Implement a suitable async(!) detection and image handling here.
             // This is just a demo showing detected image as downscaled preview image.
+
+            Log.Debug(LOG_TAG, "OnPictureTaken: imageOrientation = " + imageOrientation);
 
             // Show progress spinner:
             RunOnUiThread(() => {
