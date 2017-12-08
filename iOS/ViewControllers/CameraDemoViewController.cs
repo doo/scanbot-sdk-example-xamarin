@@ -31,22 +31,35 @@ namespace scanbotsdkexamplexamarin.iOS
             // As we do not want automatic image storage we pass nil here for the image storage.
             scannerViewController = new SBSDKScannerViewController(this, null);
 
+            // =================================================================
+            //
+            //
+            // UI customizations can be implemented via delegate methods from "SBSDKScannerViewControllerDelegate".
+            //
+            // Please check the API docs of our native Scanbot SDK for iOS, since all those methods and properties are also available as Scanbot Xamarin bindings:
+            //
+            // SBSDKScannerViewController: https://scanbotsdk.github.io/documentation/ios/html/interface_s_b_s_d_k_scanner_view_controller.html
+            //
+            // SBSDKScannerViewControllerDelegate: https://scanbotsdk.github.io/documentation/ios/html/protocol_s_b_s_d_k_scanner_view_controller_delegate_01-p.html
+            //
+            // Please see some example implementations of "SBSDKScannerViewControllerDelegate" methods below (e.g. "scannerController:viewForDetectionStatus:", etc).
+            //
+            //
+            // =================================================================
+
             // Set the delegate to self.
             scannerViewController.WeakDelegate = this;
-
-            // Please check the API docs of our native Scanbot SDK for iOS, since all methods and properties also also available in Xamarin bindings:
-            // https://scanbotsdk.github.io/documentation/ios/html/interface_s_b_s_d_k_scanner_view_controller.html
 
             // We want unscaled images in full size:
             scannerViewController.ImageScale = 1.0f;
 
             // The minimum score in percent (0 - 100) of the perspective distortion to accept a detected document. 
             // Default is 75.0. Set lower values to accept more perspective distortion. Warning: Lower values result in more blurred document images.
-            scannerViewController.AcceptedAngleScore = 65;
+            scannerViewController.AcceptedAngleScore = 70;
 
             // The minimum size in percent (0 - 100) of the screen size to accept a detected document. It is sufficient that height or width match the score. 
             // Default is 80.0. Warning: Lower values result in low resolution document images.
-            scannerViewController.AcceptedSizeScore = 70;
+            scannerViewController.AcceptedSizeScore = 80;
 
             // Sensitivity factor for automatic capturing. Must be in the range [0.0...1.0]. Invalid values are threated as 1.0. 
             // Defaults to 0.66 (1 sec).s A value of 1.0 triggers automatic capturing immediately, a value of 0.0 delays the automatic by 3 seconds.
@@ -116,7 +129,10 @@ namespace scanbotsdkexamplexamarin.iOS
         }
 
 
-        // Exports of SBSDKScannerViewControllerDelegate for WeakDelegate ...
+        // =====================================================================
+        // 
+        // Implementation of some delegate methods from "SBSDKScannerViewControllerDelegate":
+        // 
         #region SBSDKScannerViewControllerDelegate
 
         [Export("scannerControllerShouldAnalyseVideoFrame:")]
@@ -159,9 +175,43 @@ namespace scanbotsdkexamplexamarin.iOS
         [Export("scannerController:viewForDetectionStatus:")]
         public UIView ScannerControllerViewForDetectionStatus(SBSDKScannerViewController controller, SBSDKDocumentDetectionStatus status)
         {
-            // Here we can return a custom view that we want to use to visualize the latest detection status.
-            // We return null for now to use the standard label.
-            return null;
+            // Alternative method to "scannerController:localizedTextForDetectionStatus:".
+            // Here you can return a custom view that you want to use to visualize the latest detection status.
+
+            var label = new SBSDKDetectionStatusLabel();
+            label.BackgroundColor = UIColor.Orange;
+            label.TextColor = UIColor.White;
+
+            switch (status)
+            {
+                case SBSDKDocumentDetectionStatus.Ok:
+                    label.Text = "Don't move.\nCapturing...";
+                    label.BackgroundColor = UIColor.Green;
+                    break;
+                case SBSDKDocumentDetectionStatus.OK_SmallSize:
+                    label.Text = "Move closer";
+                    break;
+                case SBSDKDocumentDetectionStatus.OK_BadAngles:
+                    label.Text = "Perspective";
+                    break;
+                case SBSDKDocumentDetectionStatus.Error_NothingDetected:
+                    label.Text = "No Document";
+                    break;
+                case SBSDKDocumentDetectionStatus.Error_Noise:
+                    label.Text = "Background too noisy";
+                    break;
+                case SBSDKDocumentDetectionStatus.Error_Brightness:
+                    label.Text = "Poor light";
+                    break;
+                case SBSDKDocumentDetectionStatus.OK_BadAspectRatio:
+                    label.Text = "Wrong aspect ratio.\n Rotate your device";
+                    break;
+                default:
+                    return null;
+            }
+
+            label.SizeToFit();
+            return label;
         }
 
         [Export("scannerController:polygonColorForDetectionStatus:")]
@@ -179,25 +229,9 @@ namespace scanbotsdkexamplexamarin.iOS
         [Export("scannerController:localizedTextForDetectionStatus:")]
         public string ScannerControllerLocalizedTextForDetectionStatus(SBSDKScannerViewController controller, SBSDKDocumentDetectionStatus status)
         {
-            // here we can return localized text for the status label
-
-            switch (status)
-            {
-                case SBSDKDocumentDetectionStatus.Ok:
-                    return "Don't move";
-                case SBSDKDocumentDetectionStatus.OK_SmallSize:
-                    return "Move closer";
-                case SBSDKDocumentDetectionStatus.OK_BadAngles:
-                    return "Perspective";
-                case SBSDKDocumentDetectionStatus.Error_NothingDetected:
-                    return "No Document";
-                case SBSDKDocumentDetectionStatus.Error_Noise:
-                    return "Background too noisy";
-                case SBSDKDocumentDetectionStatus.Error_Brightness:
-                    return "Poor light";
-                default:
-                    return null;
-            }
+            // Alternative method to "scannerController:viewForDetectionStatus:"
+            // He you can return just the localized text for the status label depending on the detection status.
+            return null;
         }
 
         [Export("scannerController:shouldAutocropCapturedImageWithMode:manualShutter:")]
