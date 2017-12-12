@@ -86,14 +86,12 @@ namespace scanbotsdkexamplexamarin.iOS
 
         public override bool ShouldAutorotate()
         {
-            // No autorotations
-            return false;
+            return true;
         }
 
         public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations()
         {
-            // Only portrait
-            return UIInterfaceOrientationMask.Portrait;
+            return UIInterfaceOrientationMask.AllButUpsideDown;
         }
 
         public override UIStatusBarStyle PreferredStatusBarStyle()
@@ -179,7 +177,7 @@ namespace scanbotsdkexamplexamarin.iOS
             // Here you can return a custom view that you want to use to visualize the latest detection status.
 
             var label = new SBSDKDetectionStatusLabel();
-            label.BackgroundColor = UIColor.Orange;
+            label.BackgroundColor = UIColor.Red;
             label.TextColor = UIColor.White;
 
             switch (status)

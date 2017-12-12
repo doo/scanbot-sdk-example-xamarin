@@ -6,6 +6,7 @@ using Android.Support.V4.View;
 using Android.Support.V7.App;
 using Android.Widget;
 using Android.Views;
+using Android.Util;
 
 // native SDK namespace
 using Net.Doo.Snap.Camera;
@@ -15,7 +16,6 @@ using Net.Doo.Snap.UI;
 // Wrapper namespace
 using ScanbotSDK.Xamarin;
 using ScanbotSDK.Xamarin.Android.Wrapper;
-using Android.Util;
 
 namespace scanbotsdkexamplexamarin.Droid
 {
@@ -30,7 +30,6 @@ namespace scanbotsdkexamplexamarin.Droid
         protected ScanbotCameraView cameraView;
         protected AutoSnappingController autoSnappingController;
         protected bool flashEnabled;
-        protected ImageView resultImageView;
         protected TextView userGuidanceTextView;
         protected ProgressBar imageProcessingProgress;
 
@@ -45,10 +44,8 @@ namespace scanbotsdkexamplexamarin.Droid
 
             cameraView = FindViewById<ScanbotCameraView>(Resource.Id.scanbotCameraView);
 
-            // disable AutoFocus by manually touching the camera view:
-            cameraView.SetAutoFocusOnTouch(false);
-
-            resultImageView = FindViewById<ImageView>(Resource.Id.scanbotResultImageView);
+            // Uncomment to disable AutoFocus by manually touching the camera view:
+            //cameraView.SetAutoFocusOnTouch(false);
 
             userGuidanceTextView = FindViewById<TextView>(Resource.Id.userGuidanceTextView);
 
@@ -123,7 +120,7 @@ namespace scanbotsdkexamplexamarin.Droid
 
             if (result.DetectionResult == DetectionResult.Ok)
             {
-                guideText = "Don't move";
+                guideText = "Don't move.\nCapturing...";
                 color = Color.Green;
             }
             else if (result.DetectionResult == DetectionResult.OkButTooSmall)
@@ -133,6 +130,10 @@ namespace scanbotsdkexamplexamarin.Droid
             else if (result.DetectionResult == DetectionResult.OkButBadAngles)
             {
                 guideText = "Perspective";
+            }
+            else if (result.DetectionResult == DetectionResult.OkButBadAspectRatio)
+            {
+                guideText = "Wrong aspect ratio.\n Rotate your device";
             }
             else if (result.DetectionResult == DetectionResult.ErrorNothingDetected)
             {
@@ -151,7 +152,8 @@ namespace scanbotsdkexamplexamarin.Droid
             userGuidanceTextView.Post(() =>
             {
                 userGuidanceTextView.Text = guideText;
-                userGuidanceTextView.SetTextColor(color);
+                userGuidanceTextView.SetTextColor(Color.White);
+                userGuidanceTextView.SetBackgroundColor(color);
             });
 
             return false;
