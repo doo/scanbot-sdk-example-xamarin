@@ -152,11 +152,12 @@ namespace scanbotsdkexamplexamarin.iOS
             NavigationController.PopToRootViewController(true);
         }
 
-        [Export("scannerController:didCaptureImage:")]
-        public void ScannerControllerDidCaptureImage(SBSDKScannerViewController controller, UIImage image)
+        [Export("scannerController:didCaptureImage:withDetectedPolygon:lensCameraProperties:")]
+        public void ScannerControllerDidCaptureImageWithDetectedPolygon(SBSDKScannerViewController controller, UIImage image, SBSDKPolygon polygon, SBSDKLensCameraProperties properties)
         {
-            // Here we get the full image from the camera. We could run another manual detection here or use the latest
-            // detected polygon from the video stream to process the image with.
+            // Here we get the full image from the camera and an optional polygon that was detected on the image.
+
+            //this.detectedPolygon = polygon;
 
             if (cameraDelegate != null)
             {
@@ -228,7 +229,7 @@ namespace scanbotsdkexamplexamarin.iOS
         public string ScannerControllerLocalizedTextForDetectionStatus(SBSDKScannerViewController controller, SBSDKDocumentDetectionStatus status)
         {
             // Alternative method to "scannerController:viewForDetectionStatus:"
-            // He you can return just the localized text for the status label depending on the detection status.
+            // Here you can return just the localized text for the status label depending on the detection status.
             return null;
         }
 
