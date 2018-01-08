@@ -205,6 +205,8 @@ namespace scanbotsdkexamplexamarin.Droid
                 documentImgUri = originalImgUri;
             }
 
+            //this.detectedPolygon = detectionResult.Polygon;
+
             Bundle extras = new Bundle();
             extras.PutString(EXTRAS_ARG_DOC_IMAGE_FILE_URI, documentImgUri.ToString());
             extras.PutString(EXTRAS_ARG_ORIGINAL_IMAGE_FILE_URI, originalImgUri.ToString());
