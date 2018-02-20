@@ -68,6 +68,7 @@ namespace scanbotsdkexamplexamarin.iOS
 
         partial void ApplyImageFilterTouchUpInside(UIButton sender)
         {
+            if (!CheckScanbotSDKLicense()) { return; }
             if (!CheckDocumentImageUrl()) { return; }
 
             UIAlertController actionSheetAlert = UIAlertController.Create("Select filter type", "", UIAlertControllerStyle.ActionSheet);
@@ -109,6 +110,8 @@ namespace scanbotsdkexamplexamarin.iOS
 
         partial void DocumentDetectionTouchUpInside(UIButton sender)
         {
+            if (!CheckScanbotSDKLicense()) { return; }
+
             // Select image from PhotoLibrary and run document detection
 
             imagePicker = new UIImagePickerController();
@@ -126,6 +129,7 @@ namespace scanbotsdkexamplexamarin.iOS
 
         partial void CroppingUITouchUpInside(UIButton sender)
         {
+            if (!CheckScanbotSDKLicense()) { return; }
             if (!CheckOriginalImageUrl()) { return; }
 
             var image = ImageUtils.LoadImage(originalImageUrl);
@@ -139,6 +143,8 @@ namespace scanbotsdkexamplexamarin.iOS
 
         partial void CameraUITouchUpInside(UIButton sender)
         {
+            if (!CheckScanbotSDKLicense()) { return; }
+
             var cameraViewController = new CameraDemoViewController();
             cameraHandler.parentController = this;
             cameraViewController.cameraDelegate = this.cameraHandler;
@@ -173,6 +179,18 @@ namespace scanbotsdkexamplexamarin.iOS
                 return false;
             }
             return true;
+        }
+
+        bool CheckScanbotSDKLicense()
+        {
+            if (SBSDK.IsLicenseValid())
+            {
+                // Trial period, valid trial license or valid production license.
+                return true;
+            }
+
+            ShowErrorMessage("Scanbot SDK (trial) license has expired!");
+            return false;
         }
 
         void ShowMessage(string title, string message)
