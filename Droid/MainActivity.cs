@@ -156,6 +156,8 @@ namespace scanbotsdkexamplexamarin.Droid
             var scanningUIButton = FindViewById<Button>(Resource.Id.scanningUIButton);
             scanningUIButton.Click += delegate
             {
+                if (!CheckScanbotSDKLicense()) { return; }
+
                 Intent intent = new Intent(this, typeof(CameraViewDemoActivity));
                 StartActivityForResult(intent, REQUEST_SB_SCANNING_UI);
             };
@@ -166,6 +168,7 @@ namespace scanbotsdkexamplexamarin.Droid
             var applyImageFilterButton = FindViewById<Button>(Resource.Id.applyImageFilterButton);
             applyImageFilterButton.Click += delegate
             {
+                if (!CheckScanbotSDKLicense()) { return; }
                 if (!CheckDocumentImage()) { return; }
 
                 var transaction = FragmentManager.BeginTransaction();
@@ -198,6 +201,8 @@ namespace scanbotsdkexamplexamarin.Droid
             var documentDetectionButton = FindViewById<Button>(Resource.Id.documentDetectionButton);
             documentDetectionButton.Click += delegate
             {
+                if (!CheckScanbotSDKLicense()) { return; }
+
                 // Select image from gallery and run document detection
                 var imageIntent = new Intent();
                 imageIntent.SetType("image/*");
@@ -212,6 +217,7 @@ namespace scanbotsdkexamplexamarin.Droid
             var croppingUIButton = FindViewById<Button>(Resource.Id.croppingUIButton);
             croppingUIButton.Click += delegate
             {
+                if (!CheckScanbotSDKLicense()) { return; }
                 if (!CheckOriginalImage()) { return; }
 
                 Intent intent = new Intent(this, typeof(CroppingImageDemoActivity));
@@ -225,6 +231,7 @@ namespace scanbotsdkexamplexamarin.Droid
             var createPdfButton = FindViewById<Button>(Resource.Id.createPdfButton);
             createPdfButton.Click += delegate
             {
+                if (!CheckScanbotSDKLicense()) { return; }
                 if (!CheckDocumentImage()) { return; }
 
                 DebugLog("Starting PDF creation...");
@@ -261,6 +268,7 @@ namespace scanbotsdkexamplexamarin.Droid
             performOcrButton = FindViewById<Button>(Resource.Id.performOcrButton);
             performOcrButton.Click += delegate
             {
+                if (!CheckScanbotSDKLicense()) { return; }
                 if (!CheckDocumentImage()) { return; }
                 if (!CheckOcrBlobFiles()) { return; }
 
@@ -327,6 +335,18 @@ namespace scanbotsdkexamplexamarin.Droid
                 return false;
             }
             return true;
+        }
+
+        bool CheckScanbotSDKLicense()
+        {
+            if (SBSDK.IsLicenseValid(this))
+            {
+                // Trial period, valid trial license or valid production license.
+                return true;
+            }
+
+            Toast.MakeText(this, "Scanbot SDK (trial) license has expired!", ToastLength.Long).Show();
+            return false;
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
