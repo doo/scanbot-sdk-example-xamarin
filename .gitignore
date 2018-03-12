@@ -40,4 +40,5 @@ Thumbs.db
 *.dotCover
 
 .idea/
+.vs/
 

@@ -11,6 +11,11 @@ The Scanbot SDK is available as NuGet packages for the Xamarin Platform:
 - [ScanbotSDK.Xamarin.iOS](https://www.nuget.org/packages/ScanbotSDK.Xamarin.iOS)
 
 
+## Requirements
+[Microsoft Visual Studio](https://www.visualstudio.com) with [Xamarin Platform](https://www.xamarin.com)
+(For iOS Visual Studio for Mac **7.4+**)
+
+
 ## Documentation
 The documentation of the current Scanbot SDK Xamarin release can be found here: [https://scanbotsdk.github.io/documentation/xamarin/](https://scanbotsdk.github.io/documentation/xamarin/)
 
