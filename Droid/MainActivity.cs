@@ -538,6 +538,7 @@ namespace scanbotsdkexamplexamarin.Droid
             ImageFilterItems.Add(ImageFilter.Grayscale.ToString());
             ImageFilterItems.Add(ImageFilter.ColorEnhanced.ToString());
             ImageFilterItems.Add(ImageFilter.ColorDocument.ToString());
+            ImageFilterItems.Add(ImageFilter.PureBinarized.ToString());
         }
 
         Action<ImageFilter> ApplyFilterAction;
