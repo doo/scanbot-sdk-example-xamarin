@@ -185,7 +185,7 @@ namespace scanbotsdkexamplexamarin.Droid
                 Task.Run(() =>
                 {
                     // The SDK call is sync!
-                    var resultImage = SBSDK.ApplyImageFilter(documentImageUri, filter, this);
+                    var resultImage = SBSDK.ApplyImageFilter(documentImageUri, filter);
                     documentImageUri = TempImageStorage.AddImage(resultImage);
                     ShowImageView(resultImage);
                 });
@@ -245,7 +245,7 @@ namespace scanbotsdkexamplexamarin.Droid
                     {
                         var images = new AndroidNetUri[] { documentImageUri }; // add more images for PDF pages here
                         // The SDK call is sync!
-                        SBSDK.CreatePDF(images, pdfOutputUri, this);
+                        SBSDK.CreatePDF(images, pdfOutputUri);
                         DebugLog("PDF file created: " + pdfOutputUri);
                         OpenPDFFile(pdfOutputUri);
                     }
@@ -339,7 +339,7 @@ namespace scanbotsdkexamplexamarin.Droid
 
         bool CheckScanbotSDKLicense()
         {
-            if (SBSDK.IsLicenseValid(this))
+            if (SBSDK.IsLicenseValid())
             {
                 // Trial period, valid trial license or valid production license.
                 return true;

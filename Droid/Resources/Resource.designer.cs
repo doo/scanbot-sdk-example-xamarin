@@ -125,7 +125,6 @@ namespace scanbotsdkexamplexamarin.Droid
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.edgeColor = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.edgeColor;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.edgeImageSrc = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.edgeImageSrc;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.editPolygonHandleSize = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.editPolygonHandleSize;
-			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.editPolygonMagnifier = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.editPolygonMagnifier;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.editPolygonStrokeWidth = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.editPolygonStrokeWidth;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.editTextBackground = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.editTextBackground;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.editTextColor = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.editTextColor;
@@ -157,12 +156,9 @@ namespace scanbotsdkexamplexamarin.Droid
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.listPreferredItemPaddingRight = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.listPreferredItemPaddingRight;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.logo = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.logo;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.magneticLineTreshold = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.magneticLineTreshold;
-			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.magnifierCrossSize = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.magnifierCrossSize;
-			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.magnifierCrossStrokeWidth = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.magnifierCrossStrokeWidth;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.magnifierImageSrc = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.magnifierImageSrc;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.magnifierMargin = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.magnifierMargin;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.magnifierRadius = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.magnifierRadius;
-			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.magnifierStrokeWidth = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.magnifierStrokeWidth;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.maxButtonHeight = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.maxButtonHeight;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.measureWithLargestChild = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.measureWithLargestChild;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.multiChoiceItemLayout = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.multiChoiceItemLayout;
@@ -930,13 +926,9 @@ namespace scanbotsdkexamplexamarin.Droid
 			global::ScanbotSDK.Xamarin.Android.Resource.Styleable.ListPopupWindow_android_dropDownHorizontalOffset = global::scanbotsdkexamplexamarin.Droid.Resource.Styleable.ListPopupWindow_android_dropDownHorizontalOffset;
 			global::ScanbotSDK.Xamarin.Android.Resource.Styleable.ListPopupWindow_android_dropDownVerticalOffset = global::scanbotsdkexamplexamarin.Droid.Resource.Styleable.ListPopupWindow_android_dropDownVerticalOffset;
 			global::ScanbotSDK.Xamarin.Android.Resource.Styleable.MagnifierView = global::scanbotsdkexamplexamarin.Droid.Resource.Styleable.MagnifierView;
-			global::ScanbotSDK.Xamarin.Android.Resource.Styleable.MagnifierView_editPolygonMagnifier = global::scanbotsdkexamplexamarin.Droid.Resource.Styleable.MagnifierView_editPolygonMagnifier;
-			global::ScanbotSDK.Xamarin.Android.Resource.Styleable.MagnifierView_magnifierCrossSize = global::scanbotsdkexamplexamarin.Droid.Resource.Styleable.MagnifierView_magnifierCrossSize;
-			global::ScanbotSDK.Xamarin.Android.Resource.Styleable.MagnifierView_magnifierCrossStrokeWidth = global::scanbotsdkexamplexamarin.Droid.Resource.Styleable.MagnifierView_magnifierCrossStrokeWidth;
 			global::ScanbotSDK.Xamarin.Android.Resource.Styleable.MagnifierView_magnifierImageSrc = global::scanbotsdkexamplexamarin.Droid.Resource.Styleable.MagnifierView_magnifierImageSrc;
 			global::ScanbotSDK.Xamarin.Android.Resource.Styleable.MagnifierView_magnifierMargin = global::scanbotsdkexamplexamarin.Droid.Resource.Styleable.MagnifierView_magnifierMargin;
 			global::ScanbotSDK.Xamarin.Android.Resource.Styleable.MagnifierView_magnifierRadius = global::scanbotsdkexamplexamarin.Droid.Resource.Styleable.MagnifierView_magnifierRadius;
-			global::ScanbotSDK.Xamarin.Android.Resource.Styleable.MagnifierView_magnifierStrokeWidth = global::scanbotsdkexamplexamarin.Droid.Resource.Styleable.MagnifierView_magnifierStrokeWidth;
 			global::ScanbotSDK.Xamarin.Android.Resource.Styleable.MenuGroup = global::scanbotsdkexamplexamarin.Droid.Resource.Styleable.MenuGroup;
 			global::ScanbotSDK.Xamarin.Android.Resource.Styleable.MenuGroup_android_checkableBehavior = global::scanbotsdkexamplexamarin.Droid.Resource.Styleable.MenuGroup_android_checkableBehavior;
 			global::ScanbotSDK.Xamarin.Android.Resource.Styleable.MenuGroup_android_enabled = global::scanbotsdkexamplexamarin.Droid.Resource.Styleable.MenuGroup_android_enabled;
@@ -1419,9 +1411,6 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0100e9
 			public const int editPolygonHandleSize = 2130772201;
 			
-			// aapt resource value: 0x7f0100ee
-			public const int editPolygonMagnifier = 2130772206;
-			
 			// aapt resource value: 0x7f0100e7
 			public const int editPolygonStrokeWidth = 2130772199;
 			
@@ -1524,23 +1513,14 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0100e8
 			public const int magneticLineTreshold = 2130772200;
 			
-			// aapt resource value: 0x7f0100ef
-			public const int magnifierCrossSize = 2130772207;
-			
-			// aapt resource value: 0x7f0100f0
-			public const int magnifierCrossStrokeWidth = 2130772208;
-			
 			// aapt resource value: 0x7f0100ed
 			public const int magnifierImageSrc = 2130772205;
 			
-			// aapt resource value: 0x7f0100f3
-			public const int magnifierMargin = 2130772211;
+			// aapt resource value: 0x7f0100ef
+			public const int magnifierMargin = 2130772207;
 			
-			// aapt resource value: 0x7f0100f2
-			public const int magnifierRadius = 2130772210;
-			
-			// aapt resource value: 0x7f0100f1
-			public const int magnifierStrokeWidth = 2130772209;
+			// aapt resource value: 0x7f0100ee
+			public const int magnifierRadius = 2130772206;
 			
 			// aapt resource value: 0x7f0100d9
 			public const int maxButtonHeight = 2130772185;
@@ -1584,14 +1564,14 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f01007d
 			public const int panelMenuListWidth = 2130772093;
 			
-			// aapt resource value: 0x7f0100f6
-			public const int polygonFillColor = 2130772214;
+			// aapt resource value: 0x7f0100f2
+			public const int polygonFillColor = 2130772210;
 			
-			// aapt resource value: 0x7f0100f5
-			public const int polygonStrokeColor = 2130772213;
+			// aapt resource value: 0x7f0100f1
+			public const int polygonStrokeColor = 2130772209;
 			
-			// aapt resource value: 0x7f0100f4
-			public const int polygonStrokeWidth = 2130772212;
+			// aapt resource value: 0x7f0100f0
+			public const int polygonStrokeWidth = 2130772208;
 			
 			// aapt resource value: 0x7f010069
 			public const int popupMenuStyle = 2130772073;
@@ -5586,32 +5566,16 @@ namespace scanbotsdkexamplexamarin.Droid
 			public static int[] MagnifierView = new int[] {
 					2130772205,
 					2130772206,
-					2130772207,
-					2130772208,
-					2130772209,
-					2130772210,
-					2130772211};
-			
-			// aapt resource value: 1
-			public const int MagnifierView_editPolygonMagnifier = 1;
-			
-			// aapt resource value: 2
-			public const int MagnifierView_magnifierCrossSize = 2;
-			
-			// aapt resource value: 3
-			public const int MagnifierView_magnifierCrossStrokeWidth = 3;
+					2130772207};
 			
 			// aapt resource value: 0
 			public const int MagnifierView_magnifierImageSrc = 0;
 			
-			// aapt resource value: 6
-			public const int MagnifierView_magnifierMargin = 6;
+			// aapt resource value: 2
+			public const int MagnifierView_magnifierMargin = 2;
 			
-			// aapt resource value: 5
-			public const int MagnifierView_magnifierRadius = 5;
-			
-			// aapt resource value: 4
-			public const int MagnifierView_magnifierStrokeWidth = 4;
+			// aapt resource value: 1
+			public const int MagnifierView_magnifierRadius = 1;
 			
 			public static int[] MenuGroup = new int[] {
 					16842766,
@@ -5748,9 +5712,9 @@ namespace scanbotsdkexamplexamarin.Droid
 			public const int MenuView_subMenuArrow = 8;
 			
 			public static int[] PolygonView = new int[] {
-					2130772212,
-					2130772213,
-					2130772214};
+					2130772208,
+					2130772209,
+					2130772210};
 			
 			// aapt resource value: 2
 			public const int PolygonView_polygonFillColor = 2;
