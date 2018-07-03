@@ -9,7 +9,7 @@ using Android.Graphics;
 using Android.Content;
 
 using ScanbotSDK.Xamarin;
-using ScanbotSDK.Xamarin.Android.Wrapper;
+using ScanbotSDK.Xamarin.Android;
 
 using Java.Util;
 

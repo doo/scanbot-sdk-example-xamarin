@@ -6,7 +6,7 @@ using MobileCoreServices;
 using Foundation;
 
 using ScanbotSDK.Xamarin;
-using ScanbotSDK.Xamarin.iOS.Wrapper;
+using ScanbotSDK.Xamarin.iOS;
 
 namespace scanbotsdkexamplexamarin.iOS
 {

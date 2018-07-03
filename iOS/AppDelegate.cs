@@ -2,7 +2,7 @@
 using Foundation;
 using UIKit;
 
-using ScanbotSDK.Xamarin.iOS.Wrapper;
+using ScanbotSDK.Xamarin.iOS;
 
 namespace scanbotsdkexamplexamarin.iOS
 {

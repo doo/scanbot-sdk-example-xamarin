@@ -14,7 +14,7 @@ using AndroidNetUri = Android.Net.Uri;
 
 using Net.Doo.Snap.Lib.Detector;
 using Net.Doo.Snap.UI;
-using ScanbotSDK.Xamarin.Android.Wrapper;
+using ScanbotSDK.Xamarin.Android;
 
 namespace scanbotsdkexamplexamarin.Droid
 {

@@ -4,7 +4,7 @@ using System.IO;
 using UIKit;
 using MobileCoreServices;
 
-using ScanbotSDK.Xamarin.iOS.Wrapper;
+using ScanbotSDK.Xamarin.iOS;
 using System.Threading.Tasks;
 
 namespace scanbotsdkexamplexamarin.iOS

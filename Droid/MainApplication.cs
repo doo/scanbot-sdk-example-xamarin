@@ -3,7 +3,7 @@ using Android.App;
 using Android.Runtime;
 using Android.Util;
 
-using ScanbotSDK.Xamarin.Android.Wrapper;
+using ScanbotSDK.Xamarin.Android;
 
 namespace scanbotsdkexamplexamarin.Droid
 {

@@ -15,7 +15,7 @@ using Net.Doo.Snap.UI;
 
 // Wrapper namespace
 using ScanbotSDK.Xamarin;
-using ScanbotSDK.Xamarin.Android.Wrapper;
+using ScanbotSDK.Xamarin.Android;
 
 namespace scanbotsdkexamplexamarin.Droid
 {
