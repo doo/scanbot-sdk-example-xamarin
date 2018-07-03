@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/croppingUIButton" />
         <Button
-            android:text="Document Detection on Image"
+            android:text="Detect Document (via Photo Library)"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/documentDetectionButton" />

@@ -433,7 +433,7 @@ namespace scanbotsdkexamplexamarin.Droid
                 try
                 {
                     // The SDK call is sync!
-                    var detectionResult = SBSDK.DocumentDetection(imageUri, this);
+                    var detectionResult = SBSDK.DetectDocument(imageUri, this);
                     DebugLog("Document detection result: " + detectionResult.Status);
                     if (detectionResult.Status.IsOk())
                     {
@@ -587,6 +587,8 @@ namespace scanbotsdkexamplexamarin.Droid
             ImageFilterItems.Add(ImageFilter.ColorEnhanced.ToString());
             ImageFilterItems.Add(ImageFilter.ColorDocument.ToString());
             ImageFilterItems.Add(ImageFilter.PureBinarized.ToString());
+            ImageFilterItems.Add(ImageFilter.BackgroundClean.ToString());
+            ImageFilterItems.Add(ImageFilter.BlackAndWhite.ToString());
         }
 
         Action<ImageFilter> ApplyFilterAction;
