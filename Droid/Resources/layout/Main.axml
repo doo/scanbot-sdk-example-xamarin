@@ -55,6 +55,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/mrzScannerButton" />
+        <Button
+            android:text="Barcode/QR-Code Scanner (RTU UI)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/barcodeScannerButton" />
         <TextView
             android:text="..."
             android:textAppearance="?android:attr/textAppearanceSmall"

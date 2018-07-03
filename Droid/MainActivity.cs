@@ -28,6 +28,9 @@ using Android.Preferences;
 using IO.Scanbot.Sdk.UI.View.Mrz;
 using IO.Scanbot.Sdk.UI.View.Mrz.Configuration;
 using IO.Scanbot.Mrzscanner.Model;
+using IO.Scanbot.Sdk.UI.View.Barcode.Configuration;
+using IO.Scanbot.Sdk.UI.View.Barcode;
+using IO.Scanbot.Sdk.Barcode.Entity;
 
 namespace scanbotsdkexamplexamarin.Droid
 {
@@ -43,6 +46,7 @@ namespace scanbotsdkexamplexamarin.Droid
         const int REQUEST_SB_CROPPING_UI = 4712;
         const int REQUEST_SYSTEM_GALLERY = 4713;
         const int REQUEST_SB_MRZ_SCANNER = 4714;
+        const int REQUEST_SB_BARCODE_SCANNER = 4715;
 
         const int BIG_THUMB_MAX_W = 800, BIG_THUMB_MAX_H = 800;
 
@@ -88,6 +92,7 @@ namespace scanbotsdkexamplexamarin.Droid
             AssignCreatePdfButtonHandler();
             AssignOcrButtonsHandler();
             AssignMrzScannerButtonHandler();
+            AssignBarcodeScannerButtonHandler();
         }
 
 
@@ -323,6 +328,20 @@ namespace scanbotsdkexamplexamarin.Droid
             };
         }
 
+        void AssignBarcodeScannerButtonHandler()
+        {
+            var barcodeScannerButton = FindViewById<Button>(Resource.Id.barcodeScannerButton);
+            barcodeScannerButton.Click += delegate
+            {
+                var configuration = new BarcodeScannerConfiguration();
+                // Customize colors, text resources, etc via configuration:
+                //configuration.setFinderLineColor(Color.parseColor("#FF0000"));
+                //configuration.set...
+                var intent = BarcodeScannerActivity.NewIntent(this, configuration);
+                StartActivityForResult(intent, REQUEST_SB_BARCODE_SCANNER);
+            };
+        }
+
         bool CheckOcrBlobFiles()
         {
             foreach (var blob in OcrBlobs())
@@ -400,6 +419,14 @@ namespace scanbotsdkexamplexamarin.Droid
                 Toast.MakeText(this, ExtractMrzResultData(mrzRecognitionResult), ToastLength.Long).Show();
                 return;
             }
+
+            if (requestCode == REQUEST_SB_BARCODE_SCANNER && resultCode == Result.Ok)
+            {
+                var barcodeResult = data.GetParcelableExtra(BarcodeScannerActivity.ScannedBarcodeExtra) as BarcodeScanningResult;
+                Toast.MakeText(this, barcodeResult.BarcodeFormat + "\n" + barcodeResult.Text, ToastLength.Long).Show();
+                return;
+            }
+
         }
 
         string ExtractMrzResultData(MRZRecognitionResult result)
