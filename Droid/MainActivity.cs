@@ -25,6 +25,9 @@ using System.Collections.Generic;
 using Net.Doo.Snap.Entity;
 using Net.Doo.Snap.Util;
 using Android.Preferences;
+using IO.Scanbot.Sdk.UI.View.Mrz;
+using IO.Scanbot.Sdk.UI.View.Mrz.Configuration;
+using IO.Scanbot.Mrzscanner.Model;
 
 namespace scanbotsdkexamplexamarin.Droid
 {
@@ -39,6 +42,7 @@ namespace scanbotsdkexamplexamarin.Droid
         const int REQUEST_SB_SCANNING_UI = 4711;
         const int REQUEST_SB_CROPPING_UI = 4712;
         const int REQUEST_SYSTEM_GALLERY = 4713;
+        const int REQUEST_SB_MRZ_SCANNER = 4714;
 
         const int BIG_THUMB_MAX_W = 800, BIG_THUMB_MAX_H = 800;
 
@@ -83,6 +87,7 @@ namespace scanbotsdkexamplexamarin.Droid
             AssignDocumentDetectionButtonHandler();
             AssignCreatePdfButtonHandler();
             AssignOcrButtonsHandler();
+            AssignMrzScannerButtonHandler();
         }
 
 
@@ -304,6 +309,20 @@ namespace scanbotsdkexamplexamarin.Droid
             };
         }
 
+        void AssignMrzScannerButtonHandler()
+        {
+            var mrzScannerButton = FindViewById<Button>(Resource.Id.mrzScannerButton);
+            mrzScannerButton.Click += delegate
+            {
+                var configuration = new MRZScannerConfiguration();
+                // Customize colors, text resources, etc via configuration:
+                //configuration.setFinderLineColor(Color.parseColor("#FF0000"));
+                //configuration.set...
+                var intent = MRZScannerActivity.NewIntent(this, configuration);
+                StartActivityForResult(intent, REQUEST_SB_MRZ_SCANNER);
+            };
+        }
+
         bool CheckOcrBlobFiles()
         {
             foreach (var blob in OcrBlobs())
@@ -374,6 +393,35 @@ namespace scanbotsdkexamplexamarin.Droid
                 RunDocumentDetection(originalImageUri);
                 return;
             }
+
+            if (requestCode == REQUEST_SB_MRZ_SCANNER && resultCode == Result.Ok)
+            {
+                var mrzRecognitionResult = data.GetParcelableExtra(MRZScannerActivity.ExtractedFieldsExtra) as MRZRecognitionResult;
+                Toast.MakeText(this, ExtractMrzResultData(mrzRecognitionResult), ToastLength.Long).Show();
+                return;
+            }
+        }
+
+        string ExtractMrzResultData(MRZRecognitionResult result)
+        {
+            return new System.Text.StringBuilder()
+                    .Append("documentCode: ").Append(result.DocumentCodeField().Value).Append("\n")
+                    .Append("First name: ").Append(result.FirstNameField().Value).Append("\n")
+                    .Append("Last name: ").Append(result.LastNameField().Value).Append("\n")
+                    .Append("issuingStateOrOrganization: ").Append(result.IssuingStateOrOrganizationField().Value).Append("\n")
+                    .Append("departmentOfIssuance: ").Append(result.DepartmentOfIssuanceField().Value).Append("\n")
+                    .Append("nationality: ").Append(result.NationalityField().Value).Append("\n")
+                    .Append("dateOfBirth: ").Append(result.DateOfBirthField().Value).Append("\n")
+                    .Append("gender: ").Append(result.GenderField().Value).Append("\n")
+                    .Append("dateOfExpiry: ").Append(result.DateOfExpiryField().Value).Append("\n")
+                    .Append("personalNumber: ").Append(result.PersonalNumberField().Value).Append("\n")
+                    .Append("optional1: ").Append(result.Optional1Field().Value).Append("\n")
+                    .Append("optional2: ").Append(result.Optional2Field().Value).Append("\n")
+                    .Append("discreetIssuingStateOrOrganization: ").Append(result.DiscreetIssuingStateOrOrganizationField().Value).Append("\n")
+                    .Append("validCheckDigitsCount: ").Append(result.ValidCheckDigitsCount).Append("\n")
+                    .Append("checkDigitsCount: ").Append(result.CheckDigitsCount).Append("\n")
+                    .Append("travelDocType: ").Append(result.TravelDocTypeField().Value).Append("\n")
+                    .ToString();
         }
 
         void RunDocumentDetection(AndroidNetUri imageUri)

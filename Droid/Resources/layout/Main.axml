@@ -50,6 +50,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/performOcrButton" />
+        <Button
+            android:text="MRZ Scanner (RTU UI)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/mrzScannerButton" />
         <TextView
             android:text="..."
             android:textAppearance="?android:attr/textAppearanceSmall"
