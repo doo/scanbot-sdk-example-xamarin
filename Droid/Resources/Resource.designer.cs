@@ -4186,8 +4186,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e0032
 			public const int SYM = 2131623986;
 			
-			// aapt resource value: 0x7f0e00bc
-			public const int action0 = 2131624124;
+			// aapt resource value: 0x7f0e00bd
+			public const int action0 = 2131624125;
 			
 			// aapt resource value: 0x7f0e006f
 			public const int action_bar = 2131624047;
@@ -4210,17 +4210,17 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e004d
 			public const int action_bar_title = 2131624013;
 			
-			// aapt resource value: 0x7f0e00b9
-			public const int action_container = 2131624121;
+			// aapt resource value: 0x7f0e00ba
+			public const int action_container = 2131624122;
 			
 			// aapt resource value: 0x7f0e0070
 			public const int action_context_bar = 2131624048;
 			
-			// aapt resource value: 0x7f0e00c0
-			public const int action_divider = 2131624128;
+			// aapt resource value: 0x7f0e00c1
+			public const int action_divider = 2131624129;
 			
-			// aapt resource value: 0x7f0e00ba
-			public const int action_image = 2131624122;
+			// aapt resource value: 0x7f0e00bb
+			public const int action_image = 2131624123;
 			
 			// aapt resource value: 0x7f0e0002
 			public const int action_menu_divider = 2131623938;
@@ -4237,11 +4237,11 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e004f
 			public const int action_mode_close_button = 2131624015;
 			
-			// aapt resource value: 0x7f0e00bb
-			public const int action_text = 2131624123;
+			// aapt resource value: 0x7f0e00bc
+			public const int action_text = 2131624124;
 			
-			// aapt resource value: 0x7f0e00c9
-			public const int actions = 2131624137;
+			// aapt resource value: 0x7f0e00ca
+			public const int actions = 2131624138;
 			
 			// aapt resource value: 0x7f0e0050
 			public const int activity_chooser_view_content = 2131624016;
@@ -4261,8 +4261,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e0033
 			public const int always = 2131623987;
 			
-			// aapt resource value: 0x7f0e00b2
-			public const int applyImageFilterButton = 2131624114;
+			// aapt resource value: 0x7f0e00b3
+			public const int applyImageFilterButton = 2131624115;
 			
 			// aapt resource value: 0x7f0e0049
 			public const int async = 2131624009;
@@ -4273,17 +4273,20 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e0093
 			public const int autoSnapBtn = 2131624083;
 			
+			// aapt resource value: 0x7f0e009d
+			public const int autoSnappingToggleButton = 2131624093;
+			
 			// aapt resource value: 0x7f0e0094
 			public const int automatic_icon = 2131624084;
 			
 			// aapt resource value: 0x7f0e0095
 			public const int automatic_text = 2131624085;
 			
-			// aapt resource value: 0x7f0e00ab
-			public const int backgroundView = 2131624107;
+			// aapt resource value: 0x7f0e00ac
+			public const int backgroundView = 2131624108;
 			
-			// aapt resource value: 0x7f0e00a9
-			public const int barcodeCameraView = 2131624105;
+			// aapt resource value: 0x7f0e00aa
+			public const int barcodeCameraView = 2131624106;
 			
 			// aapt resource value: 0x7f0e0085
 			public const int barcode_finder_description = 2131624069;
@@ -4300,8 +4303,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e0038
 			public const int bottom = 2131623992;
 			
-			// aapt resource value: 0x7f0e00cf
-			public const int bottomBar = 2131624143;
+			// aapt resource value: 0x7f0e00d0
+			public const int bottomBar = 2131624144;
 			
 			// aapt resource value: 0x7f0e0083
 			public const int bottomCameraOverlay = 2131624067;
@@ -4318,8 +4321,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e0086
 			public const int cameraTopToolbar = 2131624070;
 			
-			// aapt resource value: 0x7f0e00aa
-			public const int cameraView = 2131624106;
+			// aapt resource value: 0x7f0e00ab
+			public const int cameraView = 2131624107;
 			
 			// aapt resource value: 0x7f0e0080
 			public const int camera_bottom_toolbar = 2131624064;
@@ -4330,17 +4333,17 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e008b
 			public const int camera_permission_icon = 2131624075;
 			
-			// aapt resource value: 0x7f0e00ce
-			public const int cancel = 2131624142;
+			// aapt resource value: 0x7f0e00cf
+			public const int cancel = 2131624143;
 			
 			// aapt resource value: 0x7f0e0087
 			public const int cancelBtn = 2131624071;
 			
-			// aapt resource value: 0x7f0e00a1
-			public const int cancelButton = 2131624097;
+			// aapt resource value: 0x7f0e00a2
+			public const int cancelButton = 2131624098;
 			
-			// aapt resource value: 0x7f0e00bd
-			public const int cancel_action = 2131624125;
+			// aapt resource value: 0x7f0e00be
+			public const int cancel_action = 2131624126;
 			
 			// aapt resource value: 0x7f0e0046
 			public const int chains = 2131624006;
@@ -4348,26 +4351,26 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e0066
 			public const int checkbox = 2131624038;
 			
-			// aapt resource value: 0x7f0e00c5
-			public const int chronometer = 2131624133;
+			// aapt resource value: 0x7f0e00c6
+			public const int chronometer = 2131624134;
 			
 			// aapt resource value: 0x7f0e0034
 			public const int collapseActionView = 2131623988;
 			
-			// aapt resource value: 0x7f0e00a3
-			public const int content = 2131624099;
+			// aapt resource value: 0x7f0e00a4
+			public const int content = 2131624100;
 			
 			// aapt resource value: 0x7f0e0059
 			public const int contentPanel = 2131624025;
 			
-			// aapt resource value: 0x7f0e00b7
-			public const int copyrightTextView = 2131624119;
+			// aapt resource value: 0x7f0e00b8
+			public const int copyrightTextView = 2131624120;
 			
-			// aapt resource value: 0x7f0e00b3
-			public const int createPdfButton = 2131624115;
+			// aapt resource value: 0x7f0e00b4
+			public const int createPdfButton = 2131624116;
 			
-			// aapt resource value: 0x7f0e00b0
-			public const int croppingUIButton = 2131624112;
+			// aapt resource value: 0x7f0e00b1
+			public const int croppingUIButton = 2131624113;
 			
 			// aapt resource value: 0x7f0e0060
 			public const int custom = 2131624032;
@@ -4393,14 +4396,14 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e001c
 			public const int disableHome = 2131623964;
 			
-			// aapt resource value: 0x7f0e00b1
-			public const int documentDetectionButton = 2131624113;
+			// aapt resource value: 0x7f0e00b2
+			public const int documentDetectionButton = 2131624114;
 			
-			// aapt resource value: 0x7f0e00cd
-			public const int done = 2131624141;
+			// aapt resource value: 0x7f0e00ce
+			public const int done = 2131624142;
 			
-			// aapt resource value: 0x7f0e00a2
-			public const int doneButton = 2131624098;
+			// aapt resource value: 0x7f0e00a3
+			public const int doneButton = 2131624099;
 			
 			// aapt resource value: 0x7f0e0071
 			public const int edit_query = 2131624049;
@@ -4411,8 +4414,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e002b
 			public const int end = 2131623979;
 			
-			// aapt resource value: 0x7f0e00cb
-			public const int end_padder = 2131624139;
+			// aapt resource value: 0x7f0e00cc
+			public const int end_padder = 2131624140;
 			
 			// aapt resource value: 0x7f0e0051
 			public const int expand_activities_button = 2131624017;
@@ -4420,8 +4423,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e0065
 			public const int expanded_menu = 2131624037;
 			
-			// aapt resource value: 0x7f0e00b4
-			public const int fetchOcrBlobsButton = 2131624116;
+			// aapt resource value: 0x7f0e00b5
+			public const int fetchOcrBlobsButton = 2131624117;
 			
 			// aapt resource value: 0x7f0e000f
 			public const int finder_overlay = 2131623951;
@@ -4456,8 +4459,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e0055
 			public const int icon = 2131624021;
 			
-			// aapt resource value: 0x7f0e00ca
-			public const int icon_group = 2131624138;
+			// aapt resource value: 0x7f0e00cb
+			public const int icon_group = 2131624139;
 			
 			// aapt resource value: 0x7f0e0013
 			public const int icon_only = 2131623955;
@@ -4471,11 +4474,11 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e00a0
 			public const int imageProcessingProgress = 2131624096;
 			
-			// aapt resource value: 0x7f0e00ae
-			public const int imageView = 2131624110;
+			// aapt resource value: 0x7f0e00af
+			public const int imageView = 2131624111;
 			
-			// aapt resource value: 0x7f0e00c6
-			public const int info = 2131624134;
+			// aapt resource value: 0x7f0e00c7
+			public const int info = 2131624135;
 			
 			// aapt resource value: 0x7f0e003e
 			public const int invisible = 2131623998;
@@ -4504,26 +4507,26 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e0054
 			public const int list_item = 2131624020;
 			
-			// aapt resource value: 0x7f0e00d0
-			public const int magnifier = 2131624144;
+			// aapt resource value: 0x7f0e00d1
+			public const int magnifier = 2131624145;
 			
-			// aapt resource value: 0x7f0e00bf
-			public const int media_actions = 2131624127;
+			// aapt resource value: 0x7f0e00c0
+			public const int media_actions = 2131624128;
 			
-			// aapt resource value: 0x7f0e00d8
-			public const int message = 2131624152;
+			// aapt resource value: 0x7f0e00d9
+			public const int message = 2131624153;
 			
 			// aapt resource value: 0x7f0e002c
 			public const int middle = 2131623980;
 			
-			// aapt resource value: 0x7f0e00ac
-			public const int mrzCameraView = 2131624108;
+			// aapt resource value: 0x7f0e00ad
+			public const int mrzCameraView = 2131624109;
 			
-			// aapt resource value: 0x7f0e00b6
-			public const int mrzScannerButton = 2131624118;
+			// aapt resource value: 0x7f0e00b7
+			public const int mrzScannerButton = 2131624119;
 			
-			// aapt resource value: 0x7f0e00b8
-			public const int mrz_finder_description = 2131624120;
+			// aapt resource value: 0x7f0e00b9
+			public const int mrz_finder_description = 2131624121;
 			
 			// aapt resource value: 0x7f0e0090
 			public const int multiPageBtn = 2131624080;
@@ -4546,14 +4549,14 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e001a
 			public const int normal = 2131623962;
 			
-			// aapt resource value: 0x7f0e00c8
-			public const int notification_background = 2131624136;
+			// aapt resource value: 0x7f0e00c9
+			public const int notification_background = 2131624137;
+			
+			// aapt resource value: 0x7f0e00c3
+			public const int notification_main_column = 2131624131;
 			
 			// aapt resource value: 0x7f0e00c2
-			public const int notification_main_column = 2131624130;
-			
-			// aapt resource value: 0x7f0e00c1
-			public const int notification_main_column_container = 2131624129;
+			public const int notification_main_column_container = 2131624130;
 			
 			// aapt resource value: 0x7f0e0043
 			public const int packed = 2131624003;
@@ -4567,17 +4570,17 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e0040
 			public const int percent = 2131624000;
 			
-			// aapt resource value: 0x7f0e00b5
-			public const int performOcrButton = 2131624117;
+			// aapt resource value: 0x7f0e00b6
+			public const int performOcrButton = 2131624118;
 			
 			// aapt resource value: 0x7f0e008f
 			public const int polygonView = 2131624079;
 			
-			// aapt resource value: 0x7f0e00a6
-			public const int processImageProgressBar = 2131624102;
+			// aapt resource value: 0x7f0e00a7
+			public const int processImageProgressBar = 2131624103;
 			
-			// aapt resource value: 0x7f0e00d1
-			public const int progress = 2131624145;
+			// aapt resource value: 0x7f0e00d2
+			public const int progress = 2131624146;
 			
 			// aapt resource value: 0x7f0e009b
 			public const int progressView = 2131624091;
@@ -4597,17 +4600,17 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e0084
 			public const int rightCameraOverlay = 2131624068;
 			
-			// aapt resource value: 0x7f0e00c7
-			public const int right_icon = 2131624135;
+			// aapt resource value: 0x7f0e00c8
+			public const int right_icon = 2131624136;
 			
-			// aapt resource value: 0x7f0e00c3
-			public const int right_side = 2131624131;
+			// aapt resource value: 0x7f0e00c4
+			public const int right_side = 2131624132;
 			
-			// aapt resource value: 0x7f0e00d2
-			public const int rotate = 2131624146;
+			// aapt resource value: 0x7f0e00d3
+			public const int rotate = 2131624147;
 			
-			// aapt resource value: 0x7f0e00a8
-			public const int rotateCWButton = 2131624104;
+			// aapt resource value: 0x7f0e00a9
+			public const int rotateCWButton = 2131624105;
 			
 			// aapt resource value: 0x7f0e0099
 			public const int saveBtn = 2131624089;
@@ -4615,26 +4618,23 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e007f
 			public const int scanbotCameraView = 2131624063;
 			
-			// aapt resource value: 0x7f0e00a7
-			public const int scanbotEditImageToolbar = 2131624103;
+			// aapt resource value: 0x7f0e00a8
+			public const int scanbotEditImageToolbar = 2131624104;
 			
-			// aapt resource value: 0x7f0e00a4
-			public const int scanbotEditImageView = 2131624100;
+			// aapt resource value: 0x7f0e00a5
+			public const int scanbotEditImageView = 2131624101;
 			
 			// aapt resource value: 0x7f0e009e
 			public const int scanbotFlashButton = 2131624094;
 			
-			// aapt resource value: 0x7f0e00a5
-			public const int scanbotMagnifierView = 2131624101;
+			// aapt resource value: 0x7f0e00a6
+			public const int scanbotMagnifierView = 2131624102;
 			
 			// aapt resource value: 0x7f0e009c
 			public const int scanbotPolygonView = 2131624092;
 			
-			// aapt resource value: 0x7f0e009d
-			public const int scanbotSnapButton = 2131624093;
-			
-			// aapt resource value: 0x7f0e00af
-			public const int scanningUIButton = 2131624111;
+			// aapt resource value: 0x7f0e00b0
+			public const int scanningUIButton = 2131624112;
 			
 			// aapt resource value: 0x7f0e0024
 			public const int screen = 2131623972;
@@ -4648,8 +4648,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e005b
 			public const int scrollView = 2131624027;
 			
-			// aapt resource value: 0x7f0e00ad
-			public const int scrollView1 = 2131624109;
+			// aapt resource value: 0x7f0e00ae
+			public const int scrollView1 = 2131624110;
 			
 			// aapt resource value: 0x7f0e0073
 			public const int search_badge = 2131624051;
@@ -4699,6 +4699,9 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e009a
 			public const int shutterBtn = 2131624090;
 			
+			// aapt resource value: 0x7f0e00a1
+			public const int shutterButton = 2131624097;
+			
 			// aapt resource value: 0x7f0e0057
 			public const int spacer = 2131624023;
 			
@@ -4729,8 +4732,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e0097
 			public const int startup_massage = 2131624087;
 			
-			// aapt resource value: 0x7f0e00be
-			public const int status_bar_latest_event_content = 2131624126;
+			// aapt resource value: 0x7f0e00bf
+			public const int status_bar_latest_event_content = 2131624127;
 			
 			// aapt resource value: 0x7f0e0069
 			public const int submenuarrow = 2131624041;
@@ -4744,20 +4747,20 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e000b
 			public const int tag_transition_group = 2131623947;
 			
-			// aapt resource value: 0x7f0e00d3
-			public const int takePictureAutoBtn = 2131624147;
-			
-			// aapt resource value: 0x7f0e00d6
-			public const int takePictureManualBtn = 2131624150;
-			
-			// aapt resource value: 0x7f0e00d5
-			public const int take_picture_auto_inner = 2131624149;
-			
 			// aapt resource value: 0x7f0e00d4
-			public const int take_picture_auto_outer = 2131624148;
+			public const int takePictureAutoBtn = 2131624148;
 			
 			// aapt resource value: 0x7f0e00d7
-			public const int take_picture_manual = 2131624151;
+			public const int takePictureManualBtn = 2131624151;
+			
+			// aapt resource value: 0x7f0e00d6
+			public const int take_picture_auto_inner = 2131624150;
+			
+			// aapt resource value: 0x7f0e00d5
+			public const int take_picture_auto_outer = 2131624149;
+			
+			// aapt resource value: 0x7f0e00d8
+			public const int take_picture_manual = 2131624152;
 			
 			// aapt resource value: 0x7f0e000c
 			public const int text = 2131623948;
@@ -4771,8 +4774,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e005c
 			public const int textSpacerNoTitle = 2131624028;
 			
-			// aapt resource value: 0x7f0e00c4
-			public const int time = 2131624132;
+			// aapt resource value: 0x7f0e00c5
+			public const int time = 2131624133;
 			
 			// aapt resource value: 0x7f0e000e
 			public const int title = 2131623950;
@@ -4792,8 +4795,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e0061
 			public const int topPanel = 2131624033;
 			
-			// aapt resource value: 0x7f0e00cc
-			public const int top_bar = 2131624140;
+			// aapt resource value: 0x7f0e00cd
+			public const int top_bar = 2131624141;
 			
 			// aapt resource value: 0x7f0e0028
 			public const int uniform = 2131623976;

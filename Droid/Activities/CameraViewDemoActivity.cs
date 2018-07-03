@@ -16,6 +16,7 @@ using Net.Doo.Snap.UI;
 // Wrapper namespace
 using ScanbotSDK.Xamarin;
 using ScanbotSDK.Xamarin.Android;
+using IO.Scanbot.Sdk.UI.Camera;
 
 namespace scanbotsdkexamplexamarin.Droid
 {
@@ -29,9 +30,16 @@ namespace scanbotsdkexamplexamarin.Droid
 
         protected ScanbotCameraView cameraView;
         protected AutoSnappingController autoSnappingController;
-        protected bool flashEnabled;
+        protected ContourDetectorFrameHandler contourDetectorFrameHandler;
+        protected PolygonView polygonView;
+        protected bool flashEnabled = false;
+        protected bool autoSnappingEnabled = true;
         protected TextView userGuidanceTextView;
+        protected long lastUserGuidanceHintTs = 0L;
         protected ProgressBar imageProcessingProgress;
+        protected ShutterButton shutterButton;
+        protected Button autoSnappingToggleButton;
+
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -44,6 +52,10 @@ namespace scanbotsdkexamplexamarin.Droid
 
             cameraView = FindViewById<ScanbotCameraView>(Resource.Id.scanbotCameraView);
 
+            // In this example we demonstrate how to lock the orientation of the UI (Activity)
+            // as well as the orientation of the taken picture to portrait.
+            cameraView.LockToPortrait(true);
+
             // Uncomment to disable AutoFocus by manually touching the camera view:
             //cameraView.SetAutoFocusOnTouch(false);
 
@@ -51,8 +63,8 @@ namespace scanbotsdkexamplexamarin.Droid
 
             imageProcessingProgress = FindViewById<ProgressBar>(Resource.Id.imageProcessingProgress);
 
-            ContourDetectorFrameHandler contourDetectorFrameHandler = ContourDetectorFrameHandler.Attach(cameraView);
-            PolygonView polygonView = FindViewById<PolygonView>(Resource.Id.scanbotPolygonView);
+            contourDetectorFrameHandler = ContourDetectorFrameHandler.Attach(cameraView);
+            polygonView = FindViewById<PolygonView>(Resource.Id.scanbotPolygonView);
             contourDetectorFrameHandler.AddResultHandler(polygonView);
             contourDetectorFrameHandler.AddResultHandler(this);
 
@@ -65,16 +77,29 @@ namespace scanbotsdkexamplexamarin.Droid
             cameraView.AddPictureCallback(this);
             cameraView.SetCameraOpenCallback(this);
 
-            FindViewById(Resource.Id.scanbotSnapButton).Click += delegate
+            shutterButton = FindViewById<ShutterButton>(Resource.Id.shutterButton);
+            shutterButton.Click += delegate
             {
                 cameraView.TakePicture(false);
             };
+            shutterButton.Visibility = ViewStates.Visible;
 
             FindViewById(Resource.Id.scanbotFlashButton).Click += delegate
             {
                 cameraView.UseFlash(!flashEnabled);
                 flashEnabled = !flashEnabled;
             };
+
+            autoSnappingToggleButton = FindViewById<Button>(Resource.Id.autoSnappingToggleButton);
+            autoSnappingToggleButton.Click += delegate
+            {
+                autoSnappingEnabled = !autoSnappingEnabled;
+                SetAutoSnapEnabled(autoSnappingEnabled);
+            };
+            autoSnappingToggleButton.Post(() =>
+            {
+                SetAutoSnapEnabled(autoSnappingEnabled);
+            });
         }
 
         public void OnCameraOpened()
@@ -115,35 +140,49 @@ namespace scanbotsdkexamplexamarin.Droid
             // Here you are continiously notified about contour detection results.
             // For example, you can set a localized text for user guidance depending on the detection status.
 
+            ShowUserGuidance(result.DetectionResult);
+
+            return false;
+        }
+
+        protected void ShowUserGuidance(DetectionResult result)
+        {
+            if (!autoSnappingEnabled) { return; }
+
+            if (Java.Lang.JavaSystem.CurrentTimeMillis() - lastUserGuidanceHintTs < 400)
+            {
+                return;
+            }
+
             var color = Color.Red;
             var guideText = "";
 
-            if (result.DetectionResult == DetectionResult.Ok)
+            if (result == DetectionResult.Ok)
             {
                 guideText = "Don't move.\nCapturing...";
                 color = Color.Green;
             }
-            else if (result.DetectionResult == DetectionResult.OkButTooSmall)
+            else if (result == DetectionResult.OkButTooSmall)
             {
                 guideText = "Move closer";
             }
-            else if (result.DetectionResult == DetectionResult.OkButBadAngles)
+            else if (result == DetectionResult.OkButBadAngles)
             {
                 guideText = "Perspective";
             }
-            else if (result.DetectionResult == DetectionResult.OkButBadAspectRatio)
+            else if (result == DetectionResult.OkButBadAspectRatio)
             {
                 guideText = "Wrong aspect ratio.\n Rotate your device";
             }
-            else if (result.DetectionResult == DetectionResult.ErrorNothingDetected)
+            else if (result == DetectionResult.ErrorNothingDetected)
             {
                 guideText = "No Document";
             }
-            else if (result.DetectionResult == DetectionResult.ErrorTooNoisy)
+            else if (result == DetectionResult.ErrorTooNoisy)
             {
                 guideText = "Background too noisy";
             }
-            else if (result.DetectionResult == DetectionResult.ErrorTooDark)
+            else if (result == DetectionResult.ErrorTooDark)
             {
                 guideText = "Poor light";
             }
@@ -156,7 +195,7 @@ namespace scanbotsdkexamplexamarin.Droid
                 userGuidanceTextView.SetBackgroundColor(color);
             });
 
-            return false;
+            lastUserGuidanceHintTs = Java.Lang.JavaSystem.CurrentTimeMillis();
         }
 
         public void OnPictureTaken(byte[] image, int imageOrientation)
@@ -175,9 +214,8 @@ namespace scanbotsdkexamplexamarin.Droid
 
             // decode bytes as Bitmap
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.InSampleSize = 2; // use 1 for original size (if you want no downscale)
-                                      // in this demo we downscale the image to 1/2
-            Bitmap originalBitmap = BitmapFactory.DecodeByteArray(image, 0, image.Length, options);
+            options.InSampleSize = 1;
+            var originalBitmap = BitmapFactory.DecodeByteArray(image, 0, image.Length, options);
 
             // rotate original image if required:
             if (imageOrientation > 0)
@@ -192,7 +230,7 @@ namespace scanbotsdkexamplexamarin.Droid
 
             Android.Net.Uri documentImgUri = null;
             // Run document detection on original image:
-            var detectionResult = SBSDK.DocumentDetection(originalBitmap);
+            var detectionResult = SBSDK.DetectDocument(originalBitmap);
             if (detectionResult.Status.IsOk())
             {
                 var documentImage = detectionResult.Image as Bitmap;
@@ -224,6 +262,24 @@ namespace scanbotsdkexamplexamarin.Droid
                 cameraView.ContinuousFocus();
             });
             */
+        }
+
+        protected void SetAutoSnapEnabled(bool enabled)
+        {
+            autoSnappingController.Enabled = enabled;
+            contourDetectorFrameHandler.Enabled = enabled;
+            polygonView.Visibility = (enabled ? ViewStates.Visible : ViewStates.Gone);
+            autoSnappingToggleButton.Text = ("Automatic " + (enabled ? "ON" : "OFF"));
+            if (enabled)
+            {
+                shutterButton.ShowAutoButton();
+                userGuidanceTextView.Visibility = ViewStates.Visible;
+            }
+            else
+            {
+                shutterButton.ShowManualButton();
+                userGuidanceTextView.Visibility = ViewStates.Gone;
+            }
         }
 
     }

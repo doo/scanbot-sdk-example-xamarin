@@ -17,11 +17,11 @@
             app:polygonStrokeColor="@android:color/holo_blue_dark" />
     </net.doo.snap.camera.ScanbotCameraView>
     <Button
-        android:id="@+id/scanbotSnapButton"
+        android:id="@+id/autoSnappingToggleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:text="Manual Snap" />
+        android:layout_gravity="top|left"
+        android:text="Automatic" />
     <Button
         android:id="@+id/scanbotFlashButton"
         android:layout_width="wrap_content"
@@ -43,4 +43,11 @@
         android:indeterminate="true"
         style="?android:attr/progressBarStyleLarge"
         android:visibility="gone" />
+    <io.scanbot.sdk.ui.camera.ShutterButton
+        android:id="@+id/shutterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="15dp"
+        android:elevation="6dp" />
 </FrameLayout>
