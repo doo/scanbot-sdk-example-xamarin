@@ -258,7 +258,7 @@ namespace scanbotsdkexamplexamarin.iOS
             Task.Run(() =>
             {
                 // The SDK call is sync!
-                var detectionResult = SBSDK.DocumentDetection(imgurl);
+                var detectionResult = SBSDK.DetectDocument(imgurl);
                 if (detectionResult.Status.IsOk())
                 {
                     var imageResult = detectionResult.Image as UIImage;
@@ -283,6 +283,22 @@ namespace scanbotsdkexamplexamarin.iOS
             });
         }
 
+        partial void CreateTiffFileTouchUpInside(UIButton sender)
+        {
+            if (!CheckScanbotSDKLicense()) { return; }
+            if (!CheckDocumentImageUrl()) { return; }
+
+            Task.Run(() =>
+            {
+                DebugLog("Creating TIFF file ...");
+                var images = new NSUrl[] { documentImageUrl }; // add more images for multipage TIFF
+                var tiffOutputFileUrl = GenerateRandomFileUrlInMyDocumentsFolder(".tiff");
+                SBSDK.WriteTiff(images, tiffOutputFileUrl, new TiffOptions { OneBitEncoded = true });
+                DebugLog("TIFF file created: " + tiffOutputFileUrl);
+                ShowMessage("TIFF file created", "" + tiffOutputFileUrl);
+            });
+        }
+
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
         {
             base.PrepareForSegue(segue, sender);
@@ -293,5 +309,14 @@ namespace scanbotsdkexamplexamarin.iOS
             Console.WriteLine("Scanbot SDK Example: " + msg);
         }
 
+
+        NSUrl GenerateRandomFileUrlInMyDocumentsFolder(string fileExtension)
+        {
+            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var demoPath = System.IO.Path.Combine(documents, "scanbot-sdk-example-xamarin");
+            System.IO.Directory.CreateDirectory(demoPath);
+            var targetFile = System.IO.Path.Combine(demoPath, new NSUuid().AsString().ToLower() + fileExtension);
+            return NSUrl.FromFilename(targetFile);
+        }
     }
 }

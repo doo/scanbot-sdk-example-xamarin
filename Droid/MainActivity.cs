@@ -90,6 +90,7 @@ namespace scanbotsdkexamplexamarin.Droid
             AssignApplyImageFilterButtonHandler();
             AssignDocumentDetectionButtonHandler();
             AssignCreatePdfButtonHandler();
+            AssignCreateTiffButtonHandler();
             AssignOcrButtonsHandler();
             AssignMrzScannerButtonHandler();
             AssignBarcodeScannerButtonHandler();
@@ -245,10 +246,8 @@ namespace scanbotsdkexamplexamarin.Droid
                 if (!CheckDocumentImage()) { return; }
 
                 DebugLog("Starting PDF creation...");
+                var pdfOutputUri = GenerateRandomFileUriInExternalStorage(".pdf");
 
-                var externalPath = GetPublicExternalStorageDirectory();
-                var targetFile = System.IO.Path.Combine(externalPath, UUID.RandomUUID() + ".pdf");
-                var pdfOutputUri = AndroidNetUri.FromFile(new Java.IO.File(targetFile));
                 Task.Run(() =>
                 {
                     try
@@ -262,6 +261,36 @@ namespace scanbotsdkexamplexamarin.Droid
                     catch (Exception e)
                     {
                         ErrorLog("Error creating PDF", e);
+                    }
+                });
+            };
+        }
+
+        void AssignCreateTiffButtonHandler()
+        {
+            var createTiffButton = FindViewById<Button>(Resource.Id.createTiffButton);
+            createTiffButton.Click += delegate
+            {
+                if (!CheckScanbotSDKLicense()) { return; }
+                if (!CheckDocumentImage()) { return; }
+
+                DebugLog("Starting TIFF creation...");
+
+                var tiffOutputUri = GenerateRandomFileUriInExternalStorage(".tiff");
+
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        var images = new AndroidNetUri[] { documentImageUri }; // add more images for PDF pages here
+                        // The SDK call is sync!
+                        SBSDK.WriteTiff(images, tiffOutputUri, new TiffOptions { OneBitEncoded = true });
+                        DebugLog("TIFF file created: " + tiffOutputUri);
+                        ShowAlertDialog("TIFF file created: " + tiffOutputUri);
+                    }
+                    catch (Exception e)
+                    {
+                        ErrorLog("Error creating TIFF", e);
                     }
                 });
             };
@@ -290,8 +319,7 @@ namespace scanbotsdkexamplexamarin.Droid
                 Task.Run(() => {
                     try
                     {
-                        var targetFile = System.IO.Path.Combine(GetPublicExternalStorageDirectory(), UUID.RandomUUID() + ".pdf");
-                        var pdfOutputUri = AndroidNetUri.FromFile(new Java.IO.File(targetFile));
+                        var pdfOutputUri = GenerateRandomFileUriInExternalStorage(".pdf");
 
                         var images = new AndroidNetUri[] { documentImageUri }; // add more images for OCR here
                         var ocrText = PerformOCR(images, pdfOutputUri);
@@ -584,6 +612,29 @@ namespace scanbotsdkexamplexamarin.Droid
                 AndroidOS.Environment.ExternalStorageDirectory.Path, "scanbot-sdk-example-xamarin");
             Directory.CreateDirectory(externalPublicPath);
             return externalPublicPath;
+        }
+
+        AndroidNetUri GenerateRandomFileUriInExternalStorage(string fileExtension)
+        {
+            var externalPath = GetPublicExternalStorageDirectory();
+            var targetFile = System.IO.Path.Combine(externalPath, UUID.RandomUUID() + fileExtension);
+            return AndroidNetUri.FromFile(new Java.IO.File(targetFile));
+        }
+
+        void ShowAlertDialog(string message, string title = "Info")
+        {
+            RunOnUiThread(() =>
+            {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.SetTitle(title);
+                builder.SetMessage(message);
+                var alert = builder.Create();
+                alert.SetButton("OK", (c, ev) =>
+                {
+                    alert.Dismiss();
+                });
+                alert.Show();
+            });
         }
 
         void DebugLog(string msg)

@@ -24,6 +24,10 @@ namespace scanbotsdkexamplexamarin.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton createTiffFileButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel demoLicenseLabel { get; set; }
 
         [Outlet]
@@ -62,6 +66,10 @@ namespace scanbotsdkexamplexamarin.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void CameraUITouchUpInside (UIKit.UIButton sender);
 
+        [Action ("CreateTiffFileTouchUpInside:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void CreateTiffFileTouchUpInside (UIKit.UIButton sender);
+
         [Action ("CroppingUITouchUpInside:")]
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void CroppingUITouchUpInside (UIKit.UIButton sender);
@@ -80,6 +88,11 @@ namespace scanbotsdkexamplexamarin.iOS
             if (copyrightLabel != null) {
                 copyrightLabel.Dispose ();
                 copyrightLabel = null;
+            }
+
+            if (createTiffFileButton != null) {
+                createTiffFileButton.Dispose ();
+                createTiffFileButton = null;
             }
 
             if (demoLicenseLabel != null) {
