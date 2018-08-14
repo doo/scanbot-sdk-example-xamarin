@@ -148,6 +148,12 @@
     <Folder Include="Assets.xcassets\ui_action_close\.imageset\" />
     <Folder Include="Assets.xcassets\ui_action_close.imageset\" />
     <Folder Include="Assets.xcassets\ui_edit_rotate.imageset\" />
+    <Folder Include="Resources\" />
+    <Folder Include="Resources\SBSDKLanguageData\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\SBSDKLanguageData\deu.traineddata" />
+    <BundleResource Include="Resources\SBSDKLanguageData\eng.traineddata" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

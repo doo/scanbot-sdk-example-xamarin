@@ -108,6 +108,21 @@ namespace scanbotsdkexamplexamarin.iOS
             });
         }
 
+        partial void PerformOCRUpInside(UIButton sender)
+        {
+            if (!CheckScanbotSDKLicense()) { return; }
+            if (!CheckDocumentImageUrl()) { return; }
+
+            Task.Run(() =>
+            {
+                DebugLog("Performing OCR ...");
+                var images = new NSUrl[] { documentImageUrl };
+                var result = SBSDK.PerformOCR(images, new[] { "en", "de" });
+                DebugLog("OCR result: " + result);
+                ShowMessage("OCR Text", result);
+            });
+        }
+
         partial void DocumentDetectionTouchUpInside(UIButton sender)
         {
             if (!CheckScanbotSDKLicense()) { return; }

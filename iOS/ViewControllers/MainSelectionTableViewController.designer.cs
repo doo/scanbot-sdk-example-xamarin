@@ -78,6 +78,10 @@ namespace scanbotsdkexamplexamarin.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void DocumentDetectionTouchUpInside (UIKit.UIButton sender);
 
+        [Action ("PerformOCRUpInside:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void PerformOCRUpInside (UIKit.UIButton sender);
+
         void ReleaseDesignerOutlets ()
         {
             if (applyImageFilterButton != null) {
