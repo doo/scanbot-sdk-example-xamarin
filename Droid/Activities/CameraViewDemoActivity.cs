@@ -59,6 +59,9 @@ namespace scanbotsdkexamplexamarin.Droid
             // Uncomment to disable AutoFocus by manually touching the camera view:
             //cameraView.SetAutoFocusOnTouch(false);
 
+            // Preview Mode: See https://github.com/doo/Scanbot-SDK-Examples/wiki/Using-ScanbotCameraView#preview-mode
+            //cameraView.SetPreviewMode(CameraPreviewMode.FitIn);
+
             userGuidanceTextView = FindViewById<TextView>(Resource.Id.userGuidanceTextView);
 
             imageProcessingProgress = FindViewById<ProgressBar>(Resource.Id.imageProcessingProgress);
@@ -70,7 +73,7 @@ namespace scanbotsdkexamplexamarin.Droid
             contourDetectorFrameHandler.AddResultHandler(polygonView);
             contourDetectorFrameHandler.AddResultHandler(this);
 
-            // Please note: https://github.com/doo/Scanbot-SDK-Examples/wiki/Detecting-and-drawing-contours#contour-detection-parameters
+            // See https://github.com/doo/Scanbot-SDK-Examples/wiki/Detecting-and-drawing-contours#contour-detection-parameters
             contourDetectorFrameHandler.SetAcceptedAngleScore(60);
             contourDetectorFrameHandler.SetAcceptedSizeScore(70);
 
