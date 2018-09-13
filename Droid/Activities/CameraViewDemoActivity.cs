@@ -65,12 +65,14 @@ namespace scanbotsdkexamplexamarin.Droid
 
             contourDetectorFrameHandler = ContourDetectorFrameHandler.Attach(cameraView);
             polygonView = FindViewById<PolygonView>(Resource.Id.scanbotPolygonView);
+            polygonView.SetStrokeColor(Color.Red);
+            polygonView.SetStrokeColorOK(Color.Green);
             contourDetectorFrameHandler.AddResultHandler(polygonView);
             contourDetectorFrameHandler.AddResultHandler(this);
 
             // Please note: https://github.com/doo/Scanbot-SDK-Examples/wiki/Detecting-and-drawing-contours#contour-detection-parameters
-            contourDetectorFrameHandler.SetAcceptedAngleScore(55);
-            contourDetectorFrameHandler.SetAcceptedSizeScore(65);
+            contourDetectorFrameHandler.SetAcceptedAngleScore(60);
+            contourDetectorFrameHandler.SetAcceptedSizeScore(70);
 
             autoSnappingController = AutoSnappingController.Attach(cameraView, contourDetectorFrameHandler);
 
