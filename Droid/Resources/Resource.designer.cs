@@ -164,10 +164,14 @@ namespace scanbotsdkexamplexamarin.Droid
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.editTextStyle = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.editTextStyle;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.edit_polygon_background_color = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.edit_polygon_background_color;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.edit_polygon_corner_image_src = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.edit_polygon_corner_image_src;
+			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.edit_polygon_detect_btn_text = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.edit_polygon_detect_btn_text;
+			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.edit_polygon_detect_btn_text_color = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.edit_polygon_detect_btn_text_color;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.edit_polygon_edge_color = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.edit_polygon_edge_color;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.edit_polygon_edge_image_src = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.edit_polygon_edge_image_src;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.edit_polygon_magnifier_color = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.edit_polygon_magnifier_color;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.edit_polygon_magnifier_image_src = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.edit_polygon_magnifier_image_src;
+			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.edit_polygon_reset_btn_text = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.edit_polygon_reset_btn_text;
+			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.edit_polygon_reset_btn_text_color = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.edit_polygon_reset_btn_text_color;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.edit_polygon_rotate_btn_text = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.edit_polygon_rotate_btn_text;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.edit_polygon_rotate_btn_text_color = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.edit_polygon_rotate_btn_text_color;
 			global::ScanbotSDK.Xamarin.Android.Resource.Attribute.edit_polygon_toolbar_cancel_btn_text = global::scanbotsdkexamplexamarin.Droid.Resource.Attribute.edit_polygon_toolbar_cancel_btn_text;
@@ -724,6 +728,7 @@ namespace scanbotsdkexamplexamarin.Droid
 			global::ScanbotSDK.Xamarin.Android.Resource.Id.customPanel = global::scanbotsdkexamplexamarin.Droid.Resource.Id.customPanel;
 			global::ScanbotSDK.Xamarin.Android.Resource.Id.decor_content_parent = global::scanbotsdkexamplexamarin.Droid.Resource.Id.decor_content_parent;
 			global::ScanbotSDK.Xamarin.Android.Resource.Id.default_activity_button = global::scanbotsdkexamplexamarin.Droid.Resource.Id.default_activity_button;
+			global::ScanbotSDK.Xamarin.Android.Resource.Id.detect = global::scanbotsdkexamplexamarin.Droid.Resource.Id.detect;
 			global::ScanbotSDK.Xamarin.Android.Resource.Id.disableHome = global::scanbotsdkexamplexamarin.Droid.Resource.Id.disableHome;
 			global::ScanbotSDK.Xamarin.Android.Resource.Id.done = global::scanbotsdkexamplexamarin.Droid.Resource.Id.done;
 			global::ScanbotSDK.Xamarin.Android.Resource.Id.edit_query = global::scanbotsdkexamplexamarin.Droid.Resource.Id.edit_query;
@@ -772,6 +777,7 @@ namespace scanbotsdkexamplexamarin.Droid
 			global::ScanbotSDK.Xamarin.Android.Resource.Id.progress_circular = global::scanbotsdkexamplexamarin.Droid.Resource.Id.progress_circular;
 			global::ScanbotSDK.Xamarin.Android.Resource.Id.progress_horizontal = global::scanbotsdkexamplexamarin.Droid.Resource.Id.progress_horizontal;
 			global::ScanbotSDK.Xamarin.Android.Resource.Id.radio = global::scanbotsdkexamplexamarin.Droid.Resource.Id.radio;
+			global::ScanbotSDK.Xamarin.Android.Resource.Id.reset = global::scanbotsdkexamplexamarin.Droid.Resource.Id.reset;
 			global::ScanbotSDK.Xamarin.Android.Resource.Id.rightCameraOverlay = global::scanbotsdkexamplexamarin.Droid.Resource.Id.rightCameraOverlay;
 			global::ScanbotSDK.Xamarin.Android.Resource.Id.right_icon = global::scanbotsdkexamplexamarin.Droid.Resource.Id.right_icon;
 			global::ScanbotSDK.Xamarin.Android.Resource.Id.right_side = global::scanbotsdkexamplexamarin.Droid.Resource.Id.right_side;
@@ -939,6 +945,7 @@ namespace scanbotsdkexamplexamarin.Droid
 			global::ScanbotSDK.Xamarin.Android.Resource.String.camera_permission_placeholder_title = global::scanbotsdkexamplexamarin.Droid.Resource.String.camera_permission_placeholder_title;
 			global::ScanbotSDK.Xamarin.Android.Resource.String.camera_startup_message_text = global::scanbotsdkexamplexamarin.Droid.Resource.String.camera_startup_message_text;
 			global::ScanbotSDK.Xamarin.Android.Resource.String.cancel = global::scanbotsdkexamplexamarin.Droid.Resource.String.cancel;
+			global::ScanbotSDK.Xamarin.Android.Resource.String.detect = global::scanbotsdkexamplexamarin.Droid.Resource.String.detect;
 			global::ScanbotSDK.Xamarin.Android.Resource.String.device_configuration = global::scanbotsdkexamplexamarin.Droid.Resource.String.device_configuration;
 			global::ScanbotSDK.Xamarin.Android.Resource.String.dont_move_hint = global::scanbotsdkexamplexamarin.Droid.Resource.String.dont_move_hint;
 			global::ScanbotSDK.Xamarin.Android.Resource.String.edit_polygon_title = global::scanbotsdkexamplexamarin.Droid.Resource.String.edit_polygon_title;
@@ -947,6 +954,7 @@ namespace scanbotsdkexamplexamarin.Droid
 			global::ScanbotSDK.Xamarin.Android.Resource.String.mrz_finder_description = global::scanbotsdkexamplexamarin.Droid.Resource.String.mrz_finder_description;
 			global::ScanbotSDK.Xamarin.Android.Resource.String.multi_page_option = global::scanbotsdkexamplexamarin.Droid.Resource.String.multi_page_option;
 			global::ScanbotSDK.Xamarin.Android.Resource.String.nothing_detected_hint = global::scanbotsdkexamplexamarin.Droid.Resource.String.nothing_detected_hint;
+			global::ScanbotSDK.Xamarin.Android.Resource.String.reset = global::scanbotsdkexamplexamarin.Droid.Resource.String.reset;
 			global::ScanbotSDK.Xamarin.Android.Resource.String.reset_to_default = global::scanbotsdkexamplexamarin.Droid.Resource.String.reset_to_default;
 			global::ScanbotSDK.Xamarin.Android.Resource.String.rotate = global::scanbotsdkexamplexamarin.Droid.Resource.String.rotate;
 			global::ScanbotSDK.Xamarin.Android.Resource.String.search_menu_title = global::scanbotsdkexamplexamarin.Droid.Resource.String.search_menu_title;
@@ -2129,8 +2137,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f010094
 			public const int controlBackground = 2130772116;
 			
-			// aapt resource value: 0x7f010174
-			public const int cornerImageSrc = 2130772340;
+			// aapt resource value: 0x7f010178
+			public const int cornerImageSrc = 2130772344;
 			
 			// aapt resource value: 0x7f010015
 			public const int customNavigationLayout = 2130771989;
@@ -2174,20 +2182,20 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f010067
 			public const int dropdownListPreferredItemHeight = 2130772071;
 			
-			// aapt resource value: 0x7f010172
-			public const int edgeColor = 2130772338;
+			// aapt resource value: 0x7f010176
+			public const int edgeColor = 2130772342;
 			
-			// aapt resource value: 0x7f010173
-			public const int edgeColorOnLine = 2130772339;
+			// aapt resource value: 0x7f010177
+			public const int edgeColorOnLine = 2130772343;
+			
+			// aapt resource value: 0x7f010179
+			public const int edgeImageSrc = 2130772345;
 			
 			// aapt resource value: 0x7f010175
-			public const int edgeImageSrc = 2130772341;
+			public const int editPolygonHandleSize = 2130772341;
 			
-			// aapt resource value: 0x7f010171
-			public const int editPolygonHandleSize = 2130772337;
-			
-			// aapt resource value: 0x7f01016f
-			public const int editPolygonStrokeWidth = 2130772335;
+			// aapt resource value: 0x7f010173
+			public const int editPolygonStrokeWidth = 2130772339;
 			
 			// aapt resource value: 0x7f010078
 			public const int editTextBackground = 2130772088;
@@ -2205,34 +2213,46 @@ namespace scanbotsdkexamplexamarin.Droid
 			public const int edit_polygon_corner_image_src = 2130772305;
 			
 			// aapt resource value: 0x7f010152
-			public const int edit_polygon_edge_color = 2130772306;
+			public const int edit_polygon_detect_btn_text = 2130772306;
 			
 			// aapt resource value: 0x7f010153
-			public const int edit_polygon_edge_image_src = 2130772307;
+			public const int edit_polygon_detect_btn_text_color = 2130772307;
 			
 			// aapt resource value: 0x7f010154
-			public const int edit_polygon_magnifier_color = 2130772308;
+			public const int edit_polygon_edge_color = 2130772308;
 			
 			// aapt resource value: 0x7f010155
-			public const int edit_polygon_magnifier_image_src = 2130772309;
+			public const int edit_polygon_edge_image_src = 2130772309;
 			
 			// aapt resource value: 0x7f010156
-			public const int edit_polygon_rotate_btn_text = 2130772310;
+			public const int edit_polygon_magnifier_color = 2130772310;
 			
 			// aapt resource value: 0x7f010157
-			public const int edit_polygon_rotate_btn_text_color = 2130772311;
+			public const int edit_polygon_magnifier_image_src = 2130772311;
 			
 			// aapt resource value: 0x7f010158
-			public const int edit_polygon_toolbar_cancel_btn_text = 2130772312;
+			public const int edit_polygon_reset_btn_text = 2130772312;
 			
 			// aapt resource value: 0x7f010159
-			public const int edit_polygon_toolbar_color = 2130772313;
+			public const int edit_polygon_reset_btn_text_color = 2130772313;
 			
 			// aapt resource value: 0x7f01015a
-			public const int edit_polygon_toolbar_save_btn_text = 2130772314;
+			public const int edit_polygon_rotate_btn_text = 2130772314;
 			
 			// aapt resource value: 0x7f01015b
-			public const int edit_polygon_toolbar_text_color = 2130772315;
+			public const int edit_polygon_rotate_btn_text_color = 2130772315;
+			
+			// aapt resource value: 0x7f01015c
+			public const int edit_polygon_toolbar_cancel_btn_text = 2130772316;
+			
+			// aapt resource value: 0x7f01015d
+			public const int edit_polygon_toolbar_color = 2130772317;
+			
+			// aapt resource value: 0x7f01015e
+			public const int edit_polygon_toolbar_save_btn_text = 2130772318;
+			
+			// aapt resource value: 0x7f01015f
+			public const int edit_polygon_toolbar_text_color = 2130772319;
 			
 			// aapt resource value: 0x7f010022
 			public const int elevation = 2130772002;
@@ -2243,11 +2263,11 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f010026
 			public const int expandActivityOverflowButtonDrawable = 2130772006;
 			
-			// aapt resource value: 0x7f01015c
-			public const int flash_icon = 2130772316;
+			// aapt resource value: 0x7f010160
+			public const int flash_icon = 2130772320;
 			
-			// aapt resource value: 0x7f01015d
-			public const int flash_option = 2130772317;
+			// aapt resource value: 0x7f010161
+			public const int flash_option = 2130772321;
 			
 			// aapt resource value: 0x7f01013c
 			public const int font = 2130772284;
@@ -2522,20 +2542,20 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0100f4
 			public const int logoDescription = 2130772212;
 			
-			// aapt resource value: 0x7f010170
-			public const int magneticLineTreshold = 2130772336;
+			// aapt resource value: 0x7f010174
+			public const int magneticLineTreshold = 2130772340;
 			
-			// aapt resource value: 0x7f010179
-			public const int magnifierEnableBounding = 2130772345;
+			// aapt resource value: 0x7f01017d
+			public const int magnifierEnableBounding = 2130772349;
 			
-			// aapt resource value: 0x7f010176
-			public const int magnifierImageSrc = 2130772342;
+			// aapt resource value: 0x7f01017a
+			public const int magnifierImageSrc = 2130772346;
 			
-			// aapt resource value: 0x7f010178
-			public const int magnifierMargin = 2130772344;
+			// aapt resource value: 0x7f01017c
+			public const int magnifierMargin = 2130772348;
 			
-			// aapt resource value: 0x7f010177
-			public const int magnifierRadius = 2130772343;
+			// aapt resource value: 0x7f01017b
+			public const int magnifierRadius = 2130772347;
 			
 			// aapt resource value: 0x7f0100ee
 			public const int maxButtonHeight = 2130772206;
@@ -2543,20 +2563,20 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0100bb
 			public const int measureWithLargestChild = 2130772155;
 			
-			// aapt resource value: 0x7f01015e
-			public const int mrz_camera_overlay_color = 2130772318;
+			// aapt resource value: 0x7f010162
+			public const int mrz_camera_overlay_color = 2130772322;
 			
-			// aapt resource value: 0x7f01015f
-			public const int mrz_camera_overlay_stroke_color = 2130772319;
+			// aapt resource value: 0x7f010163
+			public const int mrz_camera_overlay_stroke_color = 2130772323;
 			
 			// aapt resource value: 0x7f010029
 			public const int multiChoiceItemLayout = 2130772009;
 			
-			// aapt resource value: 0x7f010160
-			public const int multi_page_icon = 2130772320;
+			// aapt resource value: 0x7f010164
+			public const int multi_page_icon = 2130772324;
 			
-			// aapt resource value: 0x7f010161
-			public const int multi_page_option = 2130772321;
+			// aapt resource value: 0x7f010165
+			public const int multi_page_option = 2130772325;
 			
 			// aapt resource value: 0x7f0100f3
 			public const int navigationContentDescription = 2130772211;
@@ -2567,8 +2587,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f01000a
 			public const int navigationMode = 2130771978;
 			
-			// aapt resource value: 0x7f010162
-			public const int nothing_detected_hint = 2130772322;
+			// aapt resource value: 0x7f010166
+			public const int nothing_detected_hint = 2130772326;
 			
 			// aapt resource value: 0x7f0100bf
 			public const int numericModifiers = 2130772159;
@@ -2597,20 +2617,20 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f010089
 			public const int panelMenuListWidth = 2130772105;
 			
-			// aapt resource value: 0x7f01017c
-			public const int polygonFillColor = 2130772348;
+			// aapt resource value: 0x7f010180
+			public const int polygonFillColor = 2130772352;
+			
+			// aapt resource value: 0x7f010182
+			public const int polygonFillColorOK = 2130772354;
+			
+			// aapt resource value: 0x7f01017f
+			public const int polygonStrokeColor = 2130772351;
+			
+			// aapt resource value: 0x7f010181
+			public const int polygonStrokeColorOK = 2130772353;
 			
 			// aapt resource value: 0x7f01017e
-			public const int polygonFillColorOK = 2130772350;
-			
-			// aapt resource value: 0x7f01017b
-			public const int polygonStrokeColor = 2130772347;
-			
-			// aapt resource value: 0x7f01017d
-			public const int polygonStrokeColorOK = 2130772349;
-			
-			// aapt resource value: 0x7f01017a
-			public const int polygonStrokeWidth = 2130772346;
+			public const int polygonStrokeWidth = 2130772350;
 			
 			// aapt resource value: 0x7f010075
 			public const int popupMenuStyle = 2130772085;
@@ -2681,20 +2701,20 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f01002c
 			public const int showTitle = 2130772012;
 			
-			// aapt resource value: 0x7f010182
-			public const int shutterButtonAutoInnerColor = 2130772354;
+			// aapt resource value: 0x7f010186
+			public const int shutterButtonAutoInnerColor = 2130772358;
 			
-			// aapt resource value: 0x7f010181
-			public const int shutterButtonAutoOuterColor = 2130772353;
+			// aapt resource value: 0x7f010185
+			public const int shutterButtonAutoOuterColor = 2130772357;
+			
+			// aapt resource value: 0x7f010187
+			public const int shutterButtonManualImage = 2130772359;
+			
+			// aapt resource value: 0x7f010184
+			public const int shutterButtonManualInnerColor = 2130772356;
 			
 			// aapt resource value: 0x7f010183
-			public const int shutterButtonManualImage = 2130772355;
-			
-			// aapt resource value: 0x7f010180
-			public const int shutterButtonManualInnerColor = 2130772352;
-			
-			// aapt resource value: 0x7f01017f
-			public const int shutterButtonManualOuterColor = 2130772351;
+			public const int shutterButtonManualOuterColor = 2130772355;
 			
 			// aapt resource value: 0x7f01002a
 			public const int singleChoiceItemLayout = 2130772010;
@@ -2714,8 +2734,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f01002d
 			public const int srcCompat = 2130772013;
 			
-			// aapt resource value: 0x7f01016e
-			public const int src_tint = 2130772334;
+			// aapt resource value: 0x7f010172
+			public const int src_tint = 2130772338;
 			
 			// aapt resource value: 0x7f0100cb
 			public const int state_above_anchor = 2130772171;
@@ -2846,14 +2866,14 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f01000d
 			public const int titleTextStyle = 2130771981;
 			
-			// aapt resource value: 0x7f010163
-			public const int too_dark_hint = 2130772323;
+			// aapt resource value: 0x7f010167
+			public const int too_dark_hint = 2130772327;
 			
-			// aapt resource value: 0x7f010164
-			public const int too_noisy_hint = 2130772324;
+			// aapt resource value: 0x7f010168
+			public const int too_noisy_hint = 2130772328;
 			
-			// aapt resource value: 0x7f010165
-			public const int too_small_hint = 2130772325;
+			// aapt resource value: 0x7f010169
+			public const int too_small_hint = 2130772329;
 			
 			// aapt resource value: 0x7f010074
 			public const int toolbarNavigationButtonStyle = 2130772084;
@@ -2879,29 +2899,29 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0100df
 			public const int trackTintMode = 2130772191;
 			
-			// aapt resource value: 0x7f010166
-			public const int ui_FABColor = 2130772326;
-			
-			// aapt resource value: 0x7f010167
-			public const int ui_colorAccent = 2130772327;
-			
-			// aapt resource value: 0x7f010168
-			public const int ui_colorPrimary = 2130772328;
-			
-			// aapt resource value: 0x7f010169
-			public const int ui_polygonFillColor = 2130772329;
-			
 			// aapt resource value: 0x7f01016a
-			public const int ui_polygonStrokeColor = 2130772330;
+			public const int ui_FABColor = 2130772330;
 			
 			// aapt resource value: 0x7f01016b
-			public const int ui_polygonStrokeWidth = 2130772331;
+			public const int ui_colorAccent = 2130772331;
 			
 			// aapt resource value: 0x7f01016c
-			public const int ui_scan_ico_arrow = 2130772332;
+			public const int ui_colorPrimary = 2130772332;
 			
 			// aapt resource value: 0x7f01016d
-			public const int ui_scanning_no_permission = 2130772333;
+			public const int ui_polygonFillColor = 2130772333;
+			
+			// aapt resource value: 0x7f01016e
+			public const int ui_polygonStrokeColor = 2130772334;
+			
+			// aapt resource value: 0x7f01016f
+			public const int ui_polygonStrokeWidth = 2130772335;
+			
+			// aapt resource value: 0x7f010170
+			public const int ui_scan_ico_arrow = 2130772336;
+			
+			// aapt resource value: 0x7f010171
+			public const int ui_scanning_no_permission = 2130772337;
 			
 			// aapt resource value: 0x7f0100d6
 			public const int voiceIcon = 2130772182;
@@ -4393,6 +4413,9 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e0053
 			public const int default_activity_button = 2131624019;
 			
+			// aapt resource value: 0x7f0e00d6
+			public const int detect = 2131624150;
+			
 			// aapt resource value: 0x7f0e0047
 			public const int dimensions = 2131624007;
 			
@@ -4519,8 +4542,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e00c2
 			public const int media_actions = 2131624130;
 			
-			// aapt resource value: 0x7f0e00db
-			public const int message = 2131624155;
+			// aapt resource value: 0x7f0e00dd
+			public const int message = 2131624157;
 			
 			// aapt resource value: 0x7f0e002c
 			public const int middle = 2131623980;
@@ -4600,6 +4623,9 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e0068
 			public const int radio = 2131624040;
 			
+			// aapt resource value: 0x7f0e00d5
+			public const int reset = 2131624149;
+			
 			// aapt resource value: 0x7f0e003b
 			public const int right = 2131623995;
 			
@@ -4612,8 +4638,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e00c6
 			public const int right_side = 2131624134;
 			
-			// aapt resource value: 0x7f0e00d5
-			public const int rotate = 2131624149;
+			// aapt resource value: 0x7f0e00d7
+			public const int rotate = 2131624151;
 			
 			// aapt resource value: 0x7f0e00a9
 			public const int rotateCWButton = 2131624105;
@@ -4753,20 +4779,20 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e000b
 			public const int tag_transition_group = 2131623947;
 			
-			// aapt resource value: 0x7f0e00d6
-			public const int takePictureAutoBtn = 2131624150;
-			
-			// aapt resource value: 0x7f0e00d9
-			public const int takePictureManualBtn = 2131624153;
-			
 			// aapt resource value: 0x7f0e00d8
-			public const int take_picture_auto_inner = 2131624152;
+			public const int takePictureAutoBtn = 2131624152;
 			
-			// aapt resource value: 0x7f0e00d7
-			public const int take_picture_auto_outer = 2131624151;
+			// aapt resource value: 0x7f0e00db
+			public const int takePictureManualBtn = 2131624155;
 			
 			// aapt resource value: 0x7f0e00da
-			public const int take_picture_manual = 2131624154;
+			public const int take_picture_auto_inner = 2131624154;
+			
+			// aapt resource value: 0x7f0e00d9
+			public const int take_picture_auto_outer = 2131624153;
+			
+			// aapt resource value: 0x7f0e00dc
+			public const int take_picture_manual = 2131624156;
 			
 			// aapt resource value: 0x7f0e000c
 			public const int text = 2131623948;
@@ -5245,8 +5271,8 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f090035
 			public const int barcode_finder_description = 2131296309;
 			
-			// aapt resource value: 0x7f090045
-			public const int camera_configuration = 2131296325;
+			// aapt resource value: 0x7f090047
+			public const int camera_configuration = 2131296327;
 			
 			// aapt resource value: 0x7f090036
 			public const int camera_permission_placeholder_btn_text = 2131296310;
@@ -5311,38 +5337,44 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f090010
 			public const int common_signin_button_text_long = 2131296272;
 			
-			// aapt resource value: 0x7f090046
-			public const int device_configuration = 2131296326;
-			
 			// aapt resource value: 0x7f09003a
-			public const int dont_move_hint = 2131296314;
-			
-			// aapt resource value: 0x7f09003b
-			public const int edit_polygon_title = 2131296315;
-			
-			// aapt resource value: 0x7f09003c
-			public const int flash_option = 2131296316;
+			public const int detect = 2131296314;
 			
 			// aapt resource value: 0x7f090048
-			public const int hello = 2131296328;
+			public const int device_configuration = 2131296328;
+			
+			// aapt resource value: 0x7f09003b
+			public const int dont_move_hint = 2131296315;
+			
+			// aapt resource value: 0x7f09003c
+			public const int edit_polygon_title = 2131296316;
+			
+			// aapt resource value: 0x7f09003d
+			public const int flash_option = 2131296317;
+			
+			// aapt resource value: 0x7f09004a
+			public const int hello = 2131296330;
 			
 			// aapt resource value: 0x7f090030
 			public const int library_name = 2131296304;
 			
-			// aapt resource value: 0x7f09003d
-			public const int mrz_finder_description = 2131296317;
-			
 			// aapt resource value: 0x7f09003e
-			public const int multi_page_option = 2131296318;
+			public const int mrz_finder_description = 2131296318;
 			
 			// aapt resource value: 0x7f09003f
-			public const int nothing_detected_hint = 2131296319;
+			public const int multi_page_option = 2131296319;
 			
 			// aapt resource value: 0x7f090040
-			public const int reset_to_default = 2131296320;
+			public const int nothing_detected_hint = 2131296320;
 			
 			// aapt resource value: 0x7f090041
-			public const int rotate = 2131296321;
+			public const int reset = 2131296321;
+			
+			// aapt resource value: 0x7f090042
+			public const int reset_to_default = 2131296322;
+			
+			// aapt resource value: 0x7f090043
+			public const int rotate = 2131296323;
 			
 			// aapt resource value: 0x7f090022
 			public const int search_menu_title = 2131296290;
@@ -5350,17 +5382,17 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f09002f
 			public const int status_bar_notification_info_overflow = 2131296303;
 			
-			// aapt resource value: 0x7f090047
-			public const int support_email_template = 2131296327;
-			
-			// aapt resource value: 0x7f090042
-			public const int too_dark_hint = 2131296322;
-			
-			// aapt resource value: 0x7f090043
-			public const int too_noisy_hint = 2131296323;
+			// aapt resource value: 0x7f090049
+			public const int support_email_template = 2131296329;
 			
 			// aapt resource value: 0x7f090044
-			public const int too_small_hint = 2131296324;
+			public const int too_dark_hint = 2131296324;
+			
+			// aapt resource value: 0x7f090045
+			public const int too_noisy_hint = 2131296325;
+			
+			// aapt resource value: 0x7f090046
+			public const int too_small_hint = 2131296326;
 			
 			static String()
 			{
@@ -7910,13 +7942,13 @@ namespace scanbotsdkexamplexamarin.Droid
 			public const int DrawerArrowToggle_thickness = 7;
 			
 			public static int[] EditPolygonImageView = new int[] {
-					2130772335,
-					2130772336,
-					2130772337,
-					2130772338,
 					2130772339,
 					2130772340,
-					2130772341};
+					2130772341,
+					2130772342,
+					2130772343,
+					2130772344,
+					2130772345};
 			
 			// aapt resource value: 5
 			public const int EditPolygonImageView_cornerImageSrc = 5;
@@ -8078,10 +8110,10 @@ namespace scanbotsdkexamplexamarin.Droid
 			public const int LoadingImageView_imageAspectRatioAdjust = 0;
 			
 			public static int[] MagnifierView = new int[] {
-					2130772342,
-					2130772343,
-					2130772344,
-					2130772345};
+					2130772346,
+					2130772347,
+					2130772348,
+					2130772349};
 			
 			// aapt resource value: 3
 			public const int MagnifierView_magnifierEnableBounding = 3;
@@ -8254,11 +8286,11 @@ namespace scanbotsdkexamplexamarin.Droid
 			public const int MenuView_subMenuArrow = 8;
 			
 			public static int[] PolygonView = new int[] {
-					2130772346,
-					2130772347,
-					2130772348,
-					2130772349,
-					2130772350};
+					2130772350,
+					2130772351,
+					2130772352,
+					2130772353,
+					2130772354};
 			
 			// aapt resource value: 2
 			public const int PolygonView_polygonFillColor = 2;
@@ -8376,11 +8408,11 @@ namespace scanbotsdkexamplexamarin.Droid
 			public const int SearchView_voiceIcon = 12;
 			
 			public static int[] ShutterButton = new int[] {
-					2130772351,
-					2130772352,
-					2130772353,
-					2130772354,
-					2130772355};
+					2130772355,
+					2130772356,
+					2130772357,
+					2130772358,
+					2130772359};
 			
 			// aapt resource value: 3
 			public const int ShutterButton_shutterButtonAutoInnerColor = 3;
@@ -8546,7 +8578,7 @@ namespace scanbotsdkexamplexamarin.Droid
 			public const int TextAppearance_textAllCaps = 11;
 			
 			public static int[] TintableImageButton = new int[] {
-					2130772334};
+					2130772338};
 			
 			// aapt resource value: 0
 			public const int TintableImageButton_src_tint = 0;
