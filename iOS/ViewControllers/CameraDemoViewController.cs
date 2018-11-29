@@ -33,17 +33,9 @@ namespace scanbotsdkexamplexamarin.iOS
 
             // =================================================================
             //
-            //
             // UI customizations can be implemented via delegate methods from "SBSDKScannerViewControllerDelegate".
             //
-            // Please check the API docs of our native Scanbot SDK for iOS, since all those methods and properties are also available as Scanbot Xamarin bindings:
-            //
-            // SBSDKScannerViewController: https://scanbotsdk.github.io/documentation/ios/html/interface_s_b_s_d_k_scanner_view_controller.html
-            //
-            // SBSDKScannerViewControllerDelegate: https://scanbotsdk.github.io/documentation/ios/html/protocol_s_b_s_d_k_scanner_view_controller_delegate_01-p.html
-            //
-            // Please see some example implementations of "SBSDKScannerViewControllerDelegate" methods below (e.g. "scannerController:viewForDetectionStatus:", etc).
-            //
+            // Please check the API docs of our native Scanbot SDK for iOS, since all those methods and properties are also available as Scanbot Xamarin bindings.
             //
             // =================================================================
 
@@ -64,6 +56,11 @@ namespace scanbotsdkexamplexamarin.iOS
             // Sensitivity factor for automatic capturing. Must be in the range [0.0...1.0]. Invalid values are threated as 1.0. 
             // Defaults to 0.66 (1 sec).s A value of 1.0 triggers automatic capturing immediately, a value of 0.0 delays the automatic by 3 seconds.
             scannerViewController.AutoCaptureSensitivity = 0.7f;
+
+            // The orientation captured images are locked onto. By default it is SBSDKOrientationLockNone. 
+            // Setting this property to any other value will suppress the document detection status ‘SBSDKDocumentDetectionStatusOK_BadAspectRatio’. 
+            // If the lock is enabled the detection status UI will be orientation-locked too.
+            scannerViewController.ImageOrientationLock = SBSDKOrientationLock.Portrait;
         }
 
         public override void ViewWillAppear(bool animated)
