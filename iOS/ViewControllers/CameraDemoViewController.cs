@@ -145,7 +145,7 @@ namespace scanbotsdkexamplexamarin.iOS
                 autoSnapButton.SetImage(UIImage.FromBundle("ui_autosnap_off"), UIControlState.Normal);
                 autoSnapButton.SetImage(UIImage.FromBundle("ui_autosnap_on"), UIControlState.Selected);
 
-                autoSnapButton.Selected = scannerViewController.CameraSession.TorchLightEnabled;
+
             }
             else
             {
