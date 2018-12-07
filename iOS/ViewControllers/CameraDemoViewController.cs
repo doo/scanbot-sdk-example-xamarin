@@ -17,6 +17,8 @@ namespace scanbotsdkexamplexamarin.iOS
         protected SBSDKScannerViewController scannerViewController;
 
         protected UIButton flashButton;
+        protected UIButton autoSnapButton;
+        protected bool autoSnappingEnabled = true;
 
         protected bool viewAppeared;
 
@@ -66,7 +68,11 @@ namespace scanbotsdkexamplexamarin.iOS
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
+
             PlaceFlashButton();
+
+            PlaceAutosnapButton();
+            SetAutoSnapEnabled(autoSnappingEnabled);
         }
 
         public override void ViewWillDisappear(bool animated)
@@ -123,6 +129,40 @@ namespace scanbotsdkexamplexamarin.iOS
             View.BringSubviewToFront(flashButton);
         }
 
+        void PlaceAutosnapButton()
+        {
+            CGSize screenSize = UIScreen.MainScreen.Bounds.Size;
+            CGRect buttonFrame = new CGRect(40, screenSize.Height - 100, 40, 40);
+
+            if (autoSnapButton == null)
+            {
+                autoSnapButton = new UIButton(buttonFrame);
+                autoSnapButton.AddTarget(delegate {
+                    autoSnappingEnabled = !autoSnappingEnabled;
+                    SetAutoSnapEnabled(autoSnappingEnabled);
+                }, UIControlEvent.TouchUpInside);
+
+                autoSnapButton.SetImage(UIImage.FromBundle("ui_autosnap_off"), UIControlState.Normal);
+                autoSnapButton.SetImage(UIImage.FromBundle("ui_autosnap_on"), UIControlState.Selected);
+
+                autoSnapButton.Selected = scannerViewController.CameraSession.TorchLightEnabled;
+            }
+            else
+            {
+                autoSnapButton.Frame = buttonFrame;
+            }
+            View.AddSubview(autoSnapButton);
+            View.BringSubviewToFront(autoSnapButton);
+        }
+
+        void SetAutoSnapEnabled(bool enabled)
+        {
+            autoSnapButton.Selected = enabled;
+            scannerViewController.ShutterMode = enabled ? SBSDKShutterMode.Smart : SBSDKShutterMode.AlwaysManual;
+            scannerViewController.DetectionStatusHidden = !enabled;
+            (scannerViewController.DefaultShutterButton as SBSDKShutterButton).ScannerStatus = enabled ? SBSDKScannerStatus.Scanning : SBSDKScannerStatus.Idle;
+        }
+
 
         // =====================================================================
         // 
@@ -133,8 +173,7 @@ namespace scanbotsdkexamplexamarin.iOS
         [Export("scannerControllerShouldAnalyseVideoFrame:")]
         public bool ScannerControllerShouldAnalyseVideoFrame(SBSDKScannerViewController controller)
         {
-            // We want to only process video frames when self is visible on screen and front most view controller
-            return viewAppeared && PresentedViewController == null;
+            return autoSnappingEnabled && viewAppeared && PresentedViewController == null;
         }
 
         [Export("scannerController:didCaptureDocumentImage:")]

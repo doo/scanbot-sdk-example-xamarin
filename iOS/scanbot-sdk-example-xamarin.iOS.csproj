@@ -115,6 +115,14 @@
     <ImageAsset Include="Assets.xcassets\ui_edit_rotate.imageset\ui_edit_rotate.png" />
     <ImageAsset Include="Assets.xcassets\ui_edit_rotate.imageset\ui_edit_rotate%402x.png" />
     <ImageAsset Include="Assets.xcassets\ui_edit_rotate.imageset\ui_edit_rotate%403x.png" />
+    <ImageAsset Include="Assets.xcassets\ui_autosnap_on.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ui_autosnap_off.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ui_autosnap_on.imageset\ui_autosnap_on.png" />
+    <ImageAsset Include="Assets.xcassets\ui_autosnap_on.imageset\ui_autosnap_on%402x.png" />
+    <ImageAsset Include="Assets.xcassets\ui_autosnap_on.imageset\ui_autosnap_on%403x.png" />
+    <ImageAsset Include="Assets.xcassets\ui_autosnap_off.imageset\ui_autosnap_off.png" />
+    <ImageAsset Include="Assets.xcassets\ui_autosnap_off.imageset\ui_autosnap_off%402x.png" />
+    <ImageAsset Include="Assets.xcassets\ui_autosnap_off.imageset\ui_autosnap_off%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -150,6 +158,8 @@
     <Folder Include="Assets.xcassets\ui_edit_rotate.imageset\" />
     <Folder Include="Resources\" />
     <Folder Include="Resources\SBSDKLanguageData\" />
+    <Folder Include="Assets.xcassets\ui_autosnap_on.imageset\" />
+    <Folder Include="Assets.xcassets\ui_autosnap_off.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\SBSDKLanguageData\deu.traineddata" />
