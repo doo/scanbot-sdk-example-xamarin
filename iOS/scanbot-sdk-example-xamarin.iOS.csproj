@@ -22,7 +22,7 @@
     <MtouchDebug>true</MtouchDebug>
     <MtouchFastDev>true</MtouchFastDev>
     <IOSDebuggerPort>20161</IOSDebuggerPort>
-    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchLink>None</MtouchLink>
     <MtouchArch>i386, x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
@@ -70,7 +70,7 @@
     <MtouchFastDev>true</MtouchFastDev>
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchLink>None</MtouchLink>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
@@ -82,13 +82,13 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="ScanbotSDK.iOS">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.0\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.1\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.0\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.1\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin.iOS">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.0\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.1\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

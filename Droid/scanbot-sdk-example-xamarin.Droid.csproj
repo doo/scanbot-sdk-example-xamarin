@@ -16,7 +16,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
     <AndroidSupportedAbis>armeabi-v7a</AndroidSupportedAbis>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
     <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
@@ -124,37 +123,37 @@
       <HintPath>..\packages\Scanbot.Xamarin.Kotlin.StdLib.Jre7.1.2.50\lib\MonoAndroid81\Scanbot.Xamarin.Kotlin.StdLib.Jre7.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.Base">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.0\lib\MonoAndroid81\ScanbotSDK.Android.Base.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.1\lib\MonoAndroid81\ScanbotSDK.Android.Base.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.Camera">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.0\lib\MonoAndroid81\ScanbotSDK.Android.Camera.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.1\lib\MonoAndroid81\ScanbotSDK.Android.Camera.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.Core">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.0\lib\MonoAndroid81\ScanbotSDK.Android.Core.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.1\lib\MonoAndroid81\ScanbotSDK.Android.Core.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.P1">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.0\lib\MonoAndroid81\ScanbotSDK.Android.P1.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.1\lib\MonoAndroid81\ScanbotSDK.Android.P1.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.P2">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.0\lib\MonoAndroid81\ScanbotSDK.Android.P2.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.1\lib\MonoAndroid81\ScanbotSDK.Android.P2.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.P3">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.0\lib\MonoAndroid81\ScanbotSDK.Android.P3.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.1\lib\MonoAndroid81\ScanbotSDK.Android.P3.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.P4">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.0\lib\MonoAndroid81\ScanbotSDK.Android.P4.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.1\lib\MonoAndroid81\ScanbotSDK.Android.P4.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.Tesseract">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.0\lib\MonoAndroid81\ScanbotSDK.Android.Tesseract.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.1\lib\MonoAndroid81\ScanbotSDK.Android.Tesseract.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.UI">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.0\lib\MonoAndroid81\ScanbotSDK.Android.UI.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.1\lib\MonoAndroid81\ScanbotSDK.Android.UI.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin.Android">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.0\lib\MonoAndroid81\ScanbotSDK.Xamarin.Android.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.1\lib\MonoAndroid81\ScanbotSDK.Xamarin.Android.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.0\lib\MonoAndroid81\ScanbotSDK.Xamarin.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.1.1\lib\MonoAndroid81\ScanbotSDK.Xamarin.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
