@@ -1,10 +1,12 @@
-# Example App for Scanbot SDK Xamarin
+# Scanners for MRZ, QR codes and barcodes and document scanning with text recognition
+
+## Scanbot SDK example app for Xamarin
 
 This example app shows how to integrate the Scanbot SDK for Xamarin.
 
 
 ## What is Scanbot SDK
-The Scanbot SDK brings scanning and document creation capabilities to your mobile apps. It contains modules which are individually licensable as license packages. For more details visit our website https://scanbot.io/sdk.html
+The Scanbot SDK brings scanning and document creation capabilities to your mobile apps. It contains modules which are individually licensable as license packages. For more details visit our website https://scanbot.io/sdk
 
 The Scanbot SDK for Xamarin is available as an universal NuGet package for Android and iOS:
 [ScanbotSDK.Xamarin](https://www.nuget.org/packages/ScanbotSDK.Xamarin)
