@@ -51,7 +51,7 @@
             return shouldAnalyse;
         }
 
-        partial void CloseCollectionContainerTapped(UIButton sender)
+        partial void closeCollectionContainerTapped(UIButton sender)
         {
             CloseCollectionContainer();
         }     }  }   

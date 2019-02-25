@@ -11,6 +11,10 @@ namespace scanbotsdkexamplexamarin.iOS
     [Register("AppDelegate")]
     public class AppDelegate : UIApplicationDelegate
     {
+        // Use a custom temp storage directory for demo purposes.
+        public static readonly TempImageStorage TempImageStorage = new TempImageStorage(GetExampleTempStorageDir());
+
+
         // Add your Scanbot SDK license key here.
         // You can test all Scanbot SDK features and develop your app without a license. 
         // However, if you do not specify the license key when initializing the SDK, 
@@ -26,11 +30,11 @@ namespace scanbotsdkexamplexamarin.iOS
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
-            // Override point for customization after application launch.
-            // If not required for your application you can safely delete this method
-
             Console.WriteLine("Scanbot SDK Example: Initializing Scanbot SDK...");
-            SBSDK.Initialize(application, licenseKey, true);
+            SBSDK.Initialize(application, licenseKey, new SBSDKConfiguration { EnableLogging = true });
+
+            // In this example we always cleanup the demo temp storage directory on app start.
+            TempImageStorage.CleanUp();
 
             return true;
         }
@@ -66,6 +70,13 @@ namespace scanbotsdkexamplexamarin.iOS
             // Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
         }
 
+        private static string GetExampleTempStorageDir()
+        {
+            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var exampleTempStorage = System.IO.Path.Combine(documents, "scanbot-sdk-example-temp-storage");
+            System.IO.Directory.CreateDirectory(exampleTempStorage);
+            return exampleTempStorage;
+        }
     }
 }
 

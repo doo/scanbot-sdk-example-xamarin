@@ -20,7 +20,7 @@ namespace scanbotsdkexamplexamarin.iOS
             {
                 if (parentController != null)
                 {
-                    parentController.documentImageUrl = parentController.tempStorage.AddImage(documentImage);
+                    parentController.documentImageUrl = AppDelegate.TempImageStorage.AddImage(documentImage);
                     parentController.ShowImageView(documentImage, true);
                 }
             }
@@ -29,7 +29,7 @@ namespace scanbotsdkexamplexamarin.iOS
             {
                 if (parentController != null)
                 {
-                    parentController.originalImageUrl = parentController.tempStorage.AddImage(originalImage);
+                    parentController.originalImageUrl = AppDelegate.TempImageStorage.AddImage(originalImage);
                 }
             }
         }
@@ -43,7 +43,7 @@ namespace scanbotsdkexamplexamarin.iOS
                 // Obtain cropped image from cropping view controller
                 if (parentController != null)
                 {
-                    parentController.documentImageUrl = parentController.tempStorage.AddImage(croppedImage);
+                    parentController.documentImageUrl = AppDelegate.TempImageStorage.AddImage(croppedImage);
                     parentController.ShowImageView(croppedImage, true);
                 }
             }
@@ -54,7 +54,6 @@ namespace scanbotsdkexamplexamarin.iOS
 
         UIImagePickerController imagePicker;
 
-        TempImageStorage tempStorage = new TempImageStorage();
         NSUrl documentImageUrl, originalImageUrl;
 
 
@@ -72,25 +71,15 @@ namespace scanbotsdkexamplexamarin.iOS
             if (!CheckDocumentImageUrl()) { return; }
 
             UIAlertController actionSheetAlert = UIAlertController.Create("Select filter type", "", UIAlertControllerStyle.ActionSheet);
-            actionSheetAlert.AddAction(UIAlertAction.Create("Binarized", UIAlertActionStyle.Default, (action) =>
-            {
-                ApplyFilterOnDocumentImage(ImageFilter.Binarized);
-            }));
 
-            actionSheetAlert.AddAction(UIAlertAction.Create("Grayscale", UIAlertActionStyle.Default, (action) =>
+            foreach (ImageFilter filter in Enum.GetValues(typeof(ImageFilter)))
             {
-                ApplyFilterOnDocumentImage(ImageFilter.Grayscale);
-            }));
-
-            actionSheetAlert.AddAction(UIAlertAction.Create("Color enhanced", UIAlertActionStyle.Default, (action) =>
-            {
-                ApplyFilterOnDocumentImage(ImageFilter.ColorEnhanced);
-            }));
-
-            actionSheetAlert.AddAction(UIAlertAction.Create("Color document", UIAlertActionStyle.Default, (action) =>
-            {
-                ApplyFilterOnDocumentImage(ImageFilter.ColorDocument);
-            }));
+                if (filter.ToString().ToLower() == "none") { continue; }
+                actionSheetAlert.AddAction(UIAlertAction.Create(filter.ToString(), UIAlertActionStyle.Default, (action) =>
+                {
+                    ApplyFilterOnDocumentImage(filter);
+                }));
+            }
 
             actionSheetAlert.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null));
             PresentViewController(actionSheetAlert, true, null);
@@ -118,8 +107,8 @@ namespace scanbotsdkexamplexamarin.iOS
                 DebugLog("Performing OCR ...");
                 var images = new NSUrl[] { documentImageUrl };
                 var result = SBSDK.PerformOCR(images, new[] { "en", "de" });
-                DebugLog("OCR result: " + result);
-                ShowMessage("OCR Text", result);
+                DebugLog("OCR result: " + result.RecognizedText);
+                ShowMessage("OCR Text", result.RecognizedText);
             });
         }
 
@@ -188,7 +177,7 @@ namespace scanbotsdkexamplexamarin.iOS
 
         bool CheckSelectedImages()
         {
-            if (tempStorage.Count() == 0)
+            if (AppDelegate.TempImageStorage.Count() == 0)
             {
                 ShowErrorMessage("Please select at least one image from Gallery or via Camera UI");
                 return false;
@@ -258,7 +247,7 @@ namespace scanbotsdkexamplexamarin.iOS
                 if (originalImage != null)
                 {
                     DebugLog("Got the original image from gallery");
-                    originalImageUrl = tempStorage.AddImage(originalImage);
+                    originalImageUrl = AppDelegate.TempImageStorage.AddImage(originalImage);
                     RunDocumentDetection(originalImageUrl);
                 }
             }
@@ -278,7 +267,7 @@ namespace scanbotsdkexamplexamarin.iOS
                 {
                     var imageResult = detectionResult.Image as UIImage;
                     DebugLog("Detection result image: " + imageResult);
-                    documentImageUrl = tempStorage.AddImage(imageResult);
+                    documentImageUrl = AppDelegate.TempImageStorage.AddImage(imageResult);
 
                     ShowImageView(imageResult, true);
 
@@ -307,10 +296,26 @@ namespace scanbotsdkexamplexamarin.iOS
             {
                 DebugLog("Creating TIFF file ...");
                 var images = new NSUrl[] { documentImageUrl }; // add more images for multipage TIFF
-                var tiffOutputFileUrl = GenerateRandomFileUrlInMyDocumentsFolder(".tiff");
+                var tiffOutputFileUrl = GenerateRandomFileUrlInDemoTempStorage(".tiff");
                 SBSDK.WriteTiff(images, tiffOutputFileUrl, new TiffOptions { OneBitEncoded = true });
                 DebugLog("TIFF file created: " + tiffOutputFileUrl);
                 ShowMessage("TIFF file created", "" + tiffOutputFileUrl);
+            });
+        }
+
+        partial void CreatePdfTouchUpInside(UIButton sender)
+        {
+            if (!CheckScanbotSDKLicense()) { return; }
+            if (!CheckDocumentImageUrl()) { return; }
+
+            Task.Run(() =>
+            {
+                DebugLog("Creating PDF file ...");
+                var images = new NSUrl[] { documentImageUrl }; // add more images for multipage PDF
+                var pdfOutputFileUrl = GenerateRandomFileUrlInDemoTempStorage(".pdf");
+                SBSDK.CreatePDF(images, pdfOutputFileUrl, PDFPageSize.FixedA4);
+                DebugLog("PDF file created: " + pdfOutputFileUrl);
+                ShowMessage("PDF file created", "" + pdfOutputFileUrl);
             });
         }
 
@@ -325,12 +330,10 @@ namespace scanbotsdkexamplexamarin.iOS
         }
 
 
-        NSUrl GenerateRandomFileUrlInMyDocumentsFolder(string fileExtension)
+        NSUrl GenerateRandomFileUrlInDemoTempStorage(string fileExtension)
         {
-            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var demoPath = System.IO.Path.Combine(documents, "scanbot-sdk-example-xamarin");
-            System.IO.Directory.CreateDirectory(demoPath);
-            var targetFile = System.IO.Path.Combine(demoPath, new NSUuid().AsString().ToLower() + fileExtension);
+            var targetFile = System.IO.Path.Combine(
+                AppDelegate.TempImageStorage.TempDir, new NSUuid().AsString().ToLower() + fileExtension);
             return NSUrl.FromFilename(targetFile);
         }
     }

@@ -82,13 +82,13 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="ScanbotSDK.iOS">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.2.0\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.2.0.6\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.2.0\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.2.0.6\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin.iOS">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.2.0\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.2.0.6\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -142,10 +142,6 @@
     <Compile Include="ViewControllers\CroppingDemoNavigationController.cs" />
     <Compile Include="ViewControllers\MainSelectionTableViewController.cs" />
     <Compile Include="ViewControllers\MainSelectionTableViewController.designer.cs" />
-    <Compile Include="ViewControllers\PDFCreationViewController.cs" />
-    <Compile Include="ViewControllers\PDFCreationViewController.designer.cs" />
-    <Compile Include="ViewControllers\PDFViewController.cs" />
-    <Compile Include="ViewControllers\PDFViewController.designer.cs" />
     <Compile Include="Views\ProgressHUD.cs" />
     <Compile Include="Views\ProgressHUD.designer.cs" />
     <Compile Include="Views\ThumbnailCollectionViewCell.cs" />

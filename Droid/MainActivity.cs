@@ -16,15 +16,7 @@ using Java.Util;
 using AndroidNetUri = Android.Net.Uri;
 using AndroidOS = Android.OS;
 using Android.Util;
-using Net.Doo.Snap.Process;
-using Net.Doo.Snap.Persistence;
-using Net.Doo.Snap.Persistence.Cleanup;
-using Net.Doo.Snap.Blob;
-using Net.Doo.Snap.Process.Draft;
 using System.Collections.Generic;
-using Net.Doo.Snap.Entity;
-using Net.Doo.Snap.Util;
-using Android.Preferences;
 using IO.Scanbot.Sdk.UI.View.Mrz;
 using IO.Scanbot.Sdk.UI.View.Mrz.Configuration;
 using IO.Scanbot.Mrzscanner.Model;
@@ -38,9 +30,7 @@ namespace scanbotsdkexamplexamarin.Droid
               ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class MainActivity : Activity
     {
-        public static TempImageStorage TempImageStorage = new TempImageStorage();
-
-        static string LOG_TAG = typeof(MainActivity).Name;
+        static readonly string LOG_TAG = typeof(MainActivity).Name;
 
         const int REQUEST_SB_SCANNING_UI = 4711;
         const int REQUEST_SB_CROPPING_UI = 4712;
@@ -56,23 +46,6 @@ namespace scanbotsdkexamplexamarin.Droid
 
         Button performOcrButton;
 
-        DocumentProcessor documentProcessor;
-        PageFactory pageFactory;
-        IDocumentDraftExtractor documentDraftExtractor;
-        ITextRecognition textRecognition;
-        Cleaner cleaner;
-        BlobManager blobManager;
-        BlobFactory blobFactory;
-
-        static List<Language> ocrLanguages = new List<Language>();
-
-        static MainActivity()
-        {
-            // set required OCR languages ...
-            ocrLanguages.Add(Language.Eng); // english
-            ocrLanguages.Add(Language.Deu); // german
-        }
-
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -81,8 +54,6 @@ namespace scanbotsdkexamplexamarin.Droid
             SetContentView(Resource.Layout.Main);
 
             imageView = FindViewById<ImageView>(Resource.Id.imageView);
-
-            InitScanbotSDKDependencies();
 
             AssignCopyrightText();
             AssignStartCameraButtonHandler();
@@ -94,65 +65,8 @@ namespace scanbotsdkexamplexamarin.Droid
             AssignOcrButtonsHandler();
             AssignMrzScannerButtonHandler();
             AssignBarcodeScannerButtonHandler();
-        }
 
-
-        void InitScanbotSDKDependencies()
-        {
-            var scanbotSDK = new Net.Doo.Snap.ScanbotSDK(this);
-            documentProcessor = scanbotSDK.DocumentProcessor();
-            pageFactory = scanbotSDK.PageFactory();
-            documentDraftExtractor = scanbotSDK.DocumentDraftExtractor();
-            textRecognition = scanbotSDK.TextRecognition();
-            cleaner = scanbotSDK.Cleaner();
-            blobManager = scanbotSDK.BlobManager();
-            blobFactory = scanbotSDK.BlobFactory();
-        }
-
-        List<Blob> OcrBlobs()
-        {
-            // Create a collection of required OCR blobs:
-            var blobs = new List<Blob>();
-
-            // Language detector blobs of the Scanbot SDK. (see "language_classifier_blob_path" in AndroidManifest.xml!)
-            foreach (var b in blobFactory.LanguageDetectorBlobs())
-            {
-                blobs.Add(b);
-            }
-
-            // OCR blobs of languages (see "ocr_blobs_path" in AndroidManifest.xml!)
-            foreach (var lng in ocrLanguages)
-            {
-                foreach (var b in blobFactory.OcrLanguageBlobs(lng))
-                {
-                    blobs.Add(b);
-                }
-            }
-
-            return blobs;
-        }
-
-        void FetchOcrBlobFiles()
-        {
-            // Fetch OCR blob files from the sources defined in AndroidManifest.xml
-            Task.Run(() =>
-            {
-                try
-                {
-                    foreach (var blob in OcrBlobs())
-                    {
-                        if (!blobManager.IsBlobAvailable(blob))
-                        {
-                            DebugLog("Fetching OCR blob file: " + blob);
-                            blobManager.Fetch(blob, false);
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    ErrorLog("Error fetching OCR blob files", e);
-                }
-            });
+            DebugLog("Using TempImageStorage directory: " + MainApplication.TempImageStorage.TempDir);
         }
 
 
@@ -197,7 +111,7 @@ namespace scanbotsdkexamplexamarin.Droid
                 {
                     // The SDK call is sync!
                     var resultImage = SBSDK.ApplyImageFilter(documentImageUri, filter);
-                    documentImageUri = TempImageStorage.AddImage(resultImage);
+                    documentImageUri = MainApplication.TempImageStorage.AddImage(resultImage);
                     ShowImageView(resultImage);
                 });
             }
@@ -246,17 +160,20 @@ namespace scanbotsdkexamplexamarin.Droid
                 if (!CheckDocumentImage()) { return; }
 
                 DebugLog("Starting PDF creation...");
-                var pdfOutputUri = GenerateRandomFileUriInExternalStorage(".pdf");
 
                 Task.Run(() =>
                 {
                     try
                     {
+                        var pdfOutputUri = GenerateRandomFileUrlInDemoTempStorage(".pdf");
                         var images = new AndroidNetUri[] { documentImageUri }; // add more images for PDF pages here
                         // The SDK call is sync!
-                        SBSDK.CreatePDF(images, pdfOutputUri);
+                        SBSDK.CreatePDF(images, pdfOutputUri, PDFPageSize.FixedA4);
                         DebugLog("PDF file created: " + pdfOutputUri);
-                        OpenPDFFile(pdfOutputUri);
+                        ShowAlertDialog("PDF file created: " + pdfOutputUri, onDismiss: () =>
+                        {
+                            OpenSharingDialog(pdfOutputUri, "application/pdf");
+                        });
                     }
                     catch (Exception e)
                     {
@@ -276,17 +193,19 @@ namespace scanbotsdkexamplexamarin.Droid
 
                 DebugLog("Starting TIFF creation...");
 
-                var tiffOutputUri = GenerateRandomFileUriInExternalStorage(".tiff");
-
                 Task.Run(() =>
                 {
                     try
                     {
+                        var tiffOutputUri = GenerateRandomFileUrlInDemoTempStorage(".tiff");
                         var images = new AndroidNetUri[] { documentImageUri }; // add more images for PDF pages here
                         // The SDK call is sync!
                         SBSDK.WriteTiff(images, tiffOutputUri, new TiffOptions { OneBitEncoded = true });
                         DebugLog("TIFF file created: " + tiffOutputUri);
-                        ShowAlertDialog("TIFF file created: " + tiffOutputUri);
+                        ShowAlertDialog("TIFF file created: " + tiffOutputUri, onDismiss: () =>
+                        {
+                            OpenSharingDialog(tiffOutputUri, "image/tiff");
+                        });
                     }
                     catch (Exception e)
                     {
@@ -298,18 +217,11 @@ namespace scanbotsdkexamplexamarin.Droid
 
         void AssignOcrButtonsHandler()
         {
-            var fetchOcrBlobsButton = FindViewById<Button>(Resource.Id.fetchOcrBlobsButton);
-            fetchOcrBlobsButton.Click += delegate
-            {
-                FetchOcrBlobFiles();
-            };
-
             performOcrButton = FindViewById<Button>(Resource.Id.performOcrButton);
             performOcrButton.Click += delegate
             {
                 if (!CheckScanbotSDKLicense()) { return; }
                 if (!CheckDocumentImage()) { return; }
-                if (!CheckOcrBlobFiles()) { return; }
 
                 performOcrButton.Post(() => {
                     performOcrButton.Text = "Running OCR ... Please wait ...";
@@ -319,13 +231,17 @@ namespace scanbotsdkexamplexamarin.Droid
                 Task.Run(() => {
                     try
                     {
-                        var pdfOutputUri = GenerateRandomFileUriInExternalStorage(".pdf");
-
+                        var pdfOutputUri = GenerateRandomFileUrlInDemoTempStorage(".pdf");
                         var images = new AndroidNetUri[] { documentImageUri }; // add more images for OCR here
-                        var ocrText = PerformOCR(images, pdfOutputUri);
-                        DebugLog("Recognized OCR text: " + ocrText);
+
+                        // The SDK call is sync!
+                        var result = SBSDK.PerformOCR(images, new []{ "en", "de" }, pdfOutputUri);
+                        DebugLog("Recognized OCR text: " + result.RecognizedText);
                         DebugLog("Sandwiched PDF file created: " + pdfOutputUri);
-                        OpenPDFFile(pdfOutputUri);
+                        ShowAlertDialog(result.RecognizedText, "OCR Result", () =>
+                        {
+                            OpenSharingDialog(pdfOutputUri, "application/pdf");
+                        });
                     }
                     catch (Exception e)
                     {
@@ -370,18 +286,6 @@ namespace scanbotsdkexamplexamarin.Droid
             };
         }
 
-        bool CheckOcrBlobFiles()
-        {
-            foreach (var blob in OcrBlobs())
-            {
-                if (!blobManager.IsBlobAvailable(blob))
-                {
-                    Toast.MakeText(this, "Please fetch OCR blob files first!", ToastLength.Long).Show();
-                    return false;
-                }
-            }
-            return true;
-        }
 
         bool CheckDocumentImage()
         {
@@ -493,7 +397,7 @@ namespace scanbotsdkexamplexamarin.Droid
                     if (detectionResult.Status.IsOk())
                     {
                         var documentImage = detectionResult.Image as Bitmap;
-                        documentImageUri = TempImageStorage.AddImage(documentImage);
+                        documentImageUri = MainApplication.TempImageStorage.AddImage(documentImage);
                         ShowImageView(documentImage);
 
                         DebugLog("Detected polygon: ");
@@ -519,64 +423,6 @@ namespace scanbotsdkexamplexamarin.Droid
         }
 
 
-        string PerformOCR(AndroidNetUri[] images, AndroidNetUri pdfOutputFileUri = null)
-        {
-            DebugLog("Performing OCR...");
-
-            var pages = new List<Page>();
-            foreach (AndroidNetUri imageUri in images)
-            {
-                var path = FileChooserUtils.GetPath(this, imageUri);
-                var imageFile = new Java.IO.File(path);
-                DebugLog("Creating a page of image file: " + imageFile);
-                var page = pageFactory.BuildPage(imageFile);
-                pages.Add(page);
-            }
-
-            if (pdfOutputFileUri == null)
-            {
-                // Perform OCR only for plain text result:
-                var ocrResultWithTextOnly = textRecognition.WithoutPDF(ocrLanguages, pages).Recognize();
-                return ocrResultWithTextOnly.RecognizedText;
-            }
-
-            // Perform OCR for PDF file with OCR information (sandwiched PDF):
-            var document = new Document();
-            document.Name = "document.pdf";
-            document.OcrStatus = OcrStatus.Pending;
-            document.Id = Java.Util.UUID.RandomUUID().ToString();
-            var fullOcrResult = textRecognition.WithPDF(ocrLanguages, document, pages).Recognize();
-
-            // move sandwiched PDF result file into requested target:
-            Java.IO.File tempPdfFile = null;
-            try
-            {
-                ISharedPreferences preferences = PreferenceManager.GetDefaultSharedPreferences(this);
-                DocumentStoreStrategy documentStoreStrategy = new DocumentStoreStrategy(this, preferences);
-                tempPdfFile = documentStoreStrategy.GetDocumentFile(fullOcrResult.SandwichedPdfDocument.Id, fullOcrResult.SandwichedPdfDocument.Name);
-                DebugLog("Got temp PDF file from SDK: " + tempPdfFile);
-                if (tempPdfFile != null && tempPdfFile.Exists())
-                {
-                    DebugLog("Copying temp file to target output file: " + pdfOutputFileUri);
-                    File.Copy(tempPdfFile.AbsolutePath, new Java.IO.File(pdfOutputFileUri.Path).AbsolutePath);
-                }
-                else
-                {
-                    ErrorLog("Could not get sandwiched PDF document file from SDK!");
-                }
-            }
-            finally
-            {
-                if (tempPdfFile != null && tempPdfFile.Exists())
-                {
-                    DebugLog("Deleting temp file: " + tempPdfFile);
-                    tempPdfFile.Delete();
-                }
-            }
-
-            return fullOcrResult.RecognizedText;
-        }
-
         void ShowImageView(Bitmap bitmap)
         {
             imageView.Post(() =>
@@ -586,11 +432,59 @@ namespace scanbotsdkexamplexamarin.Droid
             });
         }
 
-        void OpenPDFFile(AndroidNetUri pdfFileUri)
+
+        AndroidNetUri GenerateRandomFileUrlInDemoTempStorage(string fileExtension)
+        {
+            var targetFile = System.IO.Path.Combine(
+                MainApplication.TempImageStorage.TempDir, UUID.RandomUUID() + fileExtension);
+            return AndroidNetUri.FromFile(new Java.IO.File(targetFile));
+        }
+
+        void ShowAlertDialog(string message, string title = "Info", Action onDismiss = null)
+        {
+            RunOnUiThread(() =>
+            {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.SetTitle(title);
+                builder.SetMessage(message);
+                var alert = builder.Create();
+                alert.SetButton("OK", (c, ev) =>
+                {
+                    alert.Dismiss();
+                    onDismiss?.Invoke();
+                });
+                alert.Show();
+            });
+        }
+
+
+        void OpenSharingDialog(AndroidNetUri privateSourceFileUri, string mimeType)
+        {
+            // ! Please note: To be able to share a file on Android it must be in a public folder. 
+            // For demo purposes we use the external storage directory (AndroidOS.Environment.ExternalStorageDirectory), 
+            // which is public and accessible by every app! 
+            // If you need a secure place to store PDF, TIFF, etc, do NOT use this sharing solution!
+            // Also see:
+            // - https://docs.microsoft.com/en-us/xamarin/android/platform/files/external-storage
+            // - https://developer.android.com/guide/topics/data/data-storage
+
+            var publicTargetFilePath = System.IO.Path.Combine(
+                AndroidOS.Environment.ExternalStorageDirectory.Path, System.IO.Path.GetFileName(privateSourceFileUri.Path));
+            File.Copy(privateSourceFileUri.Path, publicTargetFilePath);
+
+            Intent shareIntent = new Intent(Intent.ActionSend);
+            shareIntent.SetType(mimeType);
+            var uri = AndroidNetUri.FromFile(new Java.IO.File(publicTargetFilePath));
+            shareIntent.PutExtra(Intent.ExtraStream, uri);
+            StartActivity(shareIntent);
+        }
+
+
+        void OpenPDFFile(AndroidNetUri publicPdfFileUri)
         {
             Intent openIntent = new Intent();
             openIntent.SetAction(Intent.ActionView);
-            openIntent.SetDataAndType(pdfFileUri, "application/pdf");
+            openIntent.SetDataAndType(publicPdfFileUri, "application/pdf");
             openIntent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);
 
             if (openIntent.ResolveActivity(this.PackageManager) != null)
@@ -606,36 +500,6 @@ namespace scanbotsdkexamplexamarin.Droid
             }
         }
 
-        string GetPublicExternalStorageDirectory()
-        {
-            var externalPublicPath = System.IO.Path.Combine(
-                AndroidOS.Environment.ExternalStorageDirectory.Path, "scanbot-sdk-example-xamarin");
-            Directory.CreateDirectory(externalPublicPath);
-            return externalPublicPath;
-        }
-
-        AndroidNetUri GenerateRandomFileUriInExternalStorage(string fileExtension)
-        {
-            var externalPath = GetPublicExternalStorageDirectory();
-            var targetFile = System.IO.Path.Combine(externalPath, UUID.RandomUUID() + fileExtension);
-            return AndroidNetUri.FromFile(new Java.IO.File(targetFile));
-        }
-
-        void ShowAlertDialog(string message, string title = "Info")
-        {
-            RunOnUiThread(() =>
-            {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.SetTitle(title);
-                builder.SetMessage(message);
-                var alert = builder.Create();
-                alert.SetButton("OK", (c, ev) =>
-                {
-                    alert.Dismiss();
-                });
-                alert.Show();
-            });
-        }
 
         void DebugLog(string msg)
         {
@@ -660,13 +524,11 @@ namespace scanbotsdkexamplexamarin.Droid
 
         static ImageFilterDialog()
         {
-            ImageFilterItems.Add(ImageFilter.Binarized.ToString());
-            ImageFilterItems.Add(ImageFilter.Grayscale.ToString());
-            ImageFilterItems.Add(ImageFilter.ColorEnhanced.ToString());
-            ImageFilterItems.Add(ImageFilter.ColorDocument.ToString());
-            ImageFilterItems.Add(ImageFilter.PureBinarized.ToString());
-            ImageFilterItems.Add(ImageFilter.BackgroundClean.ToString());
-            ImageFilterItems.Add(ImageFilter.BlackAndWhite.ToString());
+            foreach (ImageFilter filter in Enum.GetValues(typeof(ImageFilter)))
+            {
+                if (filter.ToString().ToLower() == "none") { continue; }
+                ImageFilterItems.Add(filter.ToString());
+            }
         }
 
         Action<ImageFilter> ApplyFilterAction;

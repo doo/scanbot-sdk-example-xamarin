@@ -13,7 +13,11 @@ namespace scanbotsdkexamplexamarin.Droid
     [Application(LargeHeap = true)]
     public class MainApplication : Application
     {
-        static string LOG_TAG = typeof(MainApplication).Name;
+        static readonly string LOG_TAG = typeof(MainApplication).Name;
+
+        // Use a custom temp storage directory for demo purposes.
+        public static readonly TempImageStorage TempImageStorage = new TempImageStorage(GetExampleTempStorageDir());
+
 
         // TODO: Add your Scanbot SDK license key here.
         // You can test all Scanbot SDK features and develop your app without a license. 
@@ -32,7 +36,19 @@ namespace scanbotsdkexamplexamarin.Droid
             base.OnCreate();
 
             Log.Debug(LOG_TAG, "Initializing Scanbot SDK...");
-            SBSDK.Initialize(this, licenseKey, true);
+            SBSDK.Initialize(this, licenseKey, new SBSDKConfiguration { EnableLogging = true });
+
+            // In this example we always cleanup the demo temp storage directory on app start.
+            TempImageStorage.CleanUp();
+        }
+
+
+        private static string GetExampleTempStorageDir()
+        {
+            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var exampleTempStorage = System.IO.Path.Combine(documents, "scanbot-sdk-example-temp-storage");
+            System.IO.Directory.CreateDirectory(exampleTempStorage);
+            return exampleTempStorage;
         }
     }
 }

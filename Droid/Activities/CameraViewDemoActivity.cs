@@ -101,7 +101,8 @@ namespace scanbotsdkexamplexamarin.Droid
                 autoSnappingEnabled = !autoSnappingEnabled;
                 SetAutoSnapEnabled(autoSnappingEnabled);
             };
-            autoSnappingToggleButton.Post(() =>
+
+            shutterButton.Post(() =>
             {
                 SetAutoSnapEnabled(autoSnappingEnabled);
             });
@@ -231,7 +232,7 @@ namespace scanbotsdkexamplexamarin.Droid
             }
 
             // Store the original image as file:
-            var originalImgUri = MainActivity.TempImageStorage.AddImage(originalBitmap);
+            var originalImgUri = MainApplication.TempImageStorage.AddImage(originalBitmap);
 
             Android.Net.Uri documentImgUri = null;
             // Run document detection on original image:
@@ -240,7 +241,7 @@ namespace scanbotsdkexamplexamarin.Droid
             {
                 var documentImage = detectionResult.Image as Bitmap;
                 // Store the document image as file:
-                documentImgUri = MainActivity.TempImageStorage.AddImage(documentImage);
+                documentImgUri = MainApplication.TempImageStorage.AddImage(documentImage);
             }
             else
             {

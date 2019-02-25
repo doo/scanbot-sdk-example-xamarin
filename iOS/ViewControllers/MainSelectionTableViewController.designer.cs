@@ -66,6 +66,10 @@ namespace scanbotsdkexamplexamarin.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void CameraUITouchUpInside (UIKit.UIButton sender);
 
+        [Action ("CreatePdfTouchUpInside:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void CreatePdfTouchUpInside (UIKit.UIButton sender);
+
         [Action ("CreateTiffFileTouchUpInside:")]
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void CreateTiffFileTouchUpInside (UIKit.UIButton sender);

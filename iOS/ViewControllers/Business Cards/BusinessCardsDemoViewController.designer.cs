@@ -32,7 +32,7 @@ namespace scanbotsdkexamplexamarin.iOS
 
         [Action ("closeCollectionContainerTapped:")]
         [GeneratedCode ("iOS Designer", "1.0")]
-        partial void CloseCollectionContainerTapped (UIKit.UIButton sender);
+        partial void closeCollectionContainerTapped (UIKit.UIButton sender);
 
         void ReleaseDesignerOutlets ()
         {

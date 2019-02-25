@@ -152,7 +152,7 @@ namespace scanbotsdkexamplexamarin.Droid
                     var detector = new ContourDetector();
                     var documentImage = detector.ProcessImageAndRelease(originalBitmap, editPolygonImageView.Polygon, ContourDetector.ImageFilterNone);
                     documentImage = SBSDK.RotateImage(documentImage, -rotationDegrees);
-                    var documentImgUri = MainActivity.TempImageStorage.AddImage(documentImage);
+                    var documentImgUri = MainApplication.TempImageStorage.AddImage(documentImage);
 
                     RunOnUiThread(() =>
                     {

@@ -46,11 +46,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/createTiffButton" />
         <Button
-            android:text="Fetch / Download OCR blobs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/fetchOcrBlobsButton" />
-        <Button
             android:text="Perform OCR"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
