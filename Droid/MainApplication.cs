@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Android.App;
 using Android.Runtime;
 using Android.Util;
@@ -18,13 +19,12 @@ namespace scanbotsdkexamplexamarin.Droid
         // Use a custom temp storage directory for demo purposes.
         public static readonly TempImageStorage TempImageStorage = new TempImageStorage(GetExampleTempStorageDir());
 
-
-        // TODO: Add your Scanbot SDK license key here.
+        // TODO Add your Scanbot SDK license key here.
         // You can test all Scanbot SDK features and develop your app without a license. 
         // However, if you do not specify the license key when initializing the SDK, 
         // it will work in trial mode (trial period of 1 minute). 
         // To get another trial period you have to restart your app.
-        const string licenseKey = "";
+        const string licenseKey = null;
 
 
         public MainApplication(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
@@ -42,13 +42,24 @@ namespace scanbotsdkexamplexamarin.Droid
             TempImageStorage.CleanUp();
         }
 
-
         private static string GetExampleTempStorageDir()
         {
-            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var exampleTempStorage = System.IO.Path.Combine(documents, "scanbot-sdk-example-temp-storage");
-            System.IO.Directory.CreateDirectory(exampleTempStorage);
-            return exampleTempStorage;
+            // !! Please note !!
+            // In this demo app we use the "ExternalStorageDirectory" which is a public(!) storage directory.
+            // All image files as well as export files (PDF, TIFF, etc) created by this demo app will be stored
+            // in a sub-folder of this storage directory and will be accessible for every(!) app having external storage permissions!
+            // We use the "ExternalStorageDirectory" here only for demo purposes, to be able to share generated PDF and TIFF files.
+            // (also see the example code for PDF and TIFF creation).
+            // If you need a secure storage for all images and export files (which is strongly recommended) use a suitable internal(!) storage directory.
+            //
+            // For more detais about the Android file system see:
+            // - https://developer.android.com/guide/topics/data/data-storage
+            // - https://docs.microsoft.com/en-us/xamarin/android/platform/files/
+
+            var externalPublicPath = Path.Combine(
+                Android.OS.Environment.ExternalStorageDirectory.Path, "scanbot-sdk-example-xamarin_demo-storage");
+            Directory.CreateDirectory(externalPublicPath);
+            return externalPublicPath;
         }
     }
 }

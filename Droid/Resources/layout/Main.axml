@@ -26,10 +26,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/croppingUIButton" />
         <Button
-            android:text="Detect Document (via Photo Library)"
+            android:text="Import Image from Photo Library"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/documentDetectionButton" />
+            android:id="@+id/importImageButton" />
         <Button
             android:text="Apply Image Filter"
             android:layout_width="match_parent"

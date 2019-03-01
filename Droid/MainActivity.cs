@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Threading.Tasks;
 
 using Android.App;
@@ -14,7 +13,6 @@ using ScanbotSDK.Xamarin.Android;
 using Java.Util;
 
 using AndroidNetUri = Android.Net.Uri;
-using AndroidOS = Android.OS;
 using Android.Util;
 using System.Collections.Generic;
 using IO.Scanbot.Sdk.UI.View.Mrz;
@@ -59,14 +57,12 @@ namespace scanbotsdkexamplexamarin.Droid
             AssignStartCameraButtonHandler();
             AssingCroppingUIButtonHandler();
             AssignApplyImageFilterButtonHandler();
-            AssignDocumentDetectionButtonHandler();
+            AssignImportImageButtonHandler();
             AssignCreatePdfButtonHandler();
             AssignCreateTiffButtonHandler();
             AssignOcrButtonsHandler();
             AssignMrzScannerButtonHandler();
             AssignBarcodeScannerButtonHandler();
-
-            DebugLog("Using TempImageStorage directory: " + MainApplication.TempImageStorage.TempDir);
         }
 
 
@@ -121,14 +117,14 @@ namespace scanbotsdkexamplexamarin.Droid
             }
         }
 
-        void AssignDocumentDetectionButtonHandler()
+        void AssignImportImageButtonHandler()
         {
-            var documentDetectionButton = FindViewById<Button>(Resource.Id.documentDetectionButton);
-            documentDetectionButton.Click += delegate
+            var importImageButton = FindViewById<Button>(Resource.Id.importImageButton);
+            importImageButton.Click += delegate
             {
                 if (!CheckScanbotSDKLicense()) { return; }
 
-                // Select image from gallery and run document detection
+                // Select an image from the Photo Library and run document detection on it (also see OnActivityResult)
                 var imageIntent = new Intent();
                 imageIntent.SetType("image/*");
                 imageIntent.SetAction(Intent.ActionGetContent);
@@ -263,6 +259,8 @@ namespace scanbotsdkexamplexamarin.Droid
             var mrzScannerButton = FindViewById<Button>(Resource.Id.mrzScannerButton);
             mrzScannerButton.Click += delegate
             {
+                if (!CheckScanbotSDKLicense()) { return; }
+
                 var configuration = new MRZScannerConfiguration();
                 // Customize colors, text resources, etc via configuration:
                 //configuration.setFinderLineColor(Color.parseColor("#FF0000"));
@@ -277,6 +275,8 @@ namespace scanbotsdkexamplexamarin.Droid
             var barcodeScannerButton = FindViewById<Button>(Resource.Id.barcodeScannerButton);
             barcodeScannerButton.Click += delegate
             {
+                if (!CheckScanbotSDKLicense()) { return; }
+
                 var configuration = new BarcodeScannerConfiguration();
                 // Customize colors, text resources, etc via configuration:
                 //configuration.setFinderLineColor(Color.parseColor("#FF0000"));
@@ -340,6 +340,7 @@ namespace scanbotsdkexamplexamarin.Droid
 
             if (requestCode == REQUEST_SYSTEM_GALLERY && resultCode == Result.Ok)
             {
+                // An image was imported from the Photo Library. Run document detection on it and show the cropped document image result.
                 originalImageUri = data.Data;
                 RunDocumentDetection(originalImageUri);
                 return;
@@ -458,24 +459,15 @@ namespace scanbotsdkexamplexamarin.Droid
         }
 
 
-        void OpenSharingDialog(AndroidNetUri privateSourceFileUri, string mimeType)
+        void OpenSharingDialog(AndroidNetUri publicFileUri, string mimeType)
         {
-            // ! Please note: To be able to share a file on Android it must be in a public folder. 
-            // For demo purposes we use the external storage directory (AndroidOS.Environment.ExternalStorageDirectory), 
-            // which is public and accessible by every app! 
+            // Please note: To be able to share a file on Android it must be in a public folder. 
             // If you need a secure place to store PDF, TIFF, etc, do NOT use this sharing solution!
-            // Also see:
-            // - https://docs.microsoft.com/en-us/xamarin/android/platform/files/external-storage
-            // - https://developer.android.com/guide/topics/data/data-storage
-
-            var publicTargetFilePath = System.IO.Path.Combine(
-                AndroidOS.Environment.ExternalStorageDirectory.Path, System.IO.Path.GetFileName(privateSourceFileUri.Path));
-            File.Copy(privateSourceFileUri.Path, publicTargetFilePath);
+            // Also see the initialization of the TempImageStorage in the MainApplication class.
 
             Intent shareIntent = new Intent(Intent.ActionSend);
             shareIntent.SetType(mimeType);
-            var uri = AndroidNetUri.FromFile(new Java.IO.File(publicTargetFilePath));
-            shareIntent.PutExtra(Intent.ExtraStream, uri);
+            shareIntent.PutExtra(Intent.ExtraStream, publicFileUri);
             StartActivity(shareIntent);
         }
 

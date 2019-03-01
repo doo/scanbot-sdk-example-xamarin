@@ -14,13 +14,12 @@ namespace scanbotsdkexamplexamarin.iOS
         // Use a custom temp storage directory for demo purposes.
         public static readonly TempImageStorage TempImageStorage = new TempImageStorage(GetExampleTempStorageDir());
 
-
-        // Add your Scanbot SDK license key here.
+        // TODO Add your Scanbot SDK license key here.
         // You can test all Scanbot SDK features and develop your app without a license. 
         // However, if you do not specify the license key when initializing the SDK, 
         // it will work in trial mode (trial period of 1 minute). 
         // To get another trial period you have to restart your app.
-        const string licenseKey = "";
+        const string licenseKey = null;
 
         public override UIWindow Window
         {
@@ -72,8 +71,14 @@ namespace scanbotsdkexamplexamarin.iOS
 
         private static string GetExampleTempStorageDir()
         {
+            // For demo purposes we use a sub-folder in the Documents folder in the Data Container of this App, since the contents can be shared via iTunes.
+            // For more detais about the iOS file system see:
+            // - https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html
+            // - https://docs.microsoft.com/en-us/xamarin/ios/app-fundamentals/file-system
+            // - https://docs.microsoft.com/en-us/dotnet/api/system.environment.specialfolder
+
             var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var exampleTempStorage = System.IO.Path.Combine(documents, "scanbot-sdk-example-temp-storage");
+            var exampleTempStorage = System.IO.Path.Combine(documents, "scanbot-sdk-example-xamarin_demo-storage");
             System.IO.Directory.CreateDirectory(exampleTempStorage);
             return exampleTempStorage;
         }

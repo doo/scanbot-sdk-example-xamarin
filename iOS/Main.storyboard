@@ -93,7 +93,7 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="743">
                                                     <rect key="frame" x="20" y="7" width="335" height="30"/>
-                                                    <state key="normal" title="Document Detection on Image">
+                                                    <state key="normal" title="Import Image from Photo Library">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>

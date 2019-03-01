@@ -4651,9 +4651,6 @@ namespace scanbotsdkexamplexamarin.Droid
 			// aapt resource value: 0x7f0e001f
 			public const int disableHome = 2131623967;
 			
-			// aapt resource value: 0x7f0e00bb
-			public const int documentDetectionButton = 2131624123;
-			
 			// aapt resource value: 0x7f0e00d7
 			public const int done = 2131624151;
 			
@@ -4743,6 +4740,9 @@ namespace scanbotsdkexamplexamarin.Droid
 			
 			// aapt resource value: 0x7f0e00b8
 			public const int imageView = 2131624120;
+			
+			// aapt resource value: 0x7f0e00bb
+			public const int importImageButton = 2131624123;
 			
 			// aapt resource value: 0x7f0e00d0
 			public const int info = 2131624144;
