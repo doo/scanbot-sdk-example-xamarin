@@ -34,6 +34,7 @@ namespace scanbotsdkexamplexamarin.Droid
         protected PolygonView polygonView;
         protected bool flashEnabled = false;
         protected bool autoSnappingEnabled = true;
+        protected readonly bool ignoreBadAspectRatio = true;
         protected TextView userGuidanceTextView;
         protected long lastUserGuidanceHintTs = 0L;
         protected ProgressBar imageProcessingProgress;
@@ -78,6 +79,7 @@ namespace scanbotsdkexamplexamarin.Droid
             contourDetectorFrameHandler.SetAcceptedSizeScore(70);
 
             autoSnappingController = AutoSnappingController.Attach(cameraView, contourDetectorFrameHandler);
+            autoSnappingController.SetIgnoreBadAspectRatio(ignoreBadAspectRatio);
 
             cameraView.AddPictureCallback(this);
             cameraView.SetCameraOpenCallback(this);
@@ -179,6 +181,11 @@ namespace scanbotsdkexamplexamarin.Droid
             else if (result == DetectionResult.OkButBadAspectRatio)
             {
                 guideText = "Wrong aspect ratio.\n Rotate your device";
+                if (ignoreBadAspectRatio)
+                {
+                    guideText = "Don't move.\nCapturing...";
+                    color = Color.Green;
+                }
             }
             else if (result == DetectionResult.ErrorNothingDetected)
             {
