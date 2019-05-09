@@ -21,6 +21,7 @@ using IO.Scanbot.Mrzscanner.Model;
 using IO.Scanbot.Sdk.UI.View.Barcode.Configuration;
 using IO.Scanbot.Sdk.UI.View.Barcode;
 using IO.Scanbot.Sdk.Barcode.Entity;
+using scanbotsdkexamplexamarin.Droid.Activities;
 
 namespace scanbotsdkexamplexamarin.Droid
 {
@@ -63,6 +64,7 @@ namespace scanbotsdkexamplexamarin.Droid
             AssignOcrButtonsHandler();
             AssignMrzScannerButtonHandler();
             AssignBarcodeScannerButtonHandler();
+            AssignWorkflowsButtonHandler();
         }
 
 
@@ -286,6 +288,15 @@ namespace scanbotsdkexamplexamarin.Droid
             };
         }
 
+        void AssignWorkflowsButtonHandler()
+        {
+            var barcodeScannerButton = FindViewById<Button>(Resource.Id.workflowsButton);
+            barcodeScannerButton.Click += delegate
+            {
+                var intent = new Intent(this, typeof(WorkflowsActivity));
+                StartActivity(intent);
+            };
+        }
 
         bool CheckDocumentImage()
         {
