@@ -86,6 +86,10 @@ namespace scanbotsdkexamplexamarin.iOS
         [GeneratedCode ("iOS Designer", "1.0")]
         partial void PerformOCRUpInside (UIKit.UIButton sender);
 
+        [Action ("WorkflowScannerTouchUpInside:")]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        partial void WorkflowScannerTouchUpInside (UIKit.UIButton sender);
+
         void ReleaseDesignerOutlets ()
         {
             if (applyImageFilterButton != null) {

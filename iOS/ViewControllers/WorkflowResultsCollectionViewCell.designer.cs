@@ -7,22 +7,21 @@
 using Foundation;
 using System;
 using System.CodeDom.Compiler;
-using UIKit;
 
 namespace scanbotsdkexamplexamarin.iOS
 {
-    [Register ("ProgressHUD")]
-    partial class ProgressHUD
+    [Register ("WorkflowResultsCollectionViewCell")]
+    partial class WorkflowResultsCollectionViewCell
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIActivityIndicatorView loadingIndicator { get; set; }
+        UIKit.UIImageView imageView { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
-            if (loadingIndicator != null) {
-                loadingIndicator.Dispose ();
-                loadingIndicator = null;
+            if (imageView != null) {
+                imageView.Dispose ();
+                imageView = null;
             }
         }
     }

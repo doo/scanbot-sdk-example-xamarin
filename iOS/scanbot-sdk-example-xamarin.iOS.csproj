@@ -82,13 +82,13 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="ScanbotSDK.iOS">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.3.0\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.0\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.3.0\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.0\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin.iOS">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.3.0\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.0\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +152,15 @@
     <Compile Include="ViewControllers\Business Cards\BusinessCardDetailDemoViewController.designer.cs" />
     <Compile Include="ViewControllers\Business Cards\BusinessCardDemoCell.cs" />
     <Compile Include="ViewControllers\Business Cards\BusinessCardDemoCell.designer.cs" />
+    <Compile Include="ViewControllers\WorkflowFactory.cs" />
+    <Compile Include="ViewControllers\WorkflowResultsCollectionViewCell.cs" />
+    <Compile Include="ViewControllers\WorkflowResultsCollectionViewCell.designer.cs">
+      <DependentUpon>WorkflowResultsCollectionViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\WorkflowResultsViewController.cs" />
+    <Compile Include="ViewControllers\WorkflowResultsViewController.designer.cs">
+      <DependentUpon>WorkflowResultsViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets.xcassets\ui_action_checkmark.imageset\" />
