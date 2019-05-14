@@ -266,6 +266,7 @@
     <Folder Include="Utils\" />
     <Folder Include="Resources\drawable-hdpi\" />
     <Folder Include="Resources\drawable-mdpi\" />
+    <Folder Include="Assets\SBSDKLanguageData\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\SBSDKLanguageData\deu.traineddata" />
