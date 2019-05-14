@@ -168,15 +168,15 @@
     <Folder Include="Assets.xcassets\ui_action_close.imageset\" />
     <Folder Include="Assets.xcassets\ui_edit_rotate.imageset\" />
     <Folder Include="Resources\" />
-    <Folder Include="Resources\SBSDKLanguageData\" />
     <Folder Include="Assets.xcassets\ui_autosnap_on.imageset\" />
     <Folder Include="Assets.xcassets\ui_autosnap_off.imageset\" />
     <Folder Include="ViewControllers\Business Cards\" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\SBSDKLanguageData\deu.traineddata" />
-    <BundleResource Include="Resources\SBSDKLanguageData\eng.traineddata" />
-    <BundleResource Include="Resources\SBSDKLanguageData\osd.traineddata" />
+    <BundleResource Include="Resources\ScanbotSDKOCRData.bundle\Info.plist" />
+    <BundleResource Include="Resources\ScanbotSDKOCRData.bundle\deu.traineddata" />
+    <BundleResource Include="Resources\ScanbotSDKOCRData.bundle\eng.traineddata" />
+    <BundleResource Include="Resources\ScanbotSDKOCRData.bundle\osd.traineddata" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
