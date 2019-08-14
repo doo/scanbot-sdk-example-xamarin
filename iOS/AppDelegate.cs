@@ -14,12 +14,14 @@ namespace scanbotsdkexamplexamarin.iOS
         // Use a custom temp storage directory for demo purposes.
         public static readonly TempImageStorage TempImageStorage = new TempImageStorage(GetExampleTempStorageDir());
 
-        // TODO Add your Scanbot SDK license key here.
-        // You can test all Scanbot SDK features and develop your app without a license. 
-        // However, if you do not specify the license key when initializing the SDK, 
-        // it will work in trial mode (trial period of 1 minute). 
-        // To get another trial period you have to restart your app.
-        const string licenseKey = null;
+        // TODO Add the Scanbot SDK license key here.
+        // Please note: The Scanbot SDK will run without a license key for one minute per session!
+        // After the trial period is over all Scanbot SDK functions as well as the UI components will stop working
+        // or may be terminated. You can get an unrestricted "no-strings-attached" 30 day trial license key for free.
+        // Please submit the trial license form (https://scanbot.io/sdk/trial.html) on our website by using
+        // the app identifier "io.scanbot.example.sdk.xamarin" of this example app.
+        const string LICENSE_KEY = null;
+
 
         public override UIWindow Window
         {
@@ -30,7 +32,7 @@ namespace scanbotsdkexamplexamarin.iOS
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             Console.WriteLine("Scanbot SDK Example: Initializing Scanbot SDK...");
-            SBSDK.Initialize(application, licenseKey, new SBSDKConfiguration { EnableLogging = true });
+            SBSDK.Initialize(application, LICENSE_KEY, new SBSDKConfiguration { EnableLogging = true });
 
             // In this example we always cleanup the demo temp storage directory on app start.
             TempImageStorage.CleanUp();

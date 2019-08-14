@@ -51,9 +51,9 @@
 	</dict>
 	<key>UIFileSharingEnabled</key>
 	<true/>
-	<key>CFBundleIdentifier</key>
-	<string>io.scanbot.scanbot-sdk-example-xamarin</string>
 	<key>CFBundleName</key>
 	<string>Scanbot SDK Example Xamarin</string>
+	<key>CFBundleIdentifier</key>
+	<string>io.scanbot.example.sdk.xamarin</string>
 </dict>
 </plist>
