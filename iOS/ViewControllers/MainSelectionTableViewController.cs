@@ -140,6 +140,7 @@ namespace scanbotsdkexamplexamarin.iOS
 
             var image = ImageUtils.LoadImage(originalImageUrl);
             var cropViewController = new CroppingDemoNavigationController(image);
+            cropViewController.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
             cropViewController.NavigationBar.BarStyle = UIBarStyle.Black;
             cropViewController.NavigationBar.TintColor = UIColor.White;
             croppingHandler.parentController = this;
@@ -349,6 +350,7 @@ namespace scanbotsdkexamplexamarin.iOS
         {
             SBSDKUIWorkflowScannerConfiguration config = SBSDKUIWorkflowScannerConfiguration.DefaultConfiguration;
             SBSDKUIWorkflowScannerViewController controller = SBSDKUIWorkflowScannerViewController.CreateNewWithWorkflow(workflow, config, null);
+            controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
             controller.WeakDelegate = this;
             this.PresentViewController(controller, false, null);
         }
