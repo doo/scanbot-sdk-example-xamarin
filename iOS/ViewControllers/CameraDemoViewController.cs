@@ -69,8 +69,8 @@ namespace scanbotsdkexamplexamarin.iOS
         {
             base.ViewWillAppear(animated);
 
+            SetupCustomColors();
             PlaceFlashButton();
-
             PlaceAutosnapButton();
             SetAutoSnapEnabled(autoSnappingEnabled);
         }
@@ -101,6 +101,13 @@ namespace scanbotsdkexamplexamarin.iOS
         {
             // White statusbar
             return UIStatusBarStyle.LightContent;
+        }
+
+        void SetupCustomColors()
+        {
+            var shutterButton = scannerViewController.DefaultShutterButton as SBSDKShutterButton;
+            shutterButton.ButtonSearchingColor = UIColor.Blue;
+            shutterButton.ButtonDetectedColor = UIColor.Green;
         }
 
         void PlaceFlashButton()
