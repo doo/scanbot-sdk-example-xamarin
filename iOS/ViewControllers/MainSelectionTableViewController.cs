@@ -23,7 +23,7 @@ namespace scanbotsdkexamplexamarin.iOS
                 if (parentController != null)
                 {
                     parentController.documentImageUrl = AppDelegate.TempImageStorage.AddImage(documentImage);
-                    parentController.ShowImageView(documentImage, true);
+                    parentController.ShowImageView(documentImage);
                 }
             }
 
@@ -46,7 +46,7 @@ namespace scanbotsdkexamplexamarin.iOS
                 if (parentController != null)
                 {
                     parentController.documentImageUrl = AppDelegate.TempImageStorage.AddImage(croppedImage);
-                    parentController.ShowImageView(croppedImage, true);
+                    parentController.ShowImageView(croppedImage);
                 }
             }
         }
@@ -95,7 +95,7 @@ namespace scanbotsdkexamplexamarin.iOS
                 // The SDK call is sync!
                 var resultImage = SBSDK.ApplyImageFilter(documentImageUrl, filter);
                 DebugLog("Image filter result: " + resultImage);
-                ShowImageView(resultImage, true);
+                ShowImageView(resultImage);
             });
         }
 
@@ -222,21 +222,12 @@ namespace scanbotsdkexamplexamarin.iOS
             ShowMessage("Error", message);
         }
 
-        void ShowImageView(UIImage originalImage, bool resizeThumbnail)
+        void ShowImageView(UIImage hiresImage)
         {
-            UIImage imageToShow;
-            if (resizeThumbnail)
-            {
-                imageToShow = ExampleImageUtils.MaxResizeImage(originalImage, 900, 900);
-            }
-            else
-            {
-                imageToShow = originalImage;
-            }
-
+            var previewImage = ExampleImageUtils.MaxResizeImage(hiresImage, 900, 900);
             InvokeOnMainThread(() =>
             {
-                selectedImageView.Image = imageToShow;
+                selectedImageView.Image = previewImage;
                 selectImageLabel.Hidden = true;
             });
         }
@@ -274,7 +265,7 @@ namespace scanbotsdkexamplexamarin.iOS
                     DebugLog("Detection result image: " + imageResult);
                     documentImageUrl = AppDelegate.TempImageStorage.AddImage(imageResult);
 
-                    ShowImageView(imageResult, true);
+                    ShowImageView(imageResult);
 
                     DebugLog("Detection result polygon: ");
                     string resultString = "";

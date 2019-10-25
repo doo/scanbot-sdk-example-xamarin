@@ -14,6 +14,9 @@ namespace scanbotsdkexamplexamarin.iOS
 
     public class CameraDemoViewController : UIViewController
     {
+        protected UIView scanningContainerView;
+        protected UIView bottomButtonsContainer;
+
         protected SBSDKScannerViewController scannerViewController;
 
         protected UIButton flashButton;
@@ -28,16 +31,29 @@ namespace scanbotsdkexamplexamarin.iOS
         {
             base.ViewDidLoad();
 
-            // Create the SBSDKScannerViewController.
-            // We want it to be embedded into self.
-            // As we do not want automatic image storage we pass nil here for the image storage.
-            scannerViewController = new SBSDKScannerViewController(this, null);
+            var screenSize = UIScreen.MainScreen.Bounds.Size;
+
+            // Create a view as container for bottom buttons:
+            var buttonsContainerHeight = 120;
+            bottomButtonsContainer = new UIView(new CGRect(0, screenSize.Height - buttonsContainerHeight, screenSize.Width, buttonsContainerHeight));
+            bottomButtonsContainer.BackgroundColor = UIColor.Blue;
+            View.AddSubview(bottomButtonsContainer);
+
+            // Create a view as container to embed the Scanbot SDK SBSDKScannerViewController:
+            scanningContainerView = new UIView(new CGRect(0, 0, screenSize.Width, screenSize.Height - buttonsContainerHeight));
+            View.AddSubview(scanningContainerView);
+
+            // Create the SBSDKScannerViewController, embedded into our custom scanningContainerView.
+            // As we do not want automatic image storage we pass null here as image storage.
+            scannerViewController = new SBSDKScannerViewController(this, scanningContainerView, null, false);
 
             // =================================================================
             //
             // UI customizations can be implemented via delegate methods from "SBSDKScannerViewControllerDelegate".
+            // See some examples below the #region SBSDKScannerViewControllerDelegate
             //
-            // Please check the API docs of our native Scanbot SDK for iOS, since all those methods and properties are also available as Scanbot Xamarin bindings.
+            // Please see the API docs of our native Scanbot SDK for iOS, since all those methods and properties
+            // are also available as Scanbot Xamarin bindings.
             //
             // =================================================================
 
@@ -69,10 +85,10 @@ namespace scanbotsdkexamplexamarin.iOS
         {
             base.ViewWillAppear(animated);
 
-            SetupCustomColors();
-            PlaceFlashButton();
-            PlaceAutosnapButton();
+            AddAutosnapToggleButton();
             SetAutoSnapEnabled(autoSnappingEnabled);
+            AddFlashToggleButton();
+            SetupDefaultShutterButtonColors();
         }
 
         public override void ViewWillDisappear(bool animated)
@@ -103,63 +119,43 @@ namespace scanbotsdkexamplexamarin.iOS
             return UIStatusBarStyle.LightContent;
         }
 
-        void SetupCustomColors()
+        void SetupDefaultShutterButtonColors()
         {
             var shutterButton = scannerViewController.DefaultShutterButton as SBSDKShutterButton;
-            shutterButton.ButtonSearchingColor = UIColor.Blue;
+            shutterButton.ButtonSearchingColor = UIColor.Red;
             shutterButton.ButtonDetectedColor = UIColor.Green;
         }
 
-        void PlaceFlashButton()
+        void AddAutosnapToggleButton()
         {
-            CGSize screenSize = UIScreen.MainScreen.Bounds.Size;
-            CGRect buttonFrame = new CGRect(screenSize.Width - 80, screenSize.Height - 100, 40, 40);
+            autoSnapButton = new UIButton(new CGRect(40, bottomButtonsContainer.Frame.Height - 80, 40, 40));
+            autoSnapButton.AddTarget(delegate {
+                autoSnappingEnabled = !autoSnappingEnabled;
+                SetAutoSnapEnabled(autoSnappingEnabled);
+            }, UIControlEvent.TouchUpInside);
 
-		    if (flashButton == null)
-            {
-                flashButton = new UIButton(buttonFrame);
-                flashButton.AddTarget(delegate {
-                    scannerViewController.CameraSession.TorchLightEnabled = !scannerViewController.CameraSession.TorchLightEnabled;
-                    flashButton.Selected = scannerViewController.CameraSession.TorchLightEnabled;
-                }, UIControlEvent.TouchUpInside);
+            autoSnapButton.SetImage(UIImage.FromBundle("ui_autosnap_off"), UIControlState.Normal);
+            autoSnapButton.SetImage(UIImage.FromBundle("ui_autosnap_on"), UIControlState.Selected);
 
-                flashButton.SetImage(UIImage.FromBundle("ui_flash_off"), UIControlState.Normal);
-                flashButton.SetImage(UIImage.FromBundle("ui_flash_on"), UIControlState.Selected);
-
-                flashButton.Selected = scannerViewController.CameraSession.TorchLightEnabled;
-            }
-            else 
-            {
-                flashButton.Frame = buttonFrame;
-		    }
-            View.AddSubview(flashButton);
-            View.BringSubviewToFront(flashButton);
+            bottomButtonsContainer.AddSubview(autoSnapButton);
+            bottomButtonsContainer.BringSubviewToFront(autoSnapButton);
         }
 
-        void PlaceAutosnapButton()
+        void AddFlashToggleButton()
         {
-            CGSize screenSize = UIScreen.MainScreen.Bounds.Size;
-            CGRect buttonFrame = new CGRect(40, screenSize.Height - 100, 40, 40);
+            flashButton = new UIButton(new CGRect(bottomButtonsContainer.Frame.Width - 80, bottomButtonsContainer.Frame.Height - 80, 40, 40));
+            flashButton.AddTarget(delegate {
+                scannerViewController.CameraSession.TorchLightEnabled = !scannerViewController.CameraSession.TorchLightEnabled;
+                flashButton.Selected = scannerViewController.CameraSession.TorchLightEnabled;
+            }, UIControlEvent.TouchUpInside);
 
-            if (autoSnapButton == null)
-            {
-                autoSnapButton = new UIButton(buttonFrame);
-                autoSnapButton.AddTarget(delegate {
-                    autoSnappingEnabled = !autoSnappingEnabled;
-                    SetAutoSnapEnabled(autoSnappingEnabled);
-                }, UIControlEvent.TouchUpInside);
+            flashButton.SetImage(UIImage.FromBundle("ui_flash_off"), UIControlState.Normal);
+            flashButton.SetImage(UIImage.FromBundle("ui_flash_on"), UIControlState.Selected);
 
-                autoSnapButton.SetImage(UIImage.FromBundle("ui_autosnap_off"), UIControlState.Normal);
-                autoSnapButton.SetImage(UIImage.FromBundle("ui_autosnap_on"), UIControlState.Selected);
+            flashButton.Selected = scannerViewController.CameraSession.TorchLightEnabled;
 
-
-            }
-            else
-            {
-                autoSnapButton.Frame = buttonFrame;
-            }
-            View.AddSubview(autoSnapButton);
-            View.BringSubviewToFront(autoSnapButton);
+            bottomButtonsContainer.AddSubview(flashButton);
+            bottomButtonsContainer.BringSubviewToFront(flashButton);
         }
 
         void SetAutoSnapEnabled(bool enabled)
@@ -178,15 +174,15 @@ namespace scanbotsdkexamplexamarin.iOS
         #region SBSDKScannerViewControllerDelegate
 
         [Export("scannerControllerShouldAnalyseVideoFrame:")]
-        public bool ScannerControllerShouldAnalyseVideoFrame(SBSDKScannerViewController controller)
+        public bool ShouldAnalyseVideoFrame(SBSDKScannerViewController controller)
         {
             return autoSnappingEnabled && viewAppeared && PresentedViewController == null;
         }
 
         [Export("scannerController:didCaptureDocumentImage:")]
-        public void ScannerControllerDidCaptureDocumentImage(SBSDKScannerViewController controller, UIImage documentImage)
+        public void DidCaptureDocumentImage(SBSDKScannerViewController controller, UIImage documentImage)
         {
-            // Here we get the perspective corrected and cropped document image after the shutter was (auto)released.
+            // Here we get the cropped and perspective corrected document image.
             if (cameraDelegate != null)
             {
                 cameraDelegate.DidCaptureDocumentImage(documentImage);
@@ -196,26 +192,23 @@ namespace scanbotsdkexamplexamarin.iOS
         }
 
         [Export("scannerController:didCaptureImage:withDetectedPolygon:lensCameraProperties:")]
-        public void ScannerControllerDidCaptureImageWithDetectedPolygon(SBSDKScannerViewController controller, UIImage image, SBSDKPolygon polygon, SBSDKLensCameraProperties properties)
+        public void DidCaptureImageWithDetectedPolygon(SBSDKScannerViewController controller, UIImage originalImage, SBSDKPolygon polygon, SBSDKLensCameraProperties properties)
         {
-            // Here we get the full image from the camera and an optional polygon that was detected on the image.
-
-            //this.detectedPolygon = polygon;
-
+            // Here we get the original (uncropped) image from the camera and an optional polygon that was detected on the image.
             if (cameraDelegate != null)
             {
-                cameraDelegate.DidCaptureOriginalImage(image);
+                cameraDelegate.DidCaptureOriginalImage(originalImage);
             }
         }
 
         [Export("scannerController:didDetectPolygon:withStatus:")]
-        public void ScannerControllerDidDetectPolygonWithStatus(SBSDKScannerViewController controller, SBSDKPolygon polygon, SBSDKDocumentDetectionStatus status)
+        public void DidDetectPolygonWithStatus(SBSDKScannerViewController controller, SBSDKPolygon polygon, SBSDKDocumentDetectionStatus status)
         {
             // Everytime the document detector finishes detection it calls this delegate method.
         }
 
         [Export("scannerController:viewForDetectionStatus:")]
-        public UIView ScannerControllerViewForDetectionStatus(SBSDKScannerViewController controller, SBSDKDocumentDetectionStatus status)
+        public UIView GetViewForDetectionStatus(SBSDKScannerViewController controller, SBSDKDocumentDetectionStatus status)
         {
             // Alternative method to "scannerController:localizedTextForDetectionStatus:".
             // Here you can return a custom view that you want to use to visualize the latest detection status.
@@ -224,32 +217,40 @@ namespace scanbotsdkexamplexamarin.iOS
             label.BackgroundColor = UIColor.Red;
             label.TextColor = UIColor.White;
 
-            switch (status)
+            if (scannerViewController.EnergySavingActive)
             {
-                case SBSDKDocumentDetectionStatus.Ok:
-                    label.Text = "Don't move.\nCapturing...";
-                    label.BackgroundColor = UIColor.Green;
-                    break;
-                case SBSDKDocumentDetectionStatus.OK_SmallSize:
-                    label.Text = "Move closer";
-                    break;
-                case SBSDKDocumentDetectionStatus.OK_BadAngles:
-                    label.Text = "Perspective";
-                    break;
-                case SBSDKDocumentDetectionStatus.Error_NothingDetected:
-                    label.Text = "No Document";
-                    break;
-                case SBSDKDocumentDetectionStatus.Error_Noise:
-                    label.Text = "Background too noisy";
-                    break;
-                case SBSDKDocumentDetectionStatus.Error_Brightness:
-                    label.Text = "Poor light";
-                    break;
-                case SBSDKDocumentDetectionStatus.OK_BadAspectRatio:
-                    label.Text = "Wrong aspect ratio.\n Rotate your device";
-                    break;
-                default:
-                    return null;
+                label.Text = "Energy Saving active.\nMove your device.";
+                label.BackgroundColor = UIColor.Orange;
+            }
+            else
+            {
+                switch (status)
+                {
+                    case SBSDKDocumentDetectionStatus.Ok:
+                        label.Text = "Don't move.\nCapturing...";
+                        label.BackgroundColor = UIColor.Green;
+                        break;
+                    case SBSDKDocumentDetectionStatus.OK_SmallSize:
+                        label.Text = "Move closer";
+                        break;
+                    case SBSDKDocumentDetectionStatus.OK_BadAngles:
+                        label.Text = "Perspective";
+                        break;
+                    case SBSDKDocumentDetectionStatus.Error_NothingDetected:
+                        label.Text = "No Document";
+                        break;
+                    case SBSDKDocumentDetectionStatus.Error_Noise:
+                        label.Text = "Background too noisy";
+                        break;
+                    case SBSDKDocumentDetectionStatus.Error_Brightness:
+                        label.Text = "Poor light";
+                        break;
+                    case SBSDKDocumentDetectionStatus.OK_BadAspectRatio:
+                        label.Text = "Wrong aspect ratio.\n Rotate your device";
+                        break;
+                    default:
+                        return null;
+                }
             }
 
             label.SizeToFit();
@@ -257,7 +258,7 @@ namespace scanbotsdkexamplexamarin.iOS
         }
 
         [Export("scannerController:polygonColorForDetectionStatus:")]
-        public UIColor ScannerControllerPolygonColorForDetectionStatus(SBSDKScannerViewController controller, SBSDKDocumentDetectionStatus status)
+        public UIColor GetPolygonColorForDetectionStatus(SBSDKScannerViewController controller, SBSDKDocumentDetectionStatus status)
         {
             // If the detector has found an acceptable polygon we show it with green color
             if (status == SBSDKDocumentDetectionStatus.Ok)
@@ -269,7 +270,7 @@ namespace scanbotsdkexamplexamarin.iOS
         }
 
         [Export("scannerController:localizedTextForDetectionStatus:")]
-        public string ScannerControllerLocalizedTextForDetectionStatus(SBSDKScannerViewController controller, SBSDKDocumentDetectionStatus status)
+        public string GetLocalizedTextForDetectionStatus(SBSDKScannerViewController controller, SBSDKDocumentDetectionStatus status)
         {
             // Alternative method to "scannerController:viewForDetectionStatus:"
             // Here you can return just the localized text for the status label depending on the detection status.
@@ -277,12 +278,33 @@ namespace scanbotsdkexamplexamarin.iOS
         }
 
         [Export("scannerController:shouldAutocropCapturedImageWithMode:manualShutter:")]
-        public bool ScannerControllerShouldAutocropCapturedImageWithModeManualShutter(SBSDKScannerViewController controller, SBSDKShutterMode mode, bool manual)
+        public bool ShouldAutocropCapturedImageWithModeManualShutter(SBSDKScannerViewController controller, SBSDKShutterMode mode, bool manual)
         {
             // Here you control whether to automatically crop the document image or not, 
             // depending on the current shutter mode and how the shutter was released: manually or automatically.
             // Return true, if the detected polygon should be applied to the captured document image, false otherwise.
             return true;
+        }
+
+        [Export("scannerControllerCustomShutterButton:")]
+        public UIButton GetCustomShutterButton(SBSDKScannerViewController controller)
+        {
+            // Optional delegate for returning a custom shutter button.
+            //return customShutterButton;
+            return null;
+        }
+
+        [Export("scannerControllerSuperViewForShutterButton:")]
+        public UIView GetSuperViewForShutterButton(SBSDKScannerViewController controller)
+        {
+            // Optional delegate for returning a custom view on which to place the shutter button.
+            return bottomButtonsContainer;
+        }
+
+        [Export("scannerControllerCenterForShutterButton:")]
+        public CGPoint GetCenterForShutterButton(SBSDKScannerViewController controller)
+        {
+            return new CGPoint(bottomButtonsContainer.Frame.Width / 2, bottomButtonsContainer.Frame.Height / 2);
         }
 
         #endregion
