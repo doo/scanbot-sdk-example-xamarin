@@ -8,4 +8,12 @@
   <PropertyGroup Label="Configuration">
     <Import_RootNamespace>Ready-To-Use-UI-Demo</Import_RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)model\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)model\DocumentScanner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)model\ListItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)model\DataDetectors.cs" />
+  </ItemGroup>
 </Project>
