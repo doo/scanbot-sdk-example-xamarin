@@ -1,9 +1,9 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scanbot-sdk-example-xamarin.Droid", "Droid\scanbot-sdk-example-xamarin.Droid.csproj", "{BDB6840C-830D-4AED-B34D-805EC563FF4B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classical-Components-Demo.Droid", "Droid\Classical-Components-Demo.Droid.csproj", "{BDB6840C-830D-4AED-B34D-805EC563FF4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "scanbot-sdk-example-xamarin.iOS", "iOS\scanbot-sdk-example-xamarin.iOS.csproj", "{9795473E-7790-43E8-B91B-61B2B41F8463}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classical-Components-Demo.iOS", "iOS\Classical-Components-Demo.iOS.csproj", "{9795473E-7790-43E8-B91B-61B2B41F8463}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
