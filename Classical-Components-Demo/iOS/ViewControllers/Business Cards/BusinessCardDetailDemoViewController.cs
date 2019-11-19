@@ -1,7 +1,7 @@
 ﻿using UIKit;
 using System;
 
-namespace scanbotsdkexamplexamarin.iOS
+namespace ClassicalComponentsDemo.iOS
 {
     public partial class BusinessCardDetailDemoViewController : UIViewController
     {

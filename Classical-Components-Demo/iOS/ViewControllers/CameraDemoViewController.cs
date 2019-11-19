@@ -4,7 +4,7 @@ using Foundation;
 using ScanbotSDK.iOS;
 using CoreGraphics;
 
-namespace scanbotsdkexamplexamarin.iOS
+namespace ClassicalComponentsDemo.iOS
 {
     public abstract class CameraDemoDelegate
     {
@@ -129,7 +129,8 @@ namespace scanbotsdkexamplexamarin.iOS
         void AddAutosnapToggleButton()
         {
             autoSnapButton = new UIButton(new CGRect(40, bottomButtonsContainer.Frame.Height - 80, 40, 40));
-            autoSnapButton.AddTarget(delegate {
+            autoSnapButton.AddTarget(delegate
+            {
                 autoSnappingEnabled = !autoSnappingEnabled;
                 SetAutoSnapEnabled(autoSnappingEnabled);
             }, UIControlEvent.TouchUpInside);
@@ -144,7 +145,8 @@ namespace scanbotsdkexamplexamarin.iOS
         void AddFlashToggleButton()
         {
             flashButton = new UIButton(new CGRect(bottomButtonsContainer.Frame.Width - 80, bottomButtonsContainer.Frame.Height - 80, 40, 40));
-            flashButton.AddTarget(delegate {
+            flashButton.AddTarget(delegate
+            {
                 scannerViewController.CameraSession.TorchLightEnabled = !scannerViewController.CameraSession.TorchLightEnabled;
                 flashButton.Selected = scannerViewController.CameraSession.TorchLightEnabled;
             }, UIControlEvent.TouchUpInside);

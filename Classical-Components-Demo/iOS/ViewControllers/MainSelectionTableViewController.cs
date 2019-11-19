@@ -10,7 +10,7 @@ using ScanbotSDK.Xamarin.iOS;
 
 using ScanbotSDK.iOS;
 
-namespace scanbotsdkexamplexamarin.iOS
+namespace ClassicalComponentsDemo.iOS
 {
     public partial class MainSelectionTableViewController : UITableViewController
     {

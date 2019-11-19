@@ -3,7 +3,7 @@ using UIKit;
 
 using ScanbotSDK.iOS;
 
-namespace scanbotsdkexamplexamarin.iOS
+namespace ClassicalComponentsDemo.iOS
 {
     public abstract class CroppingDemoDelegate
     {

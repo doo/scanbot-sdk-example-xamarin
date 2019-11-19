@@ -16,7 +16,7 @@ using Net.Doo.Snap.Lib.Detector;
 using Net.Doo.Snap.UI;
 using ScanbotSDK.Xamarin.Android;
 
-namespace scanbotsdkexamplexamarin.Droid
+namespace ClassicalComponentsDemo.Droid
 {
     [Activity(Theme = "@style/Theme.AppCompat")]
     public class CroppingImageDemoActivity : AppCompatActivity

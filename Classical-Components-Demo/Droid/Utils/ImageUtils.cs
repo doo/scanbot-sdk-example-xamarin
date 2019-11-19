@@ -8,7 +8,7 @@ using Android.Net;
 using Net.Doo.Snap.Util;
 using Net.Doo.Snap.Util.Bitmap;
 
-namespace scanbotsdkexamplexamarin.Droid
+namespace ClassicalComponentsDemo.Droid
 {
     public class ImageUtils
     {

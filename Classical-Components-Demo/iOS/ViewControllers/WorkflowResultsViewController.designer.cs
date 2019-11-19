@@ -8,7 +8,7 @@ using Foundation;
 using System;
 using System.CodeDom.Compiler;
 
-namespace scanbotsdkexamplexamarin.iOS
+namespace ClassicalComponentsDemo.iOS
 {
     [Register ("WorkflowResultsViewController")]
     partial class WorkflowResultsViewController

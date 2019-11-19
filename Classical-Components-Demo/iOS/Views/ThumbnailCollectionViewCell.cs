@@ -2,7 +2,7 @@ using Foundation;
 using System;
 using UIKit;
 
-namespace scanbotsdkexamplexamarin.iOS
+namespace ClassicalComponentsDemo.iOS
 {
     public partial class ThumbnailCollectionViewCell : UICollectionViewCell
     {

@@ -3,10 +3,9 @@ using System.IO;
 using Android.App;
 using Android.Runtime;
 using Android.Util;
-
 using ScanbotSDK.Xamarin.Android;
 
-namespace ClassicalComponentsDemo.Droid
+namespace ReadyToUseUIDemo.Droid
 {
     // It is strongly recommended to add the LargeHeap = true flag in your Application class.
     // Working with images, creating PDFs, etc. are memory intensive tasks. So to prevent OutOfMemoryError, consider adding this flag!
@@ -55,10 +54,11 @@ namespace ClassicalComponentsDemo.Droid
             // - https://developer.android.com/guide/topics/data/data-storage
             // - https://docs.microsoft.com/en-us/xamarin/android/platform/files/
 
-            var externalPublicPath = Path.Combine(
-                Android.OS.Environment.ExternalStorageDirectory.Path, "scanbot-sdk-example-xamarin_demo-storage");
-            Directory.CreateDirectory(externalPublicPath);
-            return externalPublicPath;
+            var external = Android.OS.Environment.ExternalStorageDirectory.Path;
+            var path = Path.Combine(external, "scanbot-sdk-example-xamarin_demo-storage");
+            Directory.CreateDirectory(path);
+
+            return path;
         }
     }
 }

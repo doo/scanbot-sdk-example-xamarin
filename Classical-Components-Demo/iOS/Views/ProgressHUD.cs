@@ -3,7 +3,7 @@ using System;
 using UIKit;
 using ObjCRuntime;
 
-namespace scanbotsdkexamplexamarin.iOS
+namespace ClassicalComponentsDemo.iOS
 {
     public partial class ProgressHUD : UIView
     {

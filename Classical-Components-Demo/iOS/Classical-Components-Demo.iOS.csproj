@@ -6,7 +6,7 @@
     <ProjectGuid>{9795473E-7790-43E8-B91B-61B2B41F8463}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
-    <RootNamespace>scanbotsdkexamplexamarin.iOS</RootNamespace>
+    <RootNamespace>ClassicalComponentsDemo.iOS</RootNamespace>
     <AssemblyName>scanbot_sdk_xamarin_demo.iOS</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
   </PropertyGroup>

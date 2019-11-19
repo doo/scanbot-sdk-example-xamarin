@@ -4,7 +4,7 @@ using CoreGraphics;
 using Foundation;
 using ScanbotSDK.iOS;
 
-namespace scanbotsdkexamplexamarin.iOS
+namespace ClassicalComponentsDemo.iOS
 {
 
     public class WorkflowError : NSObject
@@ -162,7 +162,7 @@ namespace scanbotsdkexamplexamarin.iOS
 
                 }
                 );
-                
+
 
             SBSDKUIWorkflow workflow = new SBSDKUIWorkflow(new SBSDKUIWorkflowStep[] { frontSide }, "Ukrainian passport", null);
             return workflow;
@@ -192,8 +192,8 @@ namespace scanbotsdkexamplexamarin.iOS
 
         static SBSDKUIWorkflow DisabilityCertificate()
         {
-            SBSDKPageAspectRatio[] ratios = { 
-                new SBSDKPageAspectRatio(1.0, 1.4143), 
+            SBSDKPageAspectRatio[] ratios = {
+                new SBSDKPageAspectRatio(1.0, 1.4143),
                 new SBSDKPageAspectRatio(1.4143, 1.0),
                 new SBSDKPageAspectRatio(1.0, 1.5715)
                 };
@@ -203,7 +203,8 @@ namespace scanbotsdkexamplexamarin.iOS
                 "Please scan your disability certificate.",
                 ratios,
                 true,
-                (result) => {
+                (result) =>
+                {
                     SBSDKDisabilityCertificatesRecognizerResult dc = result.DisabilityCertificateResult;
                     if (dc == null || !dc.RecognitionSuccessful)
                     {
@@ -230,8 +231,8 @@ namespace scanbotsdkexamplexamarin.iOS
                 );
         }
 
-        public static SBSDKUIWorkflowStep DocumentStep() 
-        { 
+        public static SBSDKUIWorkflowStep DocumentStep()
+        {
             return new SBSDKUIScanDocumentPageWorkflowStep(
                 "QR code and Document 2/2",
                 "Please scan a document.",

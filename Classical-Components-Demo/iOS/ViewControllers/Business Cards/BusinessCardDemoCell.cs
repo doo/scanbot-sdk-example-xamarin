@@ -3,7 +3,7 @@ using Foundation;
 using ScanbotSDK.iOS;
 using System;
 
-namespace scanbotsdkexamplexamarin.iOS
+namespace ClassicalComponentsDemo.iOS
 {
 
     partial class BusinessCardDemoCell : UICollectionViewCell

@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace scanbotsdkexamplexamarin.iOS
+namespace ClassicalComponentsDemo.iOS
 {
     public class Application
     {

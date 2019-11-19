@@ -21,9 +21,9 @@ using IO.Scanbot.Mrzscanner.Model;
 using IO.Scanbot.Sdk.UI.View.Barcode.Configuration;
 using IO.Scanbot.Sdk.UI.View.Barcode;
 using IO.Scanbot.Sdk.Barcode.Entity;
-using scanbotsdkexamplexamarin.Droid.Activities;
+using ClassicalComponentsDemo.Droid.Activities;
 
-namespace scanbotsdkexamplexamarin.Droid
+namespace ClassicalComponentsDemo.Droid
 {
     [Activity(Label = "Scanbot SDK Example Xamarin", MainLauncher = true, Icon = "@mipmap/icon", 
               ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]

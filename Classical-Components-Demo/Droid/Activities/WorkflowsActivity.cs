@@ -21,7 +21,7 @@ using IO.Scanbot.Sdk.UI.View.Workflow.Configuration;
 using Net.Doo.Snap.Lib.Detector;
 using ScanbotSDK.Xamarin.Android;
 
-namespace scanbotsdkexamplexamarin.Droid.Activities
+namespace ClassicalComponentsDemo.Droid.Activities
 {
     public class DcWorkflowValidator : WorkflowValidator<DisabilityCertificateWorkflowStepResult>
     {

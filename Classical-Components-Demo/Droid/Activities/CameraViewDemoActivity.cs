@@ -18,7 +18,7 @@ using ScanbotSDK.Xamarin;
 using ScanbotSDK.Xamarin.Android;
 using IO.Scanbot.Sdk.UI.Camera;
 
-namespace scanbotsdkexamplexamarin.Droid
+namespace ClassicalComponentsDemo.Droid
 {
     [Activity(Theme = "@style/Theme.AppCompat")]
     public class CameraViewDemoActivity : AppCompatActivity, IPictureCallback, ContourDetectorFrameHandler.IResultHandler, ICameraOpenCallback
@@ -220,7 +220,8 @@ namespace scanbotsdkexamplexamarin.Droid
             Log.Debug(LOG_TAG, "OnPictureTaken: imageOrientation = " + imageOrientation);
 
             // Show progress spinner:
-            RunOnUiThread(() => {
+            RunOnUiThread(() =>
+            {
                 imageProcessingProgress.Visibility = ViewStates.Visible;
                 userGuidanceTextView.Visibility = ViewStates.Gone;
             });

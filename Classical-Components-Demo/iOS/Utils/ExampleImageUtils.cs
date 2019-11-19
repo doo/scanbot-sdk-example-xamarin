@@ -2,7 +2,7 @@
 using CoreGraphics;
 using UIKit;
 
-namespace scanbotsdkexamplexamarin.iOS
+namespace ClassicalComponentsDemo.iOS
 {
     public sealed class ExampleImageUtils
     {

@@ -5,7 +5,7 @@ using System;
 using Foundation;
 using UIKit;
 
-namespace scanbotsdkexamplexamarin.iOS
+namespace ClassicalComponentsDemo.iOS
 {
 	public partial class WorkflowResultsCollectionViewCell : UICollectionViewCell
 	{

@@ -9,7 +9,7 @@ using System;
 using System.CodeDom.Compiler;
 using UIKit;
 
-namespace scanbotsdkexamplexamarin.iOS
+namespace ClassicalComponentsDemo.iOS
 {
     [Register ("ThumbnailCollectionViewCell")]
     partial class ThumbnailCollectionViewCell

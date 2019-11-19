@@ -8,13 +8,13 @@ using ScanbotSDK.iOS;
 using System.Collections.Generic;
 using CoreGraphics;
 
-namespace scanbotsdkexamplexamarin.iOS
+namespace ClassicalComponentsDemo.iOS
 {
-	public partial class WorkflowResultsViewController : UIViewController
-	{
-		public WorkflowResultsViewController (IntPtr handle) : base (handle)
-		{
-		}
+    public partial class WorkflowResultsViewController : UIViewController
+    {
+        public WorkflowResultsViewController(IntPtr handle) : base(handle)
+        {
+        }
 
         SBSDKUIWorkflowStepResult[] WorkflowResults;
 
@@ -133,7 +133,8 @@ namespace scanbotsdkexamplexamarin.iOS
             if (numItems == 1)
             {
                 cellWidth = totalWidth;
-            } else
+            }
+            else
             {
                 nfloat spacing = (numItems - 1) * 10.0f;
                 cellWidth = (nfloat)Math.Max(128.0f, (totalWidth - spacing) / numItems);
