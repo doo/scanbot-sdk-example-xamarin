@@ -17,13 +17,19 @@ using Android.Runtime;
 using System.Collections.Generic;
 using Android.Support.V7.App;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
+using IO.Scanbot.Sdk.UI.View.Mrz.Configuration;
+using IO.Scanbot.Sdk.UI.View.Mrz;
+using IO.Scanbot.Mrzscanner.Model;
 
 namespace ReadyToUseUIDemo.Droid
 {
     [Activity(Label = "Ready-to-use UI Demo", MainLauncher = true, Icon = "@mipmap/icon")]
     public class MainActivity : AppCompatActivity
     {
+        private const int MRZ_DEFAULT_UI_REQUEST_CODE = 909;
         private const int DC_SCAN_WORKFLOW_REQUEST_CODE = 914;
+
+        readonly List<FragmentButton> buttons = new List<FragmentButton>();
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -32,47 +38,94 @@ namespace ReadyToUseUIDemo.Droid
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            var container = (ConstraintLayout)FindViewById(Resource.Id.constraintLayout);
+            var container = (LinearLayout)FindViewById(Resource.Id.container);
             
-            var child = new FragmentButton(this);
-            child.SetAllCaps(false);
+            var scanner = (LinearLayout)container.FindViewById(Resource.Id.document_scanner);
+            var scannerTitle = (TextView)scanner.FindViewById(Resource.Id.textView);
+            scannerTitle.Text = DocumentScanner.Instance.Title;
 
-            var item = DataDetectors.Instance.Items[0];
-            child.Data = item;
+            foreach (ListItem item in DocumentScanner.Instance.Items)
+            {
+                var child = new FragmentButton(this)
+                {
+                    Data = item,
+                    Text = item.Title,
+                    LayoutParameters = GetParameters()
+                };
+                scanner.AddView(child);
+                buttons.Add(child);
+            }
 
-            child.Text = item.Title;
+            var collectors = (LinearLayout)container.FindViewById(Resource.Id.data_collectors);
+            var collectorsTitle = (TextView)collectors.FindViewById(Resource.Id.textView);
+            collectorsTitle.Text = DataDetectors.Instance.Title;
 
-            child.LayoutParameters = GetParameters();
-            container.AddView(child);
-            
-            child.Click += OnButtonClick;
+            foreach (ListItem item in DataDetectors.Instance.Items)
+            {
+                var child = new FragmentButton(this)
+                {
+                    Data = item,
+                    Text = item.Title,
+                    LayoutParameters = GetParameters()
+                };
+                collectors.AddView(child);
+                buttons.Add(child);
+            }
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            foreach (var button in buttons)
+            {
+                button.Click += OnButtonClick;
+            }
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+
+            foreach (var button in buttons)
+            {
+                button.Click -= OnButtonClick;
+            }
         }
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            if (requestCode == DC_SCAN_WORKFLOW_REQUEST_CODE && resultCode == Result.Ok)
+            if (resultCode != Result.Ok)
+            {
+                return;
+            }
+
+            if (requestCode == DC_SCAN_WORKFLOW_REQUEST_CODE)
             {
                 var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
                 var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
                 var fragment = DCResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, DCResultDialogFragment.NAME);
             }
+            else if (requestCode == MRZ_DEFAULT_UI_REQUEST_CODE)
+            {
+                var result = (MRZRecognitionResult)data.GetParcelableExtra(MRZScannerActivity.ExtractedFieldsExtra);
+                var fragment = MRZDialogFragment.CreateInstance(result);
+                fragment.Show(SupportFragmentManager, MRZDialogFragment.NAME);
+            }
         }
 
         private void OnButtonClick(object sender, EventArgs e)
         {
             var button = (FragmentButton)sender;
+
             if (button.Data.Code == ListItemCode.ScanDC)
             {
                 var configuration = new WorkflowScannerConfiguration();
                 configuration.SetIgnoreBadAspectRatio(true);
                 configuration.SetTopBarBackgroundColor(Color.White);
-                //configuration.SetTopBarButtonsActiveColor(ContextCompat.GetColor(this, global::Android.Resource.Color.White);
-                //configuration.SetTopBarButtonsInactiveColor(ContextCompat.GetColor(this, android.R.color.white));
-                //configuration.SetTopBarBackgroundColor(ContextCompat.GetColor(this, R.color.colorPrimaryDark));
-                //configuration.SetBottomBarBackgroundColor(ContextCompat.GetColor(this, R.color.colorPrimaryDark));
                 configuration.SetCameraPreviewMode(CameraPreviewMode.FitIn);
 
                 var filler = new Dictionary<Java.Lang.Class, Java.Lang.Class>();
@@ -80,6 +133,14 @@ namespace ReadyToUseUIDemo.Droid
                     WorkflowFactory.DisabilityCertificate, filler
                 );
                 StartActivityForResult(intent, DC_SCAN_WORKFLOW_REQUEST_CODE);
+            }
+            else if (button.Data.Code == ListItemCode.ScanMRZ)
+            {
+                var configuration = new MRZScannerConfiguration();
+                configuration.SetSuccessBeepEnabled(false);
+
+                var intent = MRZScannerActivity.NewIntent(this, configuration);
+                StartActivityForResult(intent, MRZ_DEFAULT_UI_REQUEST_CODE);
             }
         }
 
@@ -91,7 +152,7 @@ namespace ReadyToUseUIDemo.Droid
             );
 
             var margin = (int)(3 * Resources.DisplayMetrics.Density);
-            parameters.SetMargins(margin, margin, margin, margin);
+            parameters.SetMargins(0, margin, 0, margin);
 
             return parameters;
         }

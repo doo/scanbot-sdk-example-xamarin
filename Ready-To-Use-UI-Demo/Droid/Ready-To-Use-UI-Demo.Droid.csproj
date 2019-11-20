@@ -225,6 +225,8 @@
     <Compile Include="Fragments\DCResultDialogFragment.cs" />
     <Compile Include="Views\FragmentButton.cs" />
     <Compile Include="WorkflowFactory.cs" />
+    <Compile Include="Fragments\MRZDialogFragment.cs" />
+    <Compile Include="Views\BaseDialogFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -253,6 +255,10 @@
       <Generator></Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\values\Styles.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\fragment_mrz_dialog.axml">
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>

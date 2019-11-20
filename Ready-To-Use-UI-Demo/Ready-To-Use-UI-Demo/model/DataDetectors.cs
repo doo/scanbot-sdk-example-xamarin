@@ -11,7 +11,8 @@ namespace ReadyToUseUIDemo.model
 
         public List<ListItem> Items = new List<ListItem>
         {
-            new ListItem { Title = "Scan DC Form", Code = ListItemCode.ScanDC }
+            new ListItem { Title = "Scan DC Form", Code = ListItemCode.ScanDC },
+            new ListItem { Title = "Scan MRZ", Code = ListItemCode.ScanMRZ }
         };
     }
 }

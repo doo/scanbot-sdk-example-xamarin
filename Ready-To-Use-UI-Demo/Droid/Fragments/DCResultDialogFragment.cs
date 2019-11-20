@@ -1,19 +1,18 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Text;
 using Android.OS;
-using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
 using IO.Scanbot.Dcscanner.Model;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
 using Newtonsoft.Json;
-using System.Linq;
 using Android.Support.V7.App;
+using ReadyToUseUIDemo.Droid.Views;
 
 namespace ReadyToUseUIDemo.Droid.Fragments
 {
-    public class DCResultDialogFragment : DialogFragment
+    public class DCResultDialogFragment : BaseDialogFragment
     {
         public const string NAME = "DCResultDialogFragment";
         public const string WORKFLOW_EXTRA = "WORKFLOW_EXTRA";
@@ -34,7 +33,7 @@ namespace ReadyToUseUIDemo.Droid.Fragments
             return fragment;
         }
 
-        private View AddContentView(LayoutInflater inflater, ViewGroup container)
+        public override View AddContentView(LayoutInflater inflater, ViewGroup container)
         {
             workflow = (Workflow)Arguments.GetParcelable(WORKFLOW_EXTRA);
 
