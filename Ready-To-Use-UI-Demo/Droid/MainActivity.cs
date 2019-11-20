@@ -15,11 +15,13 @@ using IO.Scanbot.Sdk.UI.View.Workflow;
 using Android.Content;
 using Android.Runtime;
 using System.Collections.Generic;
+using Android.Support.V7.App;
+using IO.Scanbot.Sdk.UI.Entity.Workflow;
 
 namespace ReadyToUseUIDemo.Droid
 {
     [Activity(Label = "Ready-to-use UI Demo", MainLauncher = true, Icon = "@mipmap/icon")]
-    public class MainActivity : Activity
+    public class MainActivity : AppCompatActivity
     {
         private const int DC_SCAN_WORKFLOW_REQUEST_CODE = 914;
 
@@ -50,7 +52,13 @@ namespace ReadyToUseUIDemo.Droid
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            Console.WriteLine("activity result something-something");
+            if (requestCode == DC_SCAN_WORKFLOW_REQUEST_CODE && resultCode == Result.Ok)
+            {
+                var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
+                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var fragment = DCResultDialogFragment.CreateInstance(workflow, results);
+                fragment.Show(SupportFragmentManager, DCResultDialogFragment.NAME);
+            }
         }
 
         private void OnButtonClick(object sender, EventArgs e)

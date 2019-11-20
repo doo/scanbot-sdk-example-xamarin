@@ -9,14 +9,15 @@ using IO.Scanbot.Dcscanner.Model;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
 using Newtonsoft.Json;
 using System.Linq;
+using Android.Support.V7.App;
 
 namespace ReadyToUseUIDemo.Droid.Fragments
 {
     public class DCResultDialogFragment : DialogFragment
     {
-        const string NAME = "DCResultDialogFragment";
-        const string WORKFLOW_EXTRA = "WORKFLOW_EXTRA";
-        const string WORKFLOW_RESULT_EXTRA = "WORKFLOW_RESULT_EXTRA";
+        public const string NAME = "DCResultDialogFragment";
+        public const string WORKFLOW_EXTRA = "WORKFLOW_EXTRA";
+        public const string WORKFLOW_RESULT_EXTRA = "WORKFLOW_RESULT_EXTRA";
 
         private Workflow workflow;
         private List<WorkflowStepResult> results;
@@ -56,6 +57,31 @@ namespace ReadyToUseUIDemo.Droid.Fragments
                 tv.Text = ParseResult(result.DisabilityCertificateResult);
             }
             return view;
+        }
+
+        public override Android.App.Dialog OnCreateDialog(Bundle savedInstanceState)
+        {
+            var builder = new AlertDialog.Builder(Activity);
+            var inflater = LayoutInflater.From(Activity);
+            var container = (ViewGroup)inflater.Inflate(Resource.Layout.holo_dialog_frame, null, false);
+            AddContentView(inflater, container);
+
+            builder.SetView(container);
+
+            builder.SetPositiveButton("Cancel", delegate
+            {
+                Dismiss();
+            });
+
+            builder.SetNegativeButton("Copy", delegate
+            {
+                Dismiss();
+            });
+
+            var dialog = builder.Create();
+            dialog.SetCanceledOnTouchOutside(true);
+
+            return dialog;
         }
 
         string ParseResult(DisabilityCertificateRecognizerResultInfo result)

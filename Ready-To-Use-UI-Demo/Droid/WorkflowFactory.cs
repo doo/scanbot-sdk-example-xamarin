@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Android.Runtime;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
 using Java.Lang;
 using Net.Doo.Snap.Lib.Detector;
+using ScanbotSDK.Xamarin.Android;
 
 namespace ReadyToUseUIDemo.Droid
 {
@@ -12,7 +14,6 @@ namespace ReadyToUseUIDemo.Droid
         {
             get
             {
-
                 var ratios = new List<PageAspectRatio>
                 {
                     // DC form A5 portrait (e.g. white sheet, AUB Muster 1b/E (1/2018))
@@ -23,27 +24,33 @@ namespace ReadyToUseUIDemo.Droid
 
                 var steps = new List<ScanDisabilityCertificateWorkflowStep>();
 
-                var handler = new WorkflowStepValidationHandler();
+                var handler = new DisabilityValidator();
                 var step = new ScanDisabilityCertificateWorkflowStep(
                     "Please align the DC form in the frame.",
                     "",
                     ratios.ToArray(),
                     true,
-                    handler
+                    new DisabilityValidator()
                 );
                 steps.Add(step);
-
+                
                 return new Workflow(steps.ToArray(), "Disability Certificate");
             }
         }
     }
 
-    class WorkflowStepValidationHandler : Java.Lang.Object, WorkflowStep.IWorkflowStepValidationHandler
+    class DisabilityValidator : WorkflowValidator<DisabilityCertificateWorkflowStepResult>
     {
-        public Java.Lang.Object Invoke(Java.Lang.Object p0)
+        public DisabilityValidator()
         {
-            var result = (DisabilityCertificateWorkflowStepResult)p0;
+        }
 
+        public DisabilityValidator(IntPtr a, JniHandleOwnership b) : base(a, b)
+        {
+        }
+
+        public override WorkflowStepError Invoke(DisabilityCertificateWorkflowStepResult result)
+        {
             if (result.DisabilityCertificateResult == null)
             {
                 return new WorkflowStepError(1, "No result available", WorkflowStepError.ShowMode.Toast);
@@ -57,4 +64,5 @@ namespace ReadyToUseUIDemo.Droid
             return null;
         }
     }
+
 }
