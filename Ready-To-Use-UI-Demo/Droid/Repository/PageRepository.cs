@@ -1,0 +1,78 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Android.Content;
+using IO.Scanbot.Sdk.Persistence;
+using IO.Scanbot.Sdk.Process;
+using ScanbotSDK.Xamarin.Android;
+
+namespace ReadyToUseUIDemo.Droid.Repository
+{
+    public class PageRepository
+    {
+        static readonly List<Page> items = new List<Page>();
+
+        public static List<Page> Pages { get => items; }
+
+        public static void Remove(Context context, Page page)
+        {
+            SBSDK.PageStorage.Remove(page.PageId);
+            items.Remove(page);
+        }
+
+        public static void Add(List<Page> pages)
+        {
+            items.AddRange(pages);
+        }
+
+        public static void Add(Page page)
+        {
+            items.Add(page);
+        }
+
+        public static void Update(Page page)
+        {
+            var existing = items.Where(p => p.PageId == page.PageId).ToList()[0];
+            items.Remove(existing);
+
+            items.Add(page);
+        }
+
+        public static void Clear()
+        {
+            SBSDK.PageStorage.RemoveAll();
+            items.Clear();
+        }
+
+        public static void Apply(ImageFilterType filter)
+        {
+            var temp = new List<Page>();
+
+            foreach(Page page in items)
+            {
+                SBSDK.PageProcessor.ApplyFilter(page, filter);
+                var applied = new Page(page.PageId, page.Polygon, page.DetectionStatus, filter);
+                temp.Add(applied);
+            }
+
+            items.Clear();
+            items.AddRange(temp);
+        }
+
+        public static Page Apply(ImageFilterType filter, Page page)
+        {
+            foreach(Page item in items)
+            {
+                if (page.PageId == item.PageId)
+                {
+                    SBSDK.PageProcessor.ApplyFilter(item, filter);
+                    SBSDK.PageProcessor.GenerateFilteredPreview(item, filter);
+                }
+            }
+
+            var result = new Page(page.PageId, page.Polygon, page.DetectionStatus, filter);
+            Update(result);
+            return result;
+        }
+    }
+}
