@@ -18,20 +18,16 @@ using IO.Scanbot.Sdk.Process;
 using IO.Scanbot.Sdk.UI.View.Camera;
 using IO.Scanbot.Sdk.UI.View.Camera.Configuration;
 using Net.Doo.Snap.Camera;
-using Net.Doo.Snap.Persistence;
-using Net.Doo.Snap.Persistence.Cleanup;
-using Net.Doo.Snap.Process;
-using Net.Doo.Snap.Process.Draft;
 using ReadyToUseUIDemo.Droid.Fragments;
+using ReadyToUseUIDemo.Droid.Listeners;
 using ReadyToUseUIDemo.Droid.Repository;
 using ReadyToUseUIDemo.Droid.Utils;
 using ScanbotSDK.Xamarin.Android;
-using Square.Picasso;
 
 namespace ReadyToUseUIDemo.Droid.Activities
 {
     [Activity]
-    public class PagePreviewActivity : AppCompatActivity
+    public class PagePreviewActivity : AppCompatActivity, IFiltersListener
     {
         const int FILTER_UI_REQUEST_CODE = 7777;
         const int CAMERA_ACTIVITY = 8888;
@@ -134,21 +130,12 @@ namespace ReadyToUseUIDemo.Droid.Activities
 
             if (!SBSDK.IsLicenseValid())
             {
-                ShowLicenseDialog();
+                Alert.ShowLicenseDialog(this);
             }
 
             delete.Enabled = !adapter.IsEmpty;
             filter.Enabled = !adapter.IsEmpty;
             save.Enabled = !adapter.IsEmpty;
-        }
-
-
-        void ShowLicenseDialog()
-        {
-            var text =
-                "The demo app will terminate because of the missing license key. " +
-                "Get your free 30-day license today!";
-            Toast.MakeText(this, text, ToastLength.Long);
         }
 
         public void SaveWithOcr()
@@ -165,7 +152,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
         {
             if (!SBSDK.IsLicenseValid())
             {
-                ShowLicenseDialog();
+                Alert.ShowLicenseDialog(this);
                 return;
             }
 
@@ -225,7 +212,68 @@ namespace ReadyToUseUIDemo.Droid.Activities
             var position = recycleView.GetChildLayoutPosition(v);
             selectedPage = adapter.Items[position];
 
-            Console.WriteLine(selectedPage);
+            var intent = PageFilterActivity.CreateIntent(this, selectedPage);
+            StartActivityForResult(intent, FILTER_UI_REQUEST_CODE);
+        }
+
+        public void LowLightBinarizationFilter()
+        {
+            ApplyFilter(ImageFilterType.LowLightBinarization);
+        }
+
+        public void EdgeHighlightFilter()
+        {
+            ApplyFilter(ImageFilterType.EdgeHighlight);
+        }
+
+        public void DeepBinarizationFilter()
+        {
+            ApplyFilter(ImageFilterType.DeepBinarization);
+        }
+
+        public void OtsuBinarizationFilter()
+        {
+            ApplyFilter(ImageFilterType.OtsuBinarization);
+        }
+
+        public void CleanBackgroundFilter()
+        {
+            ApplyFilter(ImageFilterType.BackgroundClean);
+        }
+
+        public void ColorDocumentFilter()
+        {
+            ApplyFilter(ImageFilterType.ColorDocument);
+        }
+
+        public void ColorFilter()
+        {
+            ApplyFilter(ImageFilterType.ColorEnhanced);
+        }
+
+        public void GrayscaleFilter()
+        {
+            ApplyFilter(ImageFilterType.Grayscale);
+        }
+
+        public void BinarizedFilter()
+        {
+            ApplyFilter(ImageFilterType.Binarized);
+        }
+
+        public void PureBinarizedFilter()
+        {
+            ApplyFilter(ImageFilterType.PureBinarized);
+        }
+
+        public void BlackAndWhiteFilter()
+        {
+            ApplyFilter(ImageFilterType.BlackAndWhite);
+        }
+
+        public void NoneFilter()
+        {
+            ApplyFilter(ImageFilterType.None);
         }
     }
 
