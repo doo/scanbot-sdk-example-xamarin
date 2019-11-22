@@ -161,6 +161,11 @@ namespace ReadyToUseUIDemo.Droid
                 var chooser = Intent.CreateChooser(intent, GetString(Resource.String.share_title));
                 StartActivityForResult(chooser, IMPORT_IMAGE_REQUEST);
             }
+            else if (button.Data.Code == ListItemCode.ViewImages)
+            {
+                var intent = new Intent(this, typeof(PagePreviewActivity));
+                StartActivity(intent);
+            }
             else if (button.Data.Code == ListItemCode.ScanDC)
             {
                 var configuration = new WorkflowScannerConfiguration();
