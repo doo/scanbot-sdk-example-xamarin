@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Android;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.Graphics.Pdf;
 using Android.OS;
 using Android.Support.V7.App;
@@ -83,7 +84,11 @@ namespace ReadyToUseUIDemo.Droid.Activities
             adapter.Context = this;
 
             recycleView = FindViewById<RecyclerView>(Resource.Id.pages_preview);
-            recycleView.SetLayoutManager(new GridLayoutManager(this, 3));
+            recycleView.HasFixedSize = true;
+            recycleView.SetAdapter(adapter);
+            
+            var layout = new GridLayoutManager(this, 3);
+            recycleView.SetLayoutManager(layout);
 
             adapter.SetItems(PageRepository.Pages);
             
@@ -169,7 +174,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
                 var input = adapter.GetUrls().ToArray();
 
                 var external = GetExternalFilesDir(null).AbsolutePath;
-                var targetFile = Path.Combine(external, Guid.NewGuid() + ".pdf");
+                var targetFile = System.IO.Path.Combine(external, Guid.NewGuid() + ".pdf");
                 var pdfOutputUri = Android.Net.Uri.FromFile(new Java.IO.File(targetFile));
 
                 if (withOCR)
@@ -214,28 +219,47 @@ namespace ReadyToUseUIDemo.Droid.Activities
                 });
             });
         }
+
+        public void OnRecycleViewItemClick(View v)
+        {
+            var position = recycleView.GetChildLayoutPosition(v);
+            selectedPage = adapter.Items[position];
+
+            Console.WriteLine(selectedPage);
+        }
     }
 
     class PageAdapter : RecyclerView.Adapter
     {
-        public Context Context { get; set; }
+        Context context;
+        public Context Context
+        {
+            get => context;
+            set
+            {
+                context = value;
+                listener = new RecyclerViewItemClick(Context as PagePreviewActivity);
+            }
+        }
 
-        List<Page> items = new List<Page>();
+        public List<Page> Items { get; private set; } = new List<Page>();
 
-        public override int ItemCount => items.Count;
+        public override int ItemCount => Items.Count;
 
         public bool IsEmpty { get => ItemCount == 0; }
 
+        RecyclerViewItemClick listener;
+
         public void SetItems(List<Page> pages)
         {
-            items.Clear();
-            items.AddRange(pages);
+            Items.Clear();
+            Items.AddRange(pages);
             NotifyDataSetChanged();
         }
         public List<Android.Net.Uri> GetUrls()
         {
             var urls = new List<Android.Net.Uri>();
-            foreach (Page page in items)
+            foreach (Page page in Items)
             {
                 var path = GetUri(page, PageFileStorage.PageFileType.Document);
                 var original = GetUri(page, PageFileStorage.PageFileType.Original);
@@ -252,38 +276,32 @@ namespace ReadyToUseUIDemo.Droid.Activities
             return urls;
         }
 
+        public override long GetItemId(int position)
+        {
+            return Items[position].GetHashCode();
+        }
+
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             var view = LayoutInflater.From(Context).Inflate(Resource.Layout.item_page, parent, false);
-            //view.setOnClickListener(mOnClickListener)
+            view.SetOnClickListener(listener);
             return new PageViewHolder(view);
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            var page = items[position];
-            var path = GetUri(page, PageFileStorage.PageFileType.Document).Path;
-            var original = GetUri(page, PageFileStorage.PageFileType.Original).Path;
+            var page = Items[position];
+            var path = GetUri(page, PageFileStorage.PageFileType.Document);
+            var original = GetUri(page, PageFileStorage.PageFileType.Original);
 
-            if (File.Exists(path))
+            if (File.Exists(path.Path))
             {
-                LoadResized(holder, path);
+                (holder as PageViewHolder).image.SetImageURI(path);
             }
             else
             {
-                LoadResized(holder, original);
+                (holder as PageViewHolder).image.SetImageURI(original);
             }
-        }
-
-        void LoadResized(RecyclerView.ViewHolder holder, string path)
-        {
-            var size = Resource.Dimension.move_preview_size;
-            Picasso.With(Context)
-                .Load(path)
-                .MemoryPolicy(MemoryPolicy.NoCache)
-                .Resize(size, size)
-                .CenterInside()
-                .Into((holder as PageViewHolder).image);
         }
 
         Android.Net.Uri GetUri(Page page, PageFileStorage.PageFileType type)
@@ -299,7 +317,22 @@ namespace ReadyToUseUIDemo.Droid.Activities
         {
             image = item.FindViewById<ImageView>(Resource.Id.page);
         }
+    }
 
+    class RecyclerViewItemClick : Java.Lang.Object, View.IOnClickListener
+    {
+
+        public PagePreviewActivity Context { get; private set; }
+
+        public RecyclerViewItemClick(PagePreviewActivity context)
+        {
+            Context = context;
+        }
+
+        public void OnClick(View v)
+        {
+            Context.OnRecycleViewItemClick(v);
+        }
     }
 }
 
