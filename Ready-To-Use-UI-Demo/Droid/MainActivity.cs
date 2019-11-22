@@ -273,7 +273,8 @@ namespace ReadyToUseUIDemo.Droid
             Bitmap bitmap = null;
             if (imageUri != null) {
                 try {
-                    bitmap = MediaStore.Images.Media.GetBitmap(ContentResolver, imageUri);
+                    var source = ImageDecoder.CreateSource(ContentResolver, imageUri);
+                    bitmap = ImageDecoder.DecodeBitmap(source);
                 } catch (IOException) {
                 }
             }
