@@ -27,6 +27,14 @@ using IO.Scanbot.Sdk.Persistence;
 using ReadyToUseUIDemo.Droid.Repository;
 using ScanbotSDK.Xamarin.Android;
 using ReadyToUseUIDemo.Droid.Activities;
+using ReadyToUseUIDemo.Droid.Utils;
+using System.Threading.Tasks;
+using Android.Provider;
+using System.IO;
+using IO.Scanbot.Sdk.UI.View.Edit.Configuration;
+using IO.Scanbot.Sdk.UI.View.Edit;
+using Net.Doo.Snap.Lib.Detector;
+using IO.Scanbot.Sdk.Process;
 
 namespace ReadyToUseUIDemo.Droid
 {
@@ -37,8 +45,12 @@ namespace ReadyToUseUIDemo.Droid
 
         private const int MRZ_DEFAULT_UI_REQUEST_CODE = 909;
         private const int DC_SCAN_WORKFLOW_REQUEST_CODE = 914;
+        private const int IMPORT_IMAGE_REQUEST = 7777;
+        private const int CROP_DEFAULT_UI_REQUEST = 9999;
 
         readonly List<FragmentButton> buttons = new List<FragmentButton>();
+
+        ProgressBar progress;
 
         View LicenseIndicator
         {
@@ -57,7 +69,9 @@ namespace ReadyToUseUIDemo.Droid
             SetContentView(Resource.Layout.Main);
 
             var container = (LinearLayout)FindViewById(Resource.Id.container);
-            
+
+            progress = FindViewById<ProgressBar>(Resource.Id.progressBar);
+
             var scanner = (LinearLayout)container.FindViewById(Resource.Id.document_scanner);
             var scannerTitle = (TextView)scanner.FindViewById(Resource.Id.textView);
             scannerTitle.Text = DocumentScanner.Instance.Title;
@@ -136,6 +150,17 @@ namespace ReadyToUseUIDemo.Droid
                 var intent = DocumentScannerActivity.NewIntent(this, configuration);
                 StartActivityForResult(intent, CAMERA_DEFAULT_UI_REQUEST_CODE);
             }
+            else if (button.Data.Code == ListItemCode.ImportImage)
+            {
+                var intent = new Intent();
+                intent.SetType("image/*");
+                intent.SetAction(Intent.ActionGetContent);
+                intent.PutExtra(Intent.ExtraLocalOnly, false);
+                intent.PutExtra(Intent.ExtraAllowMultiple, false);
+
+                var chooser = Intent.CreateChooser(intent, GetString(Resource.String.share_title));
+                StartActivityForResult(chooser, IMPORT_IMAGE_REQUEST);
+            }
             else if (button.Data.Code == ListItemCode.ScanDC)
             {
                 var configuration = new WorkflowScannerConfiguration();
@@ -177,6 +202,39 @@ namespace ReadyToUseUIDemo.Droid
                 var intent = new Intent(this, typeof(PagePreviewActivity));
                 StartActivity(intent);
             }
+            else if (requestCode == IMPORT_IMAGE_REQUEST)
+            {
+                if (!SBSDK.IsLicenseValid())
+                {
+                    Alert.ShowLicenseDialog(this);
+                    return;
+                }
+
+                progress.Visibility = ViewStates.Visible;
+                Alert.Toast(this, GetString(Resource.String.importing_and_processing));
+                Task.Run(delegate
+                {
+                    
+                    var result = ProcessGalleryResult(data);
+                    var pageId = SBSDK.PageStorage.Add(result);
+                    var page = new Page(pageId, new List<PointF>(), DetectionResult.Ok, ImageFilterType.None);
+
+                    var configuration = new CroppingConfiguration();
+                    configuration.SetPage(page);
+
+                    var intent = CroppingActivity.NewIntent(this, configuration);
+                    RunOnUiThread(delegate
+                    {
+                        progress.Visibility = ViewStates.Gone;
+                        StartActivityForResult(intent, CROP_DEFAULT_UI_REQUEST);
+                    });
+                });
+            }
+            else if (requestCode == CROP_DEFAULT_UI_REQUEST)
+            {
+                var page = data.GetParcelableExtra(CroppingActivity.EditedPageExtra) as Page;
+                PageRepository.Add(page);
+            }
             else if (requestCode == DC_SCAN_WORKFLOW_REQUEST_CODE)
             {
                 var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
@@ -204,7 +262,19 @@ namespace ReadyToUseUIDemo.Droid
 
             return parameters;
         }
-        
+
+        Bitmap ProcessGalleryResult(Intent data) {
+            var imageUri = data.Data;
+            Bitmap bitmap = null;
+            if (imageUri != null) {
+                try {
+                    bitmap = MediaStore.Images.Media.GetBitmap(ContentResolver, imageUri);
+                } catch (IOException) {
+                }
+            }
+
+            return bitmap;
+        }
     }
 }
 
