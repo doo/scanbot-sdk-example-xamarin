@@ -45,6 +45,8 @@ namespace ReadyToUseUIDemo.Droid
 
         private const int MRZ_DEFAULT_UI_REQUEST_CODE = 909;
         private const int DC_SCAN_WORKFLOW_REQUEST_CODE = 914;
+        private const int PAYFORM_SCAN_WORKFLOW_REQUEST_CODE = 916;
+
         private const int IMPORT_IMAGE_REQUEST = 7777;
         private const int CROP_DEFAULT_UI_REQUEST = 9999;
 
@@ -186,6 +188,18 @@ namespace ReadyToUseUIDemo.Droid
 
                 var intent = MRZScannerActivity.NewIntent(this, configuration);
                 StartActivityForResult(intent, MRZ_DEFAULT_UI_REQUEST_CODE);
+            }
+            else if (button.Data.Code == ListItemCode.ScanSEPA)
+            {
+                var configuration = new WorkflowScannerConfiguration();
+                configuration.SetIgnoreBadAspectRatio(true);
+                configuration.SetCameraPreviewMode(CameraPreviewMode.FitIn);
+
+                var filler = new Dictionary<Java.Lang.Class, Java.Lang.Class>();
+                var flow = WorkflowFactory.PayFormWithClassicalDocPolygonDetection;
+                var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, filler);
+
+                StartActivityForResult(intent, PAYFORM_SCAN_WORKFLOW_REQUEST_CODE);
             }
         }
 

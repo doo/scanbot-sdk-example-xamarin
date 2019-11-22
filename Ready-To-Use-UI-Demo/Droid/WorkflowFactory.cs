@@ -37,6 +37,25 @@ namespace ReadyToUseUIDemo.Droid
                 return new Workflow(steps.ToArray(), "Disability Certificate");
             }
         }
+
+        public static Workflow PayFormWithClassicalDocPolygonDetection
+        {
+            get
+            {
+                var steps = new List<ScanPayFormWorkflowStep>();
+
+                var step = new ScanPayFormWorkflowStep(
+                    "Please scan a SEPA PayForm",
+                    "",
+                    new List<PageAspectRatio>().ToArray(),
+                    true,
+                    new PayFormValidator()
+                );
+                steps.Add(step);
+
+                return new Workflow(steps.ToArray(), "PayForm - Polygon Doc");
+            }
+        }
     }
 
     class DisabilityValidator : WorkflowValidator<DisabilityCertificateWorkflowStepResult>
@@ -59,6 +78,32 @@ namespace ReadyToUseUIDemo.Droid
             if (!result.DisabilityCertificateResult.RecognitionSuccessful)
             {
                 return new WorkflowStepError(1, "Recognition failed", WorkflowStepError.ShowMode.Toast);
+            }
+
+            return null;
+        }
+    }
+
+    class PayFormValidator : WorkflowValidator<PayFormWorkflowStepResult>
+    {
+        public PayFormValidator()
+        {
+        }
+
+        public PayFormValidator(IntPtr a, JniHandleOwnership b) : base(a, b)
+        {
+        }
+
+        public override WorkflowStepError Invoke(PayFormWorkflowStepResult result)
+        {
+            if (result.PayformResult == null)
+            {
+                return new WorkflowStepError(1, "No result available", WorkflowStepError.ShowMode.Toast);
+            }
+
+            if (result.PayformResult.PayformFields.Count == 0)
+            {
+                return new WorkflowStepError(1, "No payform fields found", WorkflowStepError.ShowMode.Toast);
             }
 
             return null;
