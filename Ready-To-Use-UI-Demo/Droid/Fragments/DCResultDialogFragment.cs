@@ -15,19 +15,14 @@ namespace ReadyToUseUIDemo.Droid.Fragments
     public class DCResultDialogFragment : BaseDialogFragment
     {
         public const string NAME = "DCResultDialogFragment";
-        public const string WORKFLOW_EXTRA = "WORKFLOW_EXTRA";
-        public const string WORKFLOW_RESULT_EXTRA = "WORKFLOW_RESULT_EXTRA";
-
-        private Workflow workflow;
-        private List<WorkflowStepResult> results;
-
+        
         public static DCResultDialogFragment CreateInstance(Workflow flow, List<WorkflowStepResult> results)
         {
             var fragment = new DCResultDialogFragment();
 
             var args = new Bundle();
             args.PutParcelable(WORKFLOW_EXTRA, flow);
-            args.PutString(WORKFLOW_RESULT_EXTRA, JsonConvert.SerializeObject(results));
+            args.PutParcelableArray(WORKFLOW_RESULT_EXTRA, results.ToArray());
             fragment.Arguments = args;
 
             return fragment;
@@ -38,18 +33,18 @@ namespace ReadyToUseUIDemo.Droid.Fragments
             workflow = (Workflow)Arguments.GetParcelable(WORKFLOW_EXTRA);
 
             string json = Arguments.GetString(WORKFLOW_RESULT_EXTRA);
-            results = JsonConvert.DeserializeObject<List<WorkflowStepResult>>(json);
+            stepResults = JsonConvert.DeserializeObject<List<WorkflowStepResult>>(json);
 
             var view = inflater.Inflate(Resource.Layout.fragment_workflow_result_dialog, container);
             var title = (TextView)view.FindViewById(Resource.Id.title);
-            title.Text = "asdf";
+            title.Text = "Detected DC Form";
 
-            if (results.Count == 0)
+            if (stepResults.Count == 0)
             {
                 return view;
             }
 
-            var result = results[0] as DisabilityCertificateWorkflowStepResult;
+            var result = stepResults[0] as DisabilityCertificateWorkflowStepResult;
             if (result.Step is ScanDisabilityCertificateWorkflowStep)
             {
                 var tv = (TextView)view.FindViewById(Resource.Id.tv_data);

@@ -13,6 +13,8 @@ namespace ReadyToUseUIDemo.model
         {
             new ListItem { Title = "Scan DC Form", Code = ListItemCode.ScanDC },
             new ListItem { Title = "Scan MRZ", Code = ListItemCode.ScanMRZ },
+            new ListItem { Title = "Scan MRZ + Image", Code = ListItemCode.ScanMRZImage },
+            new ListItem { Title = "Scan MRZ + Front & Back Image", Code = ListItemCode.ScanMRZFrontBack },
             new ListItem { Title = "Scan SEPA Pay Form", Code = ListItemCode.ScanSEPA }
         };
     }

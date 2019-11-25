@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Android.Runtime;
+using IO.Scanbot.Mrzscanner.Model;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
 using Java.Lang;
 using Net.Doo.Snap.Lib.Detector;
@@ -24,7 +25,6 @@ namespace ReadyToUseUIDemo.Droid
 
                 var steps = new List<ScanDisabilityCertificateWorkflowStep>();
 
-                var handler = new DisabilityValidator();
                 var step = new ScanDisabilityCertificateWorkflowStep(
                     "Please align the DC form in the frame.",
                     "",
@@ -56,6 +56,95 @@ namespace ReadyToUseUIDemo.Droid
                 return new Workflow(steps.ToArray(), "PayForm - Polygon Doc");
             }
         }
+
+        public static Workflow ScanMRZAndSnap
+        {
+            get
+            {
+                var ratios = new List<PageAspectRatio>
+                {
+                    new PageAspectRatio(85.0, 54.0),
+                    new PageAspectRatio(125.0, 88.0)
+                };
+
+                var steps = new List<ScanMachineReadableZoneWorkflowStep>();
+
+                var step = new ScanMachineReadableZoneWorkflowStep(
+                    "Scan ID card or passport",
+                    "Please align your ID card or passport in the frame",
+                    ratios,
+                    true,
+                    new MRZValidator()
+                );
+
+                steps.Add(step);
+                return new Workflow(steps.ToArray(), "Scanning MRZ Code & Front Side");
+            }
+        }
+
+        public static Workflow ScanMRZAndFrontBackSnap
+        {
+            get
+            {
+                var ratios = new List<PageAspectRatio>
+                {
+                    new PageAspectRatio(85.0, 54.0)
+                };
+                var steps = new List<WorkflowStep>();
+
+                var step1 = new ScanDocumentPageWorkflowStep(
+                    "Scan 1/2",
+                    "Please scan the front side of your ID card",
+                    ratios,
+                    new DefaultWorkflowValidator()
+                );
+
+                var step2 = new ScanMachineReadableZoneWorkflowStep(
+                    "Scan 2/2",
+                    "Please scan the back side of your ID card",
+                    ratios,
+                    true,
+                    new MRZValidator()
+                );
+
+                steps.Add(step1);
+                steps.Add(step2);
+
+                return new Workflow(steps.ToArray(), "Scanning MRZ Code & Both sides");
+            }
+        }
+
+    }
+
+    class MRZValidator : WorkflowValidator<MachineReadableZoneWorkflowStepResult>
+    {
+        public MRZValidator()
+        {
+        }
+
+        public MRZValidator(IntPtr a, JniHandleOwnership b) : base(a, b)
+        {
+        }
+
+        public override WorkflowStepError Invoke(MachineReadableZoneWorkflowStepResult result)
+        {
+            if (result.MrzResult == null)
+            {
+                return new WorkflowStepError(1, "No result available", WorkflowStepError.ShowMode.Toast);
+            }
+
+            if (!result.MrzResult.RecognitionSuccessful)
+            {
+                return new WorkflowStepError(2, "Recognition not successful", WorkflowStepError.ShowMode.Toast);
+            }
+
+            if (result.MrzResult.ErrorCode != MRZRecognitionResult.NoError)
+            {
+                return new WorkflowStepError(3, "Recognition error", WorkflowStepError.ShowMode.Toast);
+            }
+
+            return null;
+        }
     }
 
     class DisabilityValidator : WorkflowValidator<DisabilityCertificateWorkflowStepResult>
@@ -77,7 +166,7 @@ namespace ReadyToUseUIDemo.Droid
 
             if (!result.DisabilityCertificateResult.RecognitionSuccessful)
             {
-                return new WorkflowStepError(1, "Recognition failed", WorkflowStepError.ShowMode.Toast);
+                return new WorkflowStepError(2, "Recognition failed", WorkflowStepError.ShowMode.Toast);
             }
 
             return null;
@@ -103,7 +192,7 @@ namespace ReadyToUseUIDemo.Droid
 
             if (result.PayformResult.PayformFields.Count == 0)
             {
-                return new WorkflowStepError(1, "No payform fields found", WorkflowStepError.ShowMode.Toast);
+                return new WorkflowStepError(2, "No payform fields found", WorkflowStepError.ShowMode.Toast);
             }
 
             return null;

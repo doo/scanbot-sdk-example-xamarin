@@ -8,6 +8,7 @@ namespace ReadyToUseUIDemo.model
         ViewImages,
         ScanQRBar,
         ScanMRZ,
+        ScanMRZImage,
         ScanMRZFrontBack,
         ScanQRBarDocument,
         ScanDC,

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Android.Content;
 using IO.Scanbot.Sdk.Persistence;
@@ -73,6 +74,24 @@ namespace ReadyToUseUIDemo.Droid.Repository
             var result = new Page(page.PageId, page.Polygon, page.DetectionStatus, filter);
             Update(result);
             return result;
+        }
+
+        public static Android.Net.Uri FindUri(Page page)
+        {
+            var path = GetUri(page, PageFileStorage.PageFileType.Document);
+            var original = GetUri(page, PageFileStorage.PageFileType.Original);
+
+            if (File.Exists(path.Path))
+            {
+                return path;
+            }
+
+            return original;
+        }
+
+        static Android.Net.Uri GetUri(Page page, PageFileStorage.PageFileType type)
+        {
+            return SBSDK.PageStorage.GetPreviewImageURI(page.PageId, type);
         }
     }
 }

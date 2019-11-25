@@ -46,6 +46,8 @@ namespace ReadyToUseUIDemo.Droid
         private const int MRZ_DEFAULT_UI_REQUEST_CODE = 909;
         private const int DC_SCAN_WORKFLOW_REQUEST_CODE = 914;
         private const int PAYFORM_SCAN_WORKFLOW_REQUEST_CODE = 916;
+        private const int MRZ_SNAP_WORKFLOW_REQUEST_CODE = 912;
+        private const int MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE = 913;
 
         private const int IMPORT_IMAGE_REQUEST = 7777;
         private const int CROP_DEFAULT_UI_REQUEST = 9999;
@@ -110,15 +112,8 @@ namespace ReadyToUseUIDemo.Droid
         protected override void OnResume()
         {
             base.OnResume();
-    
-            if (SBSDK.IsLicenseValid())
-            {
-                LicenseIndicator.Visibility = ViewStates.Gone;
-            }
-            else
-            {
-                LicenseIndicator.Visibility = ViewStates.Visible;
-            }
+
+            CheckLicense();
 
             foreach (var button in buttons)
             {
@@ -136,8 +131,34 @@ namespace ReadyToUseUIDemo.Droid
             }
         }
 
+        bool CheckLicense()
+        {
+            if (SBSDK.IsLicenseValid())
+            {
+                LicenseIndicator.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                LicenseIndicator.Visibility = ViewStates.Visible;
+                Alert.Toast(this, "Invalid or missing license");
+            }
+
+            return SBSDK.IsLicenseValid();
+        }
+
+
+        Dictionary<Java.Lang.Class, Java.Lang.Class> Filler
+        {
+            get => new Dictionary<Java.Lang.Class, Java.Lang.Class>();
+        }
+
         private void OnButtonClick(object sender, EventArgs e)
         {
+            if (!CheckLicense())
+            {
+                return;
+            }
+
             var button = (FragmentButton)sender;
 
             if (button.Data.Code == ListItemCode.ScanDocument)
@@ -189,15 +210,32 @@ namespace ReadyToUseUIDemo.Droid
                 var intent = MRZScannerActivity.NewIntent(this, configuration);
                 StartActivityForResult(intent, MRZ_DEFAULT_UI_REQUEST_CODE);
             }
+            else if (button.Data.Code == ListItemCode.ScanMRZImage)
+            {
+                var configuration = new WorkflowScannerConfiguration();
+                configuration.SetIgnoreBadAspectRatio(true);
+
+                var flow = WorkflowFactory.ScanMRZAndSnap;
+                var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, Filler);
+                StartActivityForResult(intent, MRZ_SNAP_WORKFLOW_REQUEST_CODE);
+            }
+            else if (button.Data.Code == ListItemCode.ScanMRZFrontBack)
+            {
+                var configuration = new WorkflowScannerConfiguration();
+                configuration.SetIgnoreBadAspectRatio(true);
+
+                var flow = WorkflowFactory.ScanMRZAndFrontBackSnap;
+                var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, Filler);
+                StartActivityForResult(intent, MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE);
+            }
             else if (button.Data.Code == ListItemCode.ScanSEPA)
             {
                 var configuration = new WorkflowScannerConfiguration();
                 configuration.SetIgnoreBadAspectRatio(true);
                 configuration.SetCameraPreviewMode(CameraPreviewMode.FitIn);
 
-                var filler = new Dictionary<Java.Lang.Class, Java.Lang.Class>();
                 var flow = WorkflowFactory.PayFormWithClassicalDocPolygonDetection;
-                var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, filler);
+                var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, Filler);
 
                 StartActivityForResult(intent, PAYFORM_SCAN_WORKFLOW_REQUEST_CODE);
             }
@@ -266,6 +304,20 @@ namespace ReadyToUseUIDemo.Droid
                 var result = (MRZRecognitionResult)data.GetParcelableExtra(MRZScannerActivity.ExtractedFieldsExtra);
                 var fragment = MRZDialogFragment.CreateInstance(result);
                 fragment.Show(SupportFragmentManager, MRZDialogFragment.NAME);
+            }
+            else if (requestCode == MRZ_SNAP_WORKFLOW_REQUEST_CODE)
+            {
+                var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
+                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var fragment = MRZImageResultDialogFragment.CreateInstance(workflow, results);
+                fragment.Show(SupportFragmentManager, MRZImageResultDialogFragment.NAME);
+            }
+            else if (requestCode == MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE)
+            {
+                var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
+                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var fragment = MRZFrontBackImageResultDialogFragment.CreateInstance(workflow, results);
+                fragment.Show(SupportFragmentManager, MRZFrontBackImageResultDialogFragment.NAME);
             }
         }
 

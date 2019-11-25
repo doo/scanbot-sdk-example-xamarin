@@ -256,6 +256,8 @@
     <Compile Include="Activities\PageFilterActivity.cs" />
     <Compile Include="Utils\Alert.cs" />
     <Compile Include="Listeners\FiltersListener.cs" />
+    <Compile Include="Fragments\MRZImageResultDialogFragment.cs" />
+    <Compile Include="Fragments\MRZFrontBackImageResultDialogFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
