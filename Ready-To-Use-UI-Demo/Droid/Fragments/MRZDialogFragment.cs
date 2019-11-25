@@ -19,6 +19,8 @@ namespace ReadyToUseUIDemo.Droid.Fragments
             var fragment = new MRZDialogFragment();
             var args = new Bundle();
             args.PutParcelable(MRZ_DATA, data);
+            fragment.Arguments = args;
+
             return fragment;
         }
 

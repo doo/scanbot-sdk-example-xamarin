@@ -258,6 +258,7 @@
     <Compile Include="Listeners\FiltersListener.cs" />
     <Compile Include="Fragments\MRZImageResultDialogFragment.cs" />
     <Compile Include="Fragments\MRZFrontBackImageResultDialogFragment.cs" />
+    <Compile Include="Fragments\BarcodeDialogFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -330,6 +331,10 @@
       <Generator></Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\activity_filters.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\fragment_barcode_dialog.xml">
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>

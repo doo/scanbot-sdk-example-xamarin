@@ -35,6 +35,9 @@ using IO.Scanbot.Sdk.UI.View.Edit.Configuration;
 using IO.Scanbot.Sdk.UI.View.Edit;
 using Net.Doo.Snap.Lib.Detector;
 using IO.Scanbot.Sdk.Process;
+using IO.Scanbot.Sdk.UI.View.Barcode.Configuration;
+using IO.Scanbot.Sdk.UI.View.Barcode;
+using IO.Scanbot.Sdk.Barcode.Entity;
 
 namespace ReadyToUseUIDemo.Droid
 {
@@ -48,6 +51,7 @@ namespace ReadyToUseUIDemo.Droid
         private const int PAYFORM_SCAN_WORKFLOW_REQUEST_CODE = 916;
         private const int MRZ_SNAP_WORKFLOW_REQUEST_CODE = 912;
         private const int MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE = 913;
+        private const int QR_BARCODE_DEFAULT_UI_REQUEST_CODE = 910;
 
         private const int IMPORT_IMAGE_REQUEST = 7777;
         private const int CROP_DEFAULT_UI_REQUEST = 9999;
@@ -239,6 +243,14 @@ namespace ReadyToUseUIDemo.Droid
 
                 StartActivityForResult(intent, PAYFORM_SCAN_WORKFLOW_REQUEST_CODE);
             }
+            else if (button.Data.Code == ListItemCode.ScanQRBar)
+            {
+                var configuration = new BarcodeScannerConfiguration();
+                configuration.SetFinderTextHint("Please align the QR-/Barcode in the frame above to scan it");
+
+                var intent = BarcodeScannerActivity.NewIntent(this, configuration);
+                StartActivityForResult(intent, QR_BARCODE_DEFAULT_UI_REQUEST_CODE);
+            }
         }
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
@@ -319,6 +331,13 @@ namespace ReadyToUseUIDemo.Droid
                 var fragment = MRZFrontBackImageResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, MRZFrontBackImageResultDialogFragment.NAME);
             }
+            else if (requestCode == QR_BARCODE_DEFAULT_UI_REQUEST_CODE)
+            {
+                var code = (BarcodeScanningResult)data.GetParcelableExtra(BarcodeScannerActivity.ScannedBarcodeExtra);
+                var fragment = BarcodeDialogFragment.CreateInstance(code);
+                fragment.Show(SupportFragmentManager, BarcodeDialogFragment.NAME);
+            }
+
         }
 
         ViewGroup.LayoutParams GetParameters()
