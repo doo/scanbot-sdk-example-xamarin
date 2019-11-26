@@ -61,23 +61,32 @@
     <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>Apple Development: Aare Undo (88FRUMWQN5)</CodesignKey>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <MtouchDebug>true</MtouchDebug>
-    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchFastDev>true</MtouchFastDev>
-    <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <IOSDebuggerPort>20451</IOSDebuggerPort>
-    <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchArch>ARM64</MtouchArch>
-    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <MtouchLink>None</MtouchLink>
+    <MtouchArch>ARMv7s, ARM64</MtouchArch>
+    <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+    <MtouchFloat32>true</MtouchFloat32>
+    <CodesignProvision>iOS Team Provisioning Profile: *</CodesignProvision>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="ScanbotSDK.iOS">
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.4\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="ScanbotSDK.Xamarin">
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.4\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
+    </Reference>
+    <Reference Include="ScanbotSDK.Xamarin.iOS">
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.4\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -85,6 +94,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Controller\" />
+    <Folder Include="View\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -93,6 +104,7 @@
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -101,6 +113,10 @@
     <Compile Include="ViewController.designer.cs">
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controller\MainViewController.cs" />
+    <Compile Include="View\MainView.cs" />
+    <Compile Include="View\ButtonContainer.cs" />
+    <Compile Include="View\ScannerButton.cs" />
   </ItemGroup>
   <Import Project="..\Ready-To-Use-UI-Demo\Ready-To-Use-UI-Demo.projitems" Label="Shared" Condition="Exists('..\Ready-To-Use-UI-Demo\Ready-To-Use-UI-Demo.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
