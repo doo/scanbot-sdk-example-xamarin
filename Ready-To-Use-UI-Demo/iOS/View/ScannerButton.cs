@@ -16,6 +16,8 @@ namespace ReadyToUseUIDemo.iOS.View
 
         public ScannerButton(ListItem data)
         {
+            Data = data;
+
             title = new UILabel();
             title.Text = data.Title;
             title.Font = UIFont.FromName("HelveticaNeue", 13f);
