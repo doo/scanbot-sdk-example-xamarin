@@ -42,9 +42,17 @@ namespace ReadyToUseUIDemo.model
 #endif
             DarkGray = FromRgb(70, 70, 70);
 
+        public static readonly
+#if __IOS__
+            UIColor
+#else
+            Color
+#endif
+            NearWhite = FromRgb(245, 245, 245);
+
         // Common function
         static
-            #if __IOS__
+#if __IOS__
             UIColor
             #else
             Color
