@@ -16,5 +16,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)model\ListItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)model\DataDetectors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)model\Texts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)model\Colors.cs" />
   </ItemGroup>
 </Project>

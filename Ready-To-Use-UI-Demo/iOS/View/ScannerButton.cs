@@ -19,10 +19,11 @@ namespace ReadyToUseUIDemo.iOS.View
             title = new UILabel();
             title.Text = data.Title;
             title.Font = UIFont.FromName("HelveticaNeue", 13f);
+            title.TextColor = Colors.DarkGray;
             AddSubview(title);
 
             Layer.CornerRadius = 3;
-            Layer.BorderColor = UIColor.Gray.CGColor;
+            Layer.BorderColor = Colors.LightGray.CGColor;
             Layer.BorderWidth = 1;
         }
 

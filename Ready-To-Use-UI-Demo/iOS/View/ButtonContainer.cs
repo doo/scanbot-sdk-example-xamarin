@@ -13,7 +13,7 @@ namespace ReadyToUseUIDemo.iOS.View
 
         public List<ScannerButton> Buttons { get; private set; }
 
-        nfloat padding = 10;
+        nfloat padding = 15;
         nfloat titleHeight, buttonHeight;
         public nfloat Height
         {
@@ -30,6 +30,7 @@ namespace ReadyToUseUIDemo.iOS.View
             Title = new UILabel();
             Title.Text = title;
             Title.Font = UIFont.FromName("HelveticaNeue-Bold", 13f);
+            Title.TextColor = Colors.DarkGray;
             AddSubview(Title);
 
             Buttons = new List<ScannerButton>();
@@ -42,7 +43,7 @@ namespace ReadyToUseUIDemo.iOS.View
             }
 
             titleHeight = 20;
-            buttonHeight = 30;
+            buttonHeight = 32;
         }
 
         public override void LayoutSubviews()

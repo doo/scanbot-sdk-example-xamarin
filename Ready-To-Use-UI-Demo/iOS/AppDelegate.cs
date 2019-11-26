@@ -1,5 +1,6 @@
 ﻿using Foundation;
 using ReadyToUseUIDemo.iOS.Controller;
+using ReadyToUseUIDemo.model;
 using ScanbotSDK.Xamarin.iOS;
 using UIKit;
 
@@ -21,6 +22,17 @@ namespace ReadyToUseUIDemo.iOS
 
             UIViewController initial = new MainViewController();
             Controller = new UINavigationController(initial);
+
+            // Navigation bar background color
+            Controller.NavigationBar.BarTintColor = Colors.ScanbotRed;
+            // Back button color
+            Controller.NavigationBar.TintColor = UIColor.White;
+            // Title color
+            Controller.NavigationBar.TitleTextAttributes = new UIStringAttributes
+            {
+                ForegroundColor = UIColor.White,
+                Font = UIFont.FromName("HelveticaNeue", 16)
+            };
 
             Window = new UIWindow(UIScreen.MainScreen.Bounds);
 
