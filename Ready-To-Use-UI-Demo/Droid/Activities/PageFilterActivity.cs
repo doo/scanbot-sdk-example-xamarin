@@ -17,6 +17,7 @@ using ReadyToUseUIDemo.Droid.Fragments;
 using ReadyToUseUIDemo.Droid.Listeners;
 using ReadyToUseUIDemo.Droid.Repository;
 using ReadyToUseUIDemo.Droid.Utils;
+using ReadyToUseUIDemo.model;
 using ScanbotSDK.Xamarin.Android;
 
 namespace ReadyToUseUIDemo.Droid.Activities
@@ -51,7 +52,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
-            SupportActionBar.Title = GetString(Resource.String.page_title);
+            SupportActionBar.Title = Texts.page_title;
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayShowHomeEnabled(true);
 
@@ -60,12 +61,19 @@ namespace ReadyToUseUIDemo.Droid.Activities
 
             selectedFilter = selectedPage.Filter;
 
-            FindViewById(Resource.Id.action_filter).Click += delegate
+            var crop = FindViewById<TextView>(Resource.Id.action_crop_and_rotate);
+            crop.Text = Texts.crop_amp_rotate;
+
+            var filter = FindViewById<TextView>(Resource.Id.action_filter);
+            filter.Text = Texts.filter;
+            filter.Click += delegate
             {
                 filterFragment.Show(SupportFragmentManager, "CHOOSE_FILTERS_DIALOG_TAG");
             };
 
-            FindViewById(Resource.Id.action_delete).Click += delegate
+            var delete = FindViewById<TextView>(Resource.Id.action_delete);
+            delete.Text = Texts.delete;
+            delete.Click += delegate
             {
                 PageRepository.Remove(this, selectedPage);
                 Finish();

@@ -66,7 +66,6 @@
             android:gravity="center_horizontal"
             android:letterSpacing="0.09"
             android:lineSpacingExtra="2sp"
-            android:text="@string/crop_amp_rotate"
             android:textColor="@color/greyColor"
             android:textSize="14sp"
             android:textStyle="normal" />
@@ -80,7 +79,6 @@
             android:gravity="center_horizontal"
             android:letterSpacing="0.09"
             android:lineSpacingExtra="2sp"
-            android:text="@string/filter"
             android:textColor="@color/greyColor"
             android:textSize="14sp"
             android:textStyle="normal" />
@@ -94,7 +92,6 @@
             android:gravity="center_horizontal"
             android:letterSpacing="0.09"
             android:lineSpacingExtra="2sp"
-            android:text="@string/delete"
             android:textColor="@color/greyColor"
             android:textSize="14sp"
             android:textStyle="normal" />

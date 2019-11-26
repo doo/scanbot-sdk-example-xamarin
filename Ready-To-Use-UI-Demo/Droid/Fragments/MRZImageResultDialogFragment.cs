@@ -9,6 +9,7 @@ using IO.Scanbot.Mrzscanner.Model;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
 using ReadyToUseUIDemo.Droid.Repository;
 using ReadyToUseUIDemo.Droid.Views;
+using ReadyToUseUIDemo.model;
 
 namespace ReadyToUseUIDemo.Droid.Fragments
 {
@@ -60,13 +61,13 @@ namespace ReadyToUseUIDemo.Droid.Fragments
         {
             var builder = new StringBuilder();
 
-            builder.Append(GetString(Resource.String.mrz_document_type)).Append(" ").Append(result.TravelDocType.Name()).Append("\n");
-            builder.Append(GetString(Resource.String.mrz_document_country)).Append(" ").Append(result.NationalityField().Value).Append("\n");
-            builder.Append(GetString(Resource.String.mrz_last_name)).Append(" ").Append(result.LastNameField().Value).Append("\n");
-            builder.Append(GetString(Resource.String.mrz_first_name)).Append(" ").Append(result.FirstNameField().Value).Append("\n");
-            builder.Append(GetString(Resource.String.mrz_document_code)).Append(" ").Append(result.DocumentCodeField().Value).Append("\n");
-            builder.Append(GetString(Resource.String.mrz_dob)).Append(" ").Append(result.DateOfBirthField().Value).Append("\n");
-            builder.Append(GetString(Resource.String.mrz_gender)).Append(" ").Append(result.GenderField().Value).Append("\n");
+            builder.Append(Texts.mrz_document_type).Append(" ").Append(result.TravelDocType.Name()).Append("\n");
+            builder.Append(Texts.mrz_document_country).Append(" ").Append(result.NationalityField().Value).Append("\n");
+            builder.Append(Texts.mrz_last_name).Append(" ").Append(result.LastNameField().Value).Append("\n");
+            builder.Append(Texts.mrz_first_name).Append(" ").Append(result.FirstNameField().Value).Append("\n");
+            builder.Append(Texts.mrz_document_code).Append(" ").Append(result.DocumentCodeField().Value).Append("\n");
+            builder.Append(Texts.mrz_dob).Append(" ").Append(result.DateOfBirthField().Value).Append("\n");
+            builder.Append(Texts.mrz_gender).Append(" ").Append(result.GenderField().Value).Append("\n");
 
             var validity = "Invalid";
 
@@ -75,7 +76,7 @@ namespace ReadyToUseUIDemo.Droid.Fragments
                 validity = "Valid";
             }
 
-            builder.Append(GetString(Resource.String.mrz_checksums)).Append(" ").Append(validity).Append("\n");
+            builder.Append(Texts.mrz_checksums).Append(" ").Append(validity).Append("\n");
 
             return builder.ToString();
         }

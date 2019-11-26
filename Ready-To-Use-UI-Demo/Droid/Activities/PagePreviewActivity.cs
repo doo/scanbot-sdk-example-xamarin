@@ -22,6 +22,7 @@ using ReadyToUseUIDemo.Droid.Fragments;
 using ReadyToUseUIDemo.Droid.Listeners;
 using ReadyToUseUIDemo.Droid.Repository;
 using ReadyToUseUIDemo.Droid.Utils;
+using ReadyToUseUIDemo.model;
 using ScanbotSDK.Xamarin.Android;
 
 namespace ReadyToUseUIDemo.Droid.Activities
@@ -44,7 +45,8 @@ namespace ReadyToUseUIDemo.Droid.Activities
         SaveBottomSheetMenuFragment saveFragment;
 
         ProgressBar progress;
-        View delete, filter, save;
+        TextView delete, filter;
+        Button save;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -55,7 +57,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
-            SupportActionBar.Title = GetString(Resource.String.scan_results);
+            SupportActionBar.Title = Texts.scan_results;
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayShowHomeEnabled(true);
 
@@ -90,7 +92,9 @@ namespace ReadyToUseUIDemo.Droid.Activities
             
             progress = FindViewById<ProgressBar>(Resource.Id.progressBar);
 
-            FindViewById(Resource.Id.action_add_page).Click += delegate
+            var addPage = FindViewById<TextView>(Resource.Id.action_add_page);
+            addPage.Text = Texts.add_page;
+            addPage.Click += delegate
             {
                 var configuration = new DocumentScannerConfiguration();
                 configuration.SetCameraPreviewMode(CameraPreviewMode.FillIn);
@@ -98,10 +102,11 @@ namespace ReadyToUseUIDemo.Droid.Activities
                 var intent = DocumentScannerActivity.NewIntent(this, configuration);
             };
 
-            delete = FindViewById(Resource.Id.action_delete_all);
-            filter = FindViewById(Resource.Id.action_filter);
-            save = FindViewById(Resource.Id.action_save_document);
+            var results = FindViewById<TextView>(Resource.Id.scan_results);
+            results.Text = Texts.scan_results;
 
+            delete = FindViewById<TextView>(Resource.Id.action_delete_all);
+            delete.Text = Texts.delete_all;
             delete.Click += delegate
             {
                 PageRepository.Clear();
@@ -111,12 +116,16 @@ namespace ReadyToUseUIDemo.Droid.Activities
                 save.Enabled = false;
             };
 
+            filter = FindViewById<TextView>(Resource.Id.action_filter);
+            filter.Text = Texts.filter;
             filter.Click += delegate
             {
                 var existing = SupportFragmentManager.FindFragmentByTag(FILTERS_MENU_TAG);
                 filterFragment.Show(SupportFragmentManager, FILTERS_MENU_TAG);
             };
 
+            save = FindViewById<Button>(Resource.Id.action_save_document);
+            save.Text = Texts.save;
             save.Click += delegate
             {
                 var existing = SupportFragmentManager.FindFragmentByTag(SAVE_MENU_TAG);

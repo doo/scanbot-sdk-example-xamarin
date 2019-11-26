@@ -60,12 +60,12 @@ namespace ReadyToUseUIDemo.Droid
 
         ProgressBar progress;
 
-        View LicenseIndicator
+        TextView LicenseIndicator
         {
             get
             {
                 var container = FindViewById(Resource.Id.container);
-                return container.FindViewById(Resource.Id.licenseIndicator);
+                return container.FindViewById<TextView>(Resource.Id.licenseIndicator);
             }
         }
 
@@ -77,6 +77,9 @@ namespace ReadyToUseUIDemo.Droid
             SetContentView(Resource.Layout.Main);
 
             var container = (LinearLayout)FindViewById(Resource.Id.container);
+
+            var title = container.FindViewById<TextView>(Resource.Id.textView);
+            title.Text = Texts.scanbot_sdk_demo;
 
             progress = FindViewById<ProgressBar>(Resource.Id.progressBar);
 
@@ -111,6 +114,8 @@ namespace ReadyToUseUIDemo.Droid
                 collectors.AddView(child);
                 buttons.Add(child);
             }
+
+            LicenseIndicator.Text = Texts.no_license_found_the_app_will_terminate_after_one_minute;
         }
 
         protected override void OnResume()
@@ -185,7 +190,7 @@ namespace ReadyToUseUIDemo.Droid
                 intent.PutExtra(Intent.ExtraLocalOnly, false);
                 intent.PutExtra(Intent.ExtraAllowMultiple, false);
 
-                var chooser = Intent.CreateChooser(intent, GetString(Resource.String.share_title));
+                var chooser = Intent.CreateChooser(intent, Texts.share_title);
                 StartActivityForResult(chooser, IMPORT_IMAGE_REQUEST);
             }
             else if (button.Data.Code == ListItemCode.ViewImages)
@@ -280,7 +285,7 @@ namespace ReadyToUseUIDemo.Droid
                 }
 
                 progress.Visibility = ViewStates.Visible;
-                Alert.Toast(this, GetString(Resource.String.importing_and_processing));
+                Alert.Toast(this, Texts.importing_and_processing);
                 Task.Run(delegate
                 {
                     

@@ -6,6 +6,7 @@ using Android.Views;
 using Android.Widget;
 using IO.Scanbot.Mrzscanner.Model;
 using ReadyToUseUIDemo.Droid.Views;
+using ReadyToUseUIDemo.model;
 
 namespace ReadyToUseUIDemo.Droid.Fragments
 {
@@ -38,22 +39,22 @@ namespace ReadyToUseUIDemo.Droid.Fragments
         {
             var builder = new StringBuilder();
 
-            Append(builder, GetString(Resource.String.mrz_document_code), result.DocumentCodeField().Value);
-            Append(builder, GetString(Resource.String.mrz_first_name), result.FirstNameField().Value);
-            Append(builder, GetString(Resource.String.mrz_last_name), result.LastNameField().Value);
-            Append(builder, GetString(Resource.String.mrz_issuing_organization), result.IssuingStateOrOrganizationField().Value);
-            Append(builder, GetString(Resource.String.mrz_document_of_issue), result.DepartmentOfIssuanceField().Value);
-            Append(builder, GetString(Resource.String.mrz_nationality), result.NationalityField().Value);
-            Append(builder, GetString(Resource.String.mrz_dob), result.DateOfBirthField().Value);
-            Append(builder, GetString(Resource.String.mrz_gender), result.GenderField().Value);
-            Append(builder, GetString(Resource.String.mrz_date_expiry), result.DateOfExpiryField().Value);
-            Append(builder, GetString(Resource.String.mrz_personal_number), result.PersonalNumberField().Value);
-            Append(builder, GetString(Resource.String.mrz_optional1), result.Optional1Field().Value);
-            Append(builder, GetString(Resource.String.mrz_optional2), result.Optional2Field().Value);
-            Append(builder, GetString(Resource.String.mrz_discreet_issuing_organization), result.DiscreetIssuingStateOrOrganizationField().Value);
-            Append(builder, GetString(Resource.String.mrz_valid_check_digits_count), result.ValidCheckDigitsCount.ToString());
-            Append(builder, GetString(Resource.String.mrz_check_digits_count), result.CheckDigitsCount.ToString());
-            Append(builder, GetString(Resource.String.travel_doc_type), result.TravelDocTypeField().Value);
+            Append(builder, Texts.mrz_document_code, result.DocumentCodeField().Value);
+            Append(builder, Texts.mrz_first_name, result.FirstNameField().Value);
+            Append(builder, Texts.mrz_last_name, result.LastNameField().Value);
+            Append(builder, Texts.mrz_issuing_organization, result.IssuingStateOrOrganizationField().Value);
+            Append(builder, Texts.mrz_document_of_issue, result.DepartmentOfIssuanceField().Value);
+            Append(builder, Texts.mrz_nationality, result.NationalityField().Value);
+            Append(builder, Texts.mrz_dob, result.DateOfBirthField().Value);
+            Append(builder, Texts.mrz_gender, result.GenderField().Value);
+            Append(builder, Texts.mrz_date_expiry, result.DateOfExpiryField().Value);
+            Append(builder, Texts.mrz_personal_number, result.PersonalNumberField().Value);
+            Append(builder, Texts.mrz_optional1, result.Optional1Field().Value);
+            Append(builder, Texts.mrz_optional2, result.Optional2Field().Value);
+            Append(builder, Texts.mrz_discreet_issuing_organization, result.DiscreetIssuingStateOrOrganizationField().Value);
+            Append(builder, Texts.mrz_valid_check_digits_count, result.ValidCheckDigitsCount.ToString());
+            Append(builder, Texts.mrz_check_digits_count, result.CheckDigitsCount.ToString());
+            Append(builder, Texts.travel_doc_type, result.TravelDocTypeField().Value);
 
             return builder.ToString();
         }

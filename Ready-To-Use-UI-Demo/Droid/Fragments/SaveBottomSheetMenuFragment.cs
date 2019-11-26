@@ -4,6 +4,7 @@ using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
 using ReadyToUseUIDemo.Droid.Activities;
+using ReadyToUseUIDemo.model;
 
 namespace ReadyToUseUIDemo.Droid.Fragments
 {
@@ -13,13 +14,17 @@ namespace ReadyToUseUIDemo.Droid.Fragments
         {
             var view = inflater.Inflate(Resource.Layout.save_bottom_sheet, container, false);
 
-            view.FindViewById<Button>(Resource.Id.save_with_ocr).Click += delegate
+            var saveWith = view.FindViewById<Button>(Resource.Id.save_with_ocr);
+            saveWith.Text = Texts.save_with_ocr;
+            saveWith.Click += delegate
             {
                 (Activity as PagePreviewActivity).SaveWithOcr();
                 DismissAllowingStateLoss();
             };
 
-            view.FindViewById<Button>(Resource.Id.save_without_ocr).Click += delegate
+            var saveWithout = view.FindViewById<Button>(Resource.Id.save_without_ocr);
+            saveWithout.Text = Texts.save_without_ocr;
+            saveWithout.Click += delegate
             {
                 (Activity as PagePreviewActivity).SaveWithoutOcr();
                 DismissAllowingStateLoss();
