@@ -84,7 +84,8 @@ namespace ReadyToUseUIDemo.Droid.Activities
                 var configuration = new CroppingConfiguration();
                 configuration.SetPolygonColor(Color.Red);
                 configuration.SetPolygonColorMagnetic(Color.Blue);
-
+                configuration.SetPage(selectedPage);
+                
                 var intent = CroppingActivity.NewIntent(this, configuration);
                 StartActivityForResult(intent, CROP_DEFAULT_UI_REQUEST_CODE);
             };

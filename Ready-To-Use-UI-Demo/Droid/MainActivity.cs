@@ -156,7 +156,10 @@ namespace ReadyToUseUIDemo.Droid
         }
 
 
-        Dictionary<Java.Lang.Class, Java.Lang.Class> Filler
+        // WorkflowScannerActivity workflowScanners parameter is an optional parameter,
+        // however, the generated Kotlin -> C# bindings do not that take that into account.
+        // Just create an empty Dictionary and enter it as a parameter
+        Dictionary<Java.Lang.Class, Java.Lang.Class> WorkflowScanners
         {
             get => new Dictionary<Java.Lang.Class, Java.Lang.Class>();
         }
@@ -205,9 +208,8 @@ namespace ReadyToUseUIDemo.Droid
                 configuration.SetTopBarBackgroundColor(Color.White);
                 configuration.SetCameraPreviewMode(CameraPreviewMode.FitIn);
 
-                var filler = new Dictionary<Java.Lang.Class, Java.Lang.Class>();
                 var intent = WorkflowScannerActivity.NewIntent(this, configuration,
-                    WorkflowFactory.DisabilityCertificate, filler
+                    WorkflowFactory.DisabilityCertificate, WorkflowScanners
                 );
                 StartActivityForResult(intent, DC_SCAN_WORKFLOW_REQUEST_CODE);
             }
@@ -225,7 +227,7 @@ namespace ReadyToUseUIDemo.Droid
                 configuration.SetIgnoreBadAspectRatio(true);
 
                 var flow = WorkflowFactory.ScanMRZAndSnap;
-                var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, Filler);
+                var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, WorkflowScanners);
                 StartActivityForResult(intent, MRZ_SNAP_WORKFLOW_REQUEST_CODE);
             }
             else if (button.Data.Code == ListItemCode.ScanMRZFrontBack)
@@ -234,7 +236,7 @@ namespace ReadyToUseUIDemo.Droid
                 configuration.SetIgnoreBadAspectRatio(true);
 
                 var flow = WorkflowFactory.ScanMRZAndFrontBackSnap;
-                var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, Filler);
+                var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, WorkflowScanners);
                 StartActivityForResult(intent, MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE);
             }
             else if (button.Data.Code == ListItemCode.ScanSEPA)
@@ -244,7 +246,7 @@ namespace ReadyToUseUIDemo.Droid
                 configuration.SetCameraPreviewMode(CameraPreviewMode.FitIn);
 
                 var flow = WorkflowFactory.PayFormWithClassicalDocPolygonDetection;
-                var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, Filler);
+                var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, WorkflowScanners);
 
                 StartActivityForResult(intent, PAYFORM_SCAN_WORKFLOW_REQUEST_CODE);
             }

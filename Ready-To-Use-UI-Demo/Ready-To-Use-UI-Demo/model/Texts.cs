@@ -63,11 +63,11 @@ namespace ReadyToUseUIDemo.model
 
         public const string pure_binarized_filter = "Pure Binarized Filter";
 
-        public const string black_amp_white_filter = "<![CDATA[Black & White Filter]]>";
+        public const string black_amp_white_filter = "Black & White Filter";
 
         public const string none = "None";
 
-        public const string crop_amp_rotate = "<![CDATA[CROP & ROTATE]]>";
+        public const string crop_amp_rotate = "CROP & ROTATE";
 
         public const string delete = "DELETE";
 
