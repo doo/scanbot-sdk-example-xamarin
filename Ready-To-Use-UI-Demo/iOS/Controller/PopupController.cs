@@ -5,7 +5,6 @@ using UIKit;
 
 namespace ReadyToUseUIDemo.iOS.Controller
 {
-
     public class PopupController : UIViewController
     {
         public PopupView Content { get; set; }

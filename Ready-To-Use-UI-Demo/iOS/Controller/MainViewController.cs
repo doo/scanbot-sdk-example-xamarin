@@ -73,8 +73,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
             var button = (ScannerButton)sender;
 
             if (button.Data.Code == ListItemCode.ScanDC)
-            {                
-                var ratios = new List<SBSDKPageAspectRatio>
+            {
+                var ratios = new SBSDKPageAspectRatio[]
                 {
                     // DC form A5 portrait (e.g. white sheet, AUB Muster 1b/E (1/2018))
                     new SBSDKPageAspectRatio(148.0, 210.0),
@@ -83,23 +83,85 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 };
 
                 var title = "Please align the DC form in the frame.";
-                var body = "";
                 var name = "DisabilityCertificateFlow";
 
-                var steps = new List<SBSDKUIWorkflowStep>
+                var steps = new SBSDKUIWorkflowStep[]
                 {
                     new SBSDKUIScanDisabilityCertificateWorkflowStep(
-                        title, body, ratios.ToArray(), true, OnWorkflowStepResult
+                        title, "", ratios, true, OnWorkflowStepResult
                     )
-                }.ToArray();
+                };
 
-                SBSDKUIWorkflow workflow = new SBSDKUIWorkflow(steps, name, OnWorkflowStepListResult);
-                
-                var config = SBSDKUIWorkflowScannerConfiguration.DefaultConfiguration;
-                var controller = SBSDKUIWorkflowScannerViewController.CreateNewWithWorkflow(workflow, config, Callback);
-                controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
-                PresentViewController(controller, false, null);
+                PresentController(name, steps);
             }
+            else if (button.Data.Code == ListItemCode.ScanMRZ)
+            {
+                var ratios = new SBSDKPageAspectRatio[]
+                {
+                    new SBSDKPageAspectRatio(85.0, 54.0),
+                    new SBSDKPageAspectRatio(125.0, 88.0)
+                };
+                
+                var title = "Please align the Machine readable form in the frame";
+                var name = "MRZScanFlow";
+
+                var steps = new SBSDKUIWorkflowStep[]
+                {
+                    new SBSDKUIScanMachineReadableZoneWorkflowStep(
+                        title, "", ratios, true, OnWorkflowStepResult
+                    )
+                };
+
+                PresentController(name, steps);
+            }
+            else if (button.Data.Code == ListItemCode.ScanMRZImage)
+            {
+
+            }
+            else if (button.Data.Code == ListItemCode.ScanMRZFrontBack)
+            {
+
+            }
+            else if (button.Data.Code == ListItemCode.ScanSEPA)
+            {
+                var name = "SEPAScanFlow";
+                var steps = new SBSDKUIWorkflowStep[]
+                {
+                    new SBSDKUIScanPayFormWorkflowStep(
+                        "Please scan a SEPA PayForm", null, true, null
+                    )
+                };
+
+                PresentController(name, steps);
+
+            }
+            else if (button.Data.Code == ListItemCode.ScanQRBar)
+            {
+                var name = "QRCodeScanFlow";
+                var types = new string[] { AVConstants.AVMetadataObjectTypeQRCode.ToString() };
+                var steps = new SBSDKUIWorkflowStep[]
+                {
+                    new SBSDKUIScanBarCodeWorkflowStep(
+                        "Scan your QR code", null, types, new CGSize(1, 1), null
+                    )
+                };
+                PresentController(name, steps);
+            }
+        }
+
+        void PresentController(string name, SBSDKUIWorkflowStep[] steps, SBSDKUIWorkflowScannerConfiguration configuration = null)
+        {
+            if (configuration == null)
+            {
+                configuration = SBSDKUIWorkflowScannerConfiguration.DefaultConfiguration;
+            }
+
+            SBSDKUIWorkflow workflow = new SBSDKUIWorkflow(steps, name, null);
+
+            var config = SBSDKUIWorkflowScannerConfiguration.DefaultConfiguration;
+            var controller = SBSDKUIWorkflowScannerViewController.CreateNewWithWorkflow(workflow, config, Callback);
+            controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
+            PresentViewController(controller, false, null);
         }
 
         // Errors are handled in ScanResultCallback, can leave this empty
@@ -107,13 +169,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
         {
             return null;
         }
-
-        // Errors are handled in ScanResultCallback, can leave this empty
-        private NSError OnWorkflowStepListResult(SBSDKUIWorkflowStepResult[] result)
-        {
-            return null;
-        }
-
     }
 
 }
