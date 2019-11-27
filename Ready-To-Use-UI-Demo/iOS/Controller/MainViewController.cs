@@ -7,6 +7,7 @@ using Foundation;
 using ReadyToUseUIDemo.iOS.View;
 using ReadyToUseUIDemo.model;
 using ScanbotSDK.iOS;
+using ScanbotSDK.Xamarin.iOS;
 using UIKit;
 
 namespace ReadyToUseUIDemo.iOS.Controller
@@ -31,11 +32,18 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
             Callback = new ScanResultCallback();
             Callback.Parent = this;
+
+            ContentView.LicenseIndicator.Text = Texts.no_license_found_the_app_will_terminate_after_one_minute;
         }
 
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
+
+            if (SBSDK.IsLicenseValid())
+            {
+                ContentView.LayoutSubviews();
+            }
 
             foreach (ScannerButton button in ContentView.DocumentScanner.Buttons)
             {

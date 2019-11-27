@@ -20,6 +20,14 @@ namespace ReadyToUseUIDemo.iOS.View
             BackgroundColor = UIColor.White;
 
             LicenseIndicator = new UILabel();
+            LicenseIndicator.TextColor = UIColor.White;
+            LicenseIndicator.BackgroundColor = Colors.ScanbotRed;
+            LicenseIndicator.Layer.CornerRadius = 5;
+            LicenseIndicator.Font = UIFont.FromName("HelveticaNeue", 13);
+            LicenseIndicator.Lines = 0;
+            LicenseIndicator.ClipsToBounds = true;
+            LicenseIndicator.TextAlignment = UITextAlignment.Center;
+
             AddSubview(LicenseIndicator);
         }
 
@@ -29,10 +37,10 @@ namespace ReadyToUseUIDemo.iOS.View
 
             nfloat largePadding = 20;
 
-            nfloat x = 0;
-            nfloat y = 0;
-            nfloat w = Frame.Width;
-            nfloat h = Frame.Width / 5;
+            nfloat x = largePadding;
+            nfloat y = largePadding;
+            nfloat w = Frame.Width - 2 * x;
+            nfloat h = Frame.Width / 6;
 
             if (SBSDK.IsLicenseValid())
             {
@@ -41,7 +49,9 @@ namespace ReadyToUseUIDemo.iOS.View
 
             LicenseIndicator.Frame = new CGRect(x, y, w, h);
 
+            x = 0;
             y += h + largePadding;
+            w = Frame.Width;
             h = DocumentScanner.Height;
 
             DocumentScanner.Frame = new CGRect(x, y, w, h);
