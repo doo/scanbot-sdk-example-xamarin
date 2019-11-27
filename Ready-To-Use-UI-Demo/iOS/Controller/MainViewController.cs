@@ -40,7 +40,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
         {
             base.ViewWillAppear(animated);
 
-            if (SBSDK.IsLicenseValid())
+            if (!SBSDK.IsLicenseValid())
             {
                 ContentView.LayoutSubviews();
             }
@@ -76,6 +76,11 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
         }
 
+        SBSDKPageAspectRatio[] MRZRatios = {
+            new SBSDKPageAspectRatio(85.0, 54.0),
+            new SBSDKPageAspectRatio(125.0, 88.0)
+        };
+
         private void OnDataButtonClick(object sender, EventArgs e)
         {
             var button = (ScannerButton)sender;
@@ -104,19 +109,13 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
             else if (button.Data.Code == ListItemCode.ScanMRZImage)
             {
-                var ratios = new SBSDKPageAspectRatio[]
-                {
-                    new SBSDKPageAspectRatio(85.0, 54.0),
-                    new SBSDKPageAspectRatio(125.0, 88.0)
-                };
-
                 var title = "Please align the Machine readable card with the form in the frame";
                 var name = "MRZScanFlow";
 
                 var steps = new SBSDKUIWorkflowStep[]
                 {
                     new SBSDKUIScanMachineReadableZoneWorkflowStep(
-                        title, "", ratios, true, OnWorkflowStepResult
+                        title, "", MRZRatios, true, OnWorkflowStepResult
                     )
                 };
 
@@ -124,7 +123,19 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
             else if (button.Data.Code == ListItemCode.ScanMRZFrontBack)
             {
+                var name = "MRZBackFrontScanFlow";
 
+                var steps = new SBSDKUIWorkflowStep[]
+                {
+                    new SBSDKUIScanMachineReadableZoneWorkflowStep(
+                        "Scan 1/2", "Please scan the back side of your ID card", MRZRatios, true, OnWorkflowStepResult
+                    ),
+                    new SBSDKUIScanDocumentPageWorkflowStep(
+                        "Scan 2/2", "Please scan the front side of your ID card", null, null, null
+                    )
+                };
+
+                PresentController(name, steps);
             }
             else if (button.Data.Code == ListItemCode.ScanSEPA)
             {
@@ -168,7 +179,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
             PresentViewController(controller, false, null);
         }
 
-        // Errors are handled in ScanResultCallback, can leave this empty
+        // Results (both success and error) can be handled here or in the callback class.
+        // To separate logic, we use ScanResultCallback.cs for processing results
         private NSError OnWorkflowStepResult(SBSDKUIWorkflowStepResult result)
         {
             return null;

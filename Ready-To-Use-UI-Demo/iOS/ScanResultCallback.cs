@@ -66,6 +66,12 @@ namespace ReadyToUseUIDemo.iOS
                     images.Add(result.Thumbnail);
                 }
 
+                // Will be true when front side of the document was also scanned
+                if (results.Length > 1 && results[1].Thumbnail != null)
+                {
+                    images.Add(results[1].Thumbnail);
+                }
+
                 text = builder.ToString();
             }
 
