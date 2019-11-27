@@ -117,6 +117,9 @@
     <Compile Include="View\MainView.cs" />
     <Compile Include="View\ButtonContainer.cs" />
     <Compile Include="View\ScannerButton.cs" />
+    <Compile Include="View\PopupView.cs" />
+    <Compile Include="Controller\PopupController.cs" />
+    <Compile Include="ScanResultCallback.cs" />
   </ItemGroup>
   <Import Project="..\Ready-To-Use-UI-Demo\Ready-To-Use-UI-Demo.projitems" Label="Shared" Condition="Exists('..\Ready-To-Use-UI-Demo\Ready-To-Use-UI-Demo.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
