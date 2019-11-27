@@ -44,5 +44,7 @@
 	<false/>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Scanbot would like to import images from your Gallery</string>
 </dict>
 </plist>

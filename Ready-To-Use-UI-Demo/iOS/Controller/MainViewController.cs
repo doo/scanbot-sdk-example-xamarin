@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CoreGraphics;
 using Foundation;
+using ReadyToUseUIDemo.iOS.Service;
 using ReadyToUseUIDemo.iOS.View;
 using ReadyToUseUIDemo.model;
 using ScanbotSDK.iOS;
@@ -54,6 +55,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
             {
                 button.Click += OnDataButtonClick;
             }
+
+            ImagePicker.Instance.Controller.FinishedPickingMedia += ImageImported;
         }
 
         public override void ViewWillDisappear(bool animated)
@@ -69,11 +72,44 @@ namespace ReadyToUseUIDemo.iOS.Controller
             {
                 button.Click -= OnDataButtonClick;
             }
+
+            ImagePicker.Instance.Controller.FinishedPickingMedia -= ImageImported;
         }
 
         private void OnScannerButtonClick(object sender, EventArgs e)
         {
+            var button = (ScannerButton)sender;
 
+            if (button.Data.Code == ListItemCode.ScanDocument)
+            {
+
+            }
+            else if (button.Data.Code == ListItemCode.ImportImage)
+            {
+                ImagePicker.Instance.Present(this);
+            }
+            else if (button.Data.Code == ListItemCode.ViewImages)
+            {
+
+            }
+        }
+
+        private void ImageImported(object sender, UIImagePickerMediaPickedEventArgs e)
+        {
+            var image = e.OriginalImage;
+            ImagePicker.Instance.Dismiss();
+
+            var controller = new CroppingController(image);
+            PresentViewController(controller, true, null);
+
+            controller.Finished += CroppingFinished;
+        }
+
+        private void CroppingFinished(object sender, CroppingEventArgs e)
+        {
+            (sender as CroppingController).Finished = null;
+            var image = e.Image;
+            Console.WriteLine("Image processed");
         }
 
         SBSDKPageAspectRatio[] MRZRatios = {
@@ -157,9 +193,9 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 var steps = new SBSDKUIWorkflowStep[]
                 {
                     new SBSDKUIScanBarCodeWorkflowStep(
-                        "Scan your QR code", null, types, new CGSize(1, 1), null
-                    )
+                        "Scan your QR code", "", types, new CGSize(1, 1), null)
                 };
+
                 PresentController(name, steps);
             }
         }
