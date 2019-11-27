@@ -102,15 +102,15 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
                 PresentController(name, steps);
             }
-            else if (button.Data.Code == ListItemCode.ScanMRZ)
+            else if (button.Data.Code == ListItemCode.ScanMRZImage)
             {
                 var ratios = new SBSDKPageAspectRatio[]
                 {
                     new SBSDKPageAspectRatio(85.0, 54.0),
                     new SBSDKPageAspectRatio(125.0, 88.0)
                 };
-                
-                var title = "Please align the Machine readable form in the frame";
+
+                var title = "Please align the Machine readable card with the form in the frame";
                 var name = "MRZScanFlow";
 
                 var steps = new SBSDKUIWorkflowStep[]
@@ -121,10 +121,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 };
 
                 PresentController(name, steps);
-            }
-            else if (button.Data.Code == ListItemCode.ScanMRZImage)
-            {
-
             }
             else if (button.Data.Code == ListItemCode.ScanMRZFrontBack)
             {

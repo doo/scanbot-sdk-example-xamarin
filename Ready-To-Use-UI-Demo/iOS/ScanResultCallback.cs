@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using System.Text;
 using ReadyToUseUIDemo.iOS.Controller;
 using ReadyToUseUIDemo.model;
@@ -15,10 +16,11 @@ namespace ReadyToUseUIDemo.iOS
             SBSDKUIWorkflow workflow, SBSDKUIWorkflowStepResult[] results)
         {
             var text = "No results to process, please try again";
+            var images = new List<UIImage>();
 
             if (results.Length == 0)
             {
-                PresentResultPopup(viewController, text);
+                PresentResultPopup(viewController, text, images);
                 return;
             }
 
@@ -59,15 +61,21 @@ namespace ReadyToUseUIDemo.iOS
 
                 builder.Append(Texts.mrz_checksums).Append(" ").Append(validity).Append("\n");
 
+                if (result.Thumbnail != null)
+                {
+                    images.Add(result.Thumbnail);
+                }
+
                 text = builder.ToString();
             }
 
-            PresentResultPopup(viewController, text);
+            PresentResultPopup(viewController, text, images);
         }
 
-        void PresentResultPopup(UIViewController current, string content)
+        void PresentResultPopup(UIViewController current, string content, List<UIImage> images)
         {
-            var popover = new PopupController(content);
+            var popover = new PopupController(content, images);
+
             current.DismissViewController(false, delegate
             {
                 Parent.PresentViewController(popover, true, delegate {

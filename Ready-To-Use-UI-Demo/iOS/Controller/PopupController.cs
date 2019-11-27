@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CoreGraphics;
 using ReadyToUseUIDemo.iOS.View;
 using UIKit;
@@ -9,10 +10,13 @@ namespace ReadyToUseUIDemo.iOS.Controller
     {
         public PopupView Content { get; set; }
         string text;
+        List<UIImage> images;
 
-        public PopupController(string text)
+        public PopupController(string text, List<UIImage> images)
         {
             this.text = text;
+            this.images = images;
+
             ModalPresentationStyle = UIModalPresentationStyle.OverFullScreen;
 
         }
@@ -40,9 +44,10 @@ namespace ReadyToUseUIDemo.iOS.Controller
             nfloat h = View.Frame.Height - 2 * vPadding;
 
             Content = new PopupView(text);
+            Content.ImageContainer.Items = images;
             Content.Frame = new CGRect(x, y, w, h);
             Content.Label.Text = text;
-
+            
             View.BackgroundColor = UIColor.FromRGBA(0, 0, 0, 0.5f);
             View.AddSubview(Content);
         }
