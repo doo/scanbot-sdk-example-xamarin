@@ -30,16 +30,28 @@ namespace ReadyToUseUIDemo.iOS
 
             if (result.DisabilityCertificateResult != null)
             {
-                if (!results[0].DisabilityCertificateResult.RecognitionSuccessful)
+                if (!result.DisabilityCertificateResult.RecognitionSuccessful)
                 {
                     text = "Recognition failed";
                 }
                 else
                 {
-                    text = results[0].DisabilityCertificateResult.StringRepresentation;
+                    text = result.DisabilityCertificateResult.StringRepresentation;
                 }
             }
-            if (result.Step is SBSDKUIScanMachineReadableZoneWorkflowStep)
+            else if (result.Step is SBSDKUIScanBarCodeWorkflowStep)
+            {
+                
+                if (result.Thumbnail != null)
+                {
+                    images.Add(result.Thumbnail);
+                }
+                if (result.BarcodeResults.Length > 0)
+                {
+                    text = result.BarcodeResults[0].StringValue;
+                }
+            }
+            else if (result.Step is SBSDKUIScanMachineReadableZoneWorkflowStep)
             {
                 var builder = new StringBuilder();
                 var step = result.MrzResult;

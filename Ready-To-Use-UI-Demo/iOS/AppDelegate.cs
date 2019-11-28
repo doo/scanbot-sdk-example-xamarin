@@ -17,8 +17,9 @@ namespace ReadyToUseUIDemo.iOS
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
-            var configuration = new SBSDKConfiguration { EnableLogging = true };
-            SBSDK.Initialize(application, LICENSE, configuration);
+            //var configuration = new SBSDKConfiguration { EnableLogging = true };
+            //SBSDK.Initialize(application, LICENSE, configuration);
+            ScanbotSDK.iOS.ScanbotSDKGlobal.SetupDefaultLicenseFailureHandler();
 
             UIViewController initial = new MainViewController();
             Controller = new UINavigationController(initial);

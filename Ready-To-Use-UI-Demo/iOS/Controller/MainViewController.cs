@@ -189,7 +189,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             else if (button.Data.Code == ListItemCode.ScanQRBar)
             {
                 var name = "QRCodeScanFlow";
-                var types = new string[] { AVConstants.AVMetadataObjectTypeQRCode.ToString() };
+                var types = SBSDKUIMachineCodesCollection.TwoDimensionalBarcodes;
                 var steps = new SBSDKUIWorkflowStep[]
                 {
                     new SBSDKUIScanBarCodeWorkflowStep(
