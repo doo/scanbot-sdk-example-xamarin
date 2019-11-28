@@ -51,6 +51,31 @@ namespace ReadyToUseUIDemo.iOS
                     text = result.BarcodeResults[0].StringValue;
                 }
             }
+            else if (result.Step is SBSDKUIScanPayFormWorkflowStep)
+            {
+                if (result.Thumbnail != null)
+                {
+                    images.Add(result.Thumbnail);
+                }
+
+                if (result.PayformResult == null)
+                {
+                    text = "Failed to recognize form, please try again";
+                }
+                else
+                {
+                    var builder = new StringBuilder();
+                    foreach (var field in result.PayformResult.RecognizedFields)
+                    {
+                        builder.Append("• ");
+                        builder.Append(field.Token.Type.ToString());
+                        builder.Append(": ");
+                        builder.Append(field.Value);
+                        builder.Append("\n");
+                    }
+                    text = builder.ToString();
+                }
+            }
             else if (result.Step is SBSDKUIScanMachineReadableZoneWorkflowStep)
             {
                 var builder = new StringBuilder();

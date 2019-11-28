@@ -78,6 +78,12 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
         private void OnScannerButtonClick(object sender, EventArgs e)
         {
+            if (!SBSDK.IsLicenseValid())
+            {
+                ContentView.LayoutSubviews();
+                return;
+            }
+
             var button = (ScannerButton)sender;
 
             if (button.Data.Code == ListItemCode.ScanDocument)
@@ -119,6 +125,12 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
         private void OnDataButtonClick(object sender, EventArgs e)
         {
+            if (!SBSDK.IsLicenseValid())
+            {
+                ContentView.LayoutSubviews();
+                return;
+            }
+
             var button = (ScannerButton)sender;
 
             if (button.Data.Code == ListItemCode.ScanDC)
@@ -179,7 +191,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 var steps = new SBSDKUIWorkflowStep[]
                 {
                     new SBSDKUIScanPayFormWorkflowStep(
-                        "Please scan a SEPA PayForm", null, true, null
+                        "Please scan a SEPA PayForm", "", false, OnWorkflowStepResult
                     )
                 };
 

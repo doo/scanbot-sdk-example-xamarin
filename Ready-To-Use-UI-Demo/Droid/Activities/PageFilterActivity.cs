@@ -124,6 +124,16 @@ namespace ReadyToUseUIDemo.Droid.Activities
             }
         }
 
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            if (item.ItemId == Android.Resource.Id.Home)
+            {
+                base.OnBackPressed();
+                return true;
+            }
+            return base.OnOptionsItemSelected(item);
+        }
+
         public void LowLightBinarizationFilter()
         {
             ApplyFilter(ImageFilterType.LowLightBinarization);
