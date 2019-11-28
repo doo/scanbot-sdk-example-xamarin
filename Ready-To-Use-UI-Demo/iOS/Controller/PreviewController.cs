@@ -1,4 +1,5 @@
 ﻿using System;
+using ReadyToUseUIDemo.iOS.Repository;
 using ReadyToUseUIDemo.iOS.View;
 using ScanbotSDK.iOS;
 using UIKit;
@@ -16,7 +17,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             ContentView = new PreviewPageView();
             View = ContentView;
 
-            //ContentView.Collection.Pages.Add(new SBSDKUIPage(new UIImage(), new SBSDKPolygon(), SBSDKImageFilterType.Binarized));
+            ContentView.Collection.Pages.AddRange(PageRepository.Items);
             ContentView.Collection.ReloadData();
         }
 

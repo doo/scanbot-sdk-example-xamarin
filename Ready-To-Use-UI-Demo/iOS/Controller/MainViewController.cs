@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CoreGraphics;
 using Foundation;
+using ReadyToUseUIDemo.iOS.Repository;
 using ReadyToUseUIDemo.iOS.Service;
 using ReadyToUseUIDemo.iOS.View;
 using ReadyToUseUIDemo.model;
@@ -97,7 +98,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
             else if (button.Data.Code == ListItemCode.ViewImages)
             {
                 var controller = new PreviewController();
-                //PresentViewController(controller, true, null);
                 NavigationController.PushViewController(controller, true);
             }
         }
@@ -116,8 +116,10 @@ namespace ReadyToUseUIDemo.iOS.Controller
         private void CroppingFinished(object sender, CroppingEventArgs e)
         {
             (sender as CroppingController).Finished = null;
-            var image = e.Image;
-            Console.WriteLine("Image processed");
+            PageRepository.Add(e.Image, e.Polygon);
+
+            var controller = new PreviewController();
+            NavigationController.PushViewController(controller, true);
         }
 
         SBSDKPageAspectRatio[] MRZRatios = {

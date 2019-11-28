@@ -1,5 +1,7 @@
 ﻿using System;
+using CoreGraphics;
 using Foundation;
+using ScanbotSDK.iOS;
 using UIKit;
 
 namespace ReadyToUseUIDemo.iOS.View.Collection
@@ -10,6 +12,7 @@ namespace ReadyToUseUIDemo.iOS.View.Collection
 
         public UIImageView ImageView { get; private set; }
 
+        public SBSDKUIPage Page { get; private set; }
         public ImageCell()
         {
             Initialize();
@@ -29,7 +32,21 @@ namespace ReadyToUseUIDemo.iOS.View.Collection
         public override void LayoutSubviews()
         {
             base.LayoutSubviews();
-            ImageView.Frame = Bounds;
+            
+            var padding = 5;
+
+            nfloat x = padding;
+            nfloat y = padding;
+            nfloat w = Frame.Width - 2 * padding;
+            nfloat h = Frame.Height - 2 * padding;
+
+            ImageView.Frame = new CGRect(x, y, w, h);
+        }
+
+        public void Update(SBSDKUIPage page)
+        {
+            ImageView.Image = page.DocumentImage;
+            Page = page;
         }
     }
 }

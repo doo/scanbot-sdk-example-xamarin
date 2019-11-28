@@ -8,6 +8,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
     public class CroppingEventArgs : EventArgs
     {
         public UIImage Image { get; set; }
+
+        public SBSDKPolygon Polygon { get; set; }
     }
 
     public class CroppingController : UINavigationController
@@ -68,7 +70,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
         [Export("imageEditingViewController:didApplyChangesWithPolygon:croppedImage:")]
         public void ImageEditingViewController(SBSDKImageEditingViewController editingViewController, SBSDKPolygon polygon, UIImage croppedImage)
         {
-            Finished?.Invoke(this, new CroppingEventArgs { Image = croppedImage });
+            Finished?.Invoke(this, new CroppingEventArgs { Image = croppedImage, Polygon = polygon });
             DismissViewController(true, null);
         }
 

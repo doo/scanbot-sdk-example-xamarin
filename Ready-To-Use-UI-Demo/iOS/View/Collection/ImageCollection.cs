@@ -7,9 +7,16 @@ using UIKit;
 
 namespace ReadyToUseUIDemo.iOS.View.Collection
 {
+    public class CollectionEventArgs
+    {
+        public SBSDKUIPage Page { get; set; }
+    }
+
     public class ImageCollection : UICollectionView, IUICollectionViewSource,
         IUICollectionViewDelegate, IUICollectionViewDelegateFlowLayout
     {
+        public EventHandler<CollectionEventArgs> Selected;
+
         public List<SBSDKUIPage> Pages { get; set; } = new List<SBSDKUIPage>();
 
         private static readonly UICollectionViewFlowLayout _layout;
@@ -34,8 +41,8 @@ namespace ReadyToUseUIDemo.iOS.View.Collection
 
             var page = Pages[indexPath.Row];
 
-            //animalCell.Image = page.Image;
-            cell.BackgroundColor = UIColor.Yellow;
+            cell.Update(page);
+
             return cell;
         }
 
@@ -52,7 +59,15 @@ namespace ReadyToUseUIDemo.iOS.View.Collection
         [Export("collectionView:didSelectItemAtIndexPath:")]
         public void ItemSelected(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            Console.WriteLine("selected!");
+            var page = Pages[indexPath.Row];
+            Selected?.Invoke(this, new CollectionEventArgs { Page = page });
+        }
+
+        [Export("collectionView:layout:sizeForItemAtIndexPath:")]
+        public CGSize GetSizeForItem(UICollectionView collectionView, UICollectionViewLayout layout, NSIndexPath indexPath)
+        {
+            var size = collectionView.Bounds.Width / 3;
+            return new CGSize(size, size);
         }
     }
 }
