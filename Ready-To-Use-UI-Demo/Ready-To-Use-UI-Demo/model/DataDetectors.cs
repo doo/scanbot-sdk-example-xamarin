@@ -19,7 +19,9 @@ namespace ReadyToUseUIDemo.model
 #endif
             new ListItem { Title = "Scan MRZ + Image", Code = ListItemCode.ScanMRZImage },
             new ListItem { Title = "Scan MRZ + Front & Back Image", Code = ListItemCode.ScanMRZFrontBack },
+#if __IOS__
             new ListItem { Title = "Scan SEPA Pay Form", Code = ListItemCode.ScanSEPA },
+#endif
             new ListItem { Title = "Scan QR Code", Code = ListItemCode.ScanQRBar }
         };
     }
