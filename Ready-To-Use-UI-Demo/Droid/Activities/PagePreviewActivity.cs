@@ -351,6 +351,8 @@ namespace ReadyToUseUIDemo.Droid.Activities
             var path = GetUri(page, PageFileStorage.PageFileType.Document);
             var original = GetUri(page, PageFileStorage.PageFileType.Original);
 
+            (holder as PageViewHolder).image.SetImageResource(0);
+
             if (File.Exists(path.Path))
             {
                 (holder as PageViewHolder).image.SetImageURI(path);
