@@ -9,7 +9,7 @@ namespace ReadyToUseUIDemo.iOS
     [Register("AppDelegate")]
     public class AppDelegate : UIApplicationDelegate
     {
-        const string LICENSE = null;
+        const string LICENSE_KEY = null;
 
         public UINavigationController Controller { get; set; }
 
@@ -17,9 +17,9 @@ namespace ReadyToUseUIDemo.iOS
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
-            //var configuration = new SBSDKConfiguration { EnableLogging = true };
-            //SBSDK.Initialize(application, LICENSE, configuration);
-            ScanbotSDK.iOS.ScanbotSDKGlobal.SetupDefaultLicenseFailureHandler();
+            var configuration = new SBSDKConfiguration { EnableLogging = true };
+            SBSDK.Initialize(application, LICENSE_KEY, configuration);
+            //ScanbotSDK.iOS.ScanbotSDKGlobal.SetupDefaultLicenseFailureHandler();
 
             UIViewController initial = new MainViewController();
             Controller = new UINavigationController(initial);

@@ -96,7 +96,9 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
             else if (button.Data.Code == ListItemCode.ViewImages)
             {
-
+                var controller = new PreviewController();
+                //PresentViewController(controller, true, null);
+                NavigationController.PushViewController(controller, true);
             }
         }
 
