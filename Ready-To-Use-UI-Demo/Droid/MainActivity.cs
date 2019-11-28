@@ -344,6 +344,13 @@ namespace ReadyToUseUIDemo.Droid
                 var fragment = BarcodeDialogFragment.CreateInstance(code);
                 fragment.Show(SupportFragmentManager, BarcodeDialogFragment.NAME);
             }
+            else if (requestCode == PAYFORM_SCAN_WORKFLOW_REQUEST_CODE)
+            {
+                var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
+                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var fragment = PayFormResultDialogFragment.CreateInstance(workflow, results);
+                fragment.Show(SupportFragmentManager, PayFormResultDialogFragment.NAME);
+            }
 
         }
 
