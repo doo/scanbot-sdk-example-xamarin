@@ -50,7 +50,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
         {
             PageRepository.Current = e.Page;
 
-            var controller = new FilterController();
+            var controller = new ProcessingController();
             NavigationController.PushViewController(controller, true);
         }
     }

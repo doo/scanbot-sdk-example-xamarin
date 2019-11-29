@@ -99,6 +99,7 @@
     <Folder Include="Service\" />
     <Folder Include="View\Collection\" />
     <Folder Include="Repository\" />
+    <Folder Include="Model\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -131,8 +132,10 @@
     <Compile Include="View\ImageCollectionView.cs" />
     <Compile Include="View\ImageProcessingBar.cs" />
     <Compile Include="Repository\PageRepository.cs" />
-    <Compile Include="Controller\FilterController.cs" />
-    <Compile Include="View\FilterView.cs" />
+    <Compile Include="Controller\ProcessingController.cs" />
+    <Compile Include="View\ProcessingView.cs" />
+    <Compile Include="Model\Filter.cs" />
+    <Compile Include="Model\Filters.cs" />
   </ItemGroup>
   <Import Project="..\Ready-To-Use-UI-Demo\Ready-To-Use-UI-Demo.projitems" Label="Shared" Condition="Exists('..\Ready-To-Use-UI-Demo\Ready-To-Use-UI-Demo.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

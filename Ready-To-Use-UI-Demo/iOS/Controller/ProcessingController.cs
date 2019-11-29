@@ -5,7 +5,7 @@ using UIKit;
 
 namespace ReadyToUseUIDemo.iOS.Controller
 {
-    public class FilterController : UIViewController
+    public class ProcessingController : UIViewController
     {
         public FilterView ContentView { get; private set; }
 
