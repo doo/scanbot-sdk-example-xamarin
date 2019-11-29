@@ -57,7 +57,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
         private void DeleteImage(object sender, EventArgs e)
         {
-            Console.WriteLine("Delete");
+            PageRepository.Remove(PageRepository.Current);
+            NavigationController.PopViewController(true);
         }
 
     }

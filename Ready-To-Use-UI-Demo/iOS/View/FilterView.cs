@@ -19,6 +19,7 @@ namespace ReadyToUseUIDemo.iOS.View
             ImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
             ImageView.Layer.BorderColor = Colors.LightGray.CGColor;
             ImageView.Layer.BorderWidth = 1;
+            ImageView.BackgroundColor = Colors.NearWhite;
             AddSubview(ImageView);
 
             ProcessingBar = new ImageProcessingBar();

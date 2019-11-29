@@ -18,15 +18,16 @@ namespace ReadyToUseUIDemo.iOS.Controller
             ContentView = new ImageCollectionView();
             View = ContentView;
 
-            ContentView.Collection.Pages.AddRange(PageRepository.Items);
-            ContentView.Collection.ReloadData();
-
             Title = "Choose an image";
+
+            LoadPages();
         }
 
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
+
+            LoadPages();
 
             ContentView.Collection.Selected += OnImageSelected;
         }
@@ -36,6 +37,13 @@ namespace ReadyToUseUIDemo.iOS.Controller
             base.ViewWillDisappear(animated);
 
             ContentView.Collection.Selected -= OnImageSelected;
+        }
+
+        void LoadPages()
+        {
+            ContentView.Collection.Pages.Clear();
+            ContentView.Collection.Pages.AddRange(PageRepository.Items);
+            ContentView.Collection.ReloadData();
         }
 
         void OnImageSelected(object sender, CollectionEventArgs e)
