@@ -8,8 +8,10 @@ namespace ReadyToUseUIDemo.iOS.Repository
 {
     public class PageRepository
     {
-        public static List<SBSDKUIPage> Items { get; private set; } = new List<SBSDKUIPage>();
+        public static SBSDKUIPage Current { get; set; }
 
+        public static List<SBSDKUIPage> Items { get; private set; } = new List<SBSDKUIPage>();
+        
         static readonly SBSDKUIPageFileStorage storage = new SBSDKUIPageFileStorage(SBSDKImageFileFormat.Png);
 
         public static void Remove(SBSDKUIPage page)

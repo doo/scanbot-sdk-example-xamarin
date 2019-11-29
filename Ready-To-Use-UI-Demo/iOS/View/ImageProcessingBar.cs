@@ -5,9 +5,9 @@ using UIKit;
 
 namespace ReadyToUseUIDemo.iOS.View
 {
-    public class PreviewProcessingBar : UIView
+    public class ImageProcessingBar : UIView
     {
-        public PreviewProcessingBar()
+        public ImageProcessingBar()
         {
             BackgroundColor = Colors.ScanbotRed;
         }

@@ -97,7 +97,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
             else if (button.Data.Code == ListItemCode.ViewImages)
             {
-                var controller = new PreviewController();
+                var controller = new ImageListController();
                 NavigationController.PushViewController(controller, true);
             }
         }
@@ -118,7 +118,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             (sender as CroppingController).Finished = null;
             PageRepository.Add(e.Image, e.Polygon);
 
-            var controller = new PreviewController();
+            var controller = new ImageListController();
             NavigationController.PushViewController(controller, true);
         }
 

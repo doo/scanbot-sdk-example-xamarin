@@ -125,12 +125,14 @@
     <Compile Include="ScanResultCallback.cs" />
     <Compile Include="Service\ImagePicker.cs" />
     <Compile Include="Controller\CroppingController.cs" />
-    <Compile Include="Controller\PreviewController.cs" />
+    <Compile Include="Controller\ImageListController.cs" />
     <Compile Include="View\Collection\ImageCell.cs" />
     <Compile Include="View\Collection\ImageCollection.cs" />
-    <Compile Include="View\PreviewPageView.cs" />
-    <Compile Include="View\PreviewProcessingBar.cs" />
+    <Compile Include="View\ImageCollectionView.cs" />
+    <Compile Include="View\ImageProcessingBar.cs" />
     <Compile Include="Repository\PageRepository.cs" />
+    <Compile Include="Controller\FilterController.cs" />
+    <Compile Include="View\FilterView.cs" />
   </ItemGroup>
   <Import Project="..\Ready-To-Use-UI-Demo\Ready-To-Use-UI-Demo.projitems" Label="Shared" Condition="Exists('..\Ready-To-Use-UI-Demo\Ready-To-Use-UI-Demo.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

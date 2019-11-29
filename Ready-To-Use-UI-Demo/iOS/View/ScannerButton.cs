@@ -21,7 +21,7 @@ namespace ReadyToUseUIDemo.iOS.View
             title = new UILabel();
             title.Text = data.Title;
             title.Font = UIFont.FromName("HelveticaNeue", 13f);
-            title.TextColor = Colors.DarkGray;
+            title.TextColor = Colors.AppleBlue;
             AddSubview(title);
 
             Layer.CornerRadius = 3;

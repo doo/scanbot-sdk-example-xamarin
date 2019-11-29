@@ -69,5 +69,23 @@ namespace ReadyToUseUIDemo.iOS.View.Collection
             var size = collectionView.Bounds.Width / 3;
             return new CGSize(size, size);
         }
+
+        [Export("collectionView:layout:insetForSectionAtIndex:")]
+        public UIEdgeInsets GetInsetForSection(UICollectionView collectionView, UICollectionViewLayout layout, nint section)
+        {
+            return UIEdgeInsets.Zero;
+        }
+
+        [Export("collectionView:layout:minimumInteritemSpacingForSectionAtIndex:")]
+        public nfloat GetMinimumInteritemSpacingForSection(UICollectionView collectionView, UICollectionViewLayout layout, nint section)
+        {
+            return 0;
+        }
+
+        [Export("collectionView:layout:minimumLineSpacingForSectionAtIndex:")]
+        public nfloat GetMinimumLineSpacingForSection(UICollectionView collectionView, UICollectionViewLayout layout, nint section)
+        {
+            return 0;
+        }
     }
 }
