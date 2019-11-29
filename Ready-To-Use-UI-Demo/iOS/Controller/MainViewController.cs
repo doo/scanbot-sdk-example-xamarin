@@ -108,6 +108,9 @@ namespace ReadyToUseUIDemo.iOS.Controller
             if (button.Data.Code == ListItemCode.ScanDocument)
             {
                 var config = SBSDKUIDocumentScannerConfiguration.DefaultConfiguration;
+                // Hide multi page button to keep this example simpler
+                config.UiConfiguration.MultiPageButtonHidden = true;
+
                 var controller = SBSDKUIDocumentScannerViewController.CreateNewWithConfiguration(config, CameraCallback);
                 PresentViewController(controller, false, null);
             }
