@@ -20,6 +20,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
         public ScanResultCallback Callback { get; set; }
 
+        public SimpleScanCallback CameraCallback { get; set; }
+
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -34,6 +36,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
             Callback = new ScanResultCallback();
             Callback.Parent = this;
+
+            CameraCallback = new SimpleScanCallback();
 
             ContentView.LicenseIndicator.Text = Texts.no_license_found_the_app_will_terminate_after_one_minute;
         }
@@ -58,6 +62,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
 
             ImagePicker.Instance.Controller.FinishedPickingMedia += ImageImported;
+
+            CameraCallback.Selected += OnScanComplete;
         }
 
         public override void ViewWillDisappear(bool animated)
@@ -75,6 +81,18 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
 
             ImagePicker.Instance.Controller.FinishedPickingMedia -= ImageImported;
+
+            CameraCallback.Selected -= OnScanComplete;
+        }
+
+        private void OnScanComplete(object sender, PageEventArgs e)
+        {
+            var image = e.Page.DocumentImage;
+
+            var controller = new CroppingController(image);
+            PresentViewController(controller, true, null);
+
+            controller.Finished += CroppingFinished;
         }
 
         private void OnScannerButtonClick(object sender, EventArgs e)
@@ -89,7 +107,9 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
             if (button.Data.Code == ListItemCode.ScanDocument)
             {
-
+                var config = SBSDKUIDocumentScannerConfiguration.DefaultConfiguration;
+                var controller = SBSDKUIDocumentScannerViewController.CreateNewWithConfiguration(config, CameraCallback);
+                PresentViewController(controller, false, null);
             }
             else if (button.Data.Code == ListItemCode.ImportImage)
             {
@@ -117,9 +137,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
         {
             (sender as CroppingController).Finished = null;
             PageRepository.Add(e.Image, e.Polygon);
-
-            var controller = new ImageListController();
-            NavigationController.PushViewController(controller, true);
         }
 
         SBSDKPageAspectRatio[] MRZRatios = {
@@ -222,7 +239,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             {
                 configuration = SBSDKUIWorkflowScannerConfiguration.DefaultConfiguration;
             }
-
+            
             SBSDKUIWorkflow workflow = new SBSDKUIWorkflow(steps, name, null);
 
             var config = SBSDKUIWorkflowScannerConfiguration.DefaultConfiguration;
@@ -239,4 +256,23 @@ namespace ReadyToUseUIDemo.iOS.Controller
         }
     }
 
+    public class PageEventArgs : EventArgs
+    {
+        public SBSDKUIPage Page { get; set; }
+    }
+
+    public class SimpleScanCallback : SBSDKUIDocumentScannerViewControllerDelegate
+    {
+        public EventHandler<PageEventArgs> Selected;
+        
+        public override void DidFinish(SBSDKUIDocumentScannerViewController viewController, SBSDKUIPage[] pages)
+        {
+            if (pages.Length == 0)
+            {
+                return;
+            }
+
+            Selected?.Invoke(this, new PageEventArgs { Page = pages[0] });
+        }
+    }
 }
