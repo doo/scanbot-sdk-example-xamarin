@@ -16,8 +16,8 @@ namespace ReadyToUseUIDemo.iOS.Model
             Type = type;
         }
 
-        string Title { get; set; }
+        public string Title { get; set; }
 
-        SBSDKImageFilterType Type { get; set; }
+        public SBSDKImageFilterType Type { get; set; }
     }
 }

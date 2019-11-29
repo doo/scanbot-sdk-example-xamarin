@@ -7,16 +7,14 @@ namespace ReadyToUseUIDemo.iOS.Controller
 {
     public class ProcessingController : UIViewController
     {
-        public FilterView ContentView { get; private set; }
+        public ProcessingView ContentView { get; private set; }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            ContentView = new FilterView();
+            ContentView = new ProcessingView();
             View = ContentView;
-
-            ContentView.ImageView.Image = PageRepository.Current.DocumentImage;
 
             Title = "Process Image";
         }
@@ -27,9 +25,11 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
             ContentView.ProcessingBar.CropAndRotateButton.Click += CropAndRotate;
 
-            ContentView.ProcessingBar.FilterButton.Click += ApplyFilter;
+            ContentView.ProcessingBar.FilterButton.Click += OpenFilterScreen;
 
             ContentView.ProcessingBar.DeleteButton.Click += DeleteImage;
+
+            ContentView.ImageView.Image = PageRepository.Current.DocumentImage;
         }
 
         public override void ViewWillDisappear(bool animated)
@@ -38,7 +38,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
             ContentView.ProcessingBar.CropAndRotateButton.Click -= CropAndRotate;
 
-            ContentView.ProcessingBar.FilterButton.Click -= ApplyFilter;
+            ContentView.ProcessingBar.FilterButton.Click -= OpenFilterScreen;
 
             ContentView.ProcessingBar.DeleteButton.Click -= DeleteImage;
         }
@@ -50,9 +50,10 @@ namespace ReadyToUseUIDemo.iOS.Controller
             PresentViewController(controller, true, null);
         }
 
-        private void ApplyFilter(object sender, EventArgs e)
+        private void OpenFilterScreen(object sender, EventArgs e)
         {
-            Console.WriteLine("Apply Filter");
+            var controller = new FilterController();
+            NavigationController.PushViewController(controller, true);
         }
 
         private void DeleteImage(object sender, EventArgs e)

@@ -6,13 +6,13 @@ using UIKit;
 
 namespace ReadyToUseUIDemo.iOS.View
 {
-    public class FilterView : UIView
+    public class ProcessingView : UIView
     {
         public UIImageView ImageView { get; private set; }
 
         public ImageProcessingBar ProcessingBar { get; private set; }
 
-        public FilterView()
+        public ProcessingView()
         {
             BackgroundColor = UIColor.White;
             ImageView = new UIImageView();

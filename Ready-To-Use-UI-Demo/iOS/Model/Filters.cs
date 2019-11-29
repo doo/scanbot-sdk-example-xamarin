@@ -7,6 +7,7 @@ namespace ReadyToUseUIDemo.iOS.Model
     {
         public static readonly List<Filter> List = new List<Filter>
         {
+            new Filter("None", ScanbotSDK.iOS.SBSDKImageFilterType.None),
             new Filter("Low Light Binarization", ScanbotSDK.iOS.SBSDKImageFilterType.LowLightBinarization),
             new Filter("Edge Highlight", ScanbotSDK.iOS.SBSDKImageFilterType.EdgeHighlight),
             new Filter("Deep Binarization", ScanbotSDK.iOS.SBSDKImageFilterType.DeepBinarization),
@@ -17,8 +18,7 @@ namespace ReadyToUseUIDemo.iOS.Model
             new Filter("Grayscale", ScanbotSDK.iOS.SBSDKImageFilterType.Gray),
             new Filter("Binarized", ScanbotSDK.iOS.SBSDKImageFilterType.Binarized),
             new Filter("Pure Binarized", ScanbotSDK.iOS.SBSDKImageFilterType.PureBinarized),
-            new Filter("Black & White", ScanbotSDK.iOS.SBSDKImageFilterType.BlackAndWhite),
-            new Filter("None", ScanbotSDK.iOS.SBSDKImageFilterType.None)
+            new Filter("Black & White", ScanbotSDK.iOS.SBSDKImageFilterType.BlackAndWhite)
         };
     }
 }
