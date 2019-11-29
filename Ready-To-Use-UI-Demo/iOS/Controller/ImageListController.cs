@@ -20,6 +20,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
             ContentView.Collection.Pages.AddRange(PageRepository.Items);
             ContentView.Collection.ReloadData();
+
+            Title = "Choose an image";
         }
 
         public override void ViewWillAppear(bool animated)

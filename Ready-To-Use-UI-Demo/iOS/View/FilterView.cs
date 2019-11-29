@@ -1,6 +1,7 @@
 ﻿
 using System;
 using CoreGraphics;
+using ReadyToUseUIDemo.model;
 using UIKit;
 
 namespace ReadyToUseUIDemo.iOS.View
@@ -13,9 +14,11 @@ namespace ReadyToUseUIDemo.iOS.View
 
         public FilterView()
         {
+            BackgroundColor = UIColor.White;
             ImageView = new UIImageView();
             ImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
-            ImageView.BackgroundColor = UIColor.White;
+            ImageView.Layer.BorderColor = Colors.LightGray.CGColor;
+            ImageView.Layer.BorderWidth = 1;
             AddSubview(ImageView);
 
             ProcessingBar = new ImageProcessingBar();
@@ -26,16 +29,20 @@ namespace ReadyToUseUIDemo.iOS.View
         {
             base.LayoutSubviews();
 
+            nfloat padding = 5;
             nfloat barHeight = 50;
 
-            nfloat x = 0;
-            nfloat y = 0;
-            nfloat w = Frame.Width;
-            nfloat h = Frame.Height - barHeight;
+            nfloat x = padding;
+            nfloat y = padding + AppDelegate.TopInset;
+            
+            nfloat w = Frame.Width - 2 * padding;
+            nfloat h = Frame.Height - (AppDelegate.TopInset + barHeight + 2 * padding);
 
             ImageView.Frame = new CGRect(x, y, w, h);
 
-            y += h;
+            x = 0;
+            y += h + padding;
+            w = Frame.Width;
             h = barHeight;
 
             ProcessingBar.Frame = new CGRect(x, y, w, h);

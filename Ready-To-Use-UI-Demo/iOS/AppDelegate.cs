@@ -1,4 +1,5 @@
-﻿using Foundation;
+﻿using System;
+using Foundation;
 using ReadyToUseUIDemo.iOS.Controller;
 using ReadyToUseUIDemo.model;
 using ScanbotSDK.Xamarin.iOS;
@@ -10,6 +11,8 @@ namespace ReadyToUseUIDemo.iOS
     public class AppDelegate : UIApplicationDelegate
     {
         const string LICENSE_KEY = null;
+
+        public static nfloat TopInset { get; private set; }
 
         public UINavigationController Controller { get; set; }
 
@@ -38,6 +41,8 @@ namespace ReadyToUseUIDemo.iOS
             Window = new UIWindow(UIScreen.MainScreen.Bounds);
 
             Window.RootViewController = Controller;
+
+            TopInset = Controller.NavigationBar.Frame.Height + UIApplication.SharedApplication.StatusBarFrame.Height;
 
             Window.MakeKeyAndVisible();
 
