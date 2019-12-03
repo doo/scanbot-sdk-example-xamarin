@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Android;
 using Android.App;
@@ -8,6 +9,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Pdf;
 using Android.OS;
+using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
@@ -100,6 +102,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
                 configuration.SetCameraPreviewMode(CameraPreviewMode.FillIn);
                 configuration.SetIgnoreBadAspectRatio(true);
                 var intent = DocumentScannerActivity.NewIntent(this, configuration);
+                StartActivityForResult(intent, CAMERA_ACTIVITY);
             };
 
             var results = FindViewById<TextView>(Resource.Id.scan_results);
@@ -133,6 +136,20 @@ namespace ReadyToUseUIDemo.Droid.Activities
             };
         }
 
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            if (resultCode == Result.Ok && requestCode == CAMERA_ACTIVITY)
+            {
+                var pages = data.GetParcelableArrayExtra(DocumentScannerActivity.SnappedPageExtra).Cast<Page>().ToList();
+                PageRepository.Add(pages);
+            }
+            adapter.SetItems(PageRepository.Pages);
+            adapter.NotifyDataSetChanged();
+            UpdateVisibility();
+        }
+
         protected override void OnResume()
         {
             base.OnResume();
@@ -142,6 +159,11 @@ namespace ReadyToUseUIDemo.Droid.Activities
                 Alert.ShowLicenseDialog(this);
             }
 
+            UpdateVisibility();
+        }
+
+        private void UpdateVisibility()
+        {
             delete.Enabled = !adapter.IsEmpty;
             filter.Enabled = !adapter.IsEmpty;
             save.Enabled = !adapter.IsEmpty;
