@@ -44,6 +44,14 @@ namespace ReadyToUseUIDemo.iOS.Repository
             Items.Add(page);
         }
 
+        public static void UpdateCurrent(UIImage image, SBSDKPolygon polygon)
+        {
+            var page = new SBSDKUIPage(image, polygon, Current.Filter);
+            Remove(Current);
+            Add(page);
+            Current = page;
+        }
+
         public static void Clear()
         {
             storage.RemoveAll();

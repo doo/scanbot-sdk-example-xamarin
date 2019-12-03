@@ -45,9 +45,17 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
         private void CropAndRotate(object sender, EventArgs e)
         {
-            Console.WriteLine("Crop & Rotate");
             var controller = new CroppingController(PageRepository.Current.DocumentImage);
             PresentViewController(controller, true, null);
+
+            controller.Finished += CroppingFinished;
+        }
+
+        private void CroppingFinished(object sender, CroppingEventArgs e)
+        {
+            (sender as CroppingController).Finished = null;
+            PageRepository.UpdateCurrent(e.Image, e.Polygon);
+            ContentView.ImageView.Image = PageRepository.Current.DocumentImage;
         }
 
         private void OpenFilterScreen(object sender, EventArgs e)
