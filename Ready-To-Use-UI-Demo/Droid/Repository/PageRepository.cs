@@ -31,12 +31,14 @@ namespace ReadyToUseUIDemo.Droid.Repository
             items.Add(page);
         }
 
-        public static void Update(Page page)
+        public static Page Update(Page page)
         {
             var existing = items.Where(p => p.PageId == page.PageId).ToList()[0];
             items.Remove(existing);
 
             items.Add(page);
+
+            return page;
         }
 
         public static void Clear()

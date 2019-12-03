@@ -5,6 +5,7 @@ using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
+using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
@@ -37,6 +38,12 @@ namespace ReadyToUseUIDemo.Droid.Activities
         }
 
         Page selectedPage;
+        Page SelectedPage
+        {
+            get => selectedPage;
+            set => selectedPage = value;
+        }
+
         ImageFilterType selectedFilter;
         FilterBottomSheetMenuFragment filterFragment;
         ProgressBar progress;
@@ -75,7 +82,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
             delete.Text = Texts.delete;
             delete.Click += delegate
             {
-                PageRepository.Remove(this, selectedPage);
+                PageRepository.Remove(this, SelectedPage);
                 Finish();
             };
 
@@ -84,8 +91,8 @@ namespace ReadyToUseUIDemo.Droid.Activities
                 var configuration = new CroppingConfiguration();
                 configuration.SetPolygonColor(Color.Red);
                 configuration.SetPolygonColorMagnetic(Color.Blue);
-                configuration.SetPage(selectedPage);
-                
+                configuration.SetPage(SelectedPage);
+                var asdf = SelectedPage.Filter;
                 var intent = CroppingActivity.NewIntent(this, configuration);
                 StartActivityForResult(intent, CROP_DEFAULT_UI_REQUEST_CODE);
             };
@@ -115,12 +122,33 @@ namespace ReadyToUseUIDemo.Droid.Activities
                         SBSDK.PageProcessor.GenerateFilteredPreview(selectedPage, selectedFilter);
                     }
 
-                    RunOnUiThread(delegate
-                    {
-                        FindViewById<ImageView>(Resource.Id.image).SetImageURI(uri);
-                        progress.Visibility = ViewStates.Gone;
-                    });
+                    UpdateImage(uri);
                 });
+            }
+        }
+
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            if (resultCode != Result.Ok)
+            {
+                return;
+            }
+
+            if (requestCode == CROP_DEFAULT_UI_REQUEST_CODE)
+            {
+                var page = (Page)data.GetParcelableExtra(CroppingActivity.EditedPageExtra);
+                SelectedPage = PageRepository.Update(page);
+
+                var uri = SBSDK.PageStorage.GetFilteredPreviewImageURI(SelectedPage.PageId, selectedFilter);
+
+                if (!File.Exists(uri.Path))
+                {
+                    SBSDK.PageProcessor.GenerateFilteredPreview(selectedPage, selectedFilter);
+                }
+
+                UpdateImage(uri);
             }
         }
 
@@ -202,12 +230,18 @@ namespace ReadyToUseUIDemo.Droid.Activities
             {
                 selectedPage = PageRepository.Apply(selectedFilter, selectedPage);
                 var uri = SBSDK.PageStorage.GetFilteredPreviewImageURI(selectedPage.PageId, selectedFilter);
-                RunOnUiThread(delegate
-                {
-                    FindViewById<ImageView>(Resource.Id.image).SetImageURI(uri);
-                    progress.Visibility = ViewStates.Gone;
-                    
-                });
+                UpdateImage(uri);
+            });
+        }
+
+        void UpdateImage(Android.Net.Uri uri)
+        {
+            RunOnUiThread(delegate
+            {
+                var image = FindViewById<ImageView>(Resource.Id.image);
+                image.SetImageResource(0);
+                image.SetImageURI(uri);
+                progress.Visibility = ViewStates.Gone;
             });
         }
     }
