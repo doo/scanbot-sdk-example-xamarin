@@ -31,6 +31,8 @@ namespace ReadyToUseUIDemo.Droid.Fragments
             format.Text = data.BarcodeFormat.Name();
             content.Text = data.DescribeContents().ToString();
 
+            CopyText = data.DescribeContents().ToString();
+
             return view;
         }
     }

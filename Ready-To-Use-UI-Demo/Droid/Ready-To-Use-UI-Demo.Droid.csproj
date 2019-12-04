@@ -237,6 +237,12 @@
     <Reference Include="Square.Picasso">
       <HintPath>..\packages\Square.Picasso.2.5.2.2\lib\monoandroid44\Square.Picasso.dll</HintPath>
     </Reference>
+    <Reference Include="Plugin.Clipboard.Abstractions">
+      <HintPath>..\packages\Xamarin.Plugins.Clipboard.2.2.1\lib\MonoAndroid10\Plugin.Clipboard.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Clipboard">
+      <HintPath>..\packages\Xamarin.Plugins.Clipboard.2.2.1\lib\MonoAndroid10\Plugin.Clipboard.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />

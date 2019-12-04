@@ -5,6 +5,7 @@ using Android.Support.V4.App;
 using Android.Support.V7.App;
 using Android.Views;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
+using Plugin.Clipboard;
 
 namespace ReadyToUseUIDemo.Droid.Views
 {
@@ -12,6 +13,8 @@ namespace ReadyToUseUIDemo.Droid.Views
     {
         public const string WORKFLOW_EXTRA = "WORKFLOW_EXTRA";
         public const string WORKFLOW_RESULT_EXTRA = "WORKFLOW_RESULT_EXTRA";
+
+        public string CopyText { get; set; }
 
         protected Workflow workflow;
         protected List<WorkflowStepResult> stepResults;
@@ -38,6 +41,7 @@ namespace ReadyToUseUIDemo.Droid.Views
             builder.SetNegativeButton("Copy", delegate
             {
                 Dismiss();
+                CrossClipboard.Current.SetText(CopyText);
             });
 
             var dialog = builder.Create();

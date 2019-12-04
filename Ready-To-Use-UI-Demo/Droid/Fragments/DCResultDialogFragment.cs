@@ -44,11 +44,13 @@ namespace ReadyToUseUIDemo.Droid.Fragments
                 return view;
             }
 
+            
             var result = stepResults[0] as DisabilityCertificateWorkflowStepResult;
             if (result.Step is ScanDisabilityCertificateWorkflowStep)
             {
                 var tv = (TextView)view.FindViewById(Resource.Id.tv_data);
-                tv.Text = ParseResult(result.DisabilityCertificateResult);
+                CopyText = ParseResult(result.DisabilityCertificateResult);
+                tv.Text = CopyText;
             }
             return view;
         }

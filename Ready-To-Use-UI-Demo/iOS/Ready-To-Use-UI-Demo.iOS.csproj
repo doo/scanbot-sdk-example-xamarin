@@ -87,6 +87,12 @@
     <Reference Include="ScanbotSDK.Xamarin.iOS">
       <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.4\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
     </Reference>
+    <Reference Include="Plugin.Clipboard.Abstractions">
+      <HintPath>..\packages\Xamarin.Plugins.Clipboard.2.2.1\lib\Xamarin.iOS10\Plugin.Clipboard.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.Clipboard">
+      <HintPath>..\packages\Xamarin.Plugins.Clipboard.2.2.1\lib\Xamarin.iOS10\Plugin.Clipboard.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />

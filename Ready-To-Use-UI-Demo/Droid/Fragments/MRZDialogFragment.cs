@@ -31,7 +31,9 @@ namespace ReadyToUseUIDemo.Droid.Fragments
         {
             result = (MRZRecognitionResult)Arguments.GetParcelable(MRZ_DATA);
             var view = inflater.Inflate(Resource.Layout.fragment_mrz_dialog, container);
-            view.FindViewById<TextView>(Resource.Id.tv_data).Text = ParseData(result);
+
+            CopyText = ParseData(result);
+            view.FindViewById<TextView>(Resource.Id.tv_data).Text = CopyText;
             return view;
         }
 

@@ -1,6 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using System.Text;
+using Plugin.Clipboard;
 using ReadyToUseUIDemo.iOS.Controller;
 using ReadyToUseUIDemo.model;
 using ScanbotSDK.iOS;
@@ -127,6 +128,7 @@ namespace ReadyToUseUIDemo.iOS
                     };
                     popover.Content.CopyButton.Click += delegate {
                         // TODO Clipboard copy
+                        CrossClipboard.Current.SetText(content);
                         popover.Dismiss();
                     };
 

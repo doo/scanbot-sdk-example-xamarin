@@ -43,8 +43,10 @@ namespace ReadyToUseUIDemo.Droid.Fragments
                 return view;
             }
 
+            CopyText = ParseData(first.PayformResult);
+
             var text = view.FindViewById<TextView>(Resource.Id.tv_data);
-            text.Text = ParseData(first.PayformResult);
+            text.Text = CopyText;
 
             return view;
         }

@@ -45,8 +45,10 @@ namespace ReadyToUseUIDemo.Droid.Fragments
                 return view;
             }
 
+            CopyText = ParseData(first.MrzResult);
+
             var text = view.FindViewById<TextView>(Resource.Id.tv_data);
-            text.Text = ParseData(first.MrzResult);
+            text.Text = CopyText;
 
             view.FindViewById(Resource.Id.images_container).Visibility = ViewStates.Visible;
             view.FindViewById(Resource.Id.front_snap_result).Visibility = ViewStates.Visible;
