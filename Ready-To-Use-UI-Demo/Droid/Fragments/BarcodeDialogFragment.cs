@@ -29,9 +29,9 @@ namespace ReadyToUseUIDemo.Droid.Fragments
             var content = view.FindViewById<TextView>(Resource.Id.qr_barcode_value);
 
             format.Text = data.BarcodeFormat.Name();
-            content.Text = data.DescribeContents().ToString();
-
-            CopyText = data.DescribeContents().ToString();
+            
+            CopyText = data.Text;
+            content.Text = CopyText;
 
             return view;
         }
