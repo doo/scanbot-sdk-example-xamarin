@@ -30,10 +30,11 @@ namespace ReadyToUseUIDemo.iOS.Repository
             Items.Add(page);
         }
 
-        public static void Add(UIImage image, SBSDKPolygon polygon)
+        public static SBSDKUIPage Add(UIImage image, SBSDKPolygon polygon)
         {
             var page = new SBSDKUIPage(image, polygon, SBSDKImageFilterType.None);
             Add(page);
+            return page;
         }
 
         public static void Update(SBSDKUIPage page)

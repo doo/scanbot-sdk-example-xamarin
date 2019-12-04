@@ -139,7 +139,12 @@ namespace ReadyToUseUIDemo.iOS.Controller
         private void CroppingFinished(object sender, CroppingEventArgs e)
         {
             (sender as CroppingController).Finished = null;
-            PageRepository.Add(e.Image, e.Polygon);
+
+            var page = PageRepository.Add(e.Image, e.Polygon);
+            PageRepository.Current = page;
+
+            var controller = new ProcessingController();
+            NavigationController.PushViewController(controller, true);
         }
 
         SBSDKPageAspectRatio[] MRZRatios = {
