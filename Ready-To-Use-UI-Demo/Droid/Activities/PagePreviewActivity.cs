@@ -201,6 +201,15 @@ namespace ReadyToUseUIDemo.Droid.Activities
                 if (withOCR)
                 {
                     var languages = SBSDK.GetOcrConfigs().InstalledLanguages.ToArray();
+
+                    if (languages.Length == 0)
+                    {
+                        RunOnUiThread(delegate
+                        {
+                            Alert.Toast(this, "OCR languages blobs are not available");
+                        });
+                        return;
+                    }
                     SBSDK.PerformOCR(input, languages, pdfOutputUri);
                 }
                 else
@@ -208,7 +217,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
                     SBSDK.CreatePDF(input, pdfOutputUri, ScanbotSDK.Xamarin.PDFPageSize.Auto);
                 }
 
-                
+
                 Java.IO.File file = Copier.Copy(this, pdfOutputUri);
 
                 var intent = new Intent(Intent.ActionSend, pdfOutputUri);
@@ -220,7 +229,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
 
                 intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);
                 intent.AddFlags(ActivityFlags.GrantReadUriPermission | ActivityFlags.GrantWriteUriPermission);
-                
+
                 RunOnUiThread(delegate
                 {
                     StartActivity(Intent.CreateChooser(intent, filename));

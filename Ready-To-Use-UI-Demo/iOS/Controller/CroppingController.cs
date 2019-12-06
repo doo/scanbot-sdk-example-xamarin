@@ -36,11 +36,13 @@ namespace ReadyToUseUIDemo.iOS.Controller
             imageEditingViewController = new SBSDKImageEditingViewController();
             imageEditingViewController.Image = Image;
             imageEditingViewController.WeakDelegate = this;
+            imageEditingViewController.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
 
             if (imageEditingViewController.Polygon == null)
             {
-                // if no polygon was detected, we set a default polygon
-                imageEditingViewController.Polygon = new SBSDKPolygon(); // {0,0}, {1,0}, {1,1}, {0,1}
+                // If no polygon was detected,
+                // set a default polygon: {0,0}, {1,0}, {1,1}, {0,1}
+                imageEditingViewController.Polygon = new SBSDKPolygon();
             }
 
             PushViewController(imageEditingViewController, false);
