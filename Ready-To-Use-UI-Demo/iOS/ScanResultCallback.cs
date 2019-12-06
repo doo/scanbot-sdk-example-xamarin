@@ -127,7 +127,6 @@ namespace ReadyToUseUIDemo.iOS
                         popover.Dismiss();
                     };
                     popover.Content.CopyButton.Click += delegate {
-                        // TODO Clipboard copy
                         CrossClipboard.Current.SetText(content);
                         popover.Dismiss();
                     };

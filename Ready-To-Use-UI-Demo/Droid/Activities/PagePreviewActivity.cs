@@ -210,6 +210,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
                 RunOnUiThread(delegate
                 {
                     // TODO: Open first document
+                    Alert.Toast(this, "File saved to: " + pdfOutputUri.Path);
                 });
             });
         }
