@@ -10,6 +10,7 @@ using Android.Graphics;
 using Android.Graphics.Pdf;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Content;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Views;
@@ -20,6 +21,7 @@ using IO.Scanbot.Sdk.Process;
 using IO.Scanbot.Sdk.UI.View.Camera;
 using IO.Scanbot.Sdk.UI.View.Camera.Configuration;
 using Net.Doo.Snap.Camera;
+using Net.Doo.Snap.Util.Thread;
 using ReadyToUseUIDemo.Droid.Fragments;
 using ReadyToUseUIDemo.Droid.Listeners;
 using ReadyToUseUIDemo.Droid.Repository;
@@ -192,7 +194,8 @@ namespace ReadyToUseUIDemo.Droid.Activities
                 var input = adapter.GetUrls().ToArray();
 
                 var external = GetExternalFilesDir(null).AbsolutePath;
-                var targetFile = System.IO.Path.Combine(external, Guid.NewGuid() + ".pdf");
+                var filename = Guid.NewGuid() + ".pdf";
+                var targetFile = System.IO.Path.Combine(external, filename);
                 var pdfOutputUri = Android.Net.Uri.FromFile(new Java.IO.File(targetFile));
 
                 if (withOCR)
@@ -205,11 +208,22 @@ namespace ReadyToUseUIDemo.Droid.Activities
                     SBSDK.CreatePDF(input, pdfOutputUri, ScanbotSDK.Xamarin.PDFPageSize.Auto);
                 }
 
-                Copier.Copy(this, pdfOutputUri);
+                
+                Java.IO.File file = Copier.Copy(this, pdfOutputUri);
 
+                var intent = new Intent(Intent.ActionSend, pdfOutputUri);
+                intent.SetType(MimeUtils.GetMimeByName(file.Name));
+
+                var authority = ApplicationContext.PackageName + ".provider";
+                var uri = FileProvider.GetUriForFile(this, authority, file);
+                intent.PutExtra(Intent.ExtraStream, uri);
+
+                intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);
+                intent.AddFlags(ActivityFlags.GrantReadUriPermission | ActivityFlags.GrantWriteUriPermission);
+                
                 RunOnUiThread(delegate
                 {
-                    // TODO: Open first document
+                    StartActivity(Intent.CreateChooser(intent, filename));
                     Alert.Toast(this, "File saved to: " + pdfOutputUri.Path);
                 });
             });

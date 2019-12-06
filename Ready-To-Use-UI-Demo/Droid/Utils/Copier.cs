@@ -8,7 +8,7 @@ namespace ReadyToUseUIDemo.Droid.Utils
     {
         const string SNAPPING_DOCUMENTS_DIR_NAME = "snapping_documents";
 
-        public static void Copy(Context context, Android.Net.Uri uri)
+        public static Java.IO.File Copy(Context context, Android.Net.Uri uri)
         {
             var path = Path.Combine(context.GetExternalFilesDir(null).AbsolutePath, SNAPPING_DOCUMENTS_DIR_NAME);
             var file = Path.Combine(path, uri.LastPathSegment);
@@ -19,6 +19,8 @@ namespace ReadyToUseUIDemo.Droid.Utils
             }
 
             File.Copy(uri.Path, file);
+
+            return new Java.IO.File(file);
         }
     }
 }
