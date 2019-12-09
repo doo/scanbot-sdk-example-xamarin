@@ -138,5 +138,11 @@ namespace ReadyToUseUIDemo.model
         public const string bitmap_is_null_error = "Bitmap is null";
 
         public static string SaveHow = "How would you like to save the document?";
+
+        public const string Pdf = "PDF";
+
+        public const string PdfWithOCR = "PDF with OCR";
+
+        public const string Tiff = "TIFF";
     }
 }

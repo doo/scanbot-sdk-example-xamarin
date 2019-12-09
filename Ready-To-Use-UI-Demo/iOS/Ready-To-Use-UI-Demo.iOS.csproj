@@ -105,6 +105,7 @@
     <Folder Include="View\Collection\" />
     <Folder Include="Repository\" />
     <Folder Include="Model\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -143,6 +144,7 @@
     <Compile Include="Model\Filters.cs" />
     <Compile Include="Controller\FilterController.cs" />
     <Compile Include="View\FilterView.cs" />
+    <Compile Include="Utils\Alert.cs" />
   </ItemGroup>
   <Import Project="..\Ready-To-Use-UI-Demo\Ready-To-Use-UI-Demo.projitems" Label="Shared" Condition="Exists('..\Ready-To-Use-UI-Demo\Ready-To-Use-UI-Demo.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
