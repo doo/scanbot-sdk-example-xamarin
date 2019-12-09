@@ -2,6 +2,7 @@
 using ReadyToUseUIDemo.iOS.Repository;
 using ReadyToUseUIDemo.iOS.View;
 using ReadyToUseUIDemo.iOS.View.Collection;
+using ReadyToUseUIDemo.model;
 using ScanbotSDK.iOS;
 using UIKit;
 

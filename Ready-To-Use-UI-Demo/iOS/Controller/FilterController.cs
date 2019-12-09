@@ -27,8 +27,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
             Title = "Choose filter";
 
             var button = new UIBarButtonItem("Apply", UIBarButtonItemStyle.Done, FilterChosen);
-            
-            //NavigationController.NavigationItem.RightBarButtonItem = button;
             NavigationItem.SetRightBarButtonItem(button, false);
         }
 

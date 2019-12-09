@@ -136,5 +136,7 @@ namespace ReadyToUseUIDemo.model
         public const string error_openning_document = "Error while opening the document";
 
         public const string bitmap_is_null_error = "Bitmap is null";
+
+        public static string SaveHow = "How would you like to save the document?";
     }
 }
