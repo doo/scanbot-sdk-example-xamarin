@@ -27,6 +27,7 @@ using ReadyToUseUIDemo.Droid.Listeners;
 using ReadyToUseUIDemo.Droid.Repository;
 using ReadyToUseUIDemo.Droid.Utils;
 using ReadyToUseUIDemo.model;
+using ScanbotSDK.Xamarin;
 using ScanbotSDK.Xamarin.Android;
 
 namespace ReadyToUseUIDemo.Droid.Activities
@@ -171,17 +172,29 @@ namespace ReadyToUseUIDemo.Droid.Activities
             save.Enabled = !adapter.IsEmpty;
         }
 
+        enum SaveType
+        {
+            Plain,
+            OCR,
+            TIFF
+        }
+
         public void SaveWithOcr()
         {
-            SaveDocument(true);
+            SaveDocument(SaveType.OCR);
         }
 
         public void SaveWithoutOcr()
         {
-            SaveDocument(false);
+            SaveDocument(SaveType.Plain);
         }
 
-        void SaveDocument(bool withOCR)
+        public void SaveTiff()
+        {
+            SaveDocument(SaveType.TIFF);
+        }
+
+        void SaveDocument(SaveType type)
         {
             if (!SBSDK.IsLicenseValid())
             {
@@ -192,13 +205,15 @@ namespace ReadyToUseUIDemo.Droid.Activities
             Task.Run(delegate
             {
                 var input = adapter.GetUrls().ToArray();
+                var output = GetOutputUri(".pdf");
 
-                var external = GetExternalFilesDir(null).AbsolutePath;
-                var filename = Guid.NewGuid() + ".pdf";
-                var targetFile = System.IO.Path.Combine(external, filename);
-                var pdfOutputUri = Android.Net.Uri.FromFile(new Java.IO.File(targetFile));
-
-                if (withOCR)
+                if (type == SaveType.TIFF)
+                {
+                    output = GetOutputUri(".tiff");
+                    var options = new TiffOptions { OneBitEncoded = true };
+                    bool success = SBSDK.WriteTiff(input, output, options);
+                }
+                else if (type == SaveType.OCR)
                 {
                     var languages = SBSDK.GetOcrConfigs().InstalledLanguages.ToArray();
 
@@ -210,17 +225,16 @@ namespace ReadyToUseUIDemo.Droid.Activities
                         });
                         return;
                     }
-                    SBSDK.PerformOCR(input, languages, pdfOutputUri);
+                    SBSDK.PerformOCR(input, languages, output);
                 }
                 else
                 {
-                    SBSDK.CreatePDF(input, pdfOutputUri, ScanbotSDK.Xamarin.PDFPageSize.Auto);
+                    SBSDK.CreatePDF(input, output, ScanbotSDK.Xamarin.PDFPageSize.Auto);
                 }
 
+                Java.IO.File file = Copier.Copy(this, output);
 
-                Java.IO.File file = Copier.Copy(this, pdfOutputUri);
-
-                var intent = new Intent(Intent.ActionSend, pdfOutputUri);
+                var intent = new Intent(Intent.ActionSend, output);
                 intent.SetType(MimeUtils.GetMimeByName(file.Name));
 
                 var authority = ApplicationContext.PackageName + ".provider";
@@ -232,10 +246,18 @@ namespace ReadyToUseUIDemo.Droid.Activities
 
                 RunOnUiThread(delegate
                 {
-                    StartActivity(Intent.CreateChooser(intent, filename));
-                    Alert.Toast(this, "File saved to: " + pdfOutputUri.Path);
+                    StartActivity(Intent.CreateChooser(intent, output.LastPathSegment));
+                    Alert.Toast(this, "File saved to: " + output.Path);
                 });
             });
+        }
+
+        Android.Net.Uri GetOutputUri(string extension)
+        {
+            var external = GetExternalFilesDir(null).AbsolutePath;
+            var filename = Guid.NewGuid() + extension;
+            var targetFile = System.IO.Path.Combine(external, filename);
+            return Android.Net.Uri.FromFile(new Java.IO.File(targetFile));
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)

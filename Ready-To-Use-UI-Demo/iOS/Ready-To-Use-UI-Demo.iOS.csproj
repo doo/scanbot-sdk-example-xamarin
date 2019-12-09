@@ -146,6 +146,12 @@
     <Compile Include="View\FilterView.cs" />
     <Compile Include="Utils\Alert.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ScanbotSDKOCRData.bundle\eng.traineddata" />
+    <BundleResource Include="Resources\ScanbotSDKOCRData.bundle\deu.traineddata" />
+    <BundleResource Include="Resources\ScanbotSDKOCRData.bundle\osd.traineddata" />
+    <BundleResource Include="Resources\ScanbotSDKOCRData.bundle\Info.plist" />
+  </ItemGroup>
   <Import Project="..\Ready-To-Use-UI-Demo\Ready-To-Use-UI-Demo.projitems" Label="Shared" Condition="Exists('..\Ready-To-Use-UI-Demo\Ready-To-Use-UI-Demo.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

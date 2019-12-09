@@ -30,6 +30,14 @@ namespace ReadyToUseUIDemo.Droid.Fragments
                 DismissAllowingStateLoss();
             };
 
+            var saveTiff = view.FindViewById<Button>(Resource.Id.save_tiff);
+            saveTiff.Text = Texts.Tiff;
+            saveTiff.Click += delegate
+            {
+                (Activity as PagePreviewActivity).SaveTiff();
+                DismissAllowingStateLoss();
+            };
+
             return view;
         }
     }
