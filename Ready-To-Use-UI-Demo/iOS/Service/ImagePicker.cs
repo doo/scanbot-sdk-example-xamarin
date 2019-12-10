@@ -27,7 +27,7 @@ namespace ReadyToUseUIDemo.iOS.Service
 
         public void Present(UIViewController controller)
         {
-            controller.PresentModalViewController(Controller, true);
+            controller.PresentViewController(Controller, true, null);
             Controller.Canceled += Cancelled;
         }
 
