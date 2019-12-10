@@ -234,13 +234,12 @@ namespace ReadyToUseUIDemo.Droid.Activities
 
                 Java.IO.File file = Copier.Copy(this, output);
 
-                var intent = new Intent(Intent.ActionSend, output);
-                intent.SetType(MimeUtils.GetMimeByName(file.Name));
-
+                var intent = new Intent(Intent.ActionView, output);
+                
                 var authority = ApplicationContext.PackageName + ".provider";
                 var uri = FileProvider.GetUriForFile(this, authority, file);
-                intent.PutExtra(Intent.ExtraStream, uri);
-
+                
+                intent.SetDataAndType(uri, MimeUtils.GetMimeByName(file.Name));
                 intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);
                 intent.AddFlags(ActivityFlags.GrantReadUriPermission | ActivityFlags.GrantWriteUriPermission);
 
