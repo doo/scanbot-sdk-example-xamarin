@@ -145,6 +145,7 @@
     <Compile Include="Controller\FilterController.cs" />
     <Compile Include="View\FilterView.cs" />
     <Compile Include="Utils\Alert.cs" />
+    <Compile Include="Controller\PdfViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ScanbotSDKOCRData.bundle\eng.traineddata" />

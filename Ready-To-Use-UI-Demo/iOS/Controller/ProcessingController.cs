@@ -8,6 +8,7 @@ using ScanbotSDK.iOS;
 using ScanbotSDK.Xamarin;
 using ScanbotSDK.Xamarin.iOS;
 using UIKit;
+using PdfKit;
 
 namespace ReadyToUseUIDemo.iOS.Controller
 {
@@ -25,7 +26,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             View = ContentView;
 
             Title = "Process Image";
-
+            
             handler = new CroppingFinishedHandler();
 
             var saveButton = new UIBarButtonItem(Texts.save, UIBarButtonItemStyle.Done, OnSaveButtonClick);
@@ -72,14 +73,19 @@ namespace ReadyToUseUIDemo.iOS.Controller
             var title = "Oops!";
             var body = "Something went wrong with saving your file. Please try again";
 
+            if (!SBSDK.IsLicenseValid())
+            {
+                title = "Oops";
+                body = "Your license has expired";
+                Alert.Show(this, title, body);
+                return;
+            }
+
             var pdf = CreateButton(Texts.Pdf, delegate
             {
                 var output = new NSUrl(nsurl.AbsoluteString + Guid.NewGuid() + ".pdf");
                 SBSDK.CreatePDF(input, output, PDFPageSize.Auto);
-
-                title = "Great Success!";
-                body = "Saved your PDF to: " + output.Path;
-                Alert.Show(this, title, body);
+                OpenDocument(output);
             });
 
             var ocr = CreateButton(Texts.PdfWithOCR, delegate
@@ -89,10 +95,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 try
                 {
                     SBSDK.PerformOCR(input, languages.ToArray(), output);
-
-                    title = "Great Success!";
-                    body = "Saved your OCR result to: " + output.Path;
-                    Alert.Show(this, title, body);
+                    OpenDocument(output);
                 }
                 catch (Exception ex)
                 {
@@ -133,6 +136,12 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
 
             PresentViewController(controller, true, null);
+        }
+
+        void OpenDocument(NSUrl uri)
+        {
+            var controller = new PdfViewController(uri);
+            NavigationController.PushViewController(controller, true);
         }
 
         UIAlertAction CreateButton(string text, Action<UIAlertAction> action, UIAlertActionStyle style = UIAlertActionStyle.Default)
