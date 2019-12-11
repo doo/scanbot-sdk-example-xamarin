@@ -2,30 +2,35 @@
 using UIKit;
 using PdfKit;
 using Foundation;
+using ReadyToUseUIDemo.iOS.View;
 
 namespace ReadyToUseUIDemo.iOS.Controller
 {
     public class PdfViewController : UIViewController
     {
-        public NSUrl Uri { get; private set; }
+        public PdfContainerView ContentView { get; set; }
 
-        public PdfViewController(NSUrl uri)
+        NSUrl uri;
+        bool ocr;
+
+        public PdfViewController(NSUrl uri, bool ocr)
         {
-            Uri = uri;
+            this.uri = uri;
+            this.ocr = ocr;
+            
             ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
         }
+
+
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            Title = Uri.LastPathComponent;
+            ContentView = new PdfContainerView(uri, ocr);
+            View = ContentView;
 
-            var view = new PdfView(View.Bounds);
-            view.DisplayMode = PdfDisplayMode.SinglePage;
-            view.AutoScales = true;
-            view.Document = new PdfDocument(Uri);
-            View = view;
+            Title = uri.LastPathComponent;
         }
     }
 }

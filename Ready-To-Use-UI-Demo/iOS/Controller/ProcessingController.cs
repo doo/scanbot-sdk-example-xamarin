@@ -85,7 +85,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             {
                 var output = new NSUrl(nsurl.AbsoluteString + Guid.NewGuid() + ".pdf");
                 SBSDK.CreatePDF(input, output, PDFPageSize.Auto);
-                OpenDocument(output);
+                OpenDocument(output, false);
             });
 
             var ocr = CreateButton(Texts.PdfWithOCR, delegate
@@ -95,7 +95,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 try
                 {
                     SBSDK.PerformOCR(input, languages.ToArray(), output);
-                    OpenDocument(output);
+                    OpenDocument(output, true);
                 }
                 catch (Exception ex)
                 {
@@ -138,9 +138,9 @@ namespace ReadyToUseUIDemo.iOS.Controller
             PresentViewController(controller, true, null);
         }
 
-        void OpenDocument(NSUrl uri)
+        void OpenDocument(NSUrl uri, bool ocr)
         {
-            var controller = new PdfViewController(uri);
+            var controller = new PdfViewController(uri, ocr);
             NavigationController.PushViewController(controller, true);
         }
 
