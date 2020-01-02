@@ -80,9 +80,12 @@ namespace ReadyToUseUIDemo.iOS.View
             return Items.Count;
         }
 
-        public override string GetTitle(UIPickerView pickerView, nint row, nint component)
+        [Export("pickerView:attributedTitleForRow:forComponent:")]
+        public NSAttributedString GetAttributedTitle(UIPickerView pickerView, nint row, nint component)
         {
-            return Items[(int)row].Title;
+            var text = Items[(int)row].Title;
+            var attributed = new NSAttributedString(text, null, Colors.AppleBlue);
+            return attributed;
         }
 
         public override nint GetComponentCount(UIPickerView pickerView)

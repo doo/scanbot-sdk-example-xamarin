@@ -17,7 +17,9 @@ namespace ReadyToUseUIDemo.iOS.Service
                     controller = new UIImagePickerController
                     {
                         SourceType = UIImagePickerControllerSourceType.PhotoLibrary,
-                        MediaTypes = UIImagePickerController.AvailableMediaTypes(UIImagePickerControllerSourceType.PhotoLibrary)
+                        MediaTypes = UIImagePickerController.AvailableMediaTypes(
+                            UIImagePickerControllerSourceType.PhotoLibrary),
+                        ModalPresentationStyle = UIModalPresentationStyle.FullScreen
                     };
                 }
 

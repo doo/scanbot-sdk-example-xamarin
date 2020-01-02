@@ -61,8 +61,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 button.Click += OnDataButtonClick;
             }
 
-            ImagePicker.Instance.Controller.FinishedPickingMedia += ImageImported;
-
             CameraCallback.Selected += OnScanComplete;
         }
 
@@ -79,8 +77,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
             {
                 button.Click -= OnDataButtonClick;
             }
-
-            ImagePicker.Instance.Controller.FinishedPickingMedia -= ImageImported;
 
             CameraCallback.Selected -= OnScanComplete;
         }
@@ -117,6 +113,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             else if (button.Data.Code == ListItemCode.ImportImage)
             {
                 ImagePicker.Instance.Present(this);
+                ImagePicker.Instance.Controller.FinishedPickingMedia += ImageImported;
             }
             else if (button.Data.Code == ListItemCode.ViewImages)
             {
@@ -129,6 +126,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
         {
             var image = e.OriginalImage;
             ImagePicker.Instance.Dismiss();
+            ImagePicker.Instance.Controller.FinishedPickingMedia -= ImageImported;
 
             var controller = new CroppingController(image);
             PresentViewController(controller, true, null);
