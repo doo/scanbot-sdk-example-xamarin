@@ -84,7 +84,7 @@ namespace ReadyToUseUIDemo.iOS.Repository
 
         public static SBSDKUIPage DuplicateCurrent(SBSDKImageFilterType type)
         {
-            return new SBSDKUIPage(Current.DocumentImage, Current.Polygon, type);
+            return new SBSDKUIPage(Current.OriginalImage, Current.Polygon, type);
         }
     }
 }

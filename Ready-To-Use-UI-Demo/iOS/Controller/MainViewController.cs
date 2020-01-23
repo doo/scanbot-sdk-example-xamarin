@@ -84,12 +84,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
         private void OnScanComplete(object sender, PageEventArgs e)
         {
             PageRepository.Add(e.Page);
-            PageRepository.Current = e.Page;
-            var controller = new ProcessingController();
-
-            controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
-            //PresentViewController(controller, true, null);
-            NavigationController.PushViewController(controller, true);
+            OpenImageListController();
         }
 
         private void ShowPage(SBSDKUIPage changedPage)
@@ -138,8 +133,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
             else if (button.Data.Code == ListItemCode.ViewImages)
             {
-                var controller = new ImageListController();
-                NavigationController.PushViewController(controller, true);
+                OpenImageListController();
             }
         }
 
@@ -152,13 +146,13 @@ namespace ReadyToUseUIDemo.iOS.Controller
             var result = page.DetectDocument(true);
             Console.WriteLine("Attempted document detection on imported page: " + result.Status);
 
-            PageRepository.Current = page;
-            var config = SBSDKUICroppingScreenConfiguration.DefaultConfiguration;
-            var handler = new CroppingDelegate(this);
-            var controller = SBSDKUICroppingViewController.CreateNewWithPage(page, config, handler);
-            
-            controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
-            PresentViewController(controller, true, null);
+            OpenImageListController();
+        }
+
+        void OpenImageListController()
+        {
+            var controller = new ImageListController();
+            NavigationController.PushViewController(controller, true);
         }
 
         SBSDKPageAspectRatio[] MRZRatios = {
