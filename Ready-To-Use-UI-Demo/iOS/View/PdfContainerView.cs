@@ -52,14 +52,14 @@ namespace ReadyToUseUIDemo.iOS.View
             nfloat padding = 5;
 
             nfloat x = padding;
-            nfloat y = padding + AppDelegate.TopInset;
+            nfloat y = padding;
             nfloat w = Frame.Width - 2 * padding;
             nfloat h = w / 5;
 
             title.Frame = new CGRect(x, y, w, h);
 
             y += h + padding;
-            h = Frame.Height - (h + AppDelegate.TopInset + 3 * padding);
+            h = Frame.Height - (h + 3 * padding);
 
             content.Frame = new CGRect(x, y, w, h);
         }

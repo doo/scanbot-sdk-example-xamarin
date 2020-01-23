@@ -131,7 +131,6 @@
     <Compile Include="Controller\PopupController.cs" />
     <Compile Include="ScanResultCallback.cs" />
     <Compile Include="Service\ImagePicker.cs" />
-    <Compile Include="Controller\CroppingController.cs" />
     <Compile Include="Controller\ImageListController.cs" />
     <Compile Include="View\Collection\ImageCell.cs" />
     <Compile Include="View\Collection\ImageCollection.cs" />

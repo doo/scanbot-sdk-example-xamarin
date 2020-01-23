@@ -23,10 +23,6 @@ namespace ReadyToUseUIDemo.iOS.View
             title.Font = UIFont.FromName("HelveticaNeue", 13f);
             title.TextColor = Colors.AppleBlue;
             AddSubview(title);
-
-            Layer.CornerRadius = 3;
-            Layer.BorderColor = Colors.LightGray.CGColor;
-            Layer.BorderWidth = 1;
         }
 
 

@@ -34,10 +34,10 @@ namespace ReadyToUseUIDemo.iOS.View
             nfloat barHeight = 50;
 
             nfloat x = padding;
-            nfloat y = padding + AppDelegate.TopInset;
+            nfloat y = padding;
             
             nfloat w = Frame.Width - 2 * padding;
-            nfloat h = Frame.Height - (AppDelegate.TopInset + barHeight + 2 * padding);
+            nfloat h = Frame.Height - (barHeight + 2 * padding);
 
             ImageView.Frame = new CGRect(x, y, w, h);
 

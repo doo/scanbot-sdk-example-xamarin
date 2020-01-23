@@ -11,7 +11,6 @@ namespace ReadyToUseUIDemo.iOS
     public class AppDelegate : UIApplicationDelegate
     {
         const string LICENSE_KEY = null;
-
         public static nfloat TopInset { get; private set; }
 
         public UINavigationController Controller { get; set; }
@@ -31,6 +30,8 @@ namespace ReadyToUseUIDemo.iOS
             Controller.NavigationBar.BarTintColor = Colors.ScanbotRed;
             // Back button color
             Controller.NavigationBar.TintColor = UIColor.White;
+            Controller.NavigationBar.Translucent = false;
+
             // Title color
             Controller.NavigationBar.TitleTextAttributes = new UIStringAttributes
             {

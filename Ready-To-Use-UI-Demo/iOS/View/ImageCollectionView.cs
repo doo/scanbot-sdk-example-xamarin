@@ -22,9 +22,9 @@ namespace ReadyToUseUIDemo.iOS.View
             base.LayoutSubviews();
 
             nfloat x = 0;
-            nfloat y = AppDelegate.TopInset;
+            nfloat y = 0;
             nfloat w = Frame.Width;
-            nfloat h = Frame.Height - AppDelegate.TopInset;
+            nfloat h = Frame.Height;
 
             Collection.Frame = new CGRect(x, y, w, h);
         }

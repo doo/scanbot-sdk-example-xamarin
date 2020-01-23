@@ -83,12 +83,32 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
         private void OnScanComplete(object sender, PageEventArgs e)
         {
-            var image = e.Page.DocumentImage;
+            PageRepository.Add(e.Page);
+            PageRepository.Current = e.Page;
+            var controller = new ProcessingController();
 
-            var controller = new CroppingController(image);
-            PresentViewController(controller, true, null);
+            controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
+            //PresentViewController(controller, true, null);
+            NavigationController.PushViewController(controller, true);
+        }
 
-            controller.Finished += CroppingFinished;
+        private void ShowPage(SBSDKUIPage changedPage)
+        {
+            PageRepository.Update(changedPage);
+        }
+
+        class CroppingDelegate : SBSDKUICroppingViewControllerDelegate
+        {
+            MainViewController parent;
+
+            public CroppingDelegate(MainViewController parent)
+            {
+                this.parent = parent;
+            }
+            public override void DidFinish(SBSDKUICroppingViewController viewController, SBSDKUIPage changedPage)
+            {
+                parent.ShowPage(changedPage);
+            }
         }
 
         private void OnScannerButtonClick(object sender, EventArgs e)
@@ -108,6 +128,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 config.UiConfiguration.MultiPageButtonHidden = true;
 
                 var controller = SBSDKUIDocumentScannerViewController.CreateNewWithConfiguration(config, CameraCallback);
+                controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
                 PresentViewController(controller, false, null);
             }
             else if (button.Data.Code == ListItemCode.ImportImage)
@@ -124,25 +145,20 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
         private void ImageImported(object sender, UIImagePickerMediaPickedEventArgs e)
         {
-            var image = e.OriginalImage;
             ImagePicker.Instance.Dismiss();
             ImagePicker.Instance.Controller.FinishedPickingMedia -= ImageImported;
 
-            var controller = new CroppingController(image);
-            PresentViewController(controller, true, null);
+            var page = PageRepository.Add(e.OriginalImage, new SBSDKPolygon());
+            var result = page.DetectDocument(true);
+            Console.WriteLine("Attempted document detection on imported page: " + result.Status);
 
-            controller.Finished += CroppingFinished;
-        }
-
-        private void CroppingFinished(object sender, CroppingEventArgs e)
-        {
-            (sender as CroppingController).Finished = null;
-
-            var page = PageRepository.Add(e.Image, e.Polygon);
             PageRepository.Current = page;
-
-            var controller = new ProcessingController();
-            NavigationController.PushViewController(controller, true);
+            var config = SBSDKUICroppingScreenConfiguration.DefaultConfiguration;
+            var handler = new CroppingDelegate(this);
+            var controller = SBSDKUICroppingViewController.CreateNewWithPage(page, config, handler);
+            
+            controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
+            PresentViewController(controller, true, null);
         }
 
         SBSDKPageAspectRatio[] MRZRatios = {

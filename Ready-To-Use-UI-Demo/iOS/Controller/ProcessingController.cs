@@ -153,6 +153,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
         {
             var config = SBSDKUICroppingScreenConfiguration.DefaultConfiguration;
             var controller = SBSDKUICroppingViewController.CreateNewWithPage(PageRepository.Current, config, handler);
+            controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
             PresentViewController(controller, false, null);
         }
 

@@ -41,10 +41,10 @@ namespace ReadyToUseUIDemo.iOS.View
             nfloat pickerHeight = Frame.Width / 3 * 2;
 
             nfloat x = padding;
-            nfloat y = padding + AppDelegate.TopInset;
+            nfloat y = padding;
 
             nfloat w = Frame.Width - 2 * padding;
-            nfloat h = Frame.Height - (AppDelegate.TopInset + pickerHeight + 2 * padding);
+            nfloat h = Frame.Height - (pickerHeight + 2 * padding);
 
             ImageView.Frame = new CGRect(x, y, w, h);
 
