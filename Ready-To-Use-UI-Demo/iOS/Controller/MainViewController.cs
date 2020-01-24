@@ -81,6 +81,11 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
         private void OnScanComplete(object sender, PageEventArgs e)
         {
+            foreach (var page in e.Pages)
+            {
+                var result = page.DetectDocument(true);
+                Console.WriteLine("Attempted document detection on imported page: " + result.Status);
+            }
             PageRepository.Add(e.Pages);
             OpenImageListController();
         }
