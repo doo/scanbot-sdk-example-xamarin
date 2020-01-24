@@ -201,7 +201,7 @@ namespace ReadyToUseUIDemo.Droid
                 var intent = new Intent(this, typeof(PagePreviewActivity));
                 StartActivity(intent);
             }
-            else if (button.Data.Code == ListItemCode.ScanDC)
+            else if (button.Data.Code == ListItemCode.WorkflowDC)
             {
                 var configuration = new WorkflowScannerConfiguration();
                 configuration.SetIgnoreBadAspectRatio(true);
@@ -213,7 +213,7 @@ namespace ReadyToUseUIDemo.Droid
                 );
                 StartActivityForResult(intent, DC_SCAN_WORKFLOW_REQUEST_CODE);
             }
-            else if (button.Data.Code == ListItemCode.ScanMRZ)
+            else if (button.Data.Code == ListItemCode.ScannerMRZ)
             {
                 var configuration = new MRZScannerConfiguration();
                 configuration.SetSuccessBeepEnabled(false);
@@ -221,7 +221,7 @@ namespace ReadyToUseUIDemo.Droid
                 var intent = MRZScannerActivity.NewIntent(this, configuration);
                 StartActivityForResult(intent, MRZ_DEFAULT_UI_REQUEST_CODE);
             }
-            else if (button.Data.Code == ListItemCode.ScanMRZImage)
+            else if (button.Data.Code == ListItemCode.WorkflowMRZImage)
             {
                 var configuration = new WorkflowScannerConfiguration();
                 configuration.SetIgnoreBadAspectRatio(true);
@@ -230,7 +230,7 @@ namespace ReadyToUseUIDemo.Droid
                 var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, WorkflowScanners);
                 StartActivityForResult(intent, MRZ_SNAP_WORKFLOW_REQUEST_CODE);
             }
-            else if (button.Data.Code == ListItemCode.ScanMRZFrontBack)
+            else if (button.Data.Code == ListItemCode.WorkflowMRZFrontBack)
             {
                 var configuration = new WorkflowScannerConfiguration();
                 configuration.SetIgnoreBadAspectRatio(true);
@@ -239,7 +239,7 @@ namespace ReadyToUseUIDemo.Droid
                 var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, WorkflowScanners);
                 StartActivityForResult(intent, MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE);
             }
-            else if (button.Data.Code == ListItemCode.ScanSEPA)
+            else if (button.Data.Code == ListItemCode.WorkflowSEPA)
             {
                 var configuration = new WorkflowScannerConfiguration();
                 configuration.SetIgnoreBadAspectRatio(true);
@@ -250,7 +250,7 @@ namespace ReadyToUseUIDemo.Droid
 
                 StartActivityForResult(intent, PAYFORM_SCAN_WORKFLOW_REQUEST_CODE);
             }
-            else if (button.Data.Code == ListItemCode.ScanQRBar)
+            else if (button.Data.Code == ListItemCode.WorkflowQR)
             {
                 var configuration = new BarcodeScannerConfiguration();
                 configuration.SetFinderTextHint("Please align the QR-/Barcode in the frame above to scan it");
@@ -290,7 +290,7 @@ namespace ReadyToUseUIDemo.Droid
                 Alert.Toast(this, Texts.importing_and_processing);
                 Task.Run(delegate
                 {
-                    
+
                     var result = ProcessGalleryResult(data);
                     var pageId = SBSDK.PageStorage.Add(result);
                     var page = new Page(pageId, new List<PointF>(), DetectionResult.Ok, ImageFilterType.None);
@@ -367,14 +367,19 @@ namespace ReadyToUseUIDemo.Droid
             return parameters;
         }
 
-        Bitmap ProcessGalleryResult(Intent data) {
+        Bitmap ProcessGalleryResult(Intent data)
+        {
             var imageUri = data.Data;
             Bitmap bitmap = null;
-            if (imageUri != null) {
-                try {
+            if (imageUri != null)
+            {
+                try
+                {
                     var source = ImageDecoder.CreateSource(ContentResolver, imageUri);
                     bitmap = ImageDecoder.DecodeBitmap(source);
-                } catch (IOException) {
+                }
+                catch (IOException)
+                {
                 }
             }
 

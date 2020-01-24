@@ -168,7 +168,13 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
             var button = (ScannerButton)sender;
 
-            if (button.Data.Code == ListItemCode.ScanDC)
+            if (button.Data.Code == ListItemCode.ScannerMRZ)
+            {
+                var config = SBSDKUIMachineCodeScannerConfiguration.DefaultConfiguration;
+                var controller = SBSDKUIMRZScannerViewController.CreateNewWithConfiguration(config, Delegates.MRZ);
+                PresentViewController(controller, true, null);
+            }
+            else if (button.Data.Code == ListItemCode.WorkflowDC)
             {
                 var ratios = new SBSDKPageAspectRatio[]
                 {
@@ -190,7 +196,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
                 PresentController(name, steps);
             }
-            else if (button.Data.Code == ListItemCode.ScanMRZImage)
+            else if (button.Data.Code == ListItemCode.WorkflowMRZImage)
             {
                 var title = "Please align the Machine readable card with the form in the frame";
                 var name = "MRZScanFlow";
@@ -204,7 +210,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
                 PresentController(name, steps);
             }
-            else if (button.Data.Code == ListItemCode.ScanMRZFrontBack)
+            else if (button.Data.Code == ListItemCode.WorkflowMRZFrontBack)
             {
                 var name = "MRZBackFrontScanFlow";
 
@@ -220,7 +226,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
                 PresentController(name, steps);
             }
-            else if (button.Data.Code == ListItemCode.ScanSEPA)
+            else if (button.Data.Code == ListItemCode.WorkflowSEPA)
             {
                 var name = "SEPAScanFlow";
                 var steps = new SBSDKUIWorkflowStep[]
@@ -233,7 +239,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 PresentController(name, steps);
 
             }
-            else if (button.Data.Code == ListItemCode.ScanQRBar)
+            else if (button.Data.Code == ListItemCode.WorkflowQR)
             {
                 var name = "QRCodeScanFlow";
                 var types = SBSDKUIMachineCodesCollection.TwoDimensionalBarcodes;

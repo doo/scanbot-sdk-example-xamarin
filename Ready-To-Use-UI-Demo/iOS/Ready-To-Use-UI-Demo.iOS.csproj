@@ -140,6 +140,7 @@
     <Compile Include="Controller\PdfViewController.cs" />
     <Compile Include="View\PdfContainerView.cs" />
     <Compile Include="Utils\WorkflowStepValidator.cs" />
+    <Compile Include="Utils\Delegates.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ScanbotSDKOCRData.bundle\eng.traineddata" />

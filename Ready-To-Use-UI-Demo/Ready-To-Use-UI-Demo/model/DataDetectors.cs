@@ -11,18 +11,15 @@ namespace ReadyToUseUIDemo.model
 
         public List<ListItem> Items = new List<ListItem>
         {
-            new ListItem { Title = "Scan DC Form", Code = ListItemCode.ScanDC },
+            new ListItem { Title = "Scan MRZ", Code = ListItemCode.ScannerMRZ },
+
+            new ListItem { Title = "Scan DC Form", Code = ListItemCode.WorkflowDC },
+            new ListItem { Title = "Scan MRZ + Image", Code = ListItemCode.WorkflowMRZImage },
+            new ListItem { Title = "Scan MRZ + Front & Back Image", Code = ListItemCode.WorkflowMRZFrontBack },
 #if __IOS__
-            // iOS has no simple MRZ scan
-#else
-            new ListItem { Title = "Scan MRZ", Code = ListItemCode.ScanMRZ },
+            new ListItem { Title = "Scan SEPA Pay Form", Code = ListItemCode.WorkflowSEPA },
 #endif
-            new ListItem { Title = "Scan MRZ + Image", Code = ListItemCode.ScanMRZImage },
-            new ListItem { Title = "Scan MRZ + Front & Back Image", Code = ListItemCode.ScanMRZFrontBack },
-#if __IOS__
-            new ListItem { Title = "Scan SEPA Pay Form", Code = ListItemCode.ScanSEPA },
-#endif
-            new ListItem { Title = "Scan QR Code", Code = ListItemCode.ScanQRBar }
+            new ListItem { Title = "Scan QR Code", Code = ListItemCode.WorkflowQR }
         };
     }
 }

@@ -6,14 +6,14 @@ namespace ReadyToUseUIDemo.model
         ScanDocument,
         ImportImage,
         ViewImages,
-        ScanQRBar,
-        ScanMRZ,
-        ScanMRZImage,
-        ScanMRZFrontBack,
-        ScanQRBarDocument,
-        ScanDC,
-        ScanSEPA,
-        ScanEHIC,
+
+        ScannerMRZ,
+
+        WorkflowQR,
+        WorkflowMRZImage,
+        WorkflowMRZFrontBack,
+        WorkflowDC,
+        WorkflowSEPA,
     }
 
     public class ListItem
