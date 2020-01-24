@@ -26,7 +26,7 @@ namespace ReadyToUseUIDemo.iOS.View
             AddSubview(title);
 
             content = new PdfView();
-            content.DisplayMode = PdfDisplayMode.SinglePage;
+            content.DisplayMode = PdfDisplayMode.SinglePageContinuous;
             content.AutoScales = true;
             content.Document = new PdfDocument(uri);
             AddSubview(content);

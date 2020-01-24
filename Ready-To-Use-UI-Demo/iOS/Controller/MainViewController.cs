@@ -81,27 +81,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
         private void OnScanComplete(object sender, PageEventArgs e)
         {
-            PageRepository.Add(e.Page);
+            PageRepository.Add(e.Pages);
             OpenImageListController();
-        }
-
-        private void ShowPage(SBSDKUIPage changedPage)
-        {
-            PageRepository.Update(changedPage);
-        }
-
-        class CroppingDelegate : SBSDKUICroppingViewControllerDelegate
-        {
-            MainViewController parent;
-
-            public CroppingDelegate(MainViewController parent)
-            {
-                this.parent = parent;
-            }
-            public override void DidFinish(SBSDKUICroppingViewController viewController, SBSDKUIPage changedPage)
-            {
-                parent.ShowPage(changedPage);
-            }
         }
 
         private void OnScannerButtonClick(object sender, EventArgs e)
@@ -117,9 +98,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             if (button.Data.Code == ListItemCode.ScanDocument)
             {
                 var config = SBSDKUIDocumentScannerConfiguration.DefaultConfiguration;
-                // Hide multi page button to keep this example simpler
-                config.UiConfiguration.MultiPageButtonHidden = true;
-
+                
                 var controller = SBSDKUIDocumentScannerViewController.CreateNewWithConfiguration(config, CameraCallback);
                 controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
                 PresentViewController(controller, false, null);
@@ -274,7 +253,11 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
     public class PageEventArgs : EventArgs
     {
-        public SBSDKUIPage Page { get; set; }
+        public bool IsMultiPage => Pages.Count > 1;
+
+        public SBSDKUIPage Page => Pages[0];
+
+        public List<SBSDKUIPage> Pages { get; set; }
     }
 
     public class SimpleScanCallback : SBSDKUIDocumentScannerViewControllerDelegate
@@ -288,7 +271,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 return;
             }
 
-            Selected?.Invoke(this, new PageEventArgs { Page = pages[0] });
+            Selected?.Invoke(this, new PageEventArgs { Pages = pages.ToList() });
         }
     }
 }

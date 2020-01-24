@@ -28,9 +28,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
             Title = "Process Image";
             
             handler = new CroppingFinishedHandler();
-
-            var saveButton = new UIBarButtonItem(Texts.save, UIBarButtonItemStyle.Done, OnSaveButtonClick);
-            NavigationItem.SetRightBarButtonItem(saveButton, false);
         }
 
         public override void ViewWillAppear(bool animated)
@@ -59,94 +56,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
             ContentView.ProcessingBar.DeleteButton.Click -= DeleteImage;
 
             handler.Finished -= CroppingFinished;
-        }
-
-        private void OnSaveButtonClick(object sender, EventArgs e)
-        {
-            var input = new NSUrl[] { PageRepository.Current.DocumentImageURL };
-
-            var docs = NSSearchPathDirectory.DocumentDirectory;
-            var nsurl = NSFileManager.DefaultManager.GetUrls(docs, NSSearchPathDomain.User)[0];
-            
-            var controller = UIAlertController.Create(Texts.save, Texts.SaveHow, UIAlertControllerStyle.ActionSheet);
-
-            var title = "Oops!";
-            var body = "Something went wrong with saving your file. Please try again";
-
-            if (!SBSDK.IsLicenseValid())
-            {
-                title = "Oops";
-                body = "Your license has expired";
-                Alert.Show(this, title, body);
-                return;
-            }
-
-            var pdf = CreateButton(Texts.Pdf, delegate
-            {
-                var output = new NSUrl(nsurl.AbsoluteString + Guid.NewGuid() + ".pdf");
-                SBSDK.CreatePDF(input, output, PDFPageSize.Auto);
-                OpenDocument(output, false);
-            });
-
-            var ocr = CreateButton(Texts.PdfWithOCR, delegate
-            {
-                var output = new NSUrl(nsurl.AbsoluteString + Guid.NewGuid() + ".pdf");
-                var languages = SBSDK.GetOcrConfigs().InstalledLanguages;
-                try
-                {
-                    SBSDK.PerformOCR(input, languages.ToArray(), output);
-                    OpenDocument(output, true);
-                }
-                catch (Exception ex)
-                {
-                    body = ex.Message;
-                    Alert.Show(this, title, body);
-                }
-            });
-
-            var tiff = CreateButton(Texts.Tiff, delegate
-            {
-                var output = new NSUrl(nsurl.AbsoluteString + Guid.NewGuid() + ".tiff");
-                var options = new TiffOptions { OneBitEncoded = true };
-
-                bool success = SBSDK.WriteTiff(input, output,  options);
-
-                if (success)
-                {
-                    title = "Great Success!";
-                    body = "Saved your tiff to: " + output.Path;
-                }
-
-                Alert.Show(this, title, body);
-            });
-
-            var cancel = CreateButton("Cancel", delegate { }, UIAlertActionStyle.Cancel);
-            
-            controller.AddAction(pdf);
-            controller.AddAction(ocr);
-            controller.AddAction(tiff);
-
-            controller.AddAction(cancel);
-            
-            UIPopoverPresentationController presentationPopover = controller.PopoverPresentationController;
-            if (presentationPopover != null)
-            {
-                presentationPopover.SourceView = View;
-                presentationPopover.PermittedArrowDirections = UIPopoverArrowDirection.Up;
-            }
-
-            PresentViewController(controller, true, null);
-        }
-
-        void OpenDocument(NSUrl uri, bool ocr)
-        {
-            var controller = new PdfViewController(uri, ocr);
-            NavigationController.PushViewController(controller, true);
-        }
-
-        UIAlertAction CreateButton(string text, Action<UIAlertAction> action, UIAlertActionStyle style = UIAlertActionStyle.Default)
-        {
-            return UIAlertAction.Create(text, style, action);
         }
 
         private void CropAndRotate(object sender, EventArgs e)

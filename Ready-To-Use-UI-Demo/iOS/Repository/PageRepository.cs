@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Foundation;
 using ScanbotSDK.iOS;
 using UIKit;
 
@@ -11,7 +12,9 @@ namespace ReadyToUseUIDemo.iOS.Repository
         public static SBSDKUIPage Current { get; set; }
 
         public static List<SBSDKUIPage> Items { get; private set; } = new List<SBSDKUIPage>();
-        
+
+        public static NSUrl[] NSUrls => Items.Select(x => x.DocumentImageURL).ToArray();
+
         static readonly SBSDKUIPageFileStorage storage = new SBSDKUIPageFileStorage(SBSDKImageFileFormat.Png);
 
         public static void Remove(SBSDKUIPage page)
