@@ -86,12 +86,6 @@
     <Reference Include="ScanbotSDK.Xamarin.iOS">
       <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.4\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="Plugin.Clipboard.Abstractions">
-      <HintPath>..\packages\Xamarin.Plugins.Clipboard.2.2.1\lib\Xamarin.iOS10\Plugin.Clipboard.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Plugin.Clipboard">
-      <HintPath>..\packages\Xamarin.Plugins.Clipboard.2.2.1\lib\Xamarin.iOS10\Plugin.Clipboard.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -129,7 +123,6 @@
     <Compile Include="View\ScannerButton.cs" />
     <Compile Include="View\PopupView.cs" />
     <Compile Include="Controller\PopupController.cs" />
-    <Compile Include="ScanResultCallback.cs" />
     <Compile Include="Service\ImagePicker.cs" />
     <Compile Include="Controller\ImageListController.cs" />
     <Compile Include="View\Collection\ImageCell.cs" />
@@ -146,6 +139,7 @@
     <Compile Include="Utils\Alert.cs" />
     <Compile Include="Controller\PdfViewController.cs" />
     <Compile Include="View\PdfContainerView.cs" />
+    <Compile Include="Utils\WorkflowStepValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ScanbotSDKOCRData.bundle\eng.traineddata" />

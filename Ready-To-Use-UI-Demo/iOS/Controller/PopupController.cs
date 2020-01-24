@@ -23,18 +23,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
         public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
-
-            NavigationItem.LeftBarButtonItem = new UIBarButtonItem
-            {
-                Title = "Close"
-            };
-
-            NavigationItem.RightBarButtonItem = new UIBarButtonItem
-            {
-                Title = "Copy"
-            };
-
             nfloat hPadding = 20;
             nfloat vPadding = View.Frame.Height / 6;
 
@@ -55,7 +43,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
         public void Dismiss()
         {
             DismissModalViewController(true);
-            Content.CopyButton.Click = null;
             Content.CloseButton.Click = null;
         }
     }

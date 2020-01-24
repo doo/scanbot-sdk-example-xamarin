@@ -6,6 +6,7 @@ using CoreGraphics;
 using Foundation;
 using ReadyToUseUIDemo.iOS.Repository;
 using ReadyToUseUIDemo.iOS.Service;
+using ReadyToUseUIDemo.iOS.Utils;
 using ReadyToUseUIDemo.iOS.View;
 using ReadyToUseUIDemo.model;
 using ScanbotSDK.iOS;
@@ -17,8 +18,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
     public class MainViewController : UIViewController
     {
         public MainView ContentView { get; set; }
-
-        public ScanResultCallback Callback { get; set; }
 
         public SimpleScanCallback CameraCallback { get; set; }
 
@@ -34,12 +33,11 @@ namespace ReadyToUseUIDemo.iOS.Controller
             ContentView.AddContent(DocumentScanner.Instance);
             ContentView.AddContent(DataDetectors.Instance);
 
-            Callback = new ScanResultCallback();
-            Callback.Parent = this;
-
             CameraCallback = new SimpleScanCallback();
 
             ContentView.LicenseIndicator.Text = Texts.no_license_found_the_app_will_terminate_after_one_minute;
+
+            WorkflowStepValidator.MainController = this;
         }
 
         public override void ViewWillAppear(bool animated)
@@ -157,7 +155,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
         SBSDKPageAspectRatio[] MRZRatios = {
             new SBSDKPageAspectRatio(85.0, 54.0),
-            new SBSDKPageAspectRatio(125.0, 88.0)
+            //new SBSDKPageAspectRatio(125.0, 88.0)
         };
 
         private void OnDataButtonClick(object sender, EventArgs e)
@@ -186,7 +184,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 var steps = new SBSDKUIWorkflowStep[]
                 {
                     new SBSDKUIScanDisabilityCertificateWorkflowStep(
-                        title, "", ratios, true, OnWorkflowStepResult
+                        title, "", ratios, true, WorkflowStepValidator.OnDCFormStep
                     )
                 };
 
@@ -200,7 +198,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 var steps = new SBSDKUIWorkflowStep[]
                 {
                     new SBSDKUIScanMachineReadableZoneWorkflowStep(
-                        title, "", MRZRatios, true, OnWorkflowStepResult
+                        title, "", MRZRatios, true, WorkflowStepValidator.OnIDCardBackStep
                     )
                 };
 
@@ -212,11 +210,11 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
                 var steps = new SBSDKUIWorkflowStep[]
                 {
+                    new SBSDKUIWorkflowStep(
+                        "Step 1/2", "Please scan the front side of your ID card", MRZRatios, true, false, null, WorkflowStepValidator.OnIDCardFrontStep
+                        ),
                     new SBSDKUIScanMachineReadableZoneWorkflowStep(
-                        "Scan 1/2", "Please scan the back side of your ID card", MRZRatios, true, OnWorkflowStepResult
-                    ),
-                    new SBSDKUIScanDocumentPageWorkflowStep(
-                        "Scan 2/2", "Please scan the front side of your ID card", null, null, null
+                        "Step 2/2", "Please scan the back side of your ID card", MRZRatios, true, WorkflowStepValidator.OnIDCardBackStep
                     )
                 };
 
@@ -228,7 +226,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 var steps = new SBSDKUIWorkflowStep[]
                 {
                     new SBSDKUIScanPayFormWorkflowStep(
-                        "Please scan a SEPA PayForm", "", false, OnWorkflowStepResult
+                        "Please scan a SEPA PayForm", "", false, WorkflowStepValidator.OnPayFormStep
                     )
                 };
 
@@ -242,7 +240,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 var steps = new SBSDKUIWorkflowStep[]
                 {
                     new SBSDKUIScanBarCodeWorkflowStep(
-                        "Scan your QR code", "", types, new CGSize(1, 1), null)
+                        "Scan your QR code", "", types, new CGSize(1, 1), WorkflowStepValidator.OnBarCodeStep)
                 };
 
                 PresentController(name, steps);
@@ -259,17 +257,13 @@ namespace ReadyToUseUIDemo.iOS.Controller
             SBSDKUIWorkflow workflow = new SBSDKUIWorkflow(steps, name, null);
 
             var config = SBSDKUIWorkflowScannerConfiguration.DefaultConfiguration;
-            var controller = SBSDKUIWorkflowScannerViewController.CreateNewWithWorkflow(workflow, config, Callback);
+            
+            var controller = SBSDKUIWorkflowScannerViewController.CreateNewWithWorkflow(workflow, config, null);
+            WorkflowStepValidator.WorkflowController = controller;
             controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
             PresentViewController(controller, false, null);
         }
 
-        // Results (both success and error) can be handled here or in the callback class.
-        // To separate logic, we use ScanResultCallback.cs for processing results
-        private NSError OnWorkflowStepResult(SBSDKUIWorkflowStepResult result)
-        {
-            return null;
-        }
     }
 
     public class PageEventArgs : EventArgs

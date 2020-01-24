@@ -13,11 +13,7 @@ namespace ReadyToUseUIDemo.iOS.View
 
         public PopupButton CloseButton { get; private set; }
 
-        public PopupButton CopyButton { get; private set; }
-
         public PopupImageContainer ImageContainer { get; internal set; }
-
-        UIView buttonSeparator;
 
         public PopupView(string text)
         {
@@ -31,17 +27,11 @@ namespace ReadyToUseUIDemo.iOS.View
             Label.Lines = 0;
             Label.LineBreakMode = UILineBreakMode.WordWrap;
             Label.Text = text;
+            Label.TextColor = UIColor.Black;
             AddSubview(Label);
 
             CloseButton = new PopupButton("CLOSE");
             AddSubview(CloseButton);
-
-            CopyButton = new PopupButton("COPY");
-            AddSubview(CopyButton);
-
-            buttonSeparator = new UIView();
-            buttonSeparator.BackgroundColor = Colors.AppleBlue;
-            AddSubview(buttonSeparator);
 
             ClipsToBounds = true;
         }
@@ -62,9 +52,6 @@ namespace ReadyToUseUIDemo.iOS.View
 
             nfloat padding = 5;
 
-            nfloat separatorW = 2;
-            nfloat separatorH = buttonH - 2 * padding;
-
             nfloat x = padding;
             nfloat y = padding;
             nfloat w = Frame.Width - 2 * padding;
@@ -77,18 +64,10 @@ namespace ReadyToUseUIDemo.iOS.View
 
             Label.Frame = new CGRect(x, y, w, h);
 
-            x = 0;
             y = Frame.Height - buttonH;
-            w = buttonW;
             h = buttonH;
 
             CloseButton.Frame = new CGRect(x, y, w, h);
-
-            x += buttonW;
-
-            CopyButton.Frame = new CGRect(x, y, w, h);
-
-            buttonSeparator.Frame = new CGRect(x, y + padding, separatorW, separatorH);
         }
     }
 
@@ -100,8 +79,6 @@ namespace ReadyToUseUIDemo.iOS.View
 
         public PopupButton(string text)
         {
-            BackgroundColor = Colors.NearWhite;
-
             label = new UILabel();
             label.Text = text;
             label.TextColor = Colors.AppleBlue;

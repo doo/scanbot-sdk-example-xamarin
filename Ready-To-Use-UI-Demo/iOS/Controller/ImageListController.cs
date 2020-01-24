@@ -19,7 +19,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             ContentView = new ImageCollectionView();
             View = ContentView;
 
-            Title = "Choose an image";
+            Title = "Scanned documents";
 
             LoadPages();
         }
