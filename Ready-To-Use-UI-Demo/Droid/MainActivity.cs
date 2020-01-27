@@ -290,33 +290,18 @@ namespace ReadyToUseUIDemo.Droid
                 Alert.Toast(this, Texts.importing_and_processing);
                 Task.Run(delegate
                 {
-
                     var result = ProcessGalleryResult(data);
-                    // TODO: This causes a native crash, already fixed in newer versions
-                    // [libc] Fatal signal 11 (SIGSEGV), code 1 (SEGV_MAPERR),
-                    // fault addr 0xbdc00000fd0 in tid 20542 (Thread Pool Wor), pid 20451 (ple.sdk.xamarin)
-                    // /data/app/io.scanbot.example.sdk.xamarin-ylGen3fVztqFT23jl_Rf-g==/lib/arm64/libscanbotsdk.so
-                    // (doo::Detector::jniDetect(_JNIEnv*, _jclass*, long, _jobject*)+76)
-                    // (BuildId: 7b0b0ea274a04c63de1ceefbfd24564c7627de4b)
-                    //var detected = SBSDK.DetectDocument(result);
-
-                    //if (detected.Image != null)
-                    //{
-                    //    result = (Bitmap)detected.Image;
-                    //}
 
                     var pageId = SBSDK.PageStorage.Add(result);
                     var page = new Page(pageId, new List<PointF>(), DetectionResult.Ok, ImageFilterType.None);
+                    page = SBSDK.PageProcessor.DetectDocument(page);
+                    PageRepository.Add(page);
 
-                    var configuration = new CroppingConfiguration();
-                    configuration.SetPage(page);
-                    var intent = CroppingActivity.NewIntent(this, configuration);
-                    //var intent = new Intent(this, typeof(PagePreviewActivity));
+                    var intent = new Intent(this, typeof(PagePreviewActivity));
                     RunOnUiThread(delegate
                     {
                         progress.Visibility = ViewStates.Gone;
-                        StartActivityForResult(intent, CROP_DEFAULT_UI_REQUEST);
-                        //StartActivity(intent);
+                        StartActivity(intent);
                     });
                 });
             }
