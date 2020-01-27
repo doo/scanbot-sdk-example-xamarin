@@ -71,14 +71,14 @@ namespace ReadyToUseUIDemo.Droid
 
                 var step = new ScanMachineReadableZoneWorkflowStep(
                     "Scan ID card or passport",
-                    "Please align your ID card or passport in the frame",
+                    "Please align the back of your ID card or passport in the frame",
                     ratios,
                     true,
                     new MRZValidator()
                 );
 
                 steps.Add(step);
-                return new Workflow(steps.ToArray(), "Scanning MRZ Code & Front Side");
+                return new Workflow(steps.ToArray(), "Scanning MRZ Code");
             }
         }
 
