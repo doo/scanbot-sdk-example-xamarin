@@ -65,8 +65,8 @@ namespace ClassicalComponentsDemo.Droid
             AssignMrzScannerButtonHandler();
             AssignBarcodeScannerButtonHandler();
             AssignWorkflowsButtonHandler();
+            AssignBusinessCardButtonHandler();
         }
-
 
         void AssignCopyrightText()
         {
@@ -295,6 +295,13 @@ namespace ClassicalComponentsDemo.Droid
             {
                 var intent = new Intent(this, typeof(WorkflowsActivity));
                 StartActivity(intent);
+            };
+        }
+
+        void AssignBusinessCardButtonHandler()
+        {
+            FindViewById<Button>(Resource.Id.businessCardButton).Click += delegate {
+                StartActivity(typeof(BusinessCardsActivity));
             };
         }
 

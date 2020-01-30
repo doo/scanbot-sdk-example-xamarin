@@ -65,6 +65,11 @@
 			android:layout_height="wrap_content"
 			android:id="@+id/workflowsButton"
 			android:text="Workflows..." />
+        <Button
+			android:text="Business card scanner"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/businessCardButton" />
         <TextView
             android:text="..."
             android:textAppearance="?android:attr/textAppearanceSmall"
