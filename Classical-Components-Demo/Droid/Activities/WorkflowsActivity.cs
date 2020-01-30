@@ -171,7 +171,7 @@ namespace ClassicalComponentsDemo.Droid.Activities
                     }
                     else if (result is BarCodeWorkflowStepResult barcodeResult)
                     {
-                        foreach (var barcode in barcodeResult.BarcodeResults)
+                        foreach (var barcode in barcodeResult.BarcodeResults.BarcodeItems)
                         {
                             descr.AppendLine($"{barcode.BarcodeFormat.ToString()}:\n{barcode.Text}\n");
                         }

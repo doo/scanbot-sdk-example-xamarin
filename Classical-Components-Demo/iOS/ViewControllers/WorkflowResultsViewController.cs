@@ -63,7 +63,7 @@ namespace ClassicalComponentsDemo.iOS
                 {
                     foreach (var code in result.BarcodeResults)
                     {
-                        texts.Add(code.StringValue);
+                        texts.Add(code.RawTextString);
                         texts.Add("\n\n");
                     }
                 }

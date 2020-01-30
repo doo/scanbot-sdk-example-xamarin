@@ -367,7 +367,8 @@ namespace ClassicalComponentsDemo.Droid
             if (requestCode == REQUEST_SB_BARCODE_SCANNER && resultCode == Result.Ok)
             {
                 var barcodeResult = data.GetParcelableExtra(BarcodeScannerActivity.ScannedBarcodeExtra) as BarcodeScanningResult;
-                Toast.MakeText(this, barcodeResult.BarcodeFormat + "\n" + barcodeResult.Text, ToastLength.Long).Show();
+                var barcode = barcodeResult.BarcodeItems[0];
+                Toast.MakeText(this, barcode.BarcodeFormat + "\n" + barcode.Text, ToastLength.Long).Show();
                 return;
             }
 

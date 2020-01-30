@@ -41,7 +41,7 @@ namespace ClassicalComponentsDemo.iOS
                 (result) =>
                 {
                     SBSDKMachineReadableZoneRecognizerResult mrz = result.MrzResult;
-                    if (mrz.RecognitionSuccessfull)
+                    if (mrz.RecognitionSuccessful)
                     {
                         return WorkflowError.ErrorWithCode(1, new NSString("This does not seem to be the front side."));
                     }
@@ -58,7 +58,7 @@ namespace ClassicalComponentsDemo.iOS
             (result) =>
             {
                 SBSDKMachineReadableZoneRecognizerResult mrz = result.MrzResult;
-                if (mrz == null || !mrz.RecognitionSuccessfull)
+                if (mrz == null || !mrz.RecognitionSuccessful)
                 {
                     return WorkflowError.ErrorWithCode(2, new NSString("This does not seem to be the back side."));
                 }
@@ -112,7 +112,7 @@ namespace ClassicalComponentsDemo.iOS
             SBSDKUIWorkflowStep qrcodeStep = new SBSDKUIScanBarCodeWorkflowStep(
                 "QR code and Document 1/2",
                 "Please scan a QR code",
-                new String[] { AVConstants.AVMetadataObjectTypeQRCode.ToString() },
+                new SBSDKBarcodeType[] { SBSDKBarcodeType.QRCode },
                 new CGSize(1, 1),
                 null
                 );
@@ -143,7 +143,7 @@ namespace ClassicalComponentsDemo.iOS
                     SBSDKMachineReadableZoneRecognizer recognizer = new SBSDKMachineReadableZoneRecognizer();
                     SBSDKMachineReadableZoneRecognizerResult mrz = recognizer.RecognizePersonalIdentityFromImage(result.CapturedPage.DocumentImage);
 
-                    if (mrz == null || !mrz.RecognitionSuccessfull)
+                    if (mrz == null || !mrz.RecognitionSuccessful)
                     {
                         return WorkflowError.ErrorWithCode(2, new NSString("This does not seem to be the correct page."));
                     }
@@ -225,7 +225,7 @@ namespace ClassicalComponentsDemo.iOS
             return new SBSDKUIScanBarCodeWorkflowStep(
                 "Scan your QR code",
                 null,
-                new String[] { AVConstants.AVMetadataObjectTypeQRCode.ToString() },
+                new SBSDKBarcodeType[] { SBSDKBarcodeType.QRCode },
                 new CGSize(1, 1),
                 null
                 );
