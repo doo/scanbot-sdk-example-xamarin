@@ -184,34 +184,34 @@
       <HintPath>..\packages\Xamarin.GooglePlayServices.Base.60.1142.1\lib\MonoAndroid80\Xamarin.GooglePlayServices.Base.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.Base">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.4\lib\MonoAndroid81\ScanbotSDK.Android.Base.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.5.0\lib\MonoAndroid81\ScanbotSDK.Android.Base.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.Camera">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.4\lib\MonoAndroid81\ScanbotSDK.Android.Camera.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.5.0\lib\MonoAndroid81\ScanbotSDK.Android.Camera.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.Core">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.4\lib\MonoAndroid81\ScanbotSDK.Android.Core.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.5.0\lib\MonoAndroid81\ScanbotSDK.Android.Core.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.P1">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.4\lib\MonoAndroid81\ScanbotSDK.Android.P1.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.5.0\lib\MonoAndroid81\ScanbotSDK.Android.P1.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.P2">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.4\lib\MonoAndroid81\ScanbotSDK.Android.P2.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.5.0\lib\MonoAndroid81\ScanbotSDK.Android.P2.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.P3">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.4\lib\MonoAndroid81\ScanbotSDK.Android.P3.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.5.0\lib\MonoAndroid81\ScanbotSDK.Android.P3.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.P4">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.4\lib\MonoAndroid81\ScanbotSDK.Android.P4.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.5.0\lib\MonoAndroid81\ScanbotSDK.Android.P4.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Android.UI">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.4\lib\MonoAndroid81\ScanbotSDK.Android.UI.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.5.0\lib\MonoAndroid81\ScanbotSDK.Android.UI.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin.Android">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.4\lib\MonoAndroid81\ScanbotSDK.Xamarin.Android.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.5.0\lib\MonoAndroid81\ScanbotSDK.Xamarin.Android.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.1.4.4\lib\MonoAndroid81\ScanbotSDK.Xamarin.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.1.5.0\lib\MonoAndroid81\ScanbotSDK.Xamarin.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
