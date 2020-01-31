@@ -167,6 +167,11 @@ namespace ReadyToUseUIDemo.Droid.Activities
             ApplyFilter(ImageFilterType.LowLightBinarization);
         }
 
+        public void LowLightBinarizationFilter2()
+        {
+            ApplyFilter(ImageFilterType.LowLightBinarization2);
+        }
+
         public void EdgeHighlightFilter()
         {
             ApplyFilter(ImageFilterType.EdgeHighlight);

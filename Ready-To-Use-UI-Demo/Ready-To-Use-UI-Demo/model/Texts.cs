@@ -45,6 +45,8 @@ namespace ReadyToUseUIDemo.model
 
         public const string low_light_binarization_filter = "Low Light Binarization Filter";
 
+        internal static string low_light_binarization_filter2 = "Low Light Binarization Filter 2";
+
         public const string edge_highlight_filter = "Edge Highlight Filter";
 
         public const string deep_binarization_filter = "Deep Binarization Filter";
@@ -138,7 +140,7 @@ namespace ReadyToUseUIDemo.model
         public const string bitmap_is_null_error = "Bitmap is null";
 
         public static string SaveHow = "How would you like to save the document?";
-
+        
         public const string Pdf = "PDF";
 
         public const string PdfWithOCR = "PDF with OCR";

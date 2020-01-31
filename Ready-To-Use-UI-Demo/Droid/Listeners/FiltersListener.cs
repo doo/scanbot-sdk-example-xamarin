@@ -3,6 +3,8 @@ namespace ReadyToUseUIDemo.Droid.Listeners
 {
     interface IFiltersListener
     {
+        void LowLightBinarizationFilter2();
+
         void LowLightBinarizationFilter();
 
         void EdgeHighlightFilter();

@@ -9,6 +9,7 @@ namespace ReadyToUseUIDemo.iOS.Model
         {
             new Filter("None", ScanbotSDK.iOS.SBSDKImageFilterType.None),
             new Filter("Low Light Binarization", ScanbotSDK.iOS.SBSDKImageFilterType.LowLightBinarization),
+            new Filter("Low Light Binarization 2", ScanbotSDK.iOS.SBSDKImageFilterType.LowLightBinarization2),
             new Filter("Edge Highlight", ScanbotSDK.iOS.SBSDKImageFilterType.EdgeHighlight),
             new Filter("Deep Binarization", ScanbotSDK.iOS.SBSDKImageFilterType.DeepBinarization),
             new Filter("Otsu Binarization", ScanbotSDK.iOS.SBSDKImageFilterType.OtsuBinarization),

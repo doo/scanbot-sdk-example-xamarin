@@ -28,13 +28,30 @@
         app:layout_constraintTop_toBottomOf="@+id/lowLightBinarizationFilter" />
 
     <Button
-        android:id="@+id/edgeHighlightFilter"
+        android:id="@+id/lowLightBinarizationFilter2"
         style="@style/Scanbot.Demo.MaterialTwoButtonTeaser.Button"
         android:layout_width="0dp"
         android:layout_height="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lowLightBinarizationFilter" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="#1effffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lowLightBinarizationFilter2" />
+
+    <Button
+        android:id="@+id/edgeHighlightFilter"
+        style="@style/Scanbot.Demo.MaterialTwoButtonTeaser.Button"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lowLightBinarizationFilter2" />
 
     <View
         android:layout_width="0dp"

@@ -24,6 +24,13 @@ namespace ReadyToUseUIDemo.Droid.Fragments
                 DismissAllowingStateLoss();
             };
 
+            var lowLightBinarizationFilter2 = view.FindViewById<Button>(Resource.Id.lowLightBinarizationFilter2);
+            lowLightBinarizationFilter2.Text = Texts.low_light_binarization_filter2;
+            lowLightBinarizationFilter2.Click += delegate {
+                (Activity as IFiltersListener).LowLightBinarizationFilter2();
+                DismissAllowingStateLoss();
+            };
+
             var edgeHighlightFilter = view.FindViewById<Button>(Resource.Id.edgeHighlightFilter);
             edgeHighlightFilter.Text = Texts.edge_highlight_filter;
             edgeHighlightFilter.Click += delegate {
