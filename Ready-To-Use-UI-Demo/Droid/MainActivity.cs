@@ -38,6 +38,9 @@ using IO.Scanbot.Sdk.Process;
 using IO.Scanbot.Sdk.UI.View.Barcode.Configuration;
 using IO.Scanbot.Sdk.UI.View.Barcode;
 using IO.Scanbot.Sdk.Barcode.Entity;
+using IO.Scanbot.Sdk.UI.View.Hic.Configuration;
+using IO.Scanbot.Sdk.UI.View.Hic;
+using IO.Scanbot.Hicscanner.Model;
 
 namespace ReadyToUseUIDemo.Droid
 {
@@ -46,12 +49,13 @@ namespace ReadyToUseUIDemo.Droid
     {
         private const int CAMERA_DEFAULT_UI_REQUEST_CODE = 1111;
 
-        private const int MRZ_DEFAULT_UI_REQUEST_CODE = 909;
-        private const int DC_SCAN_WORKFLOW_REQUEST_CODE = 914;
-        private const int PAYFORM_SCAN_WORKFLOW_REQUEST_CODE = 916;
-        private const int MRZ_SNAP_WORKFLOW_REQUEST_CODE = 912;
-        private const int MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE = 913;
-        private const int QR_BARCODE_DEFAULT_UI_REQUEST_CODE = 910;
+        const int MRZ_DEFAULT_UI_REQUEST_CODE = 909;
+        const int DC_SCAN_WORKFLOW_REQUEST_CODE = 914;
+        const int PAYFORM_SCAN_WORKFLOW_REQUEST_CODE = 916;
+        const int MRZ_SNAP_WORKFLOW_REQUEST_CODE = 912;
+        const int MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE = 913;
+        const int QR_BARCODE_DEFAULT_UI_REQUEST_CODE = 910;
+        const int REQUEST_EHIC_SCAN = 4715;
 
         private const int IMPORT_IMAGE_REQUEST = 7777;
         private const int CROP_DEFAULT_UI_REQUEST = 9999;
@@ -250,13 +254,20 @@ namespace ReadyToUseUIDemo.Droid
 
                 StartActivityForResult(intent, PAYFORM_SCAN_WORKFLOW_REQUEST_CODE);
             }
-            else if (button.Data.Code == ListItemCode.WorkflowQR)
+            else if (button.Data.Code == ListItemCode.ScannerBarcode)
             {
                 var configuration = new BarcodeScannerConfiguration();
                 configuration.SetFinderTextHint("Please align the QR-/Barcode in the frame above to scan it");
-
                 var intent = BarcodeScannerActivity.NewIntent(this, configuration);
                 StartActivityForResult(intent, QR_BARCODE_DEFAULT_UI_REQUEST_CODE);
+            }
+            else if (button.Data.Code == ListItemCode.ScannerEHIC)
+            {
+                var config = new HealthInsuranceCardScannerConfiguration();
+                config.SetTopBarButtonsColor(Color.White);
+
+                var intent = HealthInsuranceCardScannerActivity.NewIntent(this, config);
+                StartActivityForResult(intent, REQUEST_EHIC_SCAN);
             }
         }
 
@@ -342,6 +353,14 @@ namespace ReadyToUseUIDemo.Droid
                 var code = (BarcodeScanningResult)data.GetParcelableExtra(BarcodeScannerActivity.ScannedBarcodeExtra);
                 var fragment = BarcodeDialogFragment.CreateInstance(code);
                 fragment.Show(SupportFragmentManager, BarcodeDialogFragment.NAME);
+            }
+            else if (requestCode == REQUEST_EHIC_SCAN)
+            {
+                var result = (HealthInsuranceCardRecognitionResult)data.GetParcelableExtra(
+                    HealthInsuranceCardScannerActivity.ExtractedFieldsExtra);
+                
+                var fragment = HealthInsuranceCardFragment.CreateInstance(result);
+                fragment.Show(SupportFragmentManager, HealthInsuranceCardFragment.NAME);
             }
             else if (requestCode == PAYFORM_SCAN_WORKFLOW_REQUEST_CODE)
             {

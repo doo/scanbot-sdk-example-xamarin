@@ -13,6 +13,7 @@ namespace ReadyToUseUIDemo.Droid.Views
     {
         public const string WORKFLOW_EXTRA = "WORKFLOW_EXTRA";
         public const string WORKFLOW_RESULT_EXTRA = "WORKFLOW_RESULT_EXTRA";
+        public const string SCANNER_RESULT_EXTRA = "SCANNER_RESULT_EXTRA";
 
         public string CopyText { get; set; }
 

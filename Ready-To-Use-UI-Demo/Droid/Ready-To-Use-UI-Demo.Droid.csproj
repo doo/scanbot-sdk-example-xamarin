@@ -266,6 +266,7 @@
     <Compile Include="Fragments\MRZFrontBackImageResultDialogFragment.cs" />
     <Compile Include="Fragments\BarcodeDialogFragment.cs" />
     <Compile Include="Fragments\PayFormResultDialogFragment.cs" />
+    <Compile Include="Fragments\HealthInsuranceCardFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
