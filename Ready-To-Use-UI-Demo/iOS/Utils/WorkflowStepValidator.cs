@@ -48,7 +48,7 @@ namespace ReadyToUseUIDemo.iOS.Utils
                 images.Add(result.Thumbnail);
             }
 
-            string text = result.BarcodeResults[0].StringValue;
+            string text = result.BarcodeResults[0].RawTextString;
             PresentResultPopup(text, images);
             return null;
         }
@@ -95,7 +95,7 @@ namespace ReadyToUseUIDemo.iOS.Utils
             var builder = new StringBuilder();
             var step = result.MrzResult;
 
-            if (step == null || !step.RecognitionSuccessfull)
+            if (step == null || !step.RecognitionSuccessful)
             {
                 return new NSError();
             }

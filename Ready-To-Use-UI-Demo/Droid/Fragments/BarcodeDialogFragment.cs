@@ -28,9 +28,16 @@ namespace ReadyToUseUIDemo.Droid.Fragments
             var format = view.FindViewById<TextView>(Resource.Id.qr_barcode_format);
             var content = view.FindViewById<TextView>(Resource.Id.qr_barcode_value);
 
-            format.Text = data.BarcodeFormat.Name();
+            if (data.BarcodeItems.Count == 0)
+            {
+                content.Text = "No barcodes found";
+                return view;
+            }
+
+            var barcode = data.BarcodeItems[0];
+            format.Text = barcode.BarcodeFormat.Name();
             
-            CopyText = data.Text;
+            CopyText = barcode.Text;
             content.Text = CopyText;
 
             return view;
