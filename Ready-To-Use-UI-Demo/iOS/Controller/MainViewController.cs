@@ -235,6 +235,24 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
                 PresentController(name, steps);
             }
+            else if (button.Data.Code == ListItemCode.ScannerEHIC)
+            {
+                var configuration = SBSDKUIHealthInsuranceCardScannerConfiguration.DefaultConfiguration;
+                var controller = SBSDKUIHealthInsuranceCardScannerViewController
+                    .CreateNewWithConfiguration(configuration, Delegates.EHIC);
+
+                controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
+                PresentViewController(controller, false, null);
+            }
+            else if (button.Data.Code == ListItemCode.ScannerBarcode)
+            {
+                var configuration = SBSDKUIMachineCodeScannerConfiguration.DefaultConfiguration;
+                var controller = SBSDKUIBarcodeScannerViewController
+                    .CreateNewWithAcceptedMachineCodeTypes(
+                    SBSDKBarcodeType.AllTypes, configuration, Delegates.Barcode);
+                controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
+                PresentViewController(controller, false, null);
+            }
         }
 
         void PresentController(string name, SBSDKUIWorkflowStep[] steps, SBSDKUIWorkflowScannerConfiguration configuration = null)

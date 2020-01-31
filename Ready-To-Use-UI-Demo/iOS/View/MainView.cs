@@ -60,6 +60,8 @@ namespace ReadyToUseUIDemo.iOS.View
             h = DataDetectors.Height;
 
             DataDetectors.Frame = new CGRect(x, y, w, h);
+
+            ContentSize = new CGSize(Frame.Width, DataDetectors.Frame.Bottom);
         }
 
         public void AddContent(DocumentScanner instance)

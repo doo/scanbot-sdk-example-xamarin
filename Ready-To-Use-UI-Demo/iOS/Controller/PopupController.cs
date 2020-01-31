@@ -12,13 +12,17 @@ namespace ReadyToUseUIDemo.iOS.Controller
         string text;
         List<UIImage> images;
 
+        public PopupController(string text)
+        {
+            this.text = text;
+            this.images = new List<UIImage>();
+        }
         public PopupController(string text, List<UIImage> images)
         {
             this.text = text;
             this.images = images;
 
             ModalPresentationStyle = UIModalPresentationStyle.OverFullScreen;
-
         }
 
         public override void ViewDidLoad()

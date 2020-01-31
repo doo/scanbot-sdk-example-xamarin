@@ -8,12 +8,15 @@ namespace ReadyToUseUIDemo.model
         ViewImages,
 
         ScannerMRZ,
+        ScannerEHIC,
+        ScannerBarcode,
 
         WorkflowQR,
         WorkflowMRZImage,
         WorkflowMRZFrontBack,
         WorkflowDC,
         WorkflowSEPA,
+        
     }
 
     public class ListItem
