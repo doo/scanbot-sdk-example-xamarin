@@ -11,7 +11,7 @@ namespace ClassicalComponentsDemo.Droid
     // It is strongly recommended to add the LargeHeap = true flag in your Application class.
     // Working with images, creating PDFs, etc. are memory intensive tasks. So to prevent OutOfMemoryError, consider adding this flag!
     // For more details see: http://developer.android.com/guide/topics/manifest/application-element.html#largeHeap
-    [Application(LargeHeap = true)]
+    [Application(LargeHeap = true, Theme = "@style/AppTheme")]
     public class MainApplication : Application
     {
         static readonly string LOG_TAG = typeof(MainApplication).Name;

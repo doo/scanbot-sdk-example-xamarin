@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Android.App;
+using Android.Content;
 using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
-using IO.Scanbot.Multipleobjectsscanner;
 using IO.Scanbot.Sdk.Businesscard;
 using IO.Scanbot.Sdk.Multipleobjects;
 using IO.Scanbot.Sdk.Persistence;
@@ -20,8 +19,8 @@ using Net.Doo.Snap.UI;
 
 namespace ClassicalComponentsDemo.Droid.Activities
 {
-    [Activity]
-    public class BusinessCardsActivity : Activity, IPictureCallback, ICameraOpenCallback
+    [Activity(Label = "Business Card Scanner")]
+    public class BusinessCardsActivity : BaseActivity, IPictureCallback, ICameraOpenCallback
     {
         public static List<BusinessCardsImageProcessorBusinessCardProcessingResult> ProcessedResults;
 
@@ -134,6 +133,9 @@ namespace ClassicalComponentsDemo.Droid.Activities
             RunOnUiThread(delegate
             {
                 Toast.MakeText(this, $"Found {ProcessedResults.Count} business cards", ToastLength.Short).Show();
+                progress.Visibility = ViewStates.Gone;
+                var intent = new Intent(this, typeof(BusinessCardsPreviewActivity));
+                StartActivity(intent);
             });
         }
 
