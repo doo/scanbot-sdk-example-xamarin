@@ -13,6 +13,7 @@ using IO.Scanbot.Sdk.Multipleobjects;
 using IO.Scanbot.Sdk.Persistence;
 using IO.Scanbot.Sdk.Process;
 using IO.Scanbot.Sdk.UI.Camera;
+using IO.Scanbot.Multipleobjectsscanner;
 using Net.Doo.Snap.Camera;
 using Net.Doo.Snap.Lib.Detector;
 using Net.Doo.Snap.UI;
@@ -29,6 +30,10 @@ namespace ClassicalComponentsDemo.Droid.Activities
         ShutterButton shutterButton;
 
         bool flashEnabled = false;
+
+        MultipleObjectsDetectorParams modParams = null;
+        // qualify only square-like objects:
+        //MultipleObjectsDetectorParams modParams = new MultipleObjectsDetectorParams(0.9f, 1.1f);
 
         IO.Scanbot.Sdk.ScanbotSDK sdk;
 
@@ -56,7 +61,10 @@ namespace ClassicalComponentsDemo.Droid.Activities
 
             sdk = new IO.Scanbot.Sdk.ScanbotSDK(this);
             var detector = sdk.MultipleObjectsDetector();
-            //detector.SetParams(new MultipleObjectsDetectorParams(0.9f, 1.1f));
+            if (modParams != null)
+            {
+                detector.SetParams(modParams);
+            }
 
             var handler = MultipleObjectsFrameHandler.Attach(cameraView, detector);
 
@@ -106,7 +114,12 @@ namespace ClassicalComponentsDemo.Droid.Activities
             matrix.SetRotate(imageOrientation, bitmap.Width / 2, bitmap.Height / 2);
             var result = Bitmap.CreateBitmap(bitmap, 0, 0, bitmap.Width, bitmap.Height, matrix, false);
 
-            var polygons = sdk.MultipleObjectsDetector().DetectOnBitmap(result, 0);
+            var detector = sdk.MultipleObjectsDetector();
+            if (modParams != null)
+            {
+                detector.SetParams(modParams);
+            }
+            var polygons = detector.DetectOnBitmap(result, 0);
             var pages = new List<Page>();
 
             foreach (var polygon in polygons)
