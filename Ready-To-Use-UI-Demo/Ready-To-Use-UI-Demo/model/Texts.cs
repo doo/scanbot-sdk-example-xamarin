@@ -141,10 +141,6 @@ namespace ReadyToUseUIDemo.model
 
         public static string SaveHow = "How would you like to save the document?";
         
-        public const string Pdf = "PDF";
-
-        public const string PdfWithOCR = "PDF with OCR";
-
         public const string Tiff = "Save as TIFF";
     }
 }

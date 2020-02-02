@@ -64,7 +64,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
         private void OnSaveButtonClick(object sender, EventArgs e)
         {
-            var input = PageRepository.NSUrls;
+            var input = PageRepository.DocumentImageURLs;
 
             var docs = NSSearchPathDirectory.DocumentDirectory;
             var nsurl = NSFileManager.DefaultManager.GetUrls(docs, NSSearchPathDomain.User)[0];
@@ -82,14 +82,14 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 return;
             }
 
-            var pdf = CreateButton(Texts.Pdf, delegate
+            var pdf = CreateButton(Texts.save_without_ocr, delegate
             {
                 var output = new NSUrl(nsurl.AbsoluteString + Guid.NewGuid() + ".pdf");
-                SBSDK.CreatePDF(input, output, PDFPageSize.Auto);
+                SBSDK.CreatePDF(input, output, PDFPageSize.FixedA4);
                 OpenDocument(output, false);
             });
 
-            var ocr = CreateButton(Texts.PdfWithOCR, delegate
+            var ocr = CreateButton(Texts.save_with_ocr, delegate
             {
                 var output = new NSUrl(nsurl.AbsoluteString + Guid.NewGuid() + ".pdf");
                 var languages = SBSDK.GetOcrConfigs().InstalledLanguages;
@@ -108,14 +108,16 @@ namespace ReadyToUseUIDemo.iOS.Controller
             var tiff = CreateButton(Texts.Tiff, delegate
             {
                 var output = new NSUrl(nsurl.AbsoluteString + Guid.NewGuid() + ".tiff");
-                var options = new TiffOptions { OneBitEncoded = true };
+
+                // Please note that some compression types are only compatible for 1-bit encoded images (binarized black & white images)!
+                var options = new TiffOptions { OneBitEncoded = true, Compression = TiffCompressionOptions.CompressionCcittfax4, Dpi = 250 };
 
                 bool success = SBSDK.WriteTiff(input, output, options);
 
                 if (success)
                 {
-                    title = "Great Success!";
-                    body = "Saved your tiff to: " + output.Path;
+                    title = "Info";
+                    body = "TIFF file saved to: " + output.Path;
                 }
 
                 Alert.Show(this, title, body);

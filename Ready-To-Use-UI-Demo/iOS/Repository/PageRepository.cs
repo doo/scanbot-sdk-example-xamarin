@@ -13,7 +13,7 @@ namespace ReadyToUseUIDemo.iOS.Repository
 
         public static List<SBSDKUIPage> Items { get; private set; } = new List<SBSDKUIPage>();
 
-        public static NSUrl[] NSUrls => Items.Select(x => x.DocumentImageURL).ToArray();
+        public static NSUrl[] DocumentImageURLs => Items.Select(x => x.DocumentImageURL).ToArray();
 
         static readonly SBSDKUIPageFileStorage storage = new SBSDKUIPageFileStorage(SBSDKImageFileFormat.Png);
 
