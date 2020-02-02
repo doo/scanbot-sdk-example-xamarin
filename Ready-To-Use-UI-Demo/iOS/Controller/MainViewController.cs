@@ -103,7 +103,14 @@ namespace ReadyToUseUIDemo.iOS.Controller
             if (button.Data.Code == ListItemCode.ScanDocument)
             {
                 var config = SBSDKUIDocumentScannerConfiguration.DefaultConfiguration;
-                
+                config.BehaviorConfiguration.MultiPageEnabled = true;
+                config.BehaviorConfiguration.IgnoreBadAspectRatio = true;
+                config.TextConfiguration.PageCounterButtonTitle = "%d Page(s)";
+                config.TextConfiguration.TextHintOK = "Don't move.\nCapturing document...";
+                config.UiConfiguration.BottomBarBackgroundColor = UIColor.Blue;
+                config.UiConfiguration.BottomBarButtonsColor = UIColor.White;
+                // see further customization configs...
+
                 var controller = SBSDKUIDocumentScannerViewController.CreateNewWithConfiguration(config, CameraCallback);
                 controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
                 PresentViewController(controller, false, null);

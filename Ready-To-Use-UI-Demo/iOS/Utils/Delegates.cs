@@ -16,7 +16,7 @@ namespace ReadyToUseUIDemo.iOS.Utils
 
         public static bool IsPresented { get; set; }
 
-        public static void ShowPopup(UIViewController controller, string text)
+        public static void ShowPopup(UIViewController controller, string text, Action onClose = null)
         {
             if (IsPresented)
             {
@@ -34,6 +34,7 @@ namespace ReadyToUseUIDemo.iOS.Utils
                 {
                     IsPresented = false;
                     popover.Dismiss();
+                    onClose?.Invoke();
                 };
             });
         }
@@ -61,15 +62,17 @@ namespace ReadyToUseUIDemo.iOS.Utils
         {
             public override void DidDetectResults(SBSDKUIBarcodeScannerViewController viewController, SBSDKBarcodeScannerResult[] barcodeResults)
             {
-
                 string text = "No barcode detected";
                 if (barcodeResults.Length > 0)
                 {
+                    viewController.RecognitionEnabled = false; // stop recognition
                     var result = barcodeResults[0];
-                    text = $"Found Barcode!\nText: {result.RawTextString}\nType: {result.Type.Name}";
+                    text = $"Found Barcode\n\nType: {result.Type.Name}\nValue: {result.RawTextString}\n";
                 }
                 
-                ShowPopup(viewController, text);
+                ShowPopup(viewController, text, delegate {
+                    viewController.RecognitionEnabled = true; // continue recognition
+                });
             }
         }
     }
