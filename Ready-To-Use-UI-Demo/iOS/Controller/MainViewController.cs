@@ -162,6 +162,15 @@ namespace ReadyToUseUIDemo.iOS.Controller
             if (button.Data.Code == ListItemCode.ScannerMRZ)
             {
                 var config = SBSDKUIMachineCodeScannerConfiguration.DefaultConfiguration;
+                config.TextConfiguration.CancelButtonTitle = "Done";
+                //config.TextConfiguration.FinderTextHint = "Custom finder text ..."
+                // see further customization configs
+
+                var viewSize = View.Frame.Size;
+                var targetWidth = viewSize.Width - ((viewSize.Width * 0.058) * 2);
+                config.UiConfiguration.FinderWidth = (nfloat)targetWidth;
+                config.UiConfiguration.FinderHeight = (nfloat)(targetWidth * 0.3);
+
                 var controller = SBSDKUIMRZScannerViewController.CreateNewWithConfiguration(config, Delegates.MRZ);
                 PresentViewController(controller, true, null);
             }
