@@ -4,8 +4,6 @@
 <dict>
 	<key>CFBundleName</key>
 	<string>Ready-To-Use-UI-Demo</string>
-	<key>CFBundleIdentifier</key>
-	<string>io.scanbot.example.sdk.xamarin</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -48,5 +46,7 @@
 	<string>Scanbot would like to import images from your Gallery</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Scanbot would like to use the camera to scan documents</string>
+	<key>CFBundleIdentifier</key>
+	<string>io.scanbot.example.sdk.xamarin.rtu</string>
 </dict>
 </plist>
