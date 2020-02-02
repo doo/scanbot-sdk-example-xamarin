@@ -62,8 +62,6 @@ namespace ClassicalComponentsDemo.Droid
             AssignCreatePdfButtonHandler();
             AssignCreateTiffButtonHandler();
             AssignOcrButtonsHandler();
-            AssignMrzScannerButtonHandler();
-            AssignBarcodeScannerButtonHandler();
             AssignWorkflowsButtonHandler();
             AssignBusinessCardButtonHandler();
         }
@@ -253,38 +251,6 @@ namespace ClassicalComponentsDemo.Droid
                         });
                     }
                 });
-            };
-        }
-
-        void AssignMrzScannerButtonHandler()
-        {
-            var mrzScannerButton = FindViewById<Button>(Resource.Id.mrzScannerButton);
-            mrzScannerButton.Click += delegate
-            {
-                if (!CheckScanbotSDKLicense()) { return; }
-
-                var configuration = new MRZScannerConfiguration();
-                // Customize colors, text resources, etc via configuration:
-                //configuration.setFinderLineColor(Color.parseColor("#FF0000"));
-                //configuration.set...
-                var intent = MRZScannerActivity.NewIntent(this, configuration);
-                StartActivityForResult(intent, REQUEST_SB_MRZ_SCANNER);
-            };
-        }
-
-        void AssignBarcodeScannerButtonHandler()
-        {
-            var barcodeScannerButton = FindViewById<Button>(Resource.Id.barcodeScannerButton);
-            barcodeScannerButton.Click += delegate
-            {
-                if (!CheckScanbotSDKLicense()) { return; }
-
-                var configuration = new BarcodeScannerConfiguration();
-                // Customize colors, text resources, etc via configuration:
-                //configuration.setFinderLineColor(Color.parseColor("#FF0000"));
-                //configuration.set...
-                var intent = BarcodeScannerActivity.NewIntent(this, configuration);
-                StartActivityForResult(intent, REQUEST_SB_BARCODE_SCANNER);
             };
         }
 

@@ -50,16 +50,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/performOcrButton" />
-        <Button
-            android:text="MRZ Scanner (RTU UI)"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/mrzScannerButton" />
-        <Button
-            android:text="Barcode/QR-Code Scanner (RTU UI)"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/barcodeScannerButton" />
 		<Button
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
