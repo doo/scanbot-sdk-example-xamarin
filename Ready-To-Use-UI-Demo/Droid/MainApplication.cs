@@ -17,10 +17,10 @@ namespace ReadyToUseUIDemo.Droid
 
         // TODO Add the Scanbot SDK license key here.
         // Please note: The Scanbot SDK will run without a license key for one minute per session!
-        // After the trial period is over all Scanbot SDK functions as well as the UI components will stop working
-        // or may be terminated. You can get an unrestricted "no-strings-attached" 30 day trial license key for free.
+        // After the trial period is over all Scanbot SDK functions as well as the UI components will stop working.
+        // You can get an unrestricted "no-strings-attached" 30 day trial license key for free.
         // Please submit the trial license form (https://scanbot.io/sdk/trial.html) on our website by using
-        // the app identifier "io.scanbot.example.sdk.xamarin" of this example app.
+        // the app identifier "io.scanbot.example.sdk.xamarin.rtu" of this example app.
         const string LICENSE_KEY = null;
 
         public MainApplication(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
