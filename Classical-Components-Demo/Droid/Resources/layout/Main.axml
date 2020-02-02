@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="25px"
+    android:minHeight="25px"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/scrollView1">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:src="@android:drawable/ic_menu_gallery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/imageView" />
+        <Button
+            android:id="@+id/scanningUIButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Scanning UI" />
+        <Button
+            android:text="Cropping UI"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/croppingUIButton" />
+        <Button
+            android:text="Import Image from Photo Library"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/importImageButton" />
+        <Button
+            android:text="Apply Image Filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/applyImageFilterButton" />
+        <Button
+            android:text="Create PDF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/createPdfButton" />
+        <Button
+            android:text="Create TIFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/createTiffButton" />
+        <Button
+            android:text="Perform OCR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/performOcrButton" />
+		<Button
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/workflowsButton"
+			android:text="Workflows..." />
+        <Button
+			android:text="Business card scanner"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/businessCardButton" />
+        <TextView
+            android:text="..."
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/copyrightTextView" />
+    </LinearLayout>
+</ScrollView>
