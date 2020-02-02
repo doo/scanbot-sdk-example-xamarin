@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.Widget;
 using Android.OS;
-using Android.Support.Constraints;
 using ReadyToUseUIDemo.model;
 using Android.Views;
 using System;
@@ -9,7 +8,6 @@ using ReadyToUseUIDemo.Droid.Views;
 using ReadyToUseUIDemo.Droid.Fragments;
 using IO.Scanbot.Sdk.UI.View.Workflow.Configuration;
 using Net.Doo.Snap.Camera;
-using Android.Support.V4.Content;
 using Android.Graphics;
 using IO.Scanbot.Sdk.UI.View.Workflow;
 using Android.Content;
@@ -29,9 +27,7 @@ using ScanbotSDK.Xamarin.Android;
 using ReadyToUseUIDemo.Droid.Activities;
 using ReadyToUseUIDemo.Droid.Utils;
 using System.Threading.Tasks;
-using Android.Provider;
 using System.IO;
-using IO.Scanbot.Sdk.UI.View.Edit.Configuration;
 using IO.Scanbot.Sdk.UI.View.Edit;
 using Net.Doo.Snap.Lib.Detector;
 using IO.Scanbot.Sdk.Process;
@@ -185,6 +181,9 @@ namespace ReadyToUseUIDemo.Droid
                 configuration.SetMultiPageEnabled(true);
                 configuration.SetPageCounterButtonTitle("%d Page(s)");
                 configuration.SetTextHintOK("Don't move.\nCapturing document...");
+                //configuration.SetBottomBarBackgroundColor(Color.Blue);
+                //configuration.SetBottomBarButtonsColor(Color.White);
+                // see further customization configs...
 
                 var intent = DocumentScannerActivity.NewIntent(this, configuration);
                 StartActivityForResult(intent, CAMERA_DEFAULT_UI_REQUEST_CODE);

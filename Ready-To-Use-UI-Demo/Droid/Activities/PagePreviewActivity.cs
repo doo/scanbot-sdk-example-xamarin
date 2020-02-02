@@ -204,7 +204,8 @@ namespace ReadyToUseUIDemo.Droid.Activities
 
             Task.Run(delegate
             {
-                var input = adapter.GetUrls().ToArray();
+                // TODO eddy
+                var input = adapter.GetDocumentUris().ToArray();
                 var output = GetOutputUri(".pdf");
 
                 if (type == SaveType.TIFF)
@@ -229,7 +230,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
                 }
                 else
                 {
-                    SBSDK.CreatePDF(input, output, ScanbotSDK.Xamarin.PDFPageSize.Auto);
+                    SBSDK.CreatePDF(input, output, ScanbotSDK.Xamarin.PDFPageSize.FixedA4);
                 }
 
                 Java.IO.File file = Copier.Copy(this, output);
@@ -385,24 +386,25 @@ namespace ReadyToUseUIDemo.Droid.Activities
             Items.AddRange(pages);
             NotifyDataSetChanged();
         }
-        public List<Android.Net.Uri> GetUrls()
+
+        public List<Android.Net.Uri> GetDocumentUris()
         {
-            var urls = new List<Android.Net.Uri>();
+            var uris = new List<Android.Net.Uri>();
             foreach (Page page in Items)
             {
-                var path = GetUri(page, PageFileStorage.PageFileType.Document);
-                var original = GetUri(page, PageFileStorage.PageFileType.Original);
-                if (File.Exists(path.Path))
+                var documentUri = GetUri(page, PageFileStorage.PageFileType.Document);
+                var originalUri = GetUri(page, PageFileStorage.PageFileType.Original);
+                if (File.Exists(documentUri.Path))
                 {
-                    urls.Add(path);
+                    uris.Add(documentUri);
                 }
                 else
                 {
-                    urls.Add(original);
+                    uris.Add(originalUri);
                 }
             }
 
-            return urls;
+            return uris;
         }
 
         public override long GetItemId(int position)
@@ -420,8 +422,8 @@ namespace ReadyToUseUIDemo.Droid.Activities
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             var page = Items[position];
-            var path = GetUri(page, PageFileStorage.PageFileType.Document);
-            var original = GetUri(page, PageFileStorage.PageFileType.Original);
+            var path = GetPreviewUri(page, PageFileStorage.PageFileType.Document);
+            var original = GetPreviewUri(page, PageFileStorage.PageFileType.Original);
 
             (holder as PageViewHolder).image.SetImageResource(0);
 
@@ -435,9 +437,16 @@ namespace ReadyToUseUIDemo.Droid.Activities
             }
         }
 
+        Android.Net.Uri GetPreviewUri(Page page, PageFileStorage.PageFileType type)
+        {
+            // preview URI (low-res!)
+            return SBSDK.PageStorage.GetPreviewImageURI(page.PageId, type);
+        }
+
         Android.Net.Uri GetUri(Page page, PageFileStorage.PageFileType type)
         {
-            return SBSDK.PageStorage.GetPreviewImageURI(page.PageId, type);
+            // hi-res(!) URI
+            return SBSDK.PageStorage.GetImageURI(page.PageId, type);
         }
     }
 

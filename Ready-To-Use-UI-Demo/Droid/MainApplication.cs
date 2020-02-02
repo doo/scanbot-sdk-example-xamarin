@@ -15,9 +15,6 @@ namespace ReadyToUseUIDemo.Droid
     {
         static readonly string LOG_TAG = typeof(MainApplication).Name;
 
-        // Use a custom temp storage directory for demo purposes.
-        public TempImageStorage TempImageStorage;
-
         // TODO Add the Scanbot SDK license key here.
         // Please note: The Scanbot SDK will run without a license key for one minute per session!
         // After the trial period is over all Scanbot SDK functions as well as the UI components will stop working
@@ -33,16 +30,16 @@ namespace ReadyToUseUIDemo.Droid
         {
             base.OnCreate();
 
-            TempImageStorage = new TempImageStorage(GetExampleTempStorageDir());
-
             Log.Debug(LOG_TAG, "Initializing Scanbot SDK...");
-            SBSDK.Initialize(this, LICENSE_KEY, new SBSDKConfiguration { EnableLogging = true });
 
-            // In this example we always cleanup the demo temp storage directory on app start.
-            TempImageStorage.CleanUp();
+            // Initialization with a custom, public(!) "StorageBaseDirectory" for demo purposes - see comments below!
+            SBSDK.Initialize(this, LICENSE_KEY, new SBSDKConfiguration { EnableLogging = true, StorageBaseDirectory = GetDemoStorageBaseDirectory() });
+
+            // Alternative initialization with the default "StorageBaseDirectory" which will be internal and secure (recommended).
+            //SBSDK.Initialize(this, LICENSE_KEY, new SBSDKConfiguration { EnableLogging = true });
         }
 
-        private string GetExampleTempStorageDir()
+        private string GetDemoStorageBaseDirectory()
         {
             // !! Please note !!
             // In this demo app we use the "ExternalStorageDirectory" which is a public(!) storage directory.
@@ -56,7 +53,7 @@ namespace ReadyToUseUIDemo.Droid
             // - https://developer.android.com/guide/topics/data/data-storage
             // - https://docs.microsoft.com/en-us/xamarin/android/platform/files/
             var external = GetExternalFilesDir(null).AbsolutePath;
-            var path = Path.Combine(external, "scanbot-sdk-example-xamarin_demo-storage");
+            var path = Path.Combine(external, "scanbot-sdk-example-xamarin-rtu_demo-storage");
             Directory.CreateDirectory(path);
 
             return path;
