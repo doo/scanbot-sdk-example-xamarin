@@ -127,9 +127,9 @@ namespace ReadyToUseUIDemo.model
 
         public const string travel_doc_type = "travelDocType:";
 
-        public const string save_with_ocr = "Save with OCR";
+        public const string save_with_ocr = "Save as PDF with OCR";
 
-        public const string save_without_ocr = "Save without OCR";
+        public const string save_without_ocr = "Save as PDF";
 
         public const string importing_and_processing = "Importing selected image and running auto document detection...";
 
@@ -145,6 +145,6 @@ namespace ReadyToUseUIDemo.model
 
         public const string PdfWithOCR = "PDF with OCR";
 
-        public const string Tiff = "TIFF";
+        public const string Tiff = "Save as TIFF";
     }
 }

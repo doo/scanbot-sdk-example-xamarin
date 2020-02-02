@@ -204,14 +204,14 @@ namespace ReadyToUseUIDemo.Droid.Activities
 
             Task.Run(delegate
             {
-                // TODO eddy
                 var input = adapter.GetDocumentUris().ToArray();
                 var output = GetOutputUri(".pdf");
 
                 if (type == SaveType.TIFF)
                 {
                     output = GetOutputUri(".tiff");
-                    var options = new TiffOptions { OneBitEncoded = true };
+                    // Please note that some compression types are only compatible for 1-bit encoded images (binarized black & white images)!
+                    var options = new TiffOptions { OneBitEncoded = true, Compression = TiffCompressionOptions.CompressionCcittfax4, Dpi = 250 };
                     bool success = SBSDK.WriteTiff(input, output, options);
                 }
                 else if (type == SaveType.OCR)
