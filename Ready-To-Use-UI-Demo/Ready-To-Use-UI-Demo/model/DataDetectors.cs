@@ -12,7 +12,7 @@ namespace ReadyToUseUIDemo.model
         public List<ListItem> Items = new List<ListItem>
         {
             new ListItem { Title = "Scan MRZ", Code = ListItemCode.ScannerMRZ },
-            new ListItem { Title = "Scann Health Insurance card", Code = ListItemCode.ScannerEHIC },
+            new ListItem { Title = "Scan Health Insurance card", Code = ListItemCode.ScannerEHIC },
             new ListItem { Title = "Scan Barcodes", Code = ListItemCode.ScannerBarcode },
 
             new ListItem { Title = "Scan DC Form", Code = ListItemCode.WorkflowDC },
