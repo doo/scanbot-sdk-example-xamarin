@@ -111,7 +111,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 config.UiConfiguration.BottomBarButtonsColor = UIColor.White;
                 // see further customization configs...
 
-                var controller = SBSDKUIDocumentScannerViewController.CreateNewWithConfiguration(config, CameraCallback);
+                var controller = SBSDKUIDocumentScannerViewController
+                    .CreateNewWithConfiguration(config, CameraCallback);
                 controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
                 PresentViewController(controller, false, null);
             }
@@ -144,10 +145,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             NavigationController.PushViewController(controller, true);
         }
 
-        SBSDKPageAspectRatio[] MRZRatios = {
-            new SBSDKPageAspectRatio(85.0, 54.0),
-            //new SBSDKPageAspectRatio(125.0, 88.0)
-        };
+        SBSDKAspectRatio[] MRZRatios = { new SBSDKAspectRatio(85.0, 54.0) };
 
         private void OnDataButtonClick(object sender, EventArgs e)
         {
@@ -168,20 +166,20 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
                 var viewSize = View.Frame.Size;
                 var targetWidth = viewSize.Width - ((viewSize.Width * 0.058) * 2);
-                config.UiConfiguration.FinderWidth = (nfloat)targetWidth;
-                config.UiConfiguration.FinderHeight = (nfloat)(targetWidth * 0.3);
-
-                var controller = SBSDKUIMRZScannerViewController.CreateNewWithConfiguration(config, Delegates.MRZ);
+                var aspect = new SBSDKAspectRatio(targetWidth, targetWidth * 0.3);
+                config.UiConfiguration.FinderAspectRatio = aspect;
+                var controller = SBSDKUIMRZScannerViewController
+                    .CreateNewWithConfiguration(config, Delegates.MRZ);
                 PresentViewController(controller, true, null);
             }
             else if (button.Data.Code == ListItemCode.WorkflowDC)
             {
-                var ratios = new SBSDKPageAspectRatio[]
+                var ratios = new SBSDKAspectRatio[]
                 {
                     // DC form A5 portrait (e.g. white sheet, AUB Muster 1b/E (1/2018))
-                    new SBSDKPageAspectRatio(148.0, 210.0),
+                    new SBSDKAspectRatio(148.0, 210.0),
                     // DC form A6 landscape (e.g. yellow sheet, AUB Muster 1b (1.2018))
-                    new SBSDKPageAspectRatio(148.0, 105.0)
+                    new SBSDKAspectRatio(148.0, 105.0)
                 };
 
                 var title = "Please align the DC form in the frame.";
@@ -217,10 +215,12 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 var steps = new SBSDKUIWorkflowStep[]
                 {
                     new SBSDKUIWorkflowStep(
-                        "Step 1/2", "Please scan the front side of your ID card", MRZRatios, true, false, null, WorkflowStepValidator.OnIDCardFrontStep
+                        "Step 1/2", "Please scan the front side of your ID card",
+                        MRZRatios, true, false, null, WorkflowStepValidator.OnIDCardFrontStep
                         ),
                     new SBSDKUIScanMachineReadableZoneWorkflowStep(
-                        "Step 2/2", "Please scan the back side of your ID card", MRZRatios, true, WorkflowStepValidator.OnIDCardBackStep
+                        "Step 2/2", "Please scan the back side of your ID card",
+                        MRZRatios, true, WorkflowStepValidator.OnIDCardBackStep
                     )
                 };
 
@@ -245,8 +245,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 var types = SBSDKUIMachineCodesCollection.TwoDimensionalBarcodes;
                 var steps = new SBSDKUIWorkflowStep[]
                 {
-                    new SBSDKUIScanBarCodeWorkflowStep(
-                        "Scan your QR code", "", types, new CGSize(1, 1), WorkflowStepValidator.OnBarCodeStep)
+                    new SBSDKUIScanBarCodeWorkflowStep("Scan your QR code", "",
+                    types, new SBSDKAspectRatio(1, 1), WorkflowStepValidator.OnBarCodeStep)
                 };
 
                 PresentController(name, steps);
@@ -271,7 +271,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
         }
 
-        void PresentController(string name, SBSDKUIWorkflowStep[] steps, SBSDKUIWorkflowScannerConfiguration configuration = null)
+        void PresentController(string name, SBSDKUIWorkflowStep[] steps,
+            SBSDKUIWorkflowScannerConfiguration configuration = null)
         {
             if (configuration == null)
             {
