@@ -3,6 +3,10 @@ using Foundation;
 
 using ScanbotSDK.iOS;
 using CoreGraphics;
+using System;
+using System.Reflection;
+using AVFoundation;
+using CoreMedia;
 
 namespace ClassicalComponentsDemo.iOS
 {
