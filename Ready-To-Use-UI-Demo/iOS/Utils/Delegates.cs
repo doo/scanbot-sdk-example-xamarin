@@ -67,7 +67,12 @@ namespace ReadyToUseUIDemo.iOS.Utils
                 {
                     viewController.RecognitionEnabled = false; // stop recognition
                     var result = barcodeResults[0];
-                    text = $"Found Barcode\n\nType: {result.Type.Name}\nValue: {result.RawTextString}\n";
+                    text = $"Found Barcode(s):\n\n";
+
+                    foreach (var code in barcodeResults)
+                    {
+                        text += code.Type.Name + ": " + code.RawTextString + "\n";
+                    }
                 }
                 
                 ShowPopup(viewController, text, delegate {
