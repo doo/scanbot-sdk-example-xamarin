@@ -77,13 +77,13 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="ScanbotSDK.iOS">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.2.0.0-rc8\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.2.0.0\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.2.0.0-rc8\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.2.0.0\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin.iOS">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.2.0.0-rc8\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.2.0.0\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +146,13 @@
     <BundleResource Include="Resources\ScanbotSDKOCRData.bundle\deu.traineddata" />
     <BundleResource Include="Resources\ScanbotSDKOCRData.bundle\osd.traineddata" />
     <BundleResource Include="Resources\ScanbotSDKOCRData.bundle\Info.plist" />
+    <BundleResource Include="Resources\ScanbotSDKDocumentDetectorData.bundle\Info.plist" />
+    <BundleResource Include="Resources\ScanbotSDKDocumentDetectorData.bundle\DocumentDetectorModel.mlmodelc\model.espresso.shape" />
+    <BundleResource Include="Resources\ScanbotSDKDocumentDetectorData.bundle\DocumentDetectorModel.mlmodelc\model.espresso.net" />
+    <BundleResource Include="Resources\ScanbotSDKDocumentDetectorData.bundle\DocumentDetectorModel.mlmodelc\model.espresso.weights" />
+    <BundleResource Include="Resources\ScanbotSDKDocumentDetectorData.bundle\DocumentDetectorModel.mlmodelc\coremldata.bin" />
+    <BundleResource Include="Resources\ScanbotSDKDocumentDetectorData.bundle\DocumentDetectorModel.mlmodelc\model\coremldata.bin" />
+    <BundleResource Include="Resources\ScanbotSDKDocumentDetectorData.bundle\DocumentDetectorModel.mlmodelc\neural_network_optionals\coremldata.bin" />
   </ItemGroup>
   <Import Project="..\Ready-To-Use-UI-Demo\Ready-To-Use-UI-Demo.projitems" Label="Shared" Condition="Exists('..\Ready-To-Use-UI-Demo\Ready-To-Use-UI-Demo.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
