@@ -31,7 +31,7 @@ namespace ClassicalComponentsDemo.iOS
 
         static SBSDKUIWorkflow GermanIDCard()
         {
-            SBSDKPageAspectRatio[] ratios = { new SBSDKPageAspectRatio(1.0, 0.6353) };
+            SBSDKAspectRatio[] ratios = { new SBSDKAspectRatio(1.0, 0.6353) };
 
             SBSDKUIWorkflowStep frontSide = new SBSDKUIScanMachineReadableZoneWorkflowStep(
                 "German ID card 1/2",
@@ -83,8 +83,8 @@ namespace ClassicalComponentsDemo.iOS
 
         static SBSDKUIWorkflow BlackWhiteDocument()
         {
-            SBSDKPageAspectRatio[] portrait = { new SBSDKPageAspectRatio(1.0, 1.4143) };
-            SBSDKPageAspectRatio[] landscape = { new SBSDKPageAspectRatio(1.4143, 1.0) };
+            SBSDKAspectRatio[] portrait = { new SBSDKAspectRatio(1.0, 1.4143) };
+            SBSDKAspectRatio[] landscape = { new SBSDKAspectRatio(1.4143, 1.0) };
 
             SBSDKUIWorkflowStep portraitStep = new SBSDKUIScanDocumentPageWorkflowStep(
                 "Black & White Document 1/2",
@@ -113,7 +113,7 @@ namespace ClassicalComponentsDemo.iOS
                 "QR code and Document 1/2",
                 "Please scan a QR code",
                 new SBSDKBarcodeType[] { SBSDKBarcodeType.QRCode },
-                new CGSize(1, 1),
+                new SBSDKAspectRatio(1, 1),
                 null
                 );
 
@@ -192,10 +192,10 @@ namespace ClassicalComponentsDemo.iOS
 
         static SBSDKUIWorkflow DisabilityCertificate()
         {
-            SBSDKPageAspectRatio[] ratios = {
-                new SBSDKPageAspectRatio(1.0, 1.4143),
-                new SBSDKPageAspectRatio(1.4143, 1.0),
-                new SBSDKPageAspectRatio(1.0, 1.5715)
+            SBSDKAspectRatio[] ratios = {
+                new SBSDKAspectRatio(1.0, 1.4143),
+                new SBSDKAspectRatio(1.4143, 1.0),
+                new SBSDKAspectRatio(1.0, 1.5715)
                 };
 
             SBSDKUIWorkflowStep certificate = new SBSDKUIScanDisabilityCertificateWorkflowStep(
@@ -226,7 +226,7 @@ namespace ClassicalComponentsDemo.iOS
                 "Scan your QR code",
                 null,
                 new SBSDKBarcodeType[] { SBSDKBarcodeType.QRCode },
-                new CGSize(1, 1),
+                new SBSDKAspectRatio(1, 1),
                 null
                 );
         }

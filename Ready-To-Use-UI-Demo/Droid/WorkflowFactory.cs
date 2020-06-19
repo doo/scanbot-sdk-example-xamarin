@@ -138,11 +138,6 @@ namespace ReadyToUseUIDemo.Droid
                 return new WorkflowStepError(2, "Recognition not successful", WorkflowStepError.ShowMode.Toast);
             }
 
-            if (result.MrzResult.ErrorCode != MRZRecognitionResult.NoError)
-            {
-                return new WorkflowStepError(3, "Recognition error", WorkflowStepError.ShowMode.Toast);
-            }
-
             return null;
         }
     }

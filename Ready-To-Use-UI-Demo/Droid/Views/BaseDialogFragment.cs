@@ -5,7 +5,6 @@ using Android.Support.V4.App;
 using Android.Support.V7.App;
 using Android.Views;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
-using Plugin.Clipboard;
 
 namespace ReadyToUseUIDemo.Droid.Views
 {
@@ -34,15 +33,9 @@ namespace ReadyToUseUIDemo.Droid.Views
 
             builder.SetView(container);
 
-            builder.SetPositiveButton("Cancel", delegate
+            builder.SetPositiveButton("Close", delegate
             {
                 Dismiss();
-            });
-
-            builder.SetNegativeButton("Copy", delegate
-            {
-                Dismiss();
-                CrossClipboard.Current.SetText(CopyText);
             });
 
             var dialog = builder.Create();

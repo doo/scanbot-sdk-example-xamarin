@@ -22,6 +22,7 @@ using IO.Scanbot.Sdk.UI.View.Barcode.Configuration;
 using IO.Scanbot.Sdk.UI.View.Barcode;
 using IO.Scanbot.Sdk.Barcode.Entity;
 using ClassicalComponentsDemo.Droid.Activities;
+using ClassicalComponentsDemo.Droid.Utils;
 
 namespace ClassicalComponentsDemo.Droid
 {
@@ -64,6 +65,8 @@ namespace ClassicalComponentsDemo.Droid
             AssignOcrButtonsHandler();
             AssignWorkflowsButtonHandler();
             AssignBusinessCardButtonHandler();
+
+            PermissionUtils.Request(this, FindViewById(Resource.Layout.Main));
         }
 
         void AssignCopyrightText()

@@ -17,6 +17,7 @@ using IO.Scanbot.Multipleobjectsscanner;
 using Net.Doo.Snap.Camera;
 using Net.Doo.Snap.Lib.Detector;
 using Net.Doo.Snap.UI;
+using IO.Scanbot.Sdk.Camera;
 
 namespace ClassicalComponentsDemo.Droid.Activities
 {
@@ -69,7 +70,7 @@ namespace ClassicalComponentsDemo.Droid.Activities
             var handler = MultipleObjectsFrameHandler.Attach(cameraView, detector);
 
             var polygon = FindViewById<MultiplePolygonsView>(Resource.Id.polygonView);
-            handler.AddResultHandler(polygon);
+            handler.AddResultHandler(new MultipleObjectsCallback());
 
             FindViewById(Resource.Id.flash).Click += delegate
             {
@@ -152,5 +153,14 @@ namespace ClassicalComponentsDemo.Droid.Activities
             });
         }
 
+    }
+
+    class MultipleObjectsCallback : MultipleObjectsFrameHandler.MultipleObjectsResultHandler
+    {
+        public override bool Handle(FrameHandlerResult result)
+        {
+            Console.WriteLine("Handle multiple objects result");
+            return true;
+        }
     }
 }

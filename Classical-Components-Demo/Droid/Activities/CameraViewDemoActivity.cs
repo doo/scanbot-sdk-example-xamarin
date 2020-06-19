@@ -21,7 +21,8 @@ using IO.Scanbot.Sdk.UI.Camera;
 namespace ClassicalComponentsDemo.Droid
 {
     [Activity(Theme = "@style/Theme.AppCompat")]
-    public class CameraViewDemoActivity : AppCompatActivity, IPictureCallback, ContourDetectorFrameHandler.IResultHandler, ICameraOpenCallback
+    public class CameraViewDemoActivity : AppCompatActivity, IPictureCallback, ICameraOpenCallback
+    //, ContourDetectorFrameHandler.IResultHandler
     {
         static string LOG_TAG = typeof(CameraViewDemoActivity).Name;
 
@@ -67,12 +68,13 @@ namespace ClassicalComponentsDemo.Droid
 
             imageProcessingProgress = FindViewById<ProgressBar>(Resource.Id.imageProcessingProgress);
 
-            contourDetectorFrameHandler = ContourDetectorFrameHandler.Attach(cameraView);
+            var detector = new IO.Scanbot.Sdk.ScanbotSDK(this).ContourDetector();
+            contourDetectorFrameHandler = ContourDetectorFrameHandler.Attach(cameraView, detector);
             polygonView = FindViewById<PolygonView>(Resource.Id.scanbotPolygonView);
             polygonView.SetStrokeColor(Color.Red);
             polygonView.SetStrokeColorOK(Color.Green);
-            contourDetectorFrameHandler.AddResultHandler(polygonView);
-            contourDetectorFrameHandler.AddResultHandler(this);
+            //contourDetectorFrameHandler.AddResultHandler(polygonView);
+            //contourDetectorFrameHandler.AddResultHandler(this);
 
             // See https://github.com/doo/Scanbot-SDK-Examples/wiki/Detecting-and-drawing-contours#contour-detection-parameters
             contourDetectorFrameHandler.SetAcceptedAngleScore(60);
@@ -147,7 +149,7 @@ namespace ClassicalComponentsDemo.Droid
         {
             // Here you are continiously notified about contour detection results.
             // For example, you can set a localized text for user guidance depending on the detection status.
-
+            
             ShowUserGuidance(result.DetectionResult);
 
             return false;
