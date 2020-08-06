@@ -17,6 +17,8 @@ using Net.Doo.Snap.UI;
 using ScanbotSDK.Xamarin;
 using ScanbotSDK.Xamarin.Android;
 using IO.Scanbot.Sdk.UI.Camera;
+using IO.Scanbot.Sdk.Camera;
+using System;
 
 namespace ClassicalComponentsDemo.Droid
 {
@@ -70,11 +72,12 @@ namespace ClassicalComponentsDemo.Droid
 
             var detector = new IO.Scanbot.Sdk.ScanbotSDK(this).ContourDetector();
             contourDetectorFrameHandler = ContourDetectorFrameHandler.Attach(cameraView, detector);
+            
             polygonView = FindViewById<PolygonView>(Resource.Id.scanbotPolygonView);
             polygonView.SetStrokeColor(Color.Red);
             polygonView.SetStrokeColorOK(Color.Green);
-            //contourDetectorFrameHandler.AddResultHandler(polygonView);
-            //contourDetectorFrameHandler.AddResultHandler(this);
+
+            contourDetectorFrameHandler.AddResultHandler(new ContourDetectorCallback());
 
             // See https://github.com/doo/Scanbot-SDK-Examples/wiki/Detecting-and-drawing-contours#contour-detection-parameters
             contourDetectorFrameHandler.SetAcceptedAngleScore(60);
@@ -298,5 +301,26 @@ namespace ClassicalComponentsDemo.Droid
             }
         }
 
+    }
+
+    public class ContourDetectorCallback : ContourDetectorFrameHandler.ContourDetectorResultHandler
+    {
+        public override bool Handle(FrameHandlerResult result)
+        {
+            if (result.GetType() == typeof(FrameHandlerResult.Success))
+            {
+                var success = ((FrameHandlerResult.Success)result);
+                if (success.Value.GetType() == typeof(ContourDetectorFrameHandler.DetectedFrame))
+                {
+                    var frame = (ContourDetectorFrameHandler.DetectedFrame)success.Value;
+                    if (frame.DetectionResult == DetectionResult.Ok)
+                    {
+                        Console.WriteLine("Great success!");
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

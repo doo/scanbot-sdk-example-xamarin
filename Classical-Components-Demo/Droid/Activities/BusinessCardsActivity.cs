@@ -159,7 +159,6 @@ namespace ClassicalComponentsDemo.Droid.Activities
     {
         public override bool Handle(FrameHandlerResult result)
         {
-            Console.WriteLine("Handle multiple objects result");
             return true;
         }
     }
