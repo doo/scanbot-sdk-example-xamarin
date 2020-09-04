@@ -24,7 +24,6 @@ namespace ClassicalComponentsDemo.Droid
 {
     [Activity(Theme = "@style/Theme.AppCompat")]
     public class CameraViewDemoActivity : AppCompatActivity, IPictureCallback, ICameraOpenCallback
-    //, ContourDetectorFrameHandler.IResultHandler
     {
         static string LOG_TAG = typeof(CameraViewDemoActivity).Name;
 
@@ -44,6 +43,7 @@ namespace ClassicalComponentsDemo.Droid
         protected ShutterButton shutterButton;
         protected Button autoSnappingToggleButton;
 
+        ContourDetectorDelegate contourDetectorDelegate;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -79,9 +79,11 @@ namespace ClassicalComponentsDemo.Droid
 
             // Attach the default polygon result handler, to draw the default polygon
             contourDetectorFrameHandler.AddResultHandler(polygonView.ContourDetectorResultHandler);
+            // Add an additional custom contour detector to add user guidance text
+            contourDetectorDelegate = new ContourDetectorDelegate();
 
-            // Optionally, you can attach your own contour detector result handler and draw a custom polygon
-            //contourDetectorFrameHandler.AddResultHandler(new ContourDetectorCallback());
+            contourDetectorFrameHandler.AddResultHandler(contourDetectorDelegate);
+            contourDetectorDelegate.ContourDetected += ShowUserGuidance;
 
             // See https://github.com/doo/Scanbot-SDK-Examples/wiki/Detecting-and-drawing-contours#contour-detection-parameters
             contourDetectorFrameHandler.SetAcceptedAngleScore(60);
@@ -117,6 +119,8 @@ namespace ClassicalComponentsDemo.Droid
             {
                 SetAutoSnapEnabled(autoSnappingEnabled);
             });
+
+
         }
 
         public void OnCameraOpened()
@@ -152,17 +156,7 @@ namespace ClassicalComponentsDemo.Droid
             cameraView.OnPause();
         }
 
-        public bool HandleResult(ContourDetectorFrameHandler.DetectedFrame result)
-        {
-            // Here you are continiously notified about contour detection results.
-            // For example, you can set a localized text for user guidance depending on the detection status.
-            
-            ShowUserGuidance(result.DetectionResult);
-
-            return false;
-        }
-
-        protected void ShowUserGuidance(DetectionResult result)
+        void ShowUserGuidance(object sender, ContourDetectorEventArgs e)
         {
             if (!autoSnappingEnabled) { return; }
 
@@ -174,6 +168,7 @@ namespace ClassicalComponentsDemo.Droid
             var color = Color.Red;
             var guideText = "";
 
+            var result = e.Frame.DetectionResult;
             if (result == DetectionResult.Ok)
             {
                 guideText = "Don't move.\nCapturing...";
@@ -307,8 +302,15 @@ namespace ClassicalComponentsDemo.Droid
 
     }
 
-    public class ContourDetectorCallback : ContourDetectorFrameHandler.ContourDetectorResultHandler
+    public class ContourDetectorEventArgs : EventArgs
     {
+        public ContourDetectorFrameHandler.DetectedFrame Frame { get; set; }
+    }
+
+    public class ContourDetectorDelegate : ContourDetectorFrameHandler.ContourDetectorResultHandler
+    {
+        public EventHandler<ContourDetectorEventArgs> ContourDetected;
+
         public override bool Handle(FrameHandlerResult result)
         {
             if (result.GetType() == typeof(FrameHandlerResult.Success))
@@ -317,11 +319,7 @@ namespace ClassicalComponentsDemo.Droid
                 if (success.Value.GetType() == typeof(ContourDetectorFrameHandler.DetectedFrame))
                 {
                     var frame = (ContourDetectorFrameHandler.DetectedFrame)success.Value;
-                    if (frame.DetectionResult == DetectionResult.Ok)
-                    {
-                        Console.WriteLine("Great success!");
-                        return true;
-                    }
+                    ContourDetected?.Invoke(this, new ContourDetectorEventArgs { Frame = frame });
                 }
             }
             return false;
