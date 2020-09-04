@@ -77,7 +77,11 @@ namespace ClassicalComponentsDemo.Droid
             polygonView.SetStrokeColor(Color.Red);
             polygonView.SetStrokeColorOK(Color.Green);
 
-            contourDetectorFrameHandler.AddResultHandler(new ContourDetectorCallback());
+            // Attach the default polygon result handler, to draw the default polygon
+            contourDetectorFrameHandler.AddResultHandler(polygonView.ContourDetectorResultHandler);
+
+            // Optionally, you can attach your own contour detector result handler and draw a custom polygon
+            //contourDetectorFrameHandler.AddResultHandler(new ContourDetectorCallback());
 
             // See https://github.com/doo/Scanbot-SDK-Examples/wiki/Detecting-and-drawing-contours#contour-detection-parameters
             contourDetectorFrameHandler.SetAcceptedAngleScore(60);
