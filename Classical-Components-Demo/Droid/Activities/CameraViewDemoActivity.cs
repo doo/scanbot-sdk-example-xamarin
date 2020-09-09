@@ -81,7 +81,6 @@ namespace ClassicalComponentsDemo.Droid
             contourDetectorFrameHandler.AddResultHandler(polygonView.ContourDetectorResultHandler);
             // Add an additional custom contour detector to add user guidance text
             contourDetectorDelegate = new ContourDetectorDelegate();
-
             contourDetectorFrameHandler.AddResultHandler(contourDetectorDelegate);
             contourDetectorDelegate.ContourDetected += ShowUserGuidance;
 
@@ -119,8 +118,6 @@ namespace ClassicalComponentsDemo.Droid
             {
                 SetAutoSnapEnabled(autoSnappingEnabled);
             });
-
-
         }
 
         public void OnCameraOpened()
@@ -129,16 +126,10 @@ namespace ClassicalComponentsDemo.Droid
             {
                 // Disable auto-focus sound:
                 cameraView.SetAutoFocusSound(false);
-
                 // Uncomment to disable shutter sound (supported since Android 4.2+):
                 // Please note that some devices may not allow disabling the camera shutter sound. 
                 // If the shutter sound state cannot be set to the desired value, this method will be ignored.
-                /*
-                if (Build.VERSION.SdkInt >= BuildVersionCodes.JellyBeanMr1) {
-                    cameraView.SetShutterSound(false);
-                }
-                */
-
+                cameraView.SetShutterSound(false);
                 // Enable ContinuousFocus mode:
                 cameraView.ContinuousFocus();
             }, 500);
