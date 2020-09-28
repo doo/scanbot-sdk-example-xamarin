@@ -10,11 +10,9 @@ using Android.Graphics;
 using Android.Graphics.Pdf;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.V4.Content;
-using Android.Support.V7.App;
-using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using AndroidX.RecyclerView.Widget;
 using IO.Scanbot.Sdk.Ocr;
 using IO.Scanbot.Sdk.Persistence;
 using IO.Scanbot.Sdk.Process;
@@ -33,7 +31,7 @@ using ScanbotSDK.Xamarin.Android;
 namespace ReadyToUseUIDemo.Droid.Activities
 {
     [Activity]
-    public class PagePreviewActivity : AppCompatActivity, IFiltersListener
+    public class PagePreviewActivity : Activity, IFiltersListener
     {
         const int FILTER_UI_REQUEST_CODE = 7777;
         const int CAMERA_ACTIVITY = 8888;
@@ -61,7 +59,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
 
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
-
+            
             SupportActionBar.Title = Texts.scan_results;
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayShowHomeEnabled(true);

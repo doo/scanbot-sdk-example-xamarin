@@ -41,7 +41,7 @@ using IO.Scanbot.Hicscanner.Model;
 namespace ReadyToUseUIDemo.Droid
 {
     [Activity(Label = "Ready-to-use UI Demo", MainLauncher = true, Icon = "@mipmap/icon")]
-    public class MainActivity : AppCompatActivity
+    public class MainActivity : Activity
     {
         private const int CAMERA_DEFAULT_UI_REQUEST_CODE = 1111;
 
