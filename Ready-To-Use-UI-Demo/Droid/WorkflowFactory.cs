@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Android.Runtime;
 using IO.Scanbot.Mrzscanner.Model;
+using IO.Scanbot.Sdk.Core.Contourdetector;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
 using Java.Lang;
-using Net.Doo.Snap.Lib.Detector;
 using ScanbotSDK.Xamarin.Android;
 
 namespace ReadyToUseUIDemo.Droid
@@ -25,14 +25,14 @@ namespace ReadyToUseUIDemo.Droid
 
                 var steps = new List<ScanDisabilityCertificateWorkflowStep>();
 
-                var step = new ScanDisabilityCertificateWorkflowStep(
-                    "Please align the DC form in the frame.",
-                    "",
-                    ratios.ToArray(),
-                    true,
-                    new DisabilityValidator()
-                );
-                steps.Add(step);
+                //var step = new ScanDisabilityCertificateWorkflowStep(
+                //    "Please align the DC form in the frame.",
+                //    "",
+                //    ratios.ToArray(),
+                //    true,
+                //    new DisabilityValidator()
+                //);
+                //steps.Add(step);
                 
                 return new Workflow(steps.ToArray(), "Disability Certificate");
             }
@@ -44,14 +44,14 @@ namespace ReadyToUseUIDemo.Droid
             {
                 var steps = new List<ScanPayFormWorkflowStep>();
 
-                var step = new ScanPayFormWorkflowStep(
-                    "Please scan a SEPA PayForm",
-                    "",
-                    new List<PageAspectRatio>().ToArray(),
-                    true,
-                    new PayFormValidator()
-                );
-                steps.Add(step);
+                //var step = new ScanPayFormWorkflowStep(
+                //    "Please scan a SEPA PayForm",
+                //    "",
+                //    new List<PageAspectRatio>().ToArray(),
+                //    true,
+                //    new PayFormValidator()
+                //);
+                //steps.Add(step);
 
                 return new Workflow(steps.ToArray(), "PayForm - Polygon Doc");
             }
@@ -69,15 +69,15 @@ namespace ReadyToUseUIDemo.Droid
 
                 var steps = new List<ScanMachineReadableZoneWorkflowStep>();
 
-                var step = new ScanMachineReadableZoneWorkflowStep(
-                    "Scan ID card or passport",
-                    "Please align the back of your ID card or passport in the frame",
-                    ratios,
-                    true,
-                    new MRZValidator()
-                );
+                //var step = new ScanMachineReadableZoneWorkflowStep(
+                //    "Scan ID card or passport",
+                //    "Please align the back of your ID card or passport in the frame",
+                //    ratios,
+                //    true,
+                //    new MRZValidator()
+                //);
 
-                steps.Add(step);
+                //steps.Add(step);
                 return new Workflow(steps.ToArray(), "Scanning MRZ Code");
             }
         }
@@ -99,16 +99,16 @@ namespace ReadyToUseUIDemo.Droid
                     new DefaultWorkflowValidator()
                 );
 
-                var step2 = new ScanMachineReadableZoneWorkflowStep(
-                    "Scan 2/2",
-                    "Please scan the back side of your ID card",
-                    ratios,
-                    true,
-                    new MRZValidator()
-                );
+                //var step2 = new ScanMachineReadableZoneWorkflowStep(
+                //    "Scan 2/2",
+                //    "Please scan the back side of your ID card",
+                //    ratios,
+                //    true,
+                //    new MRZValidator()
+                //);
 
-                steps.Add(step1);
-                steps.Add(step2);
+                //steps.Add(step1);
+                //steps.Add(step2);
 
                 return new Workflow(steps.ToArray(), "Scanning MRZ Code & Both sides");
             }
@@ -116,82 +116,92 @@ namespace ReadyToUseUIDemo.Droid
 
     }
 
-    class MRZValidator : WorkflowValidator<MachineReadableZoneWorkflowStepResult>
-    {
-        public MRZValidator()
-        {
-        }
+    //class MRZValidator : WorkflowValidator<MachineReadableZoneWorkflowStepResult>
+    //{
+    //    public MRZValidator()
+    //    {
+    //    }
 
-        public MRZValidator(IntPtr a, JniHandleOwnership b) : base(a, b)
-        {
-        }
+    //    public MRZValidator(IntPtr a, JniHandleOwnership b) : base(a, b)
+    //    {
+    //    }
 
-        public override WorkflowStepError Invoke(MachineReadableZoneWorkflowStepResult result)
-        {
-            if (result.MrzResult == null)
-            {
-                return new WorkflowStepError(1, "No result available", WorkflowStepError.ShowMode.Toast);
-            }
+    //    public override WorkflowStepError Invoke(MachineReadableZoneWorkflowStepResult result)
+    //    {
+    //        if (result.MrzResult == null)
+    //        {
+    //            return new WorkflowStepError(1, "No result available", WorkflowStepError.ShowMode.Toast);
+    //        }
 
-            if (!result.MrzResult.RecognitionSuccessful)
-            {
-                return new WorkflowStepError(2, "Recognition not successful", WorkflowStepError.ShowMode.Toast);
-            }
+    //        if (!result.MrzResult.RecognitionSuccessful)
+    //        {
+    //            return new WorkflowStepError(2, "Recognition not successful", WorkflowStepError.ShowMode.Toast);
+    //        }
 
-            return null;
-        }
-    }
+    //        return null;
+    //    }
+    //}
 
-    class DisabilityValidator : WorkflowValidator<DisabilityCertificateWorkflowStepResult>
-    {
-        public DisabilityValidator()
-        {
-        }
+    //class DisabilityValidator : WorkflowValidator<DisabilityCertificateWorkflowStepResult>
+    //{
+    //    public DisabilityValidator()
+    //    {
+    //    }
 
-        public DisabilityValidator(IntPtr a, JniHandleOwnership b) : base(a, b)
-        {
-        }
+    //    public DisabilityValidator(IntPtr a, JniHandleOwnership b) : base(a, b)
+    //    {
+    //    }
 
-        public override WorkflowStepError Invoke(DisabilityCertificateWorkflowStepResult result)
-        {
-            if (result.DisabilityCertificateResult == null)
-            {
-                return new WorkflowStepError(1, "No result available", WorkflowStepError.ShowMode.Toast);
-            }
+    //    public WorkflowStepError Invoke(Java.Lang.Object t)
+    //    {
+    //        var result = (DisabilityCertificateWorkflowStepResult)t;
+    //        if (result.DisabilityCertificateResult == null)
+    //        {
+    //            return new WorkflowStepError(1, "No result available", WorkflowStepError.ShowMode.Toast);
+    //        }
 
-            if (!result.DisabilityCertificateResult.RecognitionSuccessful)
-            {
-                return new WorkflowStepError(2, "Recognition failed", WorkflowStepError.ShowMode.Toast);
-            }
+    //        if (!result.DisabilityCertificateResult.RecognitionSuccessful)
+    //        {
+    //            return new WorkflowStepError(2, "Recognition failed", WorkflowStepError.ShowMode.Toast);
+    //        }
+    //        return null;
+    //    }
+        //public override WorkflowStepError Invoke(DisabilityCertificateWorkflowStepResult result)
+        //{
+        //    if (result.DisabilityCertificateResult == null)
+        //    {
+        //        return new WorkflowStepError(1, "No result available", WorkflowStepError.ShowMode.Toast);
+        //    }
 
-            return null;
-        }
-    }
+        //    if (!result.DisabilityCertificateResult.RecognitionSuccessful)
+        //    {
+        //        return new WorkflowStepError(2, "Recognition failed", WorkflowStepError.ShowMode.Toast);
+        //    }
 
-    class PayFormValidator : WorkflowValidator<PayFormWorkflowStepResult>
-    {
-        public PayFormValidator()
-        {
-        }
+        //    return null;
+        //}
+    //}
 
-        public PayFormValidator(IntPtr a, JniHandleOwnership b) : base(a, b)
-        {
-        }
+    //class PayFormValidator : WorkflowValidator<PayFormWorkflowStepResult>
+    //{
+    //    public PayFormValidator(IntPtr a, JniHandleOwnership b) : base(a, b)
+    //    {
+    //    }
 
-        public override WorkflowStepError Invoke(PayFormWorkflowStepResult result)
-        {
-            if (result.PayformResult == null)
-            {
-                return new WorkflowStepError(1, "No result available", WorkflowStepError.ShowMode.Toast);
-            }
+        //public override WorkflowStepError Invoke(PayFormWorkflowStepResult result)
+        //{
+        //    if (result.PayformResult == null)
+        //    {
+        //        return new WorkflowStepError(1, "No result available", WorkflowStepError.ShowMode.Toast);
+        //    }
 
-            if (result.PayformResult.PayformFields.Count == 0)
-            {
-                return new WorkflowStepError(2, "No payform fields found", WorkflowStepError.ShowMode.Toast);
-            }
+        //    if (result.PayformResult.PayformFields.Count == 0)
+        //    {
+        //        return new WorkflowStepError(2, "No payform fields found", WorkflowStepError.ShowMode.Toast);
+        //    }
 
-            return null;
-        }
-    }
+        //    return null;
+        //}
+    //}
 
 }

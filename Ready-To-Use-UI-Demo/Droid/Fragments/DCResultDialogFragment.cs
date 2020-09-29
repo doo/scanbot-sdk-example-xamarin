@@ -7,8 +7,8 @@ using Android.Widget;
 using IO.Scanbot.Dcscanner.Model;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
 using Newtonsoft.Json;
-using Android.Support.V7.App;
 using ReadyToUseUIDemo.Droid.Views;
+using AndroidX.AppCompat.App;
 
 namespace ReadyToUseUIDemo.Droid.Fragments
 {

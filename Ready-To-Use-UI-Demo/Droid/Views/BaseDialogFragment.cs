@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Android.OS;
-using Android.Support.V4.App;
-using Android.Support.V7.App;
 using Android.Views;
+using AndroidX.AppCompat.App;
+using AndroidX.Fragment.App;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
 
 namespace ReadyToUseUIDemo.Droid.Views

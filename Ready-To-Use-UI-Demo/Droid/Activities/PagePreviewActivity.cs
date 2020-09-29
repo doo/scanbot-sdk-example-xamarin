@@ -3,23 +3,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Android;
 using Android.App;
 using Android.Content;
-using Android.Graphics;
-using Android.Graphics.Pdf;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using AndroidX.AppCompat.App;
+using AndroidX.Core.Content;
 using AndroidX.RecyclerView.Widget;
-using IO.Scanbot.Sdk.Ocr;
+using IO.Scanbot.Sdk.Camera;
 using IO.Scanbot.Sdk.Persistence;
 using IO.Scanbot.Sdk.Process;
 using IO.Scanbot.Sdk.UI.View.Camera;
 using IO.Scanbot.Sdk.UI.View.Camera.Configuration;
-using Net.Doo.Snap.Camera;
-using Net.Doo.Snap.Util.Thread;
+using IO.Scanbot.Sdk.Util.Thread;
 using ReadyToUseUIDemo.Droid.Fragments;
 using ReadyToUseUIDemo.Droid.Listeners;
 using ReadyToUseUIDemo.Droid.Repository;
@@ -31,7 +29,7 @@ using ScanbotSDK.Xamarin.Android;
 namespace ReadyToUseUIDemo.Droid.Activities
 {
     [Activity]
-    public class PagePreviewActivity : Activity, IFiltersListener
+    public class PagePreviewActivity : AppCompatActivity, IFiltersListener
     {
         const int FILTER_UI_REQUEST_CODE = 7777;
         const int CAMERA_ACTIVITY = 8888;
@@ -54,10 +52,9 @@ namespace ReadyToUseUIDemo.Droid.Activities
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
             SetContentView(Resource.Layout.activity_page_preview);
 
-            var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            var toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
             
             SupportActionBar.Title = Texts.scan_results;

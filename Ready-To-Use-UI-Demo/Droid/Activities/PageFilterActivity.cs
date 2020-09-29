@@ -6,10 +6,9 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.V7.App;
-using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using AndroidX.AppCompat.App;
 using IO.Scanbot.Sdk.Persistence;
 using IO.Scanbot.Sdk.Process;
 using IO.Scanbot.Sdk.UI.View.Edit;
@@ -56,7 +55,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
 
             progress = FindViewById<ProgressBar>(Resource.Id.progress);
 
-            var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            var toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
             SupportActionBar.Title = Texts.page_title;

@@ -1,8 +1,8 @@
-﻿using System;
+﻿
 using Android.OS;
-using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
+using Google.Android.Material.BottomSheet;
 using ReadyToUseUIDemo.Droid.Activities;
 using ReadyToUseUIDemo.model;
 

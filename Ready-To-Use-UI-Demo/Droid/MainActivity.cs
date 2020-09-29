@@ -7,13 +7,11 @@ using System;
 using ReadyToUseUIDemo.Droid.Views;
 using ReadyToUseUIDemo.Droid.Fragments;
 using IO.Scanbot.Sdk.UI.View.Workflow.Configuration;
-using Net.Doo.Snap.Camera;
 using Android.Graphics;
 using IO.Scanbot.Sdk.UI.View.Workflow;
 using Android.Content;
 using Android.Runtime;
 using System.Collections.Generic;
-using Android.Support.V7.App;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
 using IO.Scanbot.Sdk.UI.View.Mrz.Configuration;
 using IO.Scanbot.Sdk.UI.View.Mrz;
@@ -29,7 +27,6 @@ using ReadyToUseUIDemo.Droid.Utils;
 using System.Threading.Tasks;
 using System.IO;
 using IO.Scanbot.Sdk.UI.View.Edit;
-using Net.Doo.Snap.Lib.Detector;
 using IO.Scanbot.Sdk.Process;
 using IO.Scanbot.Sdk.UI.View.Barcode.Configuration;
 using IO.Scanbot.Sdk.UI.View.Barcode;
@@ -37,11 +34,14 @@ using IO.Scanbot.Sdk.Barcode.Entity;
 using IO.Scanbot.Sdk.UI.View.Hic.Configuration;
 using IO.Scanbot.Sdk.UI.View.Hic;
 using IO.Scanbot.Hicscanner.Model;
+using IO.Scanbot.Sdk.Camera;
+using IO.Scanbot.Sdk.Core.Contourdetector;
+using AndroidX.AppCompat.App;
 
 namespace ReadyToUseUIDemo.Droid
 {
     [Activity(Label = "Ready-to-use UI Demo", MainLauncher = true, Icon = "@mipmap/icon")]
-    public class MainActivity : Activity
+    public class MainActivity : AppCompatActivity
     {
         private const int CAMERA_DEFAULT_UI_REQUEST_CODE = 1111;
 

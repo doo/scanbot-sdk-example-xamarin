@@ -5,7 +5,7 @@ using System.Text;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using IO.Scanbot.Payformscanner.Model;
+using IO.Scanbot.Sdk.Core.Payformscanner.Model;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
 using ReadyToUseUIDemo.Droid.Views;
 

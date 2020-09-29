@@ -1,11 +1,8 @@
-﻿using System;
+﻿
 using Android.OS;
-using Android.Support.Design.Widget;
-using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
-using IO.Scanbot.Sdk.Process;
-using ReadyToUseUIDemo.Droid.Activities;
+using Google.Android.Material.BottomSheet;
 using ReadyToUseUIDemo.Droid.Listeners;
 using ReadyToUseUIDemo.model;
 
