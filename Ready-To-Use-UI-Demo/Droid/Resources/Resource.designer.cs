@@ -25,6 +25,8 @@ namespace ReadyToUseUIDemo.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::ModernHttpClient.Resource.String.app_name = global::ReadyToUseUIDemo.Droid.Resource.String.app_name;
+			global::ModernHttpClient.Resource.String.hello = global::ReadyToUseUIDemo.Droid.Resource.String.hello;
 			global::ScanbotSDK.Xamarin.Android.Resource.Animation.abc_fade_in = global::ReadyToUseUIDemo.Droid.Resource.Animation.abc_fade_in;
 			global::ScanbotSDK.Xamarin.Android.Resource.Animation.abc_fade_out = global::ReadyToUseUIDemo.Droid.Resource.Animation.abc_fade_out;
 			global::ScanbotSDK.Xamarin.Android.Resource.Animation.abc_grow_fade_in_from_bottom = global::ReadyToUseUIDemo.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;
@@ -9191,193 +9193,196 @@ namespace ReadyToUseUIDemo.Droid
 			public const int flash_option = 2131755059;
 			
 			// aapt resource value: 0x7F100034
-			public const int hic_detection_status_failed_detection_text = 2131755060;
+			public const int hello = 2131755060;
 			
 			// aapt resource value: 0x7F100035
-			public const int hic_detection_status_failed_validation_text = 2131755061;
+			public const int hic_detection_status_failed_detection_text = 2131755061;
 			
 			// aapt resource value: 0x7F100036
-			public const int hic_detection_status_success_text = 2131755062;
+			public const int hic_detection_status_failed_validation_text = 2131755062;
 			
 			// aapt resource value: 0x7F100037
-			public const int hic_finder_description = 2131755063;
+			public const int hic_detection_status_success_text = 2131755063;
 			
 			// aapt resource value: 0x7F100038
-			public const int hide_bottom_view_on_scroll_behavior = 2131755064;
+			public const int hic_finder_description = 2131755064;
 			
 			// aapt resource value: 0x7F100039
-			public const int id_card_confidence_value = 2131755065;
-			
-			// aapt resource value: 0x7F10004F
-			public const int id_card_fields_count = 2131755087;
+			public const int hide_bottom_view_on_scroll_behavior = 2131755065;
 			
 			// aapt resource value: 0x7F10003A
-			public const int id_card_field_type_address = 2131755066;
-			
-			// aapt resource value: 0x7F10003C
-			public const int id_card_field_type_birthplace = 2131755068;
-			
-			// aapt resource value: 0x7F10003B
-			public const int id_card_field_type_birth_date = 2131755067;
-			
-			// aapt resource value: 0x7F10003D
-			public const int id_card_field_type_country_code = 2131755069;
-			
-			// aapt resource value: 0x7F10003E
-			public const int id_card_field_type_expiry_date = 2131755070;
-			
-			// aapt resource value: 0x7F10003F
-			public const int id_card_field_type_eye_color = 2131755071;
-			
-			// aapt resource value: 0x7F100040
-			public const int id_card_field_type_gender = 2131755072;
-			
-			// aapt resource value: 0x7F100041
-			public const int id_card_field_type_given_names = 2131755073;
-			
-			// aapt resource value: 0x7F100042
-			public const int id_card_field_type_height = 2131755074;
-			
-			// aapt resource value: 0x7F100043
-			public const int id_card_field_type_id = 2131755075;
-			
-			// aapt resource value: 0x7F100044
-			public const int id_card_field_type_issue_date = 2131755076;
-			
-			// aapt resource value: 0x7F100045
-			public const int id_card_field_type_issuing_authority = 2131755077;
-			
-			// aapt resource value: 0x7F100046
-			public const int id_card_field_type_maiden_name = 2131755078;
-			
-			// aapt resource value: 0x7F100047
-			public const int id_card_field_type_mrz = 2131755079;
-			
-			// aapt resource value: 0x7F100048
-			public const int id_card_field_type_nationality = 2131755080;
-			
-			// aapt resource value: 0x7F100049
-			public const int id_card_field_type_passport_type = 2131755081;
-			
-			// aapt resource value: 0x7F10004A
-			public const int id_card_field_type_photo = 2131755082;
-			
-			// aapt resource value: 0x7F10004B
-			public const int id_card_field_type_pin = 2131755083;
-			
-			// aapt resource value: 0x7F10004C
-			public const int id_card_field_type_pseudonym = 2131755084;
-			
-			// aapt resource value: 0x7F10004D
-			public const int id_card_field_type_signature = 2131755085;
-			
-			// aapt resource value: 0x7F10004E
-			public const int id_card_field_type_surname = 2131755086;
+			public const int id_card_confidence_value = 2131755066;
 			
 			// aapt resource value: 0x7F100050
-			public const int id_card_image_title = 2131755088;
+			public const int id_card_fields_count = 2131755088;
+			
+			// aapt resource value: 0x7F10003B
+			public const int id_card_field_type_address = 2131755067;
+			
+			// aapt resource value: 0x7F10003D
+			public const int id_card_field_type_birthplace = 2131755069;
+			
+			// aapt resource value: 0x7F10003C
+			public const int id_card_field_type_birth_date = 2131755068;
+			
+			// aapt resource value: 0x7F10003E
+			public const int id_card_field_type_country_code = 2131755070;
+			
+			// aapt resource value: 0x7F10003F
+			public const int id_card_field_type_expiry_date = 2131755071;
+			
+			// aapt resource value: 0x7F100040
+			public const int id_card_field_type_eye_color = 2131755072;
+			
+			// aapt resource value: 0x7F100041
+			public const int id_card_field_type_gender = 2131755073;
+			
+			// aapt resource value: 0x7F100042
+			public const int id_card_field_type_given_names = 2131755074;
+			
+			// aapt resource value: 0x7F100043
+			public const int id_card_field_type_height = 2131755075;
+			
+			// aapt resource value: 0x7F100044
+			public const int id_card_field_type_id = 2131755076;
+			
+			// aapt resource value: 0x7F100045
+			public const int id_card_field_type_issue_date = 2131755077;
+			
+			// aapt resource value: 0x7F100046
+			public const int id_card_field_type_issuing_authority = 2131755078;
+			
+			// aapt resource value: 0x7F100047
+			public const int id_card_field_type_maiden_name = 2131755079;
+			
+			// aapt resource value: 0x7F100048
+			public const int id_card_field_type_mrz = 2131755080;
+			
+			// aapt resource value: 0x7F100049
+			public const int id_card_field_type_nationality = 2131755081;
+			
+			// aapt resource value: 0x7F10004A
+			public const int id_card_field_type_passport_type = 2131755082;
+			
+			// aapt resource value: 0x7F10004B
+			public const int id_card_field_type_photo = 2131755083;
+			
+			// aapt resource value: 0x7F10004C
+			public const int id_card_field_type_pin = 2131755084;
+			
+			// aapt resource value: 0x7F10004D
+			public const int id_card_field_type_pseudonym = 2131755085;
+			
+			// aapt resource value: 0x7F10004E
+			public const int id_card_field_type_signature = 2131755086;
+			
+			// aapt resource value: 0x7F10004F
+			public const int id_card_field_type_surname = 2131755087;
 			
 			// aapt resource value: 0x7F100051
-			public const int id_card_no_data_title = 2131755089;
-			
-			// aapt resource value: 0x7F100054
-			public const int id_card_scanned_everything = 2131755092;
+			public const int id_card_image_title = 2131755089;
 			
 			// aapt resource value: 0x7F100052
-			public const int id_card_scan_back_side_title = 2131755090;
-			
-			// aapt resource value: 0x7F100053
-			public const int id_card_scan_front_side_title = 2131755091;
+			public const int id_card_no_data_title = 2131755090;
 			
 			// aapt resource value: 0x7F100055
-			public const int id_card_start_scanning_title = 2131755093;
+			public const int id_card_scanned_everything = 2131755093;
+			
+			// aapt resource value: 0x7F100053
+			public const int id_card_scan_back_side_title = 2131755091;
+			
+			// aapt resource value: 0x7F100054
+			public const int id_card_scan_front_side_title = 2131755092;
 			
 			// aapt resource value: 0x7F100056
-			public const int library_name = 2131755094;
+			public const int id_card_start_scanning_title = 2131755094;
 			
 			// aapt resource value: 0x7F100057
-			public const int mrz_finder_description = 2131755095;
+			public const int library_name = 2131755095;
 			
 			// aapt resource value: 0x7F100058
-			public const int mrz_nfc_passport_auth_error_title = 2131755096;
+			public const int mrz_finder_description = 2131755096;
 			
 			// aapt resource value: 0x7F100059
-			public const int mrz_nfc_passport_chip_disabled_title = 2131755097;
-			
-			// aapt resource value: 0x7F10005C
-			public const int mrz_nfc_passport_downloading_data_title = 2131755100;
+			public const int mrz_nfc_passport_auth_error_title = 2131755097;
 			
 			// aapt resource value: 0x7F10005A
-			public const int mrz_nfc_passport_download_data_title = 2131755098;
-			
-			// aapt resource value: 0x7F10005B
-			public const int mrz_nfc_passport_download_error_title = 2131755099;
+			public const int mrz_nfc_passport_chip_disabled_title = 2131755098;
 			
 			// aapt resource value: 0x7F10005D
-			public const int mrz_nfc_passport_no_chip_title = 2131755101;
+			public const int mrz_nfc_passport_downloading_data_title = 2131755101;
+			
+			// aapt resource value: 0x7F10005B
+			public const int mrz_nfc_passport_download_data_title = 2131755099;
+			
+			// aapt resource value: 0x7F10005C
+			public const int mrz_nfc_passport_download_error_title = 2131755100;
 			
 			// aapt resource value: 0x7F10005E
-			public const int mrz_nfc_passport_retry_button_title = 2131755102;
+			public const int mrz_nfc_passport_no_chip_title = 2131755102;
 			
 			// aapt resource value: 0x7F10005F
-			public const int mrz_nfc_passport_scan_passport_title = 2131755103;
+			public const int mrz_nfc_passport_retry_button_title = 2131755103;
 			
 			// aapt resource value: 0x7F100060
-			public const int mtrl_chip_close_icon_content_description = 2131755104;
-			
-			// aapt resource value: 0x7F100062
-			public const int multiple_object_detector_snapped_pages_count_format = 2131755106;
+			public const int mrz_nfc_passport_scan_passport_title = 2131755104;
 			
 			// aapt resource value: 0x7F100061
-			public const int multi_page_option = 2131755105;
+			public const int mtrl_chip_close_icon_content_description = 2131755105;
 			
 			// aapt resource value: 0x7F100063
-			public const int nothing_detected_hint = 2131755107;
+			public const int multiple_object_detector_snapped_pages_count_format = 2131755107;
+			
+			// aapt resource value: 0x7F100062
+			public const int multi_page_option = 2131755106;
 			
 			// aapt resource value: 0x7F100064
-			public const int off_center_hint = 2131755108;
+			public const int nothing_detected_hint = 2131755108;
 			
 			// aapt resource value: 0x7F100065
-			public const int password_toggle_content_description = 2131755109;
+			public const int off_center_hint = 2131755109;
 			
 			// aapt resource value: 0x7F100066
-			public const int path_password_eye = 2131755110;
+			public const int password_toggle_content_description = 2131755110;
 			
 			// aapt resource value: 0x7F100067
-			public const int path_password_eye_mask_strike_through = 2131755111;
+			public const int path_password_eye = 2131755111;
 			
 			// aapt resource value: 0x7F100068
-			public const int path_password_eye_mask_visible = 2131755112;
+			public const int path_password_eye_mask_strike_through = 2131755112;
 			
 			// aapt resource value: 0x7F100069
-			public const int path_password_strike_through = 2131755113;
+			public const int path_password_eye_mask_visible = 2131755113;
 			
 			// aapt resource value: 0x7F10006A
-			public const int reset = 2131755114;
+			public const int path_password_strike_through = 2131755114;
 			
 			// aapt resource value: 0x7F10006B
-			public const int reset_to_default = 2131755115;
+			public const int reset = 2131755115;
 			
 			// aapt resource value: 0x7F10006C
-			public const int rotate = 2131755116;
+			public const int reset_to_default = 2131755116;
 			
 			// aapt resource value: 0x7F10006D
-			public const int search_menu_title = 2131755117;
+			public const int rotate = 2131755117;
 			
 			// aapt resource value: 0x7F10006E
-			public const int status_bar_notification_info_overflow = 2131755118;
+			public const int search_menu_title = 2131755118;
 			
 			// aapt resource value: 0x7F10006F
-			public const int support_email_template = 2131755119;
+			public const int status_bar_notification_info_overflow = 2131755119;
 			
 			// aapt resource value: 0x7F100070
-			public const int too_dark_hint = 2131755120;
+			public const int support_email_template = 2131755120;
 			
 			// aapt resource value: 0x7F100071
-			public const int too_noisy_hint = 2131755121;
+			public const int too_dark_hint = 2131755121;
 			
 			// aapt resource value: 0x7F100072
-			public const int too_small_hint = 2131755122;
+			public const int too_noisy_hint = 2131755122;
+			
+			// aapt resource value: 0x7F100073
+			public const int too_small_hint = 2131755123;
 			
 			static String()
 			{

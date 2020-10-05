@@ -51,10 +51,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ScanbotSDK.Xamarin">
-      <Version>3.0.0-beta3</Version>
+      <Version>3.0.0-beta4</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="modernhttpclient-updated">
+      <Version>3.4.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
