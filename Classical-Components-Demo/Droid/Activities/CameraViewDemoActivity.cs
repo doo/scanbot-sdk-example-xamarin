@@ -29,7 +29,7 @@ namespace ClassicalComponentsDemo.Droid
         public static string EXTRAS_ARG_ORIGINAL_IMAGE_FILE_URI = "originalImageFileUri";
 
         protected ScanbotCameraView cameraView;
-        protected AutoSnappingController autoSnappingController;
+        protected DocumentAutoSnappingController autoSnappingController;
         protected ContourDetectorFrameHandler contourDetectorFrameHandler;
         protected PolygonView polygonView;
         protected bool flashEnabled = false;
@@ -86,7 +86,7 @@ namespace ClassicalComponentsDemo.Droid
             contourDetectorFrameHandler.SetAcceptedAngleScore(60);
             contourDetectorFrameHandler.SetAcceptedSizeScore(70);
 
-            autoSnappingController = AutoSnappingController.Attach(cameraView, contourDetectorFrameHandler);
+            autoSnappingController = DocumentAutoSnappingController.Attach(cameraView, contourDetectorFrameHandler);
             autoSnappingController.SetIgnoreBadAspectRatio(ignoreBadAspectRatio);
 
             cameraView.AddPictureCallback(this);
