@@ -3,7 +3,6 @@ using System.IO;
 
 using Android.App;
 using Android.OS;
-using Android.Support.V7.App;
 using Android.Widget;
 using IO.Scanbot.Sdk.Businesscard;
 using IO.Scanbot.Sdk.Persistence;

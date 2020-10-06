@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using Android.Graphics;
 using Android.App;
 using Android.Net;
-
-using Net.Doo.Snap.Util;
-using Net.Doo.Snap.Util.Bitmap;
+using IO.Scanbot.Sdk.Util.Bitmap;
+using IO.Scanbot.Sdk.Util;
 
 namespace ClassicalComponentsDemo.Droid
 {

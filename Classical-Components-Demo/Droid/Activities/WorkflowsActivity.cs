@@ -12,29 +12,22 @@ using Android.Views;
 using Android.Widget;
 using IO.Scanbot.Dcscanner.Model;
 using IO.Scanbot.Mrzscanner.Model;
-using IO.Scanbot.Payformscanner.Model;
 using IO.Scanbot.Sdk.Barcode.Entity;
+using IO.Scanbot.Sdk.Core.Contourdetector;
+using IO.Scanbot.Sdk.Core.Payformscanner.Model;
 using IO.Scanbot.Sdk.Persistence;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
 using IO.Scanbot.Sdk.UI.View.Workflow;
 using IO.Scanbot.Sdk.UI.View.Workflow.Configuration;
-using Net.Doo.Snap.Lib.Detector;
 using ScanbotSDK.Xamarin.Android;
 
 namespace ClassicalComponentsDemo.Droid.Activities
 {
     public class DcWorkflowValidator : WorkflowValidator<DisabilityCertificateWorkflowStepResult>
     {
-        public DcWorkflowValidator()
+        public WorkflowStepError Invoke(Java.Lang.Object t)
         {
-        }
-
-        public DcWorkflowValidator(IntPtr a, JniHandleOwnership b) : base(a, b)
-        {
-        }
-
-        public override WorkflowStepError Invoke(DisabilityCertificateWorkflowStepResult result)
-        {
+            var result = (DisabilityCertificateWorkflowStepResult)t;
             if (result.DisabilityCertificateResult == null || !result.DisabilityCertificateResult.RecognitionSuccessful)
             {
                 return ErrorDialog(1, "This does not seem to be a valid certificate.");
@@ -45,16 +38,9 @@ namespace ClassicalComponentsDemo.Droid.Activities
 
     public class IdCardWorkflowValidator : WorkflowValidator<MachineReadableZoneWorkflowStepResult>
     {
-        public IdCardWorkflowValidator()
+        public WorkflowStepError Invoke(Java.Lang.Object t)
         {
-        }
-
-        public IdCardWorkflowValidator(IntPtr a, JniHandleOwnership b) : base(a, b)
-        {
-        }
-
-        public override WorkflowStepError Invoke(MachineReadableZoneWorkflowStepResult result)
-        {
+            var result = (MachineReadableZoneWorkflowStepResult)t;
             if (result.MrzResult == null || !result.MrzResult.RecognitionSuccessful)
             {
                 return ErrorDialog(1, "No MRZ zone detected. Point your camera at the backside of the ID card.");

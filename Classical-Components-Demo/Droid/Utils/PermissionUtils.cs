@@ -1,9 +1,9 @@
 ﻿using System;
 using Android;
 using Android.App;
-using Android.Support.Design.Widget;
-using Android.Support.V4.App;
 using Android.Views;
+using AndroidX.Core.App;
+using Google.Android.Material.Snackbar;
 
 namespace ClassicalComponentsDemo.Droid.Utils
 {

@@ -2,16 +2,9 @@
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
-using Android.Support.V4.View;
-using Android.Support.V7.App;
 using Android.Widget;
 using Android.Views;
 using Android.Util;
-
-// native SDK namespace
-using Net.Doo.Snap.Camera;
-using Net.Doo.Snap.Lib.Detector;
-using Net.Doo.Snap.UI;
 
 // Wrapper namespace
 using ScanbotSDK.Xamarin;
@@ -19,6 +12,11 @@ using ScanbotSDK.Xamarin.Android;
 using IO.Scanbot.Sdk.UI.Camera;
 using IO.Scanbot.Sdk.Camera;
 using System;
+using AndroidX.AppCompat.App;
+using AndroidX.Core.View;
+using IO.Scanbot.Sdk.Contourdetector;
+using IO.Scanbot.Sdk.UI;
+using IO.Scanbot.Sdk.Core.Contourdetector;
 
 namespace ClassicalComponentsDemo.Droid
 {

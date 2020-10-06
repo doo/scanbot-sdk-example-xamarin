@@ -87,6 +87,7 @@ namespace ClassicalComponentsDemo.Droid
             };
         }
 
+        [Obsolete]
         void AssignApplyImageFilterButtonHandler()
         {
             var applyImageFilterButton = FindViewById<Button>(Resource.Id.applyImageFilterButton);
@@ -498,6 +499,7 @@ namespace ClassicalComponentsDemo.Droid
 
     }
 
+    [Obsolete]
     class ImageFilterDialog : DialogFragment
     {
         static List<string> ImageFilterItems = new List<string>();

@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Graphics;
 using Android.OS;
-using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using Android.Content;
@@ -12,9 +11,11 @@ using Android.Util;
 
 using AndroidNetUri = Android.Net.Uri;
 
-using Net.Doo.Snap.Lib.Detector;
-using Net.Doo.Snap.UI;
 using ScanbotSDK.Xamarin.Android;
+using AndroidX.AppCompat.App;
+using IO.Scanbot.Sdk.UI;
+using IO.Scanbot.Sdk.Core.Contourdetector;
+using IO.Scanbot.Sdk.Process;
 
 namespace ClassicalComponentsDemo.Droid
 {
@@ -26,6 +27,8 @@ namespace ClassicalComponentsDemo.Droid
         public static String EXTRAS_ARG_IMAGE_FILE_URI = "EXTRAS_ARG_IMAGE_FILE_URI";
 
         static IList<PointF> DEFAULT_POLYGON = new List<PointF>();
+
+        IO.Scanbot.Sdk.ScanbotSDK SDK;
 
         static CroppingImageDemoActivity()
         {
@@ -89,9 +92,11 @@ namespace ClassicalComponentsDemo.Droid
                 lastRotationEventTs = Java.Lang.JavaSystem.CurrentTimeMillis();
             };
 
-            String imageFileUri = Intent.Extras.GetString(EXTRAS_ARG_IMAGE_FILE_URI);
+            string imageFileUri = Intent.Extras.GetString(EXTRAS_ARG_IMAGE_FILE_URI);
             imageUri = AndroidNetUri.Parse(imageFileUri);
             InitImageView();
+
+             SDK = new IO.Scanbot.Sdk.ScanbotSDK(this);
         }
 
         void InitImageView()
@@ -113,8 +118,8 @@ namespace ClassicalComponentsDemo.Droid
                         scanbotMagnifierView.SetupMagnifier(editPolygonImageView);
                     });
 
+                    var detector = SDK.ContourDetector();
                     // Since we just need detected polygon and lines here, we use ContourDetector class from the native SDK namespace.
-                    var detector = new ContourDetector();
                     var detectionResult = detector.Detect(resizedBitmap);
 
                     if (detectionResult == DetectionResult.Ok || detectionResult == DetectionResult.OkButBadAngles ||
@@ -149,8 +154,8 @@ namespace ClassicalComponentsDemo.Droid
             {
                 try
                 {
-                    var detector = new ContourDetector();
-                    var documentImage = detector.ProcessImageAndRelease(originalBitmap, editPolygonImageView.Polygon, ContourDetector.ImageFilterNone);
+                    var detector = SDK.ContourDetector();
+                    var documentImage = SDK.ImageProcessor().ProcessBitmap(originalBitmap, new CropOperation(editPolygonImageView.Polygon), false);
                     documentImage = SBSDK.RotateImage(documentImage, -rotationDegrees);
                     var documentImgUri = MainApplication.TempImageStorage.AddImage(documentImage);
 

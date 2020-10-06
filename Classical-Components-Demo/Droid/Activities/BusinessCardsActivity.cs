@@ -5,7 +5,6 @@ using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
-using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using IO.Scanbot.Sdk.Businesscard;
@@ -14,10 +13,9 @@ using IO.Scanbot.Sdk.Persistence;
 using IO.Scanbot.Sdk.Process;
 using IO.Scanbot.Sdk.UI.Camera;
 using IO.Scanbot.Multipleobjectsscanner;
-using Net.Doo.Snap.Camera;
-using Net.Doo.Snap.Lib.Detector;
-using Net.Doo.Snap.UI;
 using IO.Scanbot.Sdk.Camera;
+using IO.Scanbot.Sdk.UI.Multipleobjects;
+using IO.Scanbot.Sdk.Core.Contourdetector;
 
 namespace ClassicalComponentsDemo.Droid.Activities
 {
