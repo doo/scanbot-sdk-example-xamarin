@@ -6,6 +6,7 @@ using Android.App;
 using Android.Net;
 using IO.Scanbot.Sdk.Util.Bitmap;
 using IO.Scanbot.Sdk.Util;
+using Android.Provider;
 
 namespace ClassicalComponentsDemo.Droid
 {
@@ -23,7 +24,7 @@ namespace ClassicalComponentsDemo.Droid
 
         public static Bitmap LoadImage(Uri imageUri, Activity activity)
         {
-            return LoadImage(FileChooserUtils.GetPath(activity, imageUri));
+            return MediaStore.Images.Media.GetBitmap(activity.ContentResolver, imageUri);
         }
 
         public static string[] GetSelectedImagesAsFilePaths(List<Uri> selectedImages, Activity activity)
