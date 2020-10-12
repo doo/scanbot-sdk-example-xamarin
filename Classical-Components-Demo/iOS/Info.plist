@@ -9,7 +9,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
-	<string>9.0</string>
+	<string>12.0</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
@@ -55,5 +55,7 @@
 	<string>Scanbot SDK Example Xamarin</string>
 	<key>CFBundleIdentifier</key>
 	<string>io.scanbot.example.sdk.xamarin</string>
+	<key>CFBundleDisplayName</key>
+	<string>Scanbot SDK Example Xamarin</string>
 </dict>
 </plist>
