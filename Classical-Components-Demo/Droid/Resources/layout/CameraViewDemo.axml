@@ -5,17 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ScanbotCameraActivity">
-    <net.doo.snap.camera.ScanbotCameraView
+    <io.scanbot.sdk.camera.ScanbotCameraView
         android:id="@+id/scanbotCameraView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <net.doo.snap.ui.PolygonView
+        <io.scanbot.sdk.ui.PolygonView
             android:id="@+id/scanbotPolygonView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:polygonStrokeWidth="3dp"
             app:polygonStrokeColor="@android:color/holo_blue_dark" />
-    </net.doo.snap.camera.ScanbotCameraView>
+    </io.scanbot.sdk.camera.ScanbotCameraView>
     <Button
         android:id="@+id/autoSnappingToggleButton"
         android:layout_width="wrap_content"
