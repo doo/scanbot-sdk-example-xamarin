@@ -33,7 +33,7 @@ namespace ReadyToUseUIDemo.Droid.Fragments
             var view = inflater.Inflate(Resource.Layout.fragment_barcode_dialog, container);
 
             var format = view.FindViewById<TextView>(Resource.Id.title);
-            var content = view.FindViewById<TextView>(Resource.Id.qr_barcode_value);
+            var content = view.FindViewById<TextView>(Resource.Id.barcode_result_values);
 
             if (data.Count == 0)
             {

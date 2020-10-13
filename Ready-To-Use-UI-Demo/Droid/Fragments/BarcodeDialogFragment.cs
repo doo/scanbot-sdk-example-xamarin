@@ -25,8 +25,7 @@ namespace ReadyToUseUIDemo.Droid.Fragments
             var data = (BarcodeScanningResult)Arguments.GetParcelable(NAME);
             var view = inflater.Inflate(Resource.Layout.fragment_barcode_dialog, container);
 
-            var format = view.FindViewById<TextView>(Resource.Id.qr_barcode_format);
-            var content = view.FindViewById<TextView>(Resource.Id.qr_barcode_value);
+            var content = view.FindViewById<TextView>(Resource.Id.barcode_result_values);
 
             if (data.BarcodeItems.Count == 0)
             {
@@ -34,11 +33,15 @@ namespace ReadyToUseUIDemo.Droid.Fragments
                 return view;
             }
 
-            var barcode = data.BarcodeItems[0];
-            format.Text = barcode.BarcodeFormat.Name();
-            
-            CopyText = barcode.Text;
-            content.Text = CopyText;
+            var resultText = "";
+            foreach (BarcodeItem barcode in data.BarcodeItems)
+            {
+                resultText += barcode.BarcodeFormat.Name() + ": " + barcode.Text + "\n";
+            }
+
+            CopyText = resultText;
+            content.Text = resultText;
+
 
             return view;
         }
