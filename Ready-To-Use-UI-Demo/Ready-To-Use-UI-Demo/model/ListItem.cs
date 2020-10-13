@@ -9,7 +9,10 @@ namespace ReadyToUseUIDemo.model
 
         ScannerMRZ,
         ScannerEHIC,
+
         ScannerBarcode,
+        ScannerBatchBarcode,
+        ScannerImportBarcode,
 
         WorkflowQR,
         WorkflowMRZImage,

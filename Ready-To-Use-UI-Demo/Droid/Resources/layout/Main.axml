@@ -66,7 +66,23 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/data_collectors"
+            android:id="@+id/barcode_detectors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="13dp"
+                android:textStyle="normal"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/data_detectors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

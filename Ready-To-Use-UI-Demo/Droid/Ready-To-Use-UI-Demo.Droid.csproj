@@ -83,6 +83,9 @@
     <Compile Include="Fragments\BarcodeDialogFragment.cs" />
     <Compile Include="Fragments\PayFormResultDialogFragment.cs" />
     <Compile Include="Fragments\HealthInsuranceCardFragment.cs" />
+    <Compile Include="Utils\Constants.cs" />
+    <Compile Include="Utils\ImageUtils.cs" />
+    <Compile Include="Utils\ViewUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

@@ -10,12 +10,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)model\" />
+    <Folder Include="$(MSBuildThisFileDirectory)model\detectors\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)model\DocumentScanner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)model\ListItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)model\DataDetectors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)model\Texts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)model\Colors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)model\detectors\DataDetectors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)model\detectors\DocumentScanner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)model\detectors\BarcodeDetectors.cs" />
   </ItemGroup>
 </Project>

@@ -37,25 +37,14 @@ using IO.Scanbot.Hicscanner.Model;
 using IO.Scanbot.Sdk.Camera;
 using IO.Scanbot.Sdk.Core.Contourdetector;
 using AndroidX.AppCompat.App;
+using IO.Scanbot.Sdk.UI.View.Barcode.Batch.Configuration;
+using IO.Scanbot.Sdk.UI.View.Barcode.Batch;
 
 namespace ReadyToUseUIDemo.Droid
 {
     [Activity(Label = "Ready-to-use UI Demo", MainLauncher = true, Icon = "@mipmap/icon")]
     public class MainActivity : AppCompatActivity
     {
-        private const int CAMERA_DEFAULT_UI_REQUEST_CODE = 1111;
-
-        const int MRZ_DEFAULT_UI_REQUEST_CODE = 909;
-        const int DC_SCAN_WORKFLOW_REQUEST_CODE = 914;
-        const int PAYFORM_SCAN_WORKFLOW_REQUEST_CODE = 916;
-        const int MRZ_SNAP_WORKFLOW_REQUEST_CODE = 912;
-        const int MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE = 913;
-        const int QR_BARCODE_DEFAULT_UI_REQUEST_CODE = 910;
-        const int REQUEST_EHIC_SCAN = 4715;
-
-        private const int IMPORT_IMAGE_REQUEST = 7777;
-        private const int CROP_DEFAULT_UI_REQUEST = 9999;
-
         readonly List<FragmentButton> buttons = new List<FragmentButton>();
 
         ProgressBar progress;
@@ -86,36 +75,34 @@ namespace ReadyToUseUIDemo.Droid
             var scanner = (LinearLayout)container.FindViewById(Resource.Id.document_scanner);
             var scannerTitle = (TextView)scanner.FindViewById(Resource.Id.textView);
             scannerTitle.Text = DocumentScanner.Instance.Title;
+            AddItemsTo(scanner, DocumentScanner.Instance.Items);
 
-            foreach (ListItem item in DocumentScanner.Instance.Items)
-            {
-                var child = new FragmentButton(this)
-                {
-                    Data = item,
-                    Text = item.Title,
-                    LayoutParameters = GetParameters()
-                };
-                scanner.AddView(child);
-                buttons.Add(child);
-            }
+            var barcodes = (LinearLayout)container.FindViewById(Resource.Id.barcode_detectors);
+            var barcodeTitle = (TextView)barcodes.FindViewById(Resource.Id.textView);
+            barcodeTitle.Text = BarcodeDetectors.Instance.Title;
+            AddItemsTo(barcodes, BarcodeDetectors.Instance.Items);
 
-            var collectors = (LinearLayout)container.FindViewById(Resource.Id.data_collectors);
-            var collectorsTitle = (TextView)collectors.FindViewById(Resource.Id.textView);
-            collectorsTitle.Text = DataDetectors.Instance.Title;
-
-            foreach (ListItem item in DataDetectors.Instance.Items)
-            {
-                var child = new FragmentButton(this)
-                {
-                    Data = item,
-                    Text = item.Title,
-                    LayoutParameters = GetParameters()
-                };
-                collectors.AddView(child);
-                buttons.Add(child);
-            }
+            var detectors = (LinearLayout)container.FindViewById(Resource.Id.data_detectors);
+            var detectorsTitle = (TextView)detectors.FindViewById(Resource.Id.textView);
+            detectorsTitle.Text = DataDetectors.Instance.Title;
+            AddItemsTo(detectors, DataDetectors.Instance.Items);
 
             LicenseIndicator.Text = Texts.no_license_found_the_app_will_terminate_after_one_minute;
+        }
+
+        void AddItemsTo(LinearLayout container, List<ListItem> items)
+        {
+            foreach (ListItem item in items)
+            {
+                var child = new FragmentButton(this)
+                {
+                    Data = item,
+                    Text = item.Title,
+                    LayoutParameters = ViewUtils.GetParameters(this)
+                };
+                container.AddView(child);
+                buttons.Add(child);
+            }
         }
 
         protected override void OnResume()
@@ -164,6 +151,20 @@ namespace ReadyToUseUIDemo.Droid
             get => new Dictionary<Java.Lang.Class, Java.Lang.Class>();
         }
 
+        void StartImportActivity(int resultConstant)
+        {
+            var intent = new Intent();
+            intent.SetType("image/*");
+            intent.SetAction(Intent.ActionGetContent);
+            intent.PutExtra(Intent.ExtraLocalOnly, false);
+            intent.PutExtra(Intent.ExtraAllowMultiple, false);
+
+            var chooser = Intent.CreateChooser(intent, Texts.share_title);
+            StartActivityForResult(chooser, resultConstant);
+        }
+        /**
+         * Start Scanner or Import Activity
+         */
         private void OnButtonClick(object sender, EventArgs e)
         {
             if (!CheckLicense())
@@ -186,24 +187,39 @@ namespace ReadyToUseUIDemo.Droid
                 // see further customization configs...
 
                 var intent = DocumentScannerActivity.NewIntent(this, configuration);
-                StartActivityForResult(intent, CAMERA_DEFAULT_UI_REQUEST_CODE);
+                StartActivityForResult(intent, Constants.CAMERA_DEFAULT_UI_REQUEST_CODE);
             }
             else if (button.Data.Code == ListItemCode.ImportImage)
             {
-                var intent = new Intent();
-                intent.SetType("image/*");
-                intent.SetAction(Intent.ActionGetContent);
-                intent.PutExtra(Intent.ExtraLocalOnly, false);
-                intent.PutExtra(Intent.ExtraAllowMultiple, false);
-
-                var chooser = Intent.CreateChooser(intent, Texts.share_title);
-                StartActivityForResult(chooser, IMPORT_IMAGE_REQUEST);
+                StartImportActivity(Constants.IMPORT_IMAGE_REQUEST);
             }
             else if (button.Data.Code == ListItemCode.ViewImages)
             {
                 var intent = new Intent(this, typeof(PagePreviewActivity));
                 StartActivity(intent);
             }
+
+            // Barcode Detectors
+            else if (button.Data.Code == ListItemCode.ScannerBarcode)
+            {
+                var configuration = new BarcodeScannerConfiguration();
+                configuration.SetFinderTextHint("Please align the QR-/Barcode in the frame above to scan it");
+                var intent = BarcodeScannerActivity.NewIntent(this, configuration);
+                StartActivityForResult(intent, Constants.QR_BARCODE_DEFAULT_UI_REQUEST_CODE);
+            }
+            else if (button.Data.Code == ListItemCode.ScannerBatchBarcode)
+            {
+                var configuration = new BatchBarcodeScannerConfiguration();
+                configuration.SetFinderTextHint("Please align the QR-/Barcode in the frame above to scan it");
+                var intent = BatchBarcodeScannerActivity.NewIntent(this, configuration, null);
+                StartActivityForResult(intent, Constants.QR_BARCODE_DEFAULT_UI_REQUEST_CODE);
+            }
+            else if (button.Data.Code == ListItemCode.ScannerImportBarcode)
+            {
+                StartImportActivity(Constants.IMPORT_BARCODE_REQUEST);
+            }
+
+            // Other Data Detectors
             else if (button.Data.Code == ListItemCode.WorkflowDC)
             {
                 var configuration = new WorkflowScannerConfiguration();
@@ -214,7 +230,7 @@ namespace ReadyToUseUIDemo.Droid
                 var intent = WorkflowScannerActivity.NewIntent(this, configuration,
                     WorkflowFactory.DisabilityCertificate, WorkflowScanners
                 );
-                StartActivityForResult(intent, DC_SCAN_WORKFLOW_REQUEST_CODE);
+                StartActivityForResult(intent, Constants.DC_SCAN_WORKFLOW_REQUEST_CODE);
             }
             else if (button.Data.Code == ListItemCode.ScannerMRZ)
             {
@@ -222,7 +238,7 @@ namespace ReadyToUseUIDemo.Droid
                 configuration.SetSuccessBeepEnabled(false);
 
                 var intent = MRZScannerActivity.NewIntent(this, configuration);
-                StartActivityForResult(intent, MRZ_DEFAULT_UI_REQUEST_CODE);
+                StartActivityForResult(intent, Constants.MRZ_DEFAULT_UI_REQUEST_CODE);
             }
             else if (button.Data.Code == ListItemCode.WorkflowMRZImage)
             {
@@ -231,7 +247,7 @@ namespace ReadyToUseUIDemo.Droid
 
                 var flow = WorkflowFactory.ScanMRZAndSnap;
                 var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, WorkflowScanners);
-                StartActivityForResult(intent, MRZ_SNAP_WORKFLOW_REQUEST_CODE);
+                StartActivityForResult(intent, Constants.MRZ_SNAP_WORKFLOW_REQUEST_CODE);
             }
             else if (button.Data.Code == ListItemCode.WorkflowMRZFrontBack)
             {
@@ -240,7 +256,7 @@ namespace ReadyToUseUIDemo.Droid
 
                 var flow = WorkflowFactory.ScanMRZAndFrontBackSnap;
                 var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, WorkflowScanners);
-                StartActivityForResult(intent, MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE);
+                StartActivityForResult(intent, Constants.MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE);
             }
             else if (button.Data.Code == ListItemCode.WorkflowSEPA)
             {
@@ -251,25 +267,22 @@ namespace ReadyToUseUIDemo.Droid
                 var flow = WorkflowFactory.PayFormWithClassicalDocPolygonDetection;
                 var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, WorkflowScanners);
 
-                StartActivityForResult(intent, PAYFORM_SCAN_WORKFLOW_REQUEST_CODE);
+                StartActivityForResult(intent, Constants.PAYFORM_SCAN_WORKFLOW_REQUEST_CODE);
             }
-            else if (button.Data.Code == ListItemCode.ScannerBarcode)
-            {
-                var configuration = new BarcodeScannerConfiguration();
-                configuration.SetFinderTextHint("Please align the QR-/Barcode in the frame above to scan it");
-                var intent = BarcodeScannerActivity.NewIntent(this, configuration);
-                StartActivityForResult(intent, QR_BARCODE_DEFAULT_UI_REQUEST_CODE);
-            }
+
             else if (button.Data.Code == ListItemCode.ScannerEHIC)
             {
                 var config = new HealthInsuranceCardScannerConfiguration();
                 config.SetTopBarButtonsColor(Color.White);
 
                 var intent = HealthInsuranceCardScannerActivity.NewIntent(this, config);
-                StartActivityForResult(intent, REQUEST_EHIC_SCAN);
+                StartActivityForResult(intent, Constants.REQUEST_EHIC_SCAN);
             }
         }
 
+        /**
+         * Scanner returned, parse results
+         */
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
@@ -279,7 +292,7 @@ namespace ReadyToUseUIDemo.Droid
                 return;
             }
 
-            if (requestCode == CAMERA_DEFAULT_UI_REQUEST_CODE)
+            if (requestCode == Constants.CAMERA_DEFAULT_UI_REQUEST_CODE)
             {
                 var parcelable = data.GetParcelableArrayExtra(DocumentScannerActivity.SnappedPageExtra);
                 var pages = parcelable.Cast<Page>().ToList();
@@ -288,7 +301,7 @@ namespace ReadyToUseUIDemo.Droid
                 var intent = new Intent(this, typeof(PagePreviewActivity));
                 StartActivity(intent);
             }
-            else if (requestCode == IMPORT_IMAGE_REQUEST)
+            else if (requestCode == Constants.IMPORT_IMAGE_REQUEST)
             {
                 if (!SBSDK.IsLicenseValid())
                 {
@@ -300,7 +313,7 @@ namespace ReadyToUseUIDemo.Droid
                 Alert.Toast(this, Texts.importing_and_processing);
                 Task.Run(delegate
                 {
-                    var result = ProcessGalleryResult(data);
+                    var result = Utils.ImageUtils.ProcessGalleryResult(this, data);
 
                     var pageId = SBSDK.PageStorage.Add(result);
                     var page = new Page(pageId, new List<PointF>(), DetectionResult.Ok, ImageFilterType.None);
@@ -315,45 +328,49 @@ namespace ReadyToUseUIDemo.Droid
                     });
                 });
             }
-            else if (requestCode == CROP_DEFAULT_UI_REQUEST)
+            else if (requestCode == Constants.IMPORT_BARCODE_REQUEST)
+            {
+                
+            }
+            else if (requestCode == Constants.CROP_DEFAULT_UI_REQUEST)
             {
                 var page = data.GetParcelableExtra(CroppingActivity.EditedPageExtra) as Page;
                 PageRepository.Add(page);
             }
-            else if (requestCode == DC_SCAN_WORKFLOW_REQUEST_CODE)
+            else if (requestCode == Constants.DC_SCAN_WORKFLOW_REQUEST_CODE)
             {
                 var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
                 var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
                 var fragment = DCResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, DCResultDialogFragment.NAME);
             }
-            else if (requestCode == MRZ_DEFAULT_UI_REQUEST_CODE)
+            else if (requestCode == Constants.MRZ_DEFAULT_UI_REQUEST_CODE)
             {
                 var result = (MRZRecognitionResult)data.GetParcelableExtra(MRZScannerActivity.ExtractedFieldsExtra);
                 var fragment = MRZDialogFragment.CreateInstance(result);
                 fragment.Show(SupportFragmentManager, MRZDialogFragment.NAME);
             }
-            else if (requestCode == MRZ_SNAP_WORKFLOW_REQUEST_CODE)
+            else if (requestCode == Constants.MRZ_SNAP_WORKFLOW_REQUEST_CODE)
             {
                 var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
                 var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
                 var fragment = MRZImageResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, MRZImageResultDialogFragment.NAME);
             }
-            else if (requestCode == MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE)
+            else if (requestCode == Constants.MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE)
             {
                 var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
                 var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
                 var fragment = MRZFrontBackImageResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, MRZFrontBackImageResultDialogFragment.NAME);
             }
-            else if (requestCode == QR_BARCODE_DEFAULT_UI_REQUEST_CODE)
+            else if (requestCode == Constants.QR_BARCODE_DEFAULT_UI_REQUEST_CODE)
             {
                 var code = (BarcodeScanningResult)data.GetParcelableExtra(BarcodeScannerActivity.ScannedBarcodeExtra);
                 var fragment = BarcodeDialogFragment.CreateInstance(code);
                 fragment.Show(SupportFragmentManager, BarcodeDialogFragment.NAME);
             }
-            else if (requestCode == REQUEST_EHIC_SCAN)
+            else if (requestCode == Constants.REQUEST_EHIC_SCAN)
             {
                 var result = (HealthInsuranceCardRecognitionResult)data.GetParcelableExtra(
                     HealthInsuranceCardScannerActivity.ExtractedFieldsExtra);
@@ -361,46 +378,13 @@ namespace ReadyToUseUIDemo.Droid
                 var fragment = HealthInsuranceCardFragment.CreateInstance(result);
                 fragment.Show(SupportFragmentManager, HealthInsuranceCardFragment.NAME);
             }
-            else if (requestCode == PAYFORM_SCAN_WORKFLOW_REQUEST_CODE)
+            else if (requestCode == Constants.PAYFORM_SCAN_WORKFLOW_REQUEST_CODE)
             {
                 var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
                 var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
                 var fragment = PayFormResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, PayFormResultDialogFragment.NAME);
             }
-
-        }
-
-        ViewGroup.LayoutParams GetParameters()
-        {
-            var parameters = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MatchParent,
-                ViewGroup.LayoutParams.WrapContent
-            );
-
-            var margin = (int)(3 * Resources.DisplayMetrics.Density);
-            parameters.SetMargins(0, margin, 0, margin);
-
-            return parameters;
-        }
-
-        Bitmap ProcessGalleryResult(Intent data)
-        {
-            var imageUri = data.Data;
-            Bitmap bitmap = null;
-            if (imageUri != null)
-            {
-                try
-                {
-                    var source = ImageDecoder.CreateSource(ContentResolver, imageUri);
-                    bitmap = ImageDecoder.DecodeBitmap(source);
-                }
-                catch (IOException)
-                {
-                }
-            }
-
-            return bitmap;
         }
     }
 }
