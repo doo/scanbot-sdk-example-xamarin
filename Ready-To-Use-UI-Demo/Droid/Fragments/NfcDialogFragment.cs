@@ -47,23 +47,57 @@ namespace ReadyToUseUIDemo.Droid.Fragments
             }
         }
 
-        public class NfcAlertView : ConstraintLayout
+        public class NfcAlertView : RelativeLayout
         {
+            public ImageView Image { get; private set; }
+
+            public TextView Text { get; private set; }
+
             public NfcAlertView(Context context, NfcPassportScanningResult result) : base(context)
             {
-                var image = new ImageView(context);
-                image.SetImageBitmap(PassportCallback.Photo);
-                AddView(image);
+                Image = new ImageView(context);
+                Image.SetImageBitmap(PassportCallback.Photo);
+                AddView(Image);
 
-                /*
-                 * TODO: Proper styling & display additional data for for popup
-                 */
-                var content = new TextView(context);
-                content.LayoutParameters = new ConstraintLayout.LayoutParams(300, 300);
-                AddView(content);
+                Text = new TextView(context);
+                AddView(Text);
 
-                var text = "Expires: " + result.Dg1Group.CheckDigitExpiryDate + "\n";
-                content.Text = text;
+                var text = "Document: " + result.Dg1Group.DocumentNumber + "\n";
+                text += "Expires: " + result.Dg1Group.DateOfExpiry + "\n";
+                Text.Text = text;
+            }
+
+            protected override void OnLayout(bool changed, int left, int top, int right, int bottom)
+            {
+                base.OnLayout(changed, left, top, right, bottom);
+
+                var parentWidth = right;
+                var parentHeight = bottom;
+                var padding = 20;
+
+                var width = parentWidth / 2;
+                var height = width;
+                var x = parentWidth / 2 - width / 2;
+                var y = padding;
+
+                Image.LayoutParameters = GetParameters(x, y, width, height);
+
+                y += height + padding;
+
+                x = padding;
+                
+                width = parentWidth - 2 * padding;
+                height = LayoutParams.WrapContent;
+
+                Text.LayoutParameters = GetParameters(x, y, width, height);
+            }
+
+            RelativeLayout.LayoutParams GetParameters(int x, int y, int w, int h)
+            {
+                var parameters = new RelativeLayout.LayoutParams(w, h);
+                parameters.LeftMargin = x;
+                parameters.TopMargin = y;
+                return parameters;
             }
         }
     }
