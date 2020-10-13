@@ -330,9 +330,14 @@ namespace ReadyToUseUIDemo.Droid
             }
             else if (requestCode == Constants.IMPORT_BARCODE_REQUEST)
             {
-                var bitmap = Utils.ImageUtils.ProcessGalleryResult(this, data);
-                var detector = new IO.Scanbot.Sdk.ScanbotSDK(this).BarcodeDetector();
-                var result = detector.DetectFromBitmap(bitmap, 0);
+                Task.Run(delegate
+                {
+                    var bitmap = Utils.ImageUtils.ProcessGalleryResult(this, data);
+                    var detector = new IO.Scanbot.Sdk.ScanbotSDK(this).BarcodeDetector();
+                    var result = detector.DetectFromBitmap(bitmap, 0);
+                    var fragment = BarcodeDialogFragment.CreateInstance(result);
+                    fragment.Show(SupportFragmentManager, BarcodeDialogFragment.NAME);
+                });
             }
             else if (requestCode == Constants.QR_BARCODE_DEFAULT_UI_REQUEST_CODE)
             {

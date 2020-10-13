@@ -27,7 +27,7 @@ namespace ReadyToUseUIDemo.Droid.Fragments
 
             var content = view.FindViewById<TextView>(Resource.Id.barcode_result_values);
 
-            if (data.BarcodeItems.Count == 0)
+            if (data == null || data.BarcodeItems.Count == 0)
             {
                 content.Text = "No barcodes found";
                 return view;
