@@ -13,7 +13,7 @@ namespace ReadyToUseUIDemo.model
         {
             new ListItem { Title = "Scan MRZ", Code = ListItemCode.ScannerMRZ },
             new ListItem { Title = "Scan Health Insurance card", Code = ListItemCode.ScannerEHIC },
-            new ListItem { Title = "Scan Barcodes", Code = ListItemCode.ScannerBarcode },
+            new ListItem { Title = "Scan NFC Passport", Code = ListItemCode.ScannerNFC },
 
             new ListItem { Title = "Scan DC Form", Code = ListItemCode.WorkflowDC },
             new ListItem { Title = "Scan MRZ + Image", Code = ListItemCode.WorkflowMRZImage },

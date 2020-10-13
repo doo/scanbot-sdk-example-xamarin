@@ -10,6 +10,8 @@ namespace ReadyToUseUIDemo.Droid.Utils
         public const int IMPORT_BARCODE_REQUEST = 1338;
 
         public const int MRZ_DEFAULT_UI_REQUEST_CODE = 909;
+        public const int NFC_DEFAULT_UI_REQUEST_CODE = 900;
+
         public const int DC_SCAN_WORKFLOW_REQUEST_CODE = 914;
         public const int PAYFORM_SCAN_WORKFLOW_REQUEST_CODE = 916;
         public const int MRZ_SNAP_WORKFLOW_REQUEST_CODE = 912;

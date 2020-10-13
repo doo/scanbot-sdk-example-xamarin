@@ -9,6 +9,7 @@ namespace ReadyToUseUIDemo.model
 
         ScannerMRZ,
         ScannerEHIC,
+        ScannerNFC,
 
         ScannerBarcode,
         ScannerBatchBarcode,

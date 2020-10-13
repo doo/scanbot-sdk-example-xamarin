@@ -86,6 +86,7 @@
     <Compile Include="Utils\Constants.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\ViewUtils.cs" />
+    <Compile Include="Fragments\NfcDialogFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
