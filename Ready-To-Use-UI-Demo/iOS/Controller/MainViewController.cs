@@ -32,7 +32,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
             ContentView.AddContent(DocumentScanner.Instance);
             ContentView.AddContent(DataDetectors.Instance);
-
+            ContentView.AddContent(BarcodeDetectors.Instance);
             CameraCallback = new SimpleScanCallback();
 
             ContentView.LicenseIndicator.Text = Texts.no_license_found_the_app_will_terminate_after_one_minute;
@@ -54,6 +54,11 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 button.Click += OnScannerButtonClick;
             }
 
+            foreach (ScannerButton button in ContentView.BarcodeDetectors.Buttons)
+            {
+                button.Click += OnBarcodeButtonClick;
+            }
+
             foreach (ScannerButton button in ContentView.DataDetectors.Buttons)
             {
                 button.Click += OnDataButtonClick;
@@ -69,6 +74,11 @@ namespace ReadyToUseUIDemo.iOS.Controller
             foreach (ScannerButton button in ContentView.DocumentScanner.Buttons)
             {
                 button.Click -= OnScannerButtonClick;
+            }
+
+            foreach (ScannerButton button in ContentView.BarcodeDetectors.Buttons)
+            {
+                button.Click -= OnBarcodeButtonClick;
             }
 
             foreach (ScannerButton button in ContentView.DataDetectors.Buttons)
@@ -143,6 +153,49 @@ namespace ReadyToUseUIDemo.iOS.Controller
         {
             var controller = new ImageListController();
             NavigationController.PushViewController(controller, true);
+        }
+
+        private void BarcodeImported(object sender, UIImagePickerMediaPickedEventArgs e)
+        {
+            ImagePicker.Instance.Dismiss();
+            ImagePicker.Instance.Controller.FinishedPickingMedia -= ImageImported;
+
+            var image = e.OriginalImage;
+            SBSDKBarcodeScannerResult[] result = new SBSDKBarcodeScanner().DetectBarCodesOnImage(image);
+            var text = "";
+
+            foreach(var item in result)
+            {
+                text += item.Type.ToString() + ": " + item.RawTextString + "\n";
+            }
+            var blur = new SBSDKBlurrinessEstimator().EstimateImageBlurriness(image);
+            Console.WriteLine("Blur of imported image: " + blur);
+            text += "(Additionally, blur: " + blur + ")";
+
+            Alert.Show(this, "Detected Barcodes", text);
+        }
+
+        void OnBarcodeButtonClick(object sender, EventArgs e)
+        {
+            var button = (ScannerButton)sender;
+            if (button.Data.Code == ListItemCode.ScannerBarcode)
+            {
+                var configuration = SBSDKUIMachineCodeScannerConfiguration.DefaultConfiguration;
+                var controller = SBSDKUIBarcodeScannerViewController
+                    .CreateNewWithAcceptedMachineCodeTypes(
+                    SBSDKBarcodeType.AllTypes, configuration, Delegates.Barcode);
+                controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
+                PresentViewController(controller, false, null);
+            }
+            else if (button.Data.Code == ListItemCode.ScannerBatchBarcode)
+            {
+
+            }
+            else if (button.Data.Code == ListItemCode.ScannerImportBarcode)
+            {
+                ImagePicker.Instance.Present(this);
+                ImagePicker.Instance.Controller.FinishedPickingMedia += BarcodeImported;
+            }
         }
 
         SBSDKAspectRatio[] MRZRatios = { new SBSDKAspectRatio(85.0, 54.0) };
@@ -257,15 +310,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 var controller = SBSDKUIHealthInsuranceCardScannerViewController
                     .CreateNewWithConfiguration(configuration, Delegates.EHIC);
 
-                controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
-                PresentViewController(controller, false, null);
-            }
-            else if (button.Data.Code == ListItemCode.ScannerBarcode)
-            {
-                var configuration = SBSDKUIMachineCodeScannerConfiguration.DefaultConfiguration;
-                var controller = SBSDKUIBarcodeScannerViewController
-                    .CreateNewWithAcceptedMachineCodeTypes(
-                    SBSDKBarcodeType.AllTypes, configuration, Delegates.Barcode);
                 controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
                 PresentViewController(controller, false, null);
             }

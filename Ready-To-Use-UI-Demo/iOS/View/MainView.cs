@@ -12,6 +12,8 @@ namespace ReadyToUseUIDemo.iOS.View
         public UILabel LicenseIndicator { get; private set; }
 
         public ButtonContainer DocumentScanner { get; private set; }
+        
+        public ButtonContainer BarcodeDetectors { get; private set; }
 
         public ButtonContainer DataDetectors { get; private set; }
 
@@ -57,6 +59,11 @@ namespace ReadyToUseUIDemo.iOS.View
             DocumentScanner.Frame = new CGRect(x, y, w, h);
 
             y += h + largePadding;
+            h = BarcodeDetectors.Height;
+
+            BarcodeDetectors.Frame = new CGRect(x, y, w, h);
+
+            y += h + largePadding;
             h = DataDetectors.Height;
 
             DataDetectors.Frame = new CGRect(x, y, w, h);
@@ -68,6 +75,12 @@ namespace ReadyToUseUIDemo.iOS.View
         {
             DocumentScanner = new ButtonContainer(instance.Title, instance.Items);
             AddSubview(DocumentScanner);
+        }
+
+        public void AddContent(BarcodeDetectors instance)
+        {
+            BarcodeDetectors = new ButtonContainer(instance.Title, instance.Items);
+            AddSubview(BarcodeDetectors);
         }
 
         public void AddContent(DataDetectors instance)
