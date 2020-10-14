@@ -14,6 +14,8 @@ namespace ReadyToUseUIDemo.iOS.Utils
 
         public static BarcodeHandler Barcode = new BarcodeHandler();
 
+        public static BatchBarcodeHandler BatchBarcode= new BatchBarcodeHandler();
+
         public static bool IsPresented { get; set; }
 
         public static void ShowPopup(UIViewController controller, string text, Action onClose = null)
@@ -80,5 +82,26 @@ namespace ReadyToUseUIDemo.iOS.Utils
                 });
             }
         }
+
+        public class BatchBarcodeHandler : SBSDKUIBarcodesBatchScannerViewControllerDelegate
+        {
+            public override void DidFinish(SBSDKUIBarcodesBatchScannerViewController viewController, SBSDKUIBarcodeMappedResult[] barcodeResults)
+            {
+                string text = "No barcode detected";
+                if (barcodeResults.Length > 0)
+                {
+                    viewController.RecognitionEnabled = false; // stop recognition
+                    var result = barcodeResults[0];
+                    text = $"Found Barcode(s):\n\n";
+
+                    foreach (var code in barcodeResults)
+                    {
+                        text += code.Barcode.Type.Name + ": " + code.Barcode.RawTextString + "\n";
+                    }
+                }
+                ShowPopup(viewController, text);
+            }
+        }
+
     }
 }

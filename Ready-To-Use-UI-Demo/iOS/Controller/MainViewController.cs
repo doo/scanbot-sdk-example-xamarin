@@ -189,7 +189,11 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
             else if (button.Data.Code == ListItemCode.ScannerBatchBarcode)
             {
-
+                var configuration = SBSDKUIBarcodesBatchScannerConfiguration.DefaultConfiguration;
+                var controller = SBSDKUIBarcodesBatchScannerViewController
+                    .CreateNewWithAcceptedMachineCodeTypes(
+                    SBSDKBarcodeType.AllTypes, configuration, Delegates.BatchBarcode
+                    );
             }
             else if (button.Data.Code == ListItemCode.ScannerImportBarcode)
             {
