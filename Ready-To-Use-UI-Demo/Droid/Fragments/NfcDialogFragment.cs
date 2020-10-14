@@ -66,6 +66,7 @@ namespace ReadyToUseUIDemo.Droid.Fragments
                 text += "Expires: " + result.Dg1Group.DateOfExpiry + "\n";
                 /**
                  * TODO: Add whatever you seem necessary to 
+                 * 
                  */
                 Text.Text = text;
             }

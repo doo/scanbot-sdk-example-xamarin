@@ -7,6 +7,8 @@ namespace ReadyToUseUIDemo.model
         ImportImage,
         ViewImages,
 
+        ScannerText,
+
         ScannerMRZ,
         ScannerEHIC,
         ScannerNFC,

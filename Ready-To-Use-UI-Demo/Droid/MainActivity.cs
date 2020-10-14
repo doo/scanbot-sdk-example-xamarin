@@ -42,6 +42,10 @@ using IO.Scanbot.Sdk.UI.View.Barcode.Batch;
 using IO.Scanbot.Sdk.UI.View.Nfc.Configuration;
 using IO.Scanbot.Sdk.UI.View.Nfc;
 using IO.Scanbot.Sdk.UI.View.Nfc.Entity;
+using IO.Scanbot.Sdk.UI.View.Generictext.Configuration;
+using IO.Scanbot.Sdk.UI.View.Generictext;
+using IO.Scanbot.Sdk.UI.Camera;
+using IO.Scanbot.Sdk.UI.View.Generictext.Entity;
 
 namespace ReadyToUseUIDemo.Droid
 {
@@ -223,6 +227,30 @@ namespace ReadyToUseUIDemo.Droid
             }
 
             // Other Data Detectors
+            else if (button.Data.Code == ListItemCode.ScannerText)
+            {
+                var config = new TextDataScannerConfiguration();
+
+                var tag = "tag";
+                var title = "";
+                var guidance = "Move the viewfinder over the text you wish to recognize";
+                var pattern = "#### ######";
+                var shouldMatch = true;
+                var validation = new ValidationCallback();
+                var recognition = new RecognitionCallback();
+                var preferredZoom = 1.4f;
+                var ratio = new FinderAspectRatio(4.0, 1.0);
+                var unzoomedHeight = 40f;
+                var allowedSymbols = new List<Java.Lang.Character>();
+
+                var step = new TextDataScannerStep(tag, title, guidance,
+                    pattern, shouldMatch, validation, recognition,
+                    preferredZoom, ratio, unzoomedHeight, allowedSymbols);
+
+                var intent = TextDataScannerActivity.NewIntent(this, config, step);
+
+                StartActivityForResult(intent, (int)ListItemCode.ScannerText);
+            }
             else if (button.Data.Code == ListItemCode.WorkflowDC)
             {
                 var configuration = new WorkflowScannerConfiguration();
@@ -235,6 +263,7 @@ namespace ReadyToUseUIDemo.Droid
                 );
                 StartActivityForResult(intent, Constants.DC_SCAN_WORKFLOW_REQUEST_CODE);
             }
+
             else if (button.Data.Code == ListItemCode.ScannerMRZ)
             {
                 var configuration = new MRZScannerConfiguration();
@@ -304,7 +333,12 @@ namespace ReadyToUseUIDemo.Droid
                 return;
             }
 
-            if (requestCode == Constants.CAMERA_DEFAULT_UI_REQUEST_CODE)
+            if (requestCode == (int)ListItemCode.ScannerText)
+            {
+                // No need to process result, see TextDataScanner.cs
+                // for the Validation and Recognition callbacks
+            }
+            else if (requestCode == Constants.CAMERA_DEFAULT_UI_REQUEST_CODE)
             {
                 var parcelable = data.GetParcelableArrayExtra(DocumentScannerActivity.SnappedPageExtra);
                 var pages = parcelable.Cast<Page>().ToList();
@@ -348,6 +382,12 @@ namespace ReadyToUseUIDemo.Droid
                     var detector = new IO.Scanbot.Sdk.ScanbotSDK(this).BarcodeDetector();
                     var result = detector.DetectFromBitmap(bitmap, 0);
                     var fragment = BarcodeDialogFragment.CreateInstance(result);
+
+                    // Estimate blur of imported barcode
+                    // Estimating blur on already cropped barcodes should
+                    // normally yield the best results, as there is little empty space
+                    var estimator = new IO.Scanbot.Sdk.ScanbotSDK(this).BlurEstimator();
+                    fragment.Blur = estimator.EstimateInBitmap(bitmap, 0);
                     fragment.Show(SupportFragmentManager, BarcodeDialogFragment.NAME);
                 });
             }

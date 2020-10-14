@@ -11,6 +11,8 @@ namespace ReadyToUseUIDemo.Droid.Fragments
     {
         public const string NAME = "BarcodeDialogFragment";
 
+        public float Blur { get; internal set; } = -1;
+
         public static BarcodeDialogFragment CreateInstance(BarcodeScanningResult data)
         {
             var fragment = new BarcodeDialogFragment();
@@ -39,6 +41,10 @@ namespace ReadyToUseUIDemo.Droid.Fragments
                 resultText += barcode.BarcodeFormat.Name() + ": " + barcode.Text + "\n";
             }
 
+            if (Blur != -1)
+            {
+                resultText += "Estimated blur: " + Blur;
+            }
             CopyText = resultText;
             content.Text = resultText;
 
