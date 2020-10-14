@@ -216,11 +216,20 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
             if (button.Data.Code == ListItemCode.ScannerNFC)
             {
-                SBSDKUINFCPassportReaderViewController
+                var configuration = SBSDKUINFCPassportReaderConfiguration.DefaultConfiguration;
+                var controller = SBSDKUINFCPassportReaderViewController
+                    .CreateNewWithConfiguration(configuration, Delegates.NFC);
+
+                PresentViewController(controller, true, null);
             }
             else if  (button.Data.Code == ListItemCode.ScannerText)
             {
-                SBSDKUITextDataScannerViewController
+                var configuration = SBSDKUITextDataScannerConfiguration.DefaultConfiguration;
+                var step = new SBSDKUITextDataScannerStep();
+                var controller = SBSDKUITextDataScannerViewController
+                    .CreateNewWithConfiguration(configuration, step, Delegates.TextData);
+
+                PresentViewController(controller, true, null);
             }
             else if (button.Data.Code == ListItemCode.ScannerMRZ)
             {
