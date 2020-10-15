@@ -87,7 +87,6 @@ namespace ClassicalComponentsDemo.Droid
             };
         }
 
-        [Obsolete]
         void AssignApplyImageFilterButtonHandler()
         {
             var applyImageFilterButton = FindViewById<Button>(Resource.Id.applyImageFilterButton);
