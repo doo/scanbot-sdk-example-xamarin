@@ -194,6 +194,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
                     .CreateNewWithAcceptedMachineCodeTypes(
                     SBSDKBarcodeType.AllTypes, configuration, Delegates.BatchBarcode
                     );
+                controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
+                PresentViewController(controller, false, null);
             }
             else if (button.Data.Code == ListItemCode.ScannerImportBarcode)
             {
