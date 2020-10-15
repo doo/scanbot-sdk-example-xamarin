@@ -189,11 +189,14 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
             else if (button.Data.Code == ListItemCode.ScannerBatchBarcode)
             {
+                Console.WriteLine("I a m here!");
                 var configuration = SBSDKUIBarcodesBatchScannerConfiguration.DefaultConfiguration;
                 var controller = SBSDKUIBarcodesBatchScannerViewController
                     .CreateNewWithAcceptedMachineCodeTypes(
                     SBSDKBarcodeType.AllTypes, configuration, Delegates.BatchBarcode
                     );
+                controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
+                PresentViewController(controller, false, null);
             }
             else if (button.Data.Code == ListItemCode.ScannerImportBarcode)
             {
