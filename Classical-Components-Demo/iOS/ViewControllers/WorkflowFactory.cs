@@ -41,7 +41,7 @@ namespace ClassicalComponentsDemo.iOS
                 (result) =>
                 {
                     SBSDKMachineReadableZoneRecognizerResult mrz = result.MrzResult;
-                    if (mrz.RecognitionSuccessful)
+                    if (mrz == null || mrz.RecognitionSuccessful)
                     {
                         return WorkflowError.ErrorWithCode(1, new NSString("This does not seem to be the front side."));
                     }
