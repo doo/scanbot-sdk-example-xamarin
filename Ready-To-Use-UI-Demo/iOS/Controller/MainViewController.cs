@@ -214,24 +214,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
             var button = (ScannerButton)sender;
 
-            if (button.Data.Code == ListItemCode.ScannerNFC)
-            {
-                var configuration = SBSDKUINFCPassportReaderConfiguration.DefaultConfiguration;
-                var controller = SBSDKUINFCPassportReaderViewController
-                    .CreateNewWithConfiguration(configuration, Delegates.NFC);
-
-                PresentViewController(controller, true, null);
-            }
-            else if  (button.Data.Code == ListItemCode.ScannerText)
-            {
-                var configuration = SBSDKUITextDataScannerConfiguration.DefaultConfiguration;
-                var step = new SBSDKUITextDataScannerStep();
-                var controller = SBSDKUITextDataScannerViewController
-                    .CreateNewWithConfiguration(configuration, step, Delegates.TextData);
-
-                PresentViewController(controller, true, null);
-            }
-            else if (button.Data.Code == ListItemCode.ScannerMRZ)
+            if (button.Data.Code == ListItemCode.ScannerMRZ)
             {
                 var config = SBSDKUIMachineCodeScannerConfiguration.DefaultConfiguration;
                 config.TextConfiguration.CancelButtonTitle = "Done";

@@ -16,10 +16,6 @@ namespace ReadyToUseUIDemo.iOS.Utils
 
         public static BatchBarcodeHandler BatchBarcode = new BatchBarcodeHandler();
 
-        public static NFCHandler NFC = new NFCHandler();
-
-        public static TextDataHandler TextData = new TextDataHandler();
-
         public static bool IsPresented { get; set; }
 
         public static void ShowPopup(UIViewController controller, string text, Action onClose = null)
@@ -66,7 +62,8 @@ namespace ReadyToUseUIDemo.iOS.Utils
 
         public class BarcodeHandler : SBSDKUIBarcodeScannerViewControllerDelegate
         {
-            public override void DidDetectResults(SBSDKUIBarcodeScannerViewController viewController, SBSDKBarcodeScannerResult[] barcodeResults)
+            public override void DidDetectResults(SBSDKUIBarcodeScannerViewController viewController,
+                SBSDKBarcodeScannerResult[] barcodeResults)
             {
                 string text = "No barcode detected";
                 if (barcodeResults.Length > 0)
@@ -89,7 +86,8 @@ namespace ReadyToUseUIDemo.iOS.Utils
 
         public class BatchBarcodeHandler : SBSDKUIBarcodesBatchScannerViewControllerDelegate
         {
-            public override void DidFinish(SBSDKUIBarcodesBatchScannerViewController viewController, SBSDKUIBarcodeMappedResult[] barcodeResults)
+            public override void DidFinish(SBSDKUIBarcodesBatchScannerViewController viewController,
+                SBSDKUIBarcodeMappedResult[] barcodeResults)
             {
                 string text = "No barcode detected";
                 if (barcodeResults.Length > 0)
@@ -103,22 +101,6 @@ namespace ReadyToUseUIDemo.iOS.Utils
                         text += code.Barcode.Type.Name + ": " + code.Barcode.RawTextString + "\n";
                     }
                 }
-                ShowPopup(viewController, text);
-            }
-        }
-
-        public class NFCHandler : SBSDKUINFCPassportReaderViewControllerDelegate
-        {
-            public override void DidFinish(SBSDKUINFCPassportReaderViewController viewController, SBSDKUINFCPassportReaderResult result)
-            {
-                ShowPopup(viewController, text);
-            }
-        }
-
-        public class TextDataHandler : SBSDKUITextDataScannerViewControllerDelegate
-        {
-            public override void DidFinish(SBSDKUITextDataScannerViewController viewController, SBSDKUITextDataScannerStep step, SBSDKUITextDataScannerStepResult result)
-            {
                 ShowPopup(viewController, text);
             }
         }

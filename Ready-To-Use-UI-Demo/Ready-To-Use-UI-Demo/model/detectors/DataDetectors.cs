@@ -11,11 +11,8 @@ namespace ReadyToUseUIDemo.model
 
         public List<ListItem> Items = new List<ListItem>
         {
-            new ListItem { Title = "Scan Text Data",                Code = ListItemCode.ScannerText          },
-
             new ListItem { Title = "Scan MRZ",                      Code = ListItemCode.ScannerMRZ           },
             new ListItem { Title = "Scan Health Insurance card",    Code = ListItemCode.ScannerEHIC          },
-            new ListItem { Title = "Scan NFC Passport",             Code = ListItemCode.ScannerNFC           },
 
             new ListItem { Title = "Scan DC Form",                  Code = ListItemCode.WorkflowDC           },
             new ListItem { Title = "Scan MRZ + Image",              Code = ListItemCode.WorkflowMRZImage     },
