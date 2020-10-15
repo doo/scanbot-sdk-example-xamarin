@@ -189,7 +189,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
             else if (button.Data.Code == ListItemCode.ScannerBatchBarcode)
             {
-                Console.WriteLine("I a m here!");
                 var configuration = SBSDKUIBarcodesBatchScannerConfiguration.DefaultConfiguration;
                 var controller = SBSDKUIBarcodesBatchScannerViewController
                     .CreateNewWithAcceptedMachineCodeTypes(
