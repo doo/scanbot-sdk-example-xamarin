@@ -14856,6 +14856,9 @@ namespace ClassicalComponentsDemo.Droid
 			// aapt resource value: 0x7F13000F
 			public const int cwac_camera_profile_samsung_yakju = 2131951631;
 			
+			// aapt resource value: 0x7F130010
+			public const int provider_paths = 2131951632;
+			
 			static Xml()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();

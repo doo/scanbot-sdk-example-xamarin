@@ -24,6 +24,8 @@ using IO.Scanbot.Sdk.Barcode.Entity;
 using ClassicalComponentsDemo.Droid.Activities;
 using ClassicalComponentsDemo.Droid.Utils;
 
+using AndroidX.Core.Content;
+
 namespace ClassicalComponentsDemo.Droid
 {
     [Activity(Label = "Scanbot SDK Example Xamarin", MainLauncher = true, Icon = "@mipmap/icon", 
@@ -455,7 +457,13 @@ namespace ClassicalComponentsDemo.Droid
 
             Intent shareIntent = new Intent(Intent.ActionSend);
             shareIntent.SetType(mimeType);
-            shareIntent.PutExtra(Intent.ExtraStream, publicFileUri);
+            shareIntent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);
+            shareIntent.AddFlags(ActivityFlags.GrantReadUriPermission | ActivityFlags.GrantWriteUriPermission);
+
+            var authority = ApplicationContext.PackageName + ".provider";
+            var uri = FileProvider.GetUriForFile(this, authority, new Java.IO.File(publicFileUri.Path));
+            
+            shareIntent.PutExtra(Intent.ExtraStream, uri);
             StartActivity(shareIntent);
         }
 

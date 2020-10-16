@@ -21,5 +21,12 @@
 		<!-- The value must be a relative directory name to the Assets directory of your App. Place OCR blobs files into "<YOUR_PROJECT>/Assets/SBSDKLanguageData/" -->
 		<meta-data android:name="ocr_blobs_path" android:value="SBSDKLanguageData" />
 		<meta-data android:name="language_classifier_blob_path" android:value="SBSDKLanguageData" />
+        <provider android:name="androidx.core.content.FileProvider" 
+                  android:authorities="${applicationId}.provider"
+                  android:exported="false" 
+                  android:grantUriPermissions="true">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" 
+                       android:resource="@xml/provider_paths" />
+        </provider>
 	</application>
 </manifest>
