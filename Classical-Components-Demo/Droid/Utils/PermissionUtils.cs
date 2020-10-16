@@ -13,7 +13,7 @@ namespace ClassicalComponentsDemo.Droid.Utils
 
         public static void Request(Activity context, View layout)
         {
-            var permissions = new string[] { Manifest.Permission.Camera };
+            var permissions = new string[] { Manifest.Permission.Camera, Manifest.Permission.ReadExternalStorage };
             var text = "This app requires camera permission to scan documents";
 
             if (ShowRationale(context, Manifest.Permission.Camera))
