@@ -21,7 +21,7 @@ using IO.Scanbot.Sdk.Core.Contourdetector;
 namespace ClassicalComponentsDemo.Droid
 {
     [Activity(Theme = "@style/Theme.AppCompat")]
-    public class CameraViewDemoActivity : AppCompatActivity, IPictureCallback, ICameraOpenCallback
+    public class CameraViewDemoActivity : AppCompatActivity, ICameraOpenCallback
     {
         static string LOG_TAG = typeof(CameraViewDemoActivity).Name;
 
@@ -42,6 +42,7 @@ namespace ClassicalComponentsDemo.Droid
         protected Button autoSnappingToggleButton;
 
         ContourDetectorDelegate contourDetectorDelegate;
+        PictureCallbackDelegate pictureCallbackDelegate;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -89,7 +90,9 @@ namespace ClassicalComponentsDemo.Droid
             autoSnappingController = DocumentAutoSnappingController.Attach(cameraView, contourDetectorFrameHandler);
             autoSnappingController.SetIgnoreBadAspectRatio(ignoreBadAspectRatio);
 
-            cameraView.AddPictureCallback(this);
+            pictureCallbackDelegate = new PictureCallbackDelegate();
+            pictureCallbackDelegate.OnPictureTakenHandler += ProcessTakenPicture;
+            cameraView.AddPictureCallback(pictureCallbackDelegate);
             cameraView.SetCameraOpenCallback(this);
 
             shutterButton = FindViewById<ShutterButton>(Resource.Id.shutterButton);
@@ -204,13 +207,13 @@ namespace ClassicalComponentsDemo.Droid
             lastUserGuidanceHintTs = Java.Lang.JavaSystem.CurrentTimeMillis();
         }
 
-        public void OnPictureTaken(byte[] image, int imageOrientation)
+        void ProcessTakenPicture(object sender, PictureCallbackEventArgs args)
         {
             // Here we get the full image from the camera and apply document detection on it.
             // Implement a suitable async(!) detection and image handling here.
             // This is just a demo showing detected image as downscaled preview image.
 
-            Log.Debug(LOG_TAG, "OnPictureTaken: imageOrientation = " + imageOrientation);
+            Log.Debug(LOG_TAG, "OnPictureTaken: imageOrientation = " + args.imageOrientation);
 
             // Show progress spinner:
             RunOnUiThread(() =>
@@ -222,13 +225,13 @@ namespace ClassicalComponentsDemo.Droid
             // decode bytes as Bitmap
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.InSampleSize = 1;
-            var originalBitmap = BitmapFactory.DecodeByteArray(image, 0, image.Length, options);
+            var originalBitmap = BitmapFactory.DecodeByteArray(args.image, 0, args.image.Length, options);
 
             // rotate original image if required:
-            if (imageOrientation > 0)
+            if (args.imageOrientation > 0)
             {
                 Matrix matrix = new Matrix();
-                matrix.SetRotate(imageOrientation, originalBitmap.Width / 2f, originalBitmap.Height / 2f);
+                matrix.SetRotate(args.imageOrientation, originalBitmap.Width / 2f, originalBitmap.Height / 2f);
                 originalBitmap = Bitmap.CreateBitmap(originalBitmap, 0, 0, originalBitmap.Width, originalBitmap.Height, matrix, false);
             }
 
@@ -312,6 +315,22 @@ namespace ClassicalComponentsDemo.Droid
                 }
             }
             return false;
+        }
+    }
+
+    class PictureCallbackEventArgs : EventArgs
+    {
+        public byte[] image { get; set; }
+        public int imageOrientation { get; set; }
+    }
+
+    class PictureCallbackDelegate : PictureCallback
+    {
+        public EventHandler<PictureCallbackEventArgs> OnPictureTakenHandler;
+
+        public override void OnPictureTaken(byte[] image, int imageOrientation)
+        {
+            OnPictureTakenHandler?.Invoke(this, new PictureCallbackEventArgs { image = image, imageOrientation = imageOrientation });
         }
     }
 }

@@ -20,7 +20,7 @@ using IO.Scanbot.Sdk.Core.Contourdetector;
 namespace ClassicalComponentsDemo.Droid.Activities
 {
     [Activity(Label = "Business Card Scanner")]
-    public class BusinessCardsActivity : BaseActivity, IPictureCallback, ICameraOpenCallback
+    public class BusinessCardsActivity : BaseActivity, ICameraOpenCallback
     {
         public static List<BusinessCardsImageProcessorBusinessCardProcessingResult> ProcessedResults;
 
@@ -36,13 +36,19 @@ namespace ClassicalComponentsDemo.Droid.Activities
 
         IO.Scanbot.Sdk.ScanbotSDK sdk;
 
+        PictureCallbackDelegate pictureCallbackDelegate;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.BusinessCardsLayout);
 
             cameraView = FindViewById<ScanbotCameraView>(Resource.Id.camera);
-            cameraView.AddPictureCallback(this);
+
+            pictureCallbackDelegate = new PictureCallbackDelegate();
+            pictureCallbackDelegate.OnPictureTakenHandler += ProcessTakenPicture;
+            cameraView.AddPictureCallback(pictureCallbackDelegate);
+
             cameraView.SetCameraOpenCallback(this);
             cameraView.SetAutoFocusSound(false);
 
@@ -100,17 +106,17 @@ namespace ClassicalComponentsDemo.Droid.Activities
             }, 300);
         }
 
-        public void OnPictureTaken(byte[] image, int imageOrientation)
+        void ProcessTakenPicture(object sender, PictureCallbackEventArgs args)
         {
             cameraView.Post(delegate
             {
                 progress.Visibility = ViewStates.Visible;
             });
 
-            var bitmap = BitmapFactory.DecodeByteArray(image, 0, image.Length);
+            var bitmap = BitmapFactory.DecodeByteArray(args.image, 0, args.image.Length);
 
             var matrix = new Matrix();
-            matrix.SetRotate(imageOrientation, bitmap.Width / 2, bitmap.Height / 2);
+            matrix.SetRotate(args.imageOrientation, bitmap.Width / 2, bitmap.Height / 2);
             var result = Bitmap.CreateBitmap(bitmap, 0, 0, bitmap.Width, bitmap.Height, matrix, false);
 
             var detector = sdk.MultipleObjectsDetector();
@@ -158,6 +164,22 @@ namespace ClassicalComponentsDemo.Droid.Activities
         public override bool Handle(FrameHandlerResult result)
         {
             return true;
+        }
+    }
+
+    class PictureCallbackEventArgs : EventArgs
+    {
+        public byte[] image { get; set; }
+        public int imageOrientation { get; set; }
+    }
+
+    class PictureCallbackDelegate : PictureCallback
+    {
+        public EventHandler<PictureCallbackEventArgs> OnPictureTakenHandler;
+
+        public override void OnPictureTaken(byte[] image, int imageOrientation)
+        {
+            OnPictureTakenHandler?.Invoke(this, new PictureCallbackEventArgs { image = image, imageOrientation = imageOrientation });
         }
     }
 }
