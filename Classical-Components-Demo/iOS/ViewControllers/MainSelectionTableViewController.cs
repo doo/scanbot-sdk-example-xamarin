@@ -295,7 +295,7 @@ namespace ClassicalComponentsDemo.iOS
                 var tiffOutputFileUrl = GenerateRandomFileUrlInDemoTempStorage(".tiff");
                 SBSDK.WriteTiff(images, tiffOutputFileUrl, new TiffOptions { OneBitEncoded = true });
                 DebugLog("TIFF file created: " + tiffOutputFileUrl);
-                ShowMessage("TIFF file created", "" + tiffOutputFileUrl);
+                //ShowMessage("TIFF file created", "" + tiffOutputFileUrl);
             });
         }
 
