@@ -74,7 +74,7 @@ namespace ClassicalComponentsDemo.iOS
                     {
                         if (field.ToString().Length > 0)
                         {
-                            texts.Add(field.ToString());
+                            texts.Add(field.Value);
                         }
                     }
                 }
