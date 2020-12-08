@@ -25,8 +25,22 @@ namespace ClassicalComponentsDemo.Droid.Activities
 {
     public class DcWorkflowValidator : WorkflowValidator<DisabilityCertificateWorkflowStepResult>
     {
+        /**
+         * Base functionality of validator is now based on java object, 
+         * as such, manual override of the java constructor is required
+         */
+        protected DcWorkflowValidator(IntPtr a, JniHandleOwnership b) : base(a, b)
+        { }
+
+        /**
+         * Then, also add an empty constructor, 
+         * so the C# object could be constructed without java parameters
+         */
+        public DcWorkflowValidator() {
+
         public WorkflowStepError Invoke(Java.Lang.Object t)
         {
+
             var result = (DisabilityCertificateWorkflowStepResult)t;
             if (result.DisabilityCertificateResult == null || !result.DisabilityCertificateResult.RecognitionSuccessful)
             {
