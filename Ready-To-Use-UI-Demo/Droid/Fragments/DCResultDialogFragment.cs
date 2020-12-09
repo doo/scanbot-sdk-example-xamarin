@@ -76,7 +76,58 @@ namespace ReadyToUseUIDemo.Droid.Fragments
         {
             var builder = new StringBuilder();
             builder.Append("Type: ");
+            builder.Append(result.DcFormType).Append("\n");
 
+            builder.Append("Checkboxes: \n");
+
+            foreach (DisabilityCertificateInfoBox cb in result.Checkboxes)
+            {
+                string name = "Unknown";
+                if (cb.SubType == DCInfoBoxSubtype.DCBoxInitialCertificate)
+                    name = "Initial certificate";
+                else if (cb.SubType == DCInfoBoxSubtype.DCBoxRenewedCertificate)
+                    name = "Renewed certificate";
+                else if (cb.SubType == DCInfoBoxSubtype.DCBoxAssignedToAccidentInsuranceDoctor)
+                    name = "Assigned to accident insurance doctor";
+                else if (cb.SubType == DCInfoBoxSubtype.DCBoxWorkAccident)
+                    name = "Work accident";
+                builder.AppendLine($"{name}: {(cb.HasContents ? "yes" : "no")}");
+            }
+            //builder.Append(result.Checkboxes.).Append("\n");
+
+            foreach (DateRecord date in result.Dates)
+            {
+                string name = "Unknown";
+                if (date.Type == DateRecordType.DateRecordDiagnosedOn)
+                    name = "Diagnosed on";
+                else if (date.Type == DateRecordType.DateRecordIncapableOfWorkSince)
+                    name = "Incapacitated since";
+                else if (date.Type == DateRecordType.DateRecordIncapableOfWorkUntil)
+                    name = "Incapacitated until";
+                builder.AppendLine($"{name}: {date.DateString}");
+            }
+
+            //foreach (DCPatientInfoField patientInfoField in result.PatientInfoFields)
+            //{
+            //    string name = "Unknow";
+            //    if (patientInfoField.PatientInfoFieldType == DCPatientInfoFieldType.HealthInsuranceNumber)
+            //        name = 
+
+            //}
+
+            ////builder.Append("Class: ");
+            ////builder.Append(result.Class).Append("\n");
+
+            ////builder.Append("InsuredPersonType: ");
+            ////builder.Append(result.InsuredPersonType).Append("\n");
+            ////builder.Append("Intention: ");
+            ////builder.Append(result.Intention).Append("\n");
+            ////builder.Append("PatientInfoBox: ");
+            ////builder.Append(result.PatientInfoBox).Append("\n");
+            //builder.Append("PatientInfoFields: ");
+            //builder.Append(result.PatientInfoFields).Append("\n");
+            //builder.Append("");
+            
             var test = result.Checkboxes;
 
             return builder.ToString();
