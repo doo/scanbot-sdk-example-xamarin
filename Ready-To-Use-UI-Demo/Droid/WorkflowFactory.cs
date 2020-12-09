@@ -137,6 +137,9 @@ namespace ReadyToUseUIDemo.Droid
 
     class DisabilityValidator : WorkflowValidator<DisabilityCertificateWorkflowStepResult>
     {
+        protected DisabilityValidator(IntPtr a, JniHandleOwnership b) : base(a, b) { }
+        public DisabilityValidator() { }
+
         public WorkflowStepError Invoke(Java.Lang.Object t)
         {
             var result = (DisabilityCertificateWorkflowStepResult)t;
