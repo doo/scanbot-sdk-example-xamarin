@@ -93,7 +93,6 @@ namespace ReadyToUseUIDemo.Droid.Fragments
                     name = "Work accident";
                 builder.AppendLine($"{name}: {(cb.HasContents ? "yes" : "no")}");
             }
-            //builder.Append(result.Checkboxes.).Append("\n");
 
             foreach (DateRecord date in result.Dates)
             {
@@ -107,30 +106,7 @@ namespace ReadyToUseUIDemo.Droid.Fragments
                 builder.AppendLine($"{name}: {date.DateString}");
             }
 
-            //foreach (DCPatientInfoField patientInfoField in result.PatientInfoFields)
-            //{
-            //    string name = "Unknow";
-            //    if (patientInfoField.PatientInfoFieldType == DCPatientInfoFieldType.HealthInsuranceNumber)
-            //        name = 
-
-            //}
-
-            ////builder.Append("Class: ");
-            ////builder.Append(result.Class).Append("\n");
-
-            ////builder.Append("InsuredPersonType: ");
-            ////builder.Append(result.InsuredPersonType).Append("\n");
-            ////builder.Append("Intention: ");
-            ////builder.Append(result.Intention).Append("\n");
-            ////builder.Append("PatientInfoBox: ");
-            ////builder.Append(result.PatientInfoBox).Append("\n");
-            //builder.Append("PatientInfoFields: ");
-            //builder.Append(result.PatientInfoFields).Append("\n");
-            //builder.Append("");
-            
-            var test = result.Checkboxes;
-
-            return builder.ToString();
+           return builder.ToString();
         }
     }
 }
