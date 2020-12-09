@@ -361,8 +361,10 @@ namespace ReadyToUseUIDemo.Droid
             else if (requestCode == Constants.DC_SCAN_WORKFLOW_REQUEST_CODE)
             {
                 var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
-                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
-                var fragment = DCResultDialogFragment.CreateInstance(workflow, results);
+
+                var list = data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var result = (DisabilityCertificateWorkflowStepResult)list[0];
+                var fragment = DCResultDialogFragment.CreateInstance(workflow, result);
                 fragment.Show(SupportFragmentManager, DCResultDialogFragment.NAME);
             }
             else if (requestCode == Constants.MRZ_DEFAULT_UI_REQUEST_CODE)

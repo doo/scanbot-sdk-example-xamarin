@@ -15,37 +15,29 @@ namespace ReadyToUseUIDemo.Droid.Fragments
     public class DCResultDialogFragment : BaseDialogFragment
     {
         public const string NAME = "DCResultDialogFragment";
-        
-        public static DCResultDialogFragment CreateInstance(Workflow flow, List<WorkflowStepResult> results)
+
+        DisabilityCertificateWorkflowStepResult result = null;
+
+        public static DCResultDialogFragment CreateInstance(Workflow flow, DisabilityCertificateWorkflowStepResult result)
         {
             var fragment = new DCResultDialogFragment();
-
-            var args = new Bundle();
-            args.PutParcelable(WORKFLOW_EXTRA, flow);
-            args.PutParcelableArray(WORKFLOW_RESULT_EXTRA, results.ToArray());
-            fragment.Arguments = args;
-
+            fragment.workflow = flow;
+            fragment.result = result;
             return fragment;
         }
 
         public override View AddContentView(LayoutInflater inflater, ViewGroup container)
         {
-            workflow = (Workflow)Arguments.GetParcelable(WORKFLOW_EXTRA);
-
-            string json = Arguments.GetString(WORKFLOW_RESULT_EXTRA);
-            stepResults = JsonConvert.DeserializeObject<List<WorkflowStepResult>>(json);
-
             var view = inflater.Inflate(Resource.Layout.fragment_workflow_result_dialog, container);
             var title = (TextView)view.FindViewById(Resource.Id.title);
             title.Text = "Detected DC Form";
 
-            if (stepResults.Count == 0)
+            if (result == null)
             {
                 return view;
             }
 
             
-            var result = stepResults[0] as DisabilityCertificateWorkflowStepResult;
             if (result.Step is ScanDisabilityCertificateWorkflowStep)
             {
                 var tv = (TextView)view.FindViewById(Resource.Id.tv_data);
