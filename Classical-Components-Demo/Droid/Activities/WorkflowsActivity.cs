@@ -25,8 +25,22 @@ namespace ClassicalComponentsDemo.Droid.Activities
 {
     public class DcWorkflowValidator : WorkflowValidator<DisabilityCertificateWorkflowStepResult>
     {
+        /**
+         * Base functionality of validator is now based on java object, 
+         * as such, manual override of the java constructor is required
+         */
+        protected DcWorkflowValidator(IntPtr a, JniHandleOwnership b) : base(a, b)
+        { }
+
+        /**
+         * Then, also add an empty constructor, 
+         * so the C# object could be constructed without java parameters
+         */
+        public DcWorkflowValidator() { }
+
         public WorkflowStepError Invoke(Java.Lang.Object t)
         {
+
             var result = (DisabilityCertificateWorkflowStepResult)t;
             if (result.DisabilityCertificateResult == null || !result.DisabilityCertificateResult.RecognitionSuccessful)
             {
@@ -38,6 +52,19 @@ namespace ClassicalComponentsDemo.Droid.Activities
 
     public class IdCardWorkflowValidator : WorkflowValidator<MachineReadableZoneWorkflowStepResult>
     {
+        /**
+         * Base functionality of validator is now based on java object, 
+         * as such, manual override of the java constructor is required
+         */
+        protected IdCardWorkflowValidator(IntPtr a, JniHandleOwnership b) : base(a, b)
+        { }
+
+        /**
+         * Then, also add an empty constructor, 
+         * so the C# object could be constructed without java parameters
+         */
+        public IdCardWorkflowValidator() { }
+
         public WorkflowStepError Invoke(Java.Lang.Object t)
         {
             var result = (MachineReadableZoneWorkflowStepResult)t;
@@ -209,13 +236,19 @@ namespace ClassicalComponentsDemo.Droid.Activities
             };
             FindViewById<Button>(Resource.Id.scanDisabilityCertificateButton).Click += delegate
             {
-                var step = new ScanDisabilityCertificateWorkflowStep("DC", "Align the Disability Certificate in the frame.", dcAspectRatios, true, new DcWorkflowValidator());
+                var step = new ScanDisabilityCertificateWorkflowStep(
+                    "DC", "Align the Disability Certificate in the frame.",
+                    dcAspectRatios, true, new DcWorkflowValidator()
+                );
                 StartWorkflow("Disability Certificate", step);
             };
 
             FindViewById<Button>(Resource.Id.scanQrCodeAndDocumentButton).Click += delegate
             {
-                var qrStep = new ScanBarCodeWorkflowStep("QR Code", "Please align the QR code in the frame", new[] { BarcodeFormat.QrCode }, null, new DefaultWorkflowValidator());
+                var qrStep = new ScanBarCodeWorkflowStep(
+                    "QR Code", "Please align the QR code in the frame",
+                    new[] { BarcodeFormat.QrCode }, null, new DefaultWorkflowValidator()
+                );
                 var documentStep = new ScanDocumentPageWorkflowStep("Document", "Please scan a document", new PageAspectRatio[0], new DefaultWorkflowValidator());
                 StartWorkflow("QR Code and document", qrStep, documentStep);
             };

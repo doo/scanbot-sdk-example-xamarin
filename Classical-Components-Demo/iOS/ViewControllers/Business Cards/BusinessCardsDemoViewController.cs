@@ -39,7 +39,9 @@ namespace ClassicalComponentsDemo.iOS
             _imageProcessor.PerformOCR = true;
             _imageProcessor.PerformAutoRotation = true;
 
-            _scannerController = new SBSDKMultipleObjectScannerViewController(this, null);
+            // "null" for no encryption
+            SBSDKStorageCrypting encrypter = null;
+            _scannerController = new SBSDKMultipleObjectScannerViewController(this, null, encrypter);
 
             // Qualify only square-like objects:
             //_scannerController.AspectRatioRange = new SBSDKAspectRatioRange(

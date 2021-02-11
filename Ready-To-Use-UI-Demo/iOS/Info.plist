@@ -47,7 +47,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Scanbot would like to use the camera to scan documents</string>
 	<key>CFBundleIdentifier</key>
-	<string>io.scanbot.example.sdk.xamarin.rtu</string>
+	<string>io.scanbot.example.sdk.xamarin</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 </dict>
