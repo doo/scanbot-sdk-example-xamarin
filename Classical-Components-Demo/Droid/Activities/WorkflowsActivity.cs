@@ -36,7 +36,7 @@ namespace ClassicalComponentsDemo.Droid.Activities
          * Then, also add an empty constructor, 
          * so the C# object could be constructed without java parameters
          */
-        public DcWorkflowValidator() {
+        public DcWorkflowValidator() { }
 
         public WorkflowStepError Invoke(Java.Lang.Object t)
         {
@@ -236,13 +236,19 @@ namespace ClassicalComponentsDemo.Droid.Activities
             };
             FindViewById<Button>(Resource.Id.scanDisabilityCertificateButton).Click += delegate
             {
-                var step = new ScanDisabilityCertificateWorkflowStep("DC", "Align the Disability Certificate in the frame.", dcAspectRatios, true, new DcWorkflowValidator());
+                var step = new ScanDisabilityCertificateWorkflowStep(
+                    "DC", "Align the Disability Certificate in the frame.",
+                    dcAspectRatios, true, new DcWorkflowValidator()
+                );
                 StartWorkflow("Disability Certificate", step);
             };
 
             FindViewById<Button>(Resource.Id.scanQrCodeAndDocumentButton).Click += delegate
             {
-                var qrStep = new ScanBarCodeWorkflowStep("QR Code", "Please align the QR code in the frame", new[] { BarcodeFormat.QrCode }, null, new DefaultWorkflowValidator());
+                var qrStep = new ScanBarCodeWorkflowStep(
+                    "QR Code", "Please align the QR code in the frame",
+                    new[] { BarcodeFormat.QrCode }, null, new DefaultWorkflowValidator()
+                );
                 var documentStep = new ScanDocumentPageWorkflowStep("Document", "Please scan a document", new PageAspectRatio[0], new DefaultWorkflowValidator());
                 StartWorkflow("QR Code and document", qrStep, documentStep);
             };
