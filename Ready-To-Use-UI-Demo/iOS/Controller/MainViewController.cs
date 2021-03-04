@@ -159,7 +159,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
         private void BarcodeImported(object sender, UIImagePickerMediaPickedEventArgs e)
         {
             ImagePicker.Instance.Dismiss();
-            ImagePicker.Instance.Controller.FinishedPickingMedia -= ImageImported;
+            ImagePicker.Instance.Controller.FinishedPickingMedia -= BarcodeImported;
 
             var text = "No Barcode detected.";
 
@@ -178,6 +178,10 @@ namespace ReadyToUseUIDemo.iOS.Controller
                     Console.WriteLine("Blur of imported image: " + blur);
                     text += "(Additionally, blur: " + blur + ")";
                 }
+            }
+            else
+            {
+                text = "Image format not recognized";
             }
 
             Alert.Show(this, "Detected Barcodes", text);
