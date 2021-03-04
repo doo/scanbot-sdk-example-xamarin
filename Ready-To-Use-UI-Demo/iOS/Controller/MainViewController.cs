@@ -12,6 +12,7 @@ using ReadyToUseUIDemo.model;
 using ScanbotSDK.iOS;
 using ScanbotSDK.Xamarin.iOS;
 using UIKit;
+using MobileCoreServices;
 
 namespace ReadyToUseUIDemo.iOS.Controller
 {
@@ -160,17 +161,24 @@ namespace ReadyToUseUIDemo.iOS.Controller
             ImagePicker.Instance.Dismiss();
             ImagePicker.Instance.Controller.FinishedPickingMedia -= ImageImported;
 
-            var image = e.OriginalImage;
-            SBSDKBarcodeScannerResult[] result = new SBSDKBarcodeScanner().DetectBarCodesOnImage(image);
-            var text = "";
+            var text = "No Barcode detected.";
 
-            foreach(var item in result)
+            if (e.OriginalImage is UIImage image)
             {
-                text += item.Type.ToString() + ": " + item.RawTextString + "\n";
+                SBSDKBarcodeScannerResult[] results = new SBSDKBarcodeScanner().DetectBarCodesOnImage(image);
+                if (results.Length > 0)
+                {
+                    text = "";
+                    foreach (var item in results)
+                    {
+                        text += item.Type.ToString() + ": " + item.RawTextString + "\n";
+                    }
+
+                    var blur = new SBSDKBlurrinessEstimator().EstimateImageBlurriness(image);
+                    Console.WriteLine("Blur of imported image: " + blur);
+                    text += "(Additionally, blur: " + blur + ")";
+                }
             }
-            var blur = new SBSDKBlurrinessEstimator().EstimateImageBlurriness(image);
-            Console.WriteLine("Blur of imported image: " + blur);
-            text += "(Additionally, blur: " + blur + ")";
 
             Alert.Show(this, "Detected Barcodes", text);
         }
@@ -199,8 +207,9 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
             else if (button.Data.Code == ListItemCode.ScannerImportBarcode)
             {
-                ImagePicker.Instance.Present(this);
+                ImagePicker.Instance.Controller.MediaTypes = new string[] { UTType.Image };
                 ImagePicker.Instance.Controller.FinishedPickingMedia += BarcodeImported;
+                ImagePicker.Instance.Present(this);
             }
         }
 
