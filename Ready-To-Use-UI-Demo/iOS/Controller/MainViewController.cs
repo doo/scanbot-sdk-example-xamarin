@@ -211,7 +211,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
             else if (button.Data.Code == ListItemCode.ScannerImportBarcode)
             {
-                ImagePicker.Instance.Controller.MediaTypes = new string[] { UTType.Image };
                 ImagePicker.Instance.Controller.FinishedPickingMedia += BarcodeImported;
                 ImagePicker.Instance.Present(this);
             }
