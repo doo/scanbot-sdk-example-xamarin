@@ -50,5 +50,7 @@
 	<string>io.scanbot.example.sdk.xamarin</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
+	<key>CFBundleDisplayName</key>
+	<string>Ready-To-Use-UI-Demo</string>
 </dict>
 </plist>
