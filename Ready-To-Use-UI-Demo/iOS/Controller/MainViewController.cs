@@ -166,7 +166,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             if (e.OriginalImage is UIImage image)
             {
                 SBSDKBarcodeScannerResult[] results = new SBSDKBarcodeScanner().DetectBarCodesOnImage(image);
-                if (results.Length > 0)
+                if (results != null && results.Length > 0)
                 {
                     text = "";
                     foreach (var item in results)
@@ -211,7 +211,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
             else if (button.Data.Code == ListItemCode.ScannerImportBarcode)
             {
-                ImagePicker.Instance.Controller.MediaTypes = new string[] { UTType.Image };
                 ImagePicker.Instance.Controller.FinishedPickingMedia += BarcodeImported;
                 ImagePicker.Instance.Present(this);
             }
