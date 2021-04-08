@@ -47,6 +47,8 @@ namespace ClassicalComponentsDemo.Droid
                 }
             });
 
+            ImageLoader.Instance = new ImageLoader(this);
+
             // In this example we always cleanup the demo temp storage directory on app start.
             TempImageStorage.CleanUp();
         }

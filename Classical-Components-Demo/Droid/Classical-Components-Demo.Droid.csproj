@@ -62,6 +62,7 @@
     <Compile Include="Activities\BusinessCardPreviewActivity.cs" />
     <Compile Include="Activities\BaseActivity.cs" />
     <Compile Include="Utils\PermissionUtils.cs" />
+    <Compile Include="Service\ImageLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -131,6 +132,7 @@
     <Folder Include="Resources\drawable-mdpi\" />
     <Folder Include="Assets\SBSDKLanguageData\" />
     <Folder Include="Resources\xml\" />
+    <Folder Include="Service\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\SBSDKLanguageData\deu.traineddata" />
