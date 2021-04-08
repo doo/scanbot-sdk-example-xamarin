@@ -20,8 +20,9 @@ namespace ReadyToUseUIDemo.iOS.View
 
             title = new UILabel();
             title.Text = data.Title;
-            title.Font = UIFont.FromName("HelveticaNeue", 13f);
-            title.TextColor = Colors.AppleBlue;
+            title.Font = UIFont.FromName("HelveticaNeue", 15f);
+            title.TextColor = Colors.DarkGray;
+            
             AddSubview(title);
         }
 
@@ -30,7 +31,7 @@ namespace ReadyToUseUIDemo.iOS.View
         {
             base.LayoutSubviews();
 
-            nfloat padding = 5;
+            nfloat padding = 0;
             title.Frame = new CGRect(padding, 0, Frame.Width - 2 * padding, Frame.Height);
         }
 
