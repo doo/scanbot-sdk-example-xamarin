@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -422,13 +423,16 @@ namespace ReadyToUseUIDemo.Droid.Activities
 
             (holder as PageViewHolder).image.SetImageResource(0);
 
+            var options = new BitmapFactory.Options();
             if (File.Exists(path.Path))
             {
-                (holder as PageViewHolder).image.SetImageURI(path);
+                var bitmap = ImageLoader.Instance.Load(path);
+                (holder as PageViewHolder).image.SetImageBitmap(bitmap);
             }
             else
             {
-                (holder as PageViewHolder).image.SetImageURI(original);
+                var bitmap = ImageLoader.Instance.Load(original);
+                (holder as PageViewHolder).image.SetImageBitmap(bitmap);
             }
         }
 

@@ -3,6 +3,7 @@ using System.IO;
 using Foundation;
 using ReadyToUseUIDemo.iOS.Controller;
 using ReadyToUseUIDemo.model;
+using ScanbotSDK.Xamarin;
 using ScanbotSDK.Xamarin.iOS;
 using UIKit;
 
@@ -30,12 +31,17 @@ namespace ReadyToUseUIDemo.iOS
             Console.WriteLine("Scanbot SDK Example: Initializing Scanbot SDK...");
 
             // Initialization with a custom, public(!) "StorageBaseDirectory" for demo purposes - see comments below!
-            var configuration = new SBSDKConfiguration { EnableLogging = true, StorageBaseDirectory = GetDemoStorageBaseDirectory() };
+            var configuration = new SBSDKConfiguration
+            {
+                EnableLogging = true,
+                StorageBaseDirectory = GetDemoStorageBaseDirectory(),
+                Encryption = new SBSDKEncryption
+                {
+                    Mode = EncryptionMode.AES256,
+                    Password = "S0m3W3irDL0ngPa$$w0rdino!!!!"
+                }
+            };
             SBSDK.Initialize(application, LICENSE_KEY, configuration);
-
-            // Alternative initialization with the default "StorageBaseDirectory" which will be internal and secure (recommended).
-            //SBSDK.Initialize(application, LICENSE_KEY, new SBSDKConfiguration { EnableLogging = true });
-
 
             UIViewController initial = new MainViewController();
             Controller = new UINavigationController(initial);
@@ -73,7 +79,9 @@ namespace ReadyToUseUIDemo.iOS
             // - https://docs.microsoft.com/en-us/dotnet/api/system.environment.specialfolder
 
             var customDocumentsFolder = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "scanbot-sdk-example-xamarin-rtu_demo-storage");
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "scanbot-sdk-example-xamarin-rtu_demo-storage"
+            );
             Directory.CreateDirectory(customDocumentsFolder);
             return customDocumentsFolder;
         }

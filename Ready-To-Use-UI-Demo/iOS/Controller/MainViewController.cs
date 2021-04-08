@@ -121,7 +121,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 config.UiConfiguration.BottomBarBackgroundColor = UIColor.Blue;
                 config.UiConfiguration.BottomBarButtonsColor = UIColor.White;
                 // see further customization configs...
-
+                
                 var controller = SBSDKUIDocumentScannerViewController
                     .CreateNewWithConfiguration(config, CameraCallback);
                 controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;

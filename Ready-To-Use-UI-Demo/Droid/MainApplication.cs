@@ -3,6 +3,7 @@ using System.IO;
 using Android.App;
 using Android.Runtime;
 using Android.Util;
+using ScanbotSDK.Xamarin;
 using ScanbotSDK.Xamarin.Android;
 
 namespace ReadyToUseUIDemo.Droid
@@ -33,7 +34,18 @@ namespace ReadyToUseUIDemo.Droid
             Log.Debug(LOG_TAG, "Initializing Scanbot SDK...");
 
             // Initialization with a custom, public(!) "StorageBaseDirectory" for demo purposes - see comments below!
-            SBSDK.Initialize(this, LICENSE_KEY, new SBSDKConfiguration { EnableLogging = true, StorageBaseDirectory = GetDemoStorageBaseDirectory() });
+            SBSDK.Initialize(this, LICENSE_KEY, new SBSDKConfiguration
+            {
+                EnableLogging = true,
+                StorageBaseDirectory = GetDemoStorageBaseDirectory(),
+                Encryption = new SBSDKEncryption
+                {
+                    Mode = EncryptionMode.AES256,
+                    Password = "S0m3W3irDL0ngPa$$w0rdino!!!!"
+                }
+            });
+
+            ImageLoader.Instance = new ImageLoader(this);
 
             // Alternative initialization with the default "StorageBaseDirectory" which will be internal and secure (recommended).
             //SBSDK.Initialize(this, LICENSE_KEY, new SBSDKConfiguration { EnableLogging = true });
