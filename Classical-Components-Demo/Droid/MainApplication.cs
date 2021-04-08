@@ -3,7 +3,7 @@ using System.IO;
 using Android.App;
 using Android.Runtime;
 using Android.Util;
-
+using ScanbotSDK.Xamarin;
 using ScanbotSDK.Xamarin.Android;
 
 namespace ClassicalComponentsDemo.Droid
@@ -37,7 +37,15 @@ namespace ClassicalComponentsDemo.Droid
             TempImageStorage = new TempImageStorage(GetExampleTempStorageDir());
 
             Log.Debug(LOG_TAG, "Initializing Scanbot SDK...");
-            SBSDK.Initialize(this, LICENSE_KEY, new SBSDKConfiguration { EnableLogging = true });
+            SBSDK.Initialize(this, LICENSE_KEY, new SBSDKConfiguration
+            {
+                EnableLogging = true,
+                Encryption = new SBSDKEncryption
+                {
+                    Mode = EncryptionMode.AES256,
+                    Password = "S0m3W3irDL0ngPa$$w0rdino!!!!"
+                }
+            });
 
             // In this example we always cleanup the demo temp storage directory on app start.
             TempImageStorage.CleanUp();

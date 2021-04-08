@@ -3,6 +3,7 @@ using Foundation;
 using UIKit;
 
 using ScanbotSDK.Xamarin.iOS;
+using ScanbotSDK.Xamarin;
 
 namespace ClassicalComponentsDemo.iOS
 {
@@ -27,7 +28,15 @@ namespace ClassicalComponentsDemo.iOS
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             Console.WriteLine("Scanbot SDK Example: Initializing Scanbot SDK...");
-            SBSDK.Initialize(application, LICENSE_KEY, new SBSDKConfiguration { EnableLogging = true });
+            SBSDK.Initialize(application, LICENSE_KEY, new SBSDKConfiguration
+            {
+                EnableLogging = true,
+                Encryption = new SBSDKEncryption
+                {
+                    Mode = EncryptionMode.AES256,
+                    Password = "S0m3W3irDL0ngPa$$w0rdino!!!!"
+                }
+            });
 
             // In this example we always cleanup the demo temp storage directory on app start.
             TempImageStorage.CleanUp();
