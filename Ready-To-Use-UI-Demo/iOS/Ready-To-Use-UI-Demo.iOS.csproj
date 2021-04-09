@@ -33,7 +33,7 @@
     <OutputPath>bin\iPhone\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>Apple Development: Aare Undo (Y4WP83KB9J)</CodesignKey>
     <MtouchUseLlvm>true</MtouchUseLlvm>
     <MtouchFloat32>true</MtouchFloat32>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
@@ -47,7 +47,7 @@
     <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>Apple Development: Aare Undo (Y4WP83KB9J)</CodesignKey>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
@@ -61,7 +61,7 @@
     <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>Apple Development: Aare Undo (Y4WP83KB9J)</CodesignKey>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <MtouchDebug>true</MtouchDebug>
     <MtouchFastDev>true</MtouchFastDev>
@@ -77,13 +77,13 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="ScanbotSDK.iOS">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.3.2.1\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.3.3.0\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.3.2.1\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.3.3.0\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin.iOS">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.3.2.1\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.3.3.0\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

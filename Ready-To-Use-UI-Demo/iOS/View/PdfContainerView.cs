@@ -5,6 +5,7 @@ using PdfKit;
 using Foundation;
 using CoreGraphics;
 using ReadyToUseUIDemo.model;
+using ScanbotSDK.Xamarin.iOS;
 
 namespace ReadyToUseUIDemo.iOS.View
 {
@@ -28,7 +29,16 @@ namespace ReadyToUseUIDemo.iOS.View
             content = new PdfView();
             content.DisplayMode = PdfDisplayMode.SinglePageContinuous;
             content.AutoScales = true;
-            content.Document = new PdfDocument(uri);
+
+            var data = NSData.FromFile(uri.Path);
+            // If data is encrypted, SBSDK.Encrypter will be evaluated.
+            // In that case, use it to decrypt the data
+            if (SBSDK.Encrypter != null)
+            {
+                data = SBSDK.Encrypter.DecryptData(data);
+            }
+            content.Document = new PdfDocument(data);
+            
             AddSubview(content);
 
             if (ocr)

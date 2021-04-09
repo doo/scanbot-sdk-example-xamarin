@@ -3,6 +3,8 @@ using Foundation;
 using UIKit;
 
 using ScanbotSDK.Xamarin.iOS;
+using ScanbotSDK.Xamarin;
+using ScanbotSDK.iOS;
 
 namespace ClassicalComponentsDemo.iOS
 {
@@ -12,7 +14,8 @@ namespace ClassicalComponentsDemo.iOS
     public class AppDelegate : UIApplicationDelegate
     {
         // Use a custom temp storage directory for demo purposes.
-        public static readonly TempImageStorage TempImageStorage = new TempImageStorage(GetExampleTempStorageDir());
+        public static string Directory { get; private set; }
+        public static SBSDKIndexedImageStorage TempImageStorage { get; private set; }
 
         // TODO Add the Scanbot SDK license key here.
         // Please note: The Scanbot SDK will run without a license key for one minute per session!
@@ -26,11 +29,21 @@ namespace ClassicalComponentsDemo.iOS
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
+            
             Console.WriteLine("Scanbot SDK Example: Initializing Scanbot SDK...");
-            SBSDK.Initialize(application, LICENSE_KEY, new SBSDKConfiguration { EnableLogging = true });
+            SBSDK.Initialize(application, LICENSE_KEY, new SBSDKConfiguration
+            {
+                EnableLogging = true,
+                Encryption = new SBSDKEncryption
+                {
+                    Mode = EncryptionMode.AES256,
+                    Password = "S0m3W3irDL0ngPa$$w0rdino!!!!"
+                }
+            });
 
-            // In this example we always cleanup the demo temp storage directory on app start.
-            TempImageStorage.CleanUp();
+            Directory = GetExampleTempStorageDir();
+            var location = new SBSDKStorageLocation(NSUrl.FromFilename(Directory));
+            TempImageStorage = new SBSDKIndexedImageStorage(location, SBSDKImageFileFormat.Jpeg, SBSDK.Encrypter);
 
             return true;
         }
@@ -44,7 +57,7 @@ namespace ClassicalComponentsDemo.iOS
             // - https://docs.microsoft.com/en-us/dotnet/api/system.environment.specialfolder
 
             var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var exampleTempStorage = System.IO.Path.Combine(documents, "scanbot-sdk-example-xamarin_demo-storage");
+            var exampleTempStorage = System.IO.Path.Combine(documents, "sbsdk-xamarin-cc-storage");
             System.IO.Directory.CreateDirectory(exampleTempStorage);
             return exampleTempStorage;
         }

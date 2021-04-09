@@ -3,7 +3,7 @@ using System.IO;
 using Android.App;
 using Android.Runtime;
 using Android.Util;
-
+using ScanbotSDK.Xamarin;
 using ScanbotSDK.Xamarin.Android;
 
 namespace ClassicalComponentsDemo.Droid
@@ -37,7 +37,17 @@ namespace ClassicalComponentsDemo.Droid
             TempImageStorage = new TempImageStorage(GetExampleTempStorageDir());
 
             Log.Debug(LOG_TAG, "Initializing Scanbot SDK...");
-            SBSDK.Initialize(this, LICENSE_KEY, new SBSDKConfiguration { EnableLogging = true });
+            SBSDK.Initialize(this, LICENSE_KEY, new SBSDKConfiguration
+            {
+                EnableLogging = true,
+                Encryption = new SBSDKEncryption
+                {
+                    Mode = EncryptionMode.AES256,
+                    Password = "S0m3W3irDL0ngPa$$w0rdino!!!!"
+                }
+            });
+
+            ImageLoader.Instance = new ImageLoader(this);
 
             // In this example we always cleanup the demo temp storage directory on app start.
             TempImageStorage.CleanUp();
@@ -51,14 +61,15 @@ namespace ClassicalComponentsDemo.Droid
             // in a sub-folder of this storage directory and will be accessible for every(!) app having external storage permissions!
             // We use the "ExternalStorageDirectory" here only for demo purposes, to be able to share generated PDF and TIFF files.
             // (also see the example code for PDF and TIFF creation).
-            // If you need a secure storage for all images and export files (which is strongly recommended) use a suitable internal(!) storage directory.
+            // If you need a secure storage for all images and export files (which is strongly recommended),
+            // use a suitable internal(!) storage directory.
             //
             // For more detais about the Android file system see:
             // - https://developer.android.com/guide/topics/data/data-storage
             // - https://docs.microsoft.com/en-us/xamarin/android/platform/files/
 
             var external = GetExternalFilesDir(null).AbsolutePath;
-            var path = Path.Combine(external, "scanbot-sdk-example-xamarin_demo-storage");
+            var path = Path.Combine(external, "sbsdk-xamarin-cc-demo");
             Directory.CreateDirectory(path);
 
             return path;

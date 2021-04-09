@@ -43,7 +43,7 @@ namespace ReadyToUseUIDemo.iOS.View
             }
 
             titleHeight = 20;
-            buttonHeight = 40;
+            buttonHeight = 30;
         }
 
         public override void LayoutSubviews()

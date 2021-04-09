@@ -243,8 +243,8 @@ namespace ReadyToUseUIDemo.Droid.Activities
             RunOnUiThread(delegate
             {
                 var image = FindViewById<ImageView>(Resource.Id.image);
-                image.SetImageResource(0);
-                image.SetImageURI(uri);
+                image.SetImageBitmap(null);
+                image.SetImageBitmap(ImageLoader.Instance.Load(uri));
                 progress.Visibility = ViewStates.Gone;
             });
         }

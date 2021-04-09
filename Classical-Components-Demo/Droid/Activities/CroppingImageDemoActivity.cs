@@ -107,7 +107,7 @@ namespace ClassicalComponentsDemo.Droid
                 {
                     var polygon = DEFAULT_POLYGON;
 
-                    originalBitmap = ImageUtils.LoadImage(imageUri, this);
+                    originalBitmap = ImageLoader.Instance.Load(imageUri);
                     Bitmap resizedBitmap = ImageUtils.ResizeImage(originalBitmap, 1000, 1000);
 
                     RunOnUiThread(() =>

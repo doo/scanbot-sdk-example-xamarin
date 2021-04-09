@@ -22,7 +22,8 @@ namespace ClassicalComponentsDemo.iOS
             {
                 if (parentController != null)
                 {
-                    parentController.documentImageUrl = AppDelegate.TempImageStorage.AddImage(documentImage);
+                    parentController.documentImage = documentImage;
+                    AppDelegate.TempImageStorage.AddImage(documentImage);
                     parentController.ShowImageView(documentImage);
                 }
             }
@@ -31,7 +32,8 @@ namespace ClassicalComponentsDemo.iOS
             {
                 if (parentController != null)
                 {
-                    parentController.originalImageUrl = AppDelegate.TempImageStorage.AddImage(originalImage);
+                    AppDelegate.TempImageStorage.AddImage(originalImage);
+                    parentController.originalImage = originalImage;
                 }
             }
         }
@@ -45,7 +47,8 @@ namespace ClassicalComponentsDemo.iOS
                 // Obtain cropped image from cropping view controller
                 if (parentController != null)
                 {
-                    parentController.documentImageUrl = AppDelegate.TempImageStorage.AddImage(croppedImage);
+                    AppDelegate.TempImageStorage.AddImage(croppedImage);
+                    parentController.documentImage = croppedImage;
                     parentController.ShowImageView(croppedImage);
                 }
             }
@@ -56,8 +59,7 @@ namespace ClassicalComponentsDemo.iOS
 
         UIImagePickerController imagePicker;
 
-        NSUrl documentImageUrl, originalImageUrl;
-
+        UIImage documentImage, originalImage;
 
         public MainSelectionTableViewController(IntPtr handle) : base(handle) { }
 
@@ -89,11 +91,10 @@ namespace ClassicalComponentsDemo.iOS
 
         protected void ApplyFilterOnDocumentImage(ImageFilter filter)
         {
-            DebugLog("Applying image filter on " + documentImageUrl);
             Task.Run(() =>
             {
                 // The SDK call is sync!
-                var resultImage = SBSDK.ApplyImageFilter(documentImageUrl, filter);
+                var resultImage = SBSDK.ApplyImageFilter(documentImage, filter);
                 DebugLog("Image filter result: " + resultImage);
                 ShowImageView(resultImage);
             });
@@ -106,8 +107,10 @@ namespace ClassicalComponentsDemo.iOS
 
             Task.Run(() =>
             {
+                
                 DebugLog("Performing OCR ...");
-                var images = new NSUrl[] { documentImageUrl };
+                
+                var images = AppDelegate.TempImageStorage.ImageURLs;
                 var result = SBSDK.PerformOCR(images, new[] { "en", "de" });
                 DebugLog("OCR result: " + result.RecognizedText);
                 ShowMessage("OCR Text", result.RecognizedText);
@@ -138,7 +141,7 @@ namespace ClassicalComponentsDemo.iOS
             if (!CheckScanbotSDKLicense()) { return; }
             if (!CheckOriginalImageUrl()) { return; }
 
-            var image = ImageUtils.LoadImage(originalImageUrl);
+            var image = originalImage;
             var cropViewController = new CroppingDemoNavigationController(image);
             cropViewController.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
             cropViewController.NavigationBar.BarStyle = UIBarStyle.Black;
@@ -160,7 +163,7 @@ namespace ClassicalComponentsDemo.iOS
 
         bool CheckDocumentImageUrl()
         {
-            if (documentImageUrl == null)
+            if (documentImage == null)
             {
                 ShowErrorMessage("Please snap a document image via Scanning UI or run Document Detection on an image file from the PhotoLibrary");
                 return false;
@@ -170,7 +173,7 @@ namespace ClassicalComponentsDemo.iOS
 
         bool CheckOriginalImageUrl()
         {
-            if (originalImageUrl == null)
+            if (originalImage == null)
             {
                 ShowErrorMessage("Please snap a document image via Scanning UI or run Document Detection on an image file from the PhotoLibrary");
                 return false;
@@ -180,7 +183,7 @@ namespace ClassicalComponentsDemo.iOS
 
         bool CheckSelectedImages()
         {
-            if (AppDelegate.TempImageStorage.Count() == 0)
+            if (AppDelegate.TempImageStorage.ImageCount == 0)
             {
                 ShowErrorMessage("Please select at least one image from Gallery or via Camera UI");
                 return false;
@@ -243,8 +246,10 @@ namespace ClassicalComponentsDemo.iOS
                 if (originalImage != null)
                 {
                     DebugLog("Got the original image from gallery");
-                    originalImageUrl = AppDelegate.TempImageStorage.AddImage(originalImage);
-                    RunDocumentDetection(originalImageUrl);
+                    AppDelegate.TempImageStorage.AddImage(originalImage);
+                    this.originalImage = originalImage;
+                    ShowImageView(originalImage);
+                    RunDocumentDetection(originalImage);
                 }
             }
 
@@ -252,18 +257,18 @@ namespace ClassicalComponentsDemo.iOS
             imagePicker.DismissModalViewController(true);
         }
 
-        void RunDocumentDetection(NSUrl imgurl)
+        void RunDocumentDetection(UIImage image)
         {
-            DebugLog("Performing document detection on image " + imgurl);
             Task.Run(() =>
             {
                 // The SDK call is sync!
-                var detectionResult = SBSDK.DetectDocument(imgurl);
+                var detectionResult = SBSDK.DetectDocument(image);
                 if (detectionResult.Status.IsOk())
                 {
                     var imageResult = detectionResult.Image as UIImage;
                     DebugLog("Detection result image: " + imageResult);
-                    documentImageUrl = AppDelegate.TempImageStorage.AddImage(imageResult);
+                    AppDelegate.TempImageStorage.AddImage(imageResult);
+                    documentImage = imageResult;
 
                     ShowImageView(imageResult);
 
@@ -291,7 +296,7 @@ namespace ClassicalComponentsDemo.iOS
             Task.Run(() =>
             {
                 DebugLog("Creating TIFF file ...");
-                var images = new NSUrl[] { documentImageUrl }; // add more images for multipage TIFF
+                var images = AppDelegate.TempImageStorage.ImageURLs;
                 var tiffOutputFileUrl = GenerateRandomFileUrlInDemoTempStorage(".tiff");
                 SBSDK.WriteTiff(images, tiffOutputFileUrl, new TiffOptions { OneBitEncoded = true });
                 DebugLog("TIFF file created: " + tiffOutputFileUrl);
@@ -307,7 +312,7 @@ namespace ClassicalComponentsDemo.iOS
             Task.Run(() =>
             {
                 DebugLog("Creating PDF file ...");
-                var images = new NSUrl[] { documentImageUrl }; // add more images for multipage PDF
+                var images = AppDelegate.TempImageStorage.ImageURLs;
                 var pdfOutputFileUrl = GenerateRandomFileUrlInDemoTempStorage(".pdf");
                 SBSDK.CreatePDF(images, pdfOutputFileUrl, PDFPageSize.FixedA4);
                 DebugLog("PDF file created: " + pdfOutputFileUrl);
@@ -405,7 +410,7 @@ namespace ClassicalComponentsDemo.iOS
         NSUrl GenerateRandomFileUrlInDemoTempStorage(string fileExtension)
         {
             var targetFile = System.IO.Path.Combine(
-                AppDelegate.TempImageStorage.TempDir, new NSUuid().AsString().ToLower() + fileExtension);
+                AppDelegate.Directory, new NSUuid().AsString().ToLower() + fileExtension);
             return NSUrl.FromFilename(targetFile);
         }
     }

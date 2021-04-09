@@ -105,7 +105,7 @@ namespace ClassicalComponentsDemo.Droid
 
         void ApplyImageFilter(ImageFilter filter)
         {
-            DebugLog("Applying image filter "+filter+" on image: " + documentImageUri);
+            DebugLog("Applying image filter " + filter + " on image: " + documentImageUri);
             try
             {
                 Task.Run(() =>
@@ -316,14 +316,14 @@ namespace ClassicalComponentsDemo.Droid
             {
                 documentImageUri = AndroidNetUri.Parse(data.GetStringExtra(CameraViewDemoActivity.EXTRAS_ARG_DOC_IMAGE_FILE_URI));
                 originalImageUri = AndroidNetUri.Parse(data.GetStringExtra(CameraViewDemoActivity.EXTRAS_ARG_ORIGINAL_IMAGE_FILE_URI));
-                ShowImageView(ImageUtils.LoadImage(documentImageUri, this));
+                ShowImageView(ImageLoader.Instance.Load(documentImageUri));
                 return;
             }
 
             if (requestCode == REQUEST_SB_CROPPING_UI && resultCode == Result.Ok)
             {
                 documentImageUri = AndroidNetUri.Parse(data.GetStringExtra(CroppingImageDemoActivity.EXTRAS_ARG_IMAGE_FILE_URI));
-                ShowImageView(ImageUtils.LoadImage(documentImageUri, this));
+                ShowImageView(ImageLoader.Instance.Load(documentImageUri));
                 return;
             }
 
@@ -383,7 +383,8 @@ namespace ClassicalComponentsDemo.Droid
                 try
                 {
                     // The SDK call is sync!
-                    var detectionResult = SBSDK.DetectDocument(imageUri, this);
+                    var image = ImageLoader.Instance.LoadFromMedia(imageUri);
+                    var detectionResult = SBSDK.DetectDocument(image);
                     DebugLog("Document detection result: " + detectionResult.Status);
                     if (detectionResult.Status.IsOk())
                     {
