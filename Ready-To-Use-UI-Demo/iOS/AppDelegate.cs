@@ -80,7 +80,7 @@ namespace ReadyToUseUIDemo.iOS
 
             var customDocumentsFolder = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                "scanbot-sdk-example-xamarin-rtu_demo-storage"
+                "sbsdk-rtu-storage"
             );
             Directory.CreateDirectory(customDocumentsFolder);
             return customDocumentsFolder;
