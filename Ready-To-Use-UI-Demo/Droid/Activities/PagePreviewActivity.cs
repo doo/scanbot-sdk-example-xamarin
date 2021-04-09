@@ -112,6 +112,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
             delete.Click += delegate
             {
                 PageRepository.Clear();
+                adapter.Items.Clear();
                 adapter.NotifyDataSetChanged();
                 delete.Enabled = false;
                 filter.Enabled = false;
