@@ -106,7 +106,7 @@ namespace ClassicalComponentsDemo.Droid.Activities
             var imgUri = File.Exists(docImgUri.Path) ? docImgUri : originalImgUri;
             imgView.Post(() =>
             {
-                imgView.SetImageBitmap(ImageUtils.LoadImage(imgUri, this));
+                imgView.SetImageBitmap(ImageLoader.Instance.Load(imgUri));
             });
         }
 

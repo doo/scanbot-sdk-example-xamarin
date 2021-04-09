@@ -7,26 +7,12 @@ using Android.Net;
 using IO.Scanbot.Sdk.Util.Bitmap;
 using IO.Scanbot.Sdk.Util;
 using Android.Provider;
+using Android.Content;
 
 namespace ClassicalComponentsDemo.Droid
 {
     public class ImageUtils
     {
-        public static Bitmap LoadImage(string imagePath)
-        {
-            Bitmap bitmap = BitmapUtils.DecodeQuietly(imagePath, null);
-            if (bitmap == null)
-            {
-                throw new IOException("Could not load image. Bitmap is null.");
-            }
-            return bitmap;
-        }
-
-        public static Bitmap LoadImage(Uri imageUri, Activity activity)
-        {
-            return MediaStore.Images.Media.GetBitmap(activity.ContentResolver, imageUri);
-        }
-
         public static string[] GetSelectedImagesAsFilePaths(List<Uri> selectedImages, Activity activity)
         {
             var result = new List<string>();
@@ -75,5 +61,6 @@ namespace ClassicalComponentsDemo.Droid
                 return ms.ToArray();
             }
         }
+
     }
 }
