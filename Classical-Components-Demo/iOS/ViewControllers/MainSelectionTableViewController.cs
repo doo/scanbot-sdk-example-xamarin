@@ -244,7 +244,8 @@ namespace ClassicalComponentsDemo.iOS
                 {
                     DebugLog("Got the original image from gallery");
                     originalImageUrl = AppDelegate.TempImageStorage.AddImage(originalImage);
-                    RunDocumentDetection(originalImageUrl);
+                    ShowImageView(originalImage);
+                    RunDocumentDetection(originalImage);
                 }
             }
 
@@ -252,13 +253,12 @@ namespace ClassicalComponentsDemo.iOS
             imagePicker.DismissModalViewController(true);
         }
 
-        void RunDocumentDetection(NSUrl imgurl)
+        void RunDocumentDetection(UIImage image)
         {
-            DebugLog("Performing document detection on image " + imgurl);
             Task.Run(() =>
             {
                 // The SDK call is sync!
-                var detectionResult = SBSDK.DetectDocument(imgurl);
+                var detectionResult = SBSDK.DetectDocument(image);
                 if (detectionResult.Status.IsOk())
                 {
                     var imageResult = detectionResult.Image as UIImage;
