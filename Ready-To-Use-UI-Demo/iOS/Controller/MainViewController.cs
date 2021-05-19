@@ -192,7 +192,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             var button = (ScannerButton)sender;
             if (button.Data.Code == ListItemCode.ScannerBarcode)
             {
-                var configuration = SBSDKUIMachineCodeScannerConfiguration.DefaultConfiguration;
+                var configuration = SBSDKUIBarcodeScannerConfiguration.DefaultConfiguration;
                 var controller = SBSDKUIBarcodeScannerViewController
                     .CreateNewWithAcceptedMachineCodeTypes(
                     SBSDKBarcodeType.AllTypes, configuration, Delegates.Barcode);
@@ -230,11 +230,11 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
             if (button.Data.Code == ListItemCode.ScannerMRZ)
             {
-                var config = SBSDKUIMachineCodeScannerConfiguration.DefaultConfiguration;
+                var config = SBSDKUIMRZScannerConfiguration.DefaultConfiguration;
                 config.TextConfiguration.CancelButtonTitle = "Done";
                 //config.TextConfiguration.FinderTextHint = "Custom finder text ..."
                 // see further customization configs
-
+                var types = SBSDKBarcodeType.AllTypes;
                 var viewSize = View.Frame.Size;
                 var targetWidth = viewSize.Width - ((viewSize.Width * 0.058) * 2);
                 var aspect = new SBSDKAspectRatio(targetWidth, targetWidth * 0.3);
@@ -243,6 +243,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
                     .CreateNewWithConfiguration(config, Delegates.MRZ);
                 PresentViewController(controller, true, null);
             }
+
             else if (button.Data.Code == ListItemCode.WorkflowDC)
             {
                 var ratios = new SBSDKAspectRatio[]
