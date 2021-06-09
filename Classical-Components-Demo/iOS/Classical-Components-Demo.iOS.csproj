@@ -9,6 +9,7 @@
     <RootNamespace>ClassicalComponentsDemo.iOS</RootNamespace>
     <AssemblyName>scanbot_sdk_xamarin_demo.iOS</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -184,6 +185,11 @@
     <BundleResource Include="Resources\ScanbotSDKDocumentDetectorData.bundle\DocumentDetectorModel.mlmodelc\coremldata.bin" />
     <BundleResource Include="Resources\ScanbotSDKDocumentDetectorData.bundle\DocumentDetectorModel.mlmodelc\model\coremldata.bin" />
     <BundleResource Include="Resources\ScanbotSDKDocumentDetectorData.bundle\DocumentDetectorModel.mlmodelc\neural_network_optionals\coremldata.bin" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ScanbotSDK.Xamarin">
+      <Version>3.4.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
