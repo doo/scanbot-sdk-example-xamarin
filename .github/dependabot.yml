@@ -13,7 +13,7 @@ updates:
     reviewers:
       - "rutkayb"
       - "marcosaia1812"
-    target-branch: "dependency-update"
+      - "Sarbjyotsingh"
     
   - package-ecosystem: "nuget" # See documentation for possible values
     directory: "/Ready-To-Use-UI-Demo" # Location of package manifests
@@ -23,4 +23,4 @@ updates:
     reviewers:
       - "rutkayb"
       - "marcosaia1812"
-    target-branch: "dependency-update"
+      - "Sarbjyotsingh"
