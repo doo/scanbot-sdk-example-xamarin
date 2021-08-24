@@ -19,7 +19,8 @@ namespace ReadyToUseUIDemo.model
         WorkflowMRZFrontBack,
         WorkflowDC,
         WorkflowSEPA,
-        
+
+        GenericDocumentRecognizer
     }
 
     public class ListItem
