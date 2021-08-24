@@ -9,6 +9,7 @@ using ScanbotSDK.Xamarin;
 using ScanbotSDK.Xamarin.iOS;
 
 using ScanbotSDK.iOS;
+using System.Linq;
 
 namespace ClassicalComponentsDemo.iOS
 {
@@ -54,14 +55,50 @@ namespace ClassicalComponentsDemo.iOS
             }
         }
 
+        class GenericDocumentRecognizerDelegate : SBSDKUIGenericDocumentRecognizerViewControllerDelegate
+        {
+
+            public WeakReference<MainSelectionTableViewController> rootVc;
+            public GenericDocumentRecognizerDelegate(MainSelectionTableViewController rootVc)
+            {
+                this.rootVc = new WeakReference<MainSelectionTableViewController>(rootVc);
+            }
+
+            public override void GenericDocumentRecognizerViewController(SBSDKUIGenericDocumentRecognizerViewController viewController, SBSDKGenericDocument[] documents)
+            {
+                if (documents == null || documents.Length == 0)
+                {
+                    return;
+                }
+
+                // We only take the first document for simplicity
+                var firstDocument = documents.First();
+                var fields = firstDocument.Fields
+                    .Where((f) => f != null && f.Type != null && f.Type.Name != null && f.Value != null && f.Value.Text != null)
+                    .Select((f) => string.Format("{0}: {1}", f.Type.Name, f.Value.Text))
+                    .ToList();
+                var description = string.Join("\n", fields);
+
+                rootVc.TryGetTarget(out MainSelectionTableViewController vc);
+                if (vc != null)
+                {
+                    vc.ShowResultMessage(description);
+                }
+            }
+        }
+
         CameraDemoDelegateHandler cameraHandler = new CameraDemoDelegateHandler();
         CroppingDemoDelegateHandler croppingHandler = new CroppingDemoDelegateHandler();
+
+        GenericDocumentRecognizerDelegate gdrDelegate;
 
         UIImagePickerController imagePicker;
 
         UIImage documentImage, originalImage;
 
-        public MainSelectionTableViewController(IntPtr handle) : base(handle) { }
+        public MainSelectionTableViewController(IntPtr handle) : base(handle) {
+            gdrDelegate = new GenericDocumentRecognizerDelegate(this);
+        }
 
         public override void ViewWillAppear(bool animated)
         {
@@ -161,6 +198,19 @@ namespace ClassicalComponentsDemo.iOS
             NavigationController.PushViewController(cameraViewController, true);
         }
 
+        partial void GenericDocumentRecognizerTouchUpInside(UIButton sender)
+        {
+            if (!CheckScanbotSDKLicense()) { return; }
+
+            var configuration = SBSDKUIGenericDocumentRecognizerConfiguration.DefaultConfiguration;
+            configuration.TextConfiguration.CancelButtonTitle = "Done";
+            configuration.BehaviorConfiguration.DocumentType = SBSDKUIDocumentType.IdCardFrontBackDE;
+
+            gdrDelegate.rootVc.SetTarget(this);
+            var scanner = SBSDKUIGenericDocumentRecognizerViewController.CreateNewWithConfiguration(configuration, gdrDelegate);
+            NavigationController.PushViewController(scanner, true);
+        }
+
         bool CheckDocumentImageUrl()
         {
             if (documentImage == null)
@@ -203,7 +253,7 @@ namespace ClassicalComponentsDemo.iOS
             return false;
         }
 
-        void ShowMessage(string title, string message, UIViewController controller = null)
+        public void ShowMessage(string title, string message, UIViewController controller = null)
         {
             UIViewController presenter = controller != null ? controller : this;
 
@@ -215,12 +265,12 @@ namespace ClassicalComponentsDemo.iOS
             });
         }
 
-        void ShowResultMessage(string message)
+        public void ShowResultMessage(string message)
         {
             ShowMessage("Operation result", message);
         }
 
-        void ShowErrorMessage(string message)
+        public void ShowErrorMessage(string message)
         {
             ShowMessage("Error", message);
         }

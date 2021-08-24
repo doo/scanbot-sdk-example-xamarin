@@ -3,6 +3,7 @@ using System.IO;
 using Android.App;
 using Android.Runtime;
 using Android.Util;
+using IO.Scanbot.Sap;
 using ScanbotSDK.Xamarin;
 using ScanbotSDK.Xamarin.Android;
 
