@@ -16,15 +16,19 @@ using AndroidNetUri = Android.Net.Uri;
 using Android.Util;
 using System.Collections.Generic;
 using IO.Scanbot.Sdk.UI.View.Mrz;
-using IO.Scanbot.Sdk.UI.View.Mrz.Configuration;
+using IO.Scanbot.Sdk.UI.Genericdocument;
 using IO.Scanbot.Mrzscanner.Model;
-using IO.Scanbot.Sdk.UI.View.Barcode.Configuration;
 using IO.Scanbot.Sdk.UI.View.Barcode;
 using IO.Scanbot.Sdk.Barcode.Entity;
 using ClassicalComponentsDemo.Droid.Activities;
 using ClassicalComponentsDemo.Droid.Utils;
 
 using AndroidX.Core.Content;
+using IO.Scanbot.Sdk.UI.View.Genericdocument;
+using IO.Scanbot.Sdk.UI.Result;
+using System.Linq;
+using IO.Scanbot.Sdk.UI.View.Genericdocument.Configuration;
+using IO.Scanbot.Genericdocument.Entity;
 
 namespace ClassicalComponentsDemo.Droid
 {
@@ -39,6 +43,7 @@ namespace ClassicalComponentsDemo.Droid
         const int REQUEST_SYSTEM_GALLERY = 4713;
         const int REQUEST_SB_MRZ_SCANNER = 4714;
         const int REQUEST_SB_BARCODE_SCANNER = 4715;
+        const int REQUEST_SB_GDR_SCANNING_UI = 4716;
 
         const int BIG_THUMB_MAX_W = 800, BIG_THUMB_MAX_H = 800;
 
@@ -59,6 +64,7 @@ namespace ClassicalComponentsDemo.Droid
 
             AssignCopyrightText();
             AssignStartCameraButtonHandler();
+            AssignStartGdrButtonHandler();
             AssingCroppingUIButtonHandler();
             AssignApplyImageFilterButtonHandler();
             AssignImportImageButtonHandler();
@@ -86,6 +92,27 @@ namespace ClassicalComponentsDemo.Droid
 
                 Intent intent = new Intent(this, typeof(CameraViewDemoActivity));
                 StartActivityForResult(intent, REQUEST_SB_SCANNING_UI);
+            };
+        }
+
+        void AssignStartGdrButtonHandler()
+        {
+            var gdrUIButton = FindViewById<Button>(Resource.Id.gdrUiButton);
+            gdrUIButton.Click += delegate
+            {
+                if (!CheckScanbotSDKLicense()) { return; }
+
+                var configuration = new GenericDocumentRecognizerConfiguration();
+
+                configuration.SetAcceptedDocumentTypes(new List<RootDocumentType>
+                {
+                    RootDocumentType.DeIdCardFront,
+                    RootDocumentType.DeIdCardBack
+                });
+
+                Intent intent = GenericDocumentRecognizerActivity.NewIntent(this, configuration);
+
+                StartActivityForResult(intent, REQUEST_SB_GDR_SCANNING_UI);
             };
         }
 
@@ -350,6 +377,41 @@ namespace ClassicalComponentsDemo.Droid
                 return;
             }
 
+            if (requestCode == REQUEST_SB_GDR_SCANNING_UI && resultCode == Result.Ok)
+            {
+                var resultsArray = data.GetParcelableArrayListExtra(GenericDocumentRecognizerActivity.ExtractedFieldsExtra);
+                if (resultsArray.Count == 0)
+                {
+                    return;
+                }
+
+                var resultWrapper = (ResultWrapper)resultsArray[0];
+                var resultRepository =  new IO.Scanbot.Sdk.ScanbotSDK(this).ResultRepositoryForClass(resultWrapper.Clazz);
+                var genericDocument = (IO.Scanbot.Genericdocument.Entity.GenericDocument)resultRepository.GetResultAndErase(resultWrapper.ResultId);
+                var fields = genericDocument.Fields.Cast<IO.Scanbot.Genericdocument.Entity.Field>().ToList();
+                var description = string.Join(";\n", fields
+                    .Where(field => field != null)
+                    .Select((field) =>
+                    {
+                        string outStr = "";
+                        if (field.GetType() != null && field.GetType().Name != null)
+                        {
+                            outStr += field.GetType().Name + " = ";
+                        }
+                        if (field.Value != null && field.Value.Text != null)
+                        {
+                            outStr += field.Value.Text;
+                        }
+                        return outStr;
+                    })
+                    .ToList()
+                );
+
+                ShowAlert("Result", description);
+
+                Console.WriteLine("GDR Result: ", description);   
+            }
+
         }
 
         string ExtractMrzResultData(MRZRecognitionResult result)
@@ -503,6 +565,19 @@ namespace ClassicalComponentsDemo.Droid
         void ErrorLog(string msg, Exception ex)
         {
             Log.Error(LOG_TAG, Java.Lang.Throwable.FromException(ex), msg);
+        }
+
+        void ShowAlert(string title, string message)
+        {
+            var dialog = new AlertDialog.Builder(this);
+            AlertDialog alert = dialog.Create();
+            alert.SetTitle(title);
+            alert.SetMessage(message);
+            alert.SetButton((int)DialogButtonType.Neutral, "OK", (c, ev) =>
+            {
+                alert.Dismiss();
+            });
+            alert.Show();
         }
 
     }

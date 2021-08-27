@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ReadyToUseUIDemo.iOS.Controller;
 using ScanbotSDK.iOS;
 using UIKit;
@@ -15,6 +16,8 @@ namespace ReadyToUseUIDemo.iOS.Utils
         public static BarcodeHandler Barcode = new BarcodeHandler();
 
         public static BatchBarcodeHandler BatchBarcode = new BatchBarcodeHandler();
+
+        public static GenericDocumentRecognizerDelegate GDR = new GenericDocumentRecognizerDelegate();
 
         public static bool IsPresented { get; set; }
 
@@ -102,6 +105,38 @@ namespace ReadyToUseUIDemo.iOS.Utils
                     }
                 }
                 ShowPopup(viewController, text);
+            }
+        }
+
+        public class GenericDocumentRecognizerDelegate : SBSDKUIGenericDocumentRecognizerViewControllerDelegate
+        {
+            private WeakReference<UIViewController> viewController = new WeakReference<UIViewController>(null);
+
+            public GenericDocumentRecognizerDelegate WithPresentingViewController(UIViewController viewController) {
+                this.viewController = new WeakReference<UIViewController>(viewController);
+                return this;
+            }
+
+            public override void GenericDocumentRecognizerViewController(SBSDKUIGenericDocumentRecognizerViewController viewController, SBSDKGenericDocument[] documents)
+            {
+                if (documents == null || documents.Length == 0)
+                {
+                    return;
+                }
+
+                // We only take the first document for simplicity
+                var firstDocument = documents.First();
+                var fields = firstDocument.Fields
+                    .Where((f) => f != null && f.Type != null && f.Type.Name != null && f.Value != null && f.Value.Text != null)
+                    .Select((f) => string.Format("{0}: {1}", f.Type.Name, f.Value.Text))
+                    .ToList();
+                var description = string.Join("\n", fields);
+                Console.WriteLine(description);
+
+                this.viewController.TryGetTarget(out UIViewController vc);
+                if (vc != null) { 
+                    ShowPopup(vc, description);
+                }
             }
         }
     }

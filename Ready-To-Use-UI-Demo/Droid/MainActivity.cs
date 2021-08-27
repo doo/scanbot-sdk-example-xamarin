@@ -40,6 +40,10 @@ using AndroidX.AppCompat.App;
 using IO.Scanbot.Sdk.UI.View.Barcode.Batch.Configuration;
 using IO.Scanbot.Sdk.UI.View.Barcode.Batch;
 using IO.Scanbot.Sdk.UI.Camera;
+using IO.Scanbot.Sdk.UI.View.Genericdocument.Configuration;
+using IO.Scanbot.Genericdocument.Entity;
+using IO.Scanbot.Sdk.UI.View.Genericdocument;
+using IO.Scanbot.Sdk.UI.Result;
 
 namespace ReadyToUseUIDemo.Droid
 {
@@ -49,6 +53,7 @@ namespace ReadyToUseUIDemo.Droid
         readonly List<FragmentButton> buttons = new List<FragmentButton>();
 
         ProgressBar progress;
+        IO.Scanbot.Sdk.ScanbotSDK sdkInstance;
 
         TextView LicenseIndicator
         {
@@ -65,6 +70,8 @@ namespace ReadyToUseUIDemo.Droid
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
+
+            sdkInstance = new IO.Scanbot.Sdk.ScanbotSDK(this);
 
             var container = (LinearLayout)FindViewById(Resource.Id.container);
 
@@ -271,7 +278,6 @@ namespace ReadyToUseUIDemo.Droid
 
                 StartActivityForResult(intent, Constants.PAYFORM_SCAN_WORKFLOW_REQUEST_CODE);
             }
-
             else if (button.Data.Code == ListItemCode.ScannerEHIC)
             {
                 var config = new HealthInsuranceCardScannerConfiguration();
@@ -279,6 +285,17 @@ namespace ReadyToUseUIDemo.Droid
 
                 var intent = HealthInsuranceCardScannerActivity.NewIntent(this, config);
                 StartActivityForResult(intent, Constants.REQUEST_EHIC_SCAN);
+            }
+            else if (button.Data.Code == ListItemCode.GenericDocumentRecognizer)
+            {
+                var config = new GenericDocumentRecognizerConfiguration();
+                config.SetAcceptedDocumentTypes(new List<RootDocumentType>
+                {
+                    RootDocumentType.DeIdCardFront,
+                    RootDocumentType.DeIdCardBack,
+                });
+                var intent = GenericDocumentRecognizerActivity.NewIntent(this, config);
+                StartActivityForResult(intent, Constants.GENERIC_DOCUMENT_RECOGNIZER_REQUEST);
             }
         }
 
@@ -391,7 +408,7 @@ namespace ReadyToUseUIDemo.Droid
             {
                 var result = (HealthInsuranceCardRecognitionResult)data.GetParcelableExtra(
                     HealthInsuranceCardScannerActivity.ExtractedFieldsExtra);
-                
+
                 var fragment = HealthInsuranceCardFragment.CreateInstance(result);
                 fragment.Show(SupportFragmentManager, HealthInsuranceCardFragment.NAME);
             }
@@ -402,6 +419,53 @@ namespace ReadyToUseUIDemo.Droid
                 var fragment = PayFormResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, PayFormResultDialogFragment.NAME);
             }
+            else if (requestCode == Constants.GENERIC_DOCUMENT_RECOGNIZER_REQUEST)
+            {
+                var resultsArray = data.GetParcelableArrayListExtra(GenericDocumentRecognizerActivity.ExtractedFieldsExtra);
+                if (resultsArray.Count == 0)
+                {
+                    return;
+                }
+
+                var resultWrapper = (ResultWrapper)resultsArray[0];
+                var resultRepository = sdkInstance.ResultRepositoryForClass(resultWrapper.Clazz);
+                var genericDocument = (GenericDocument)resultRepository.GetResultAndErase(resultWrapper.ResultId);
+                var fields = genericDocument.Fields.Cast<Field>().ToList();
+                var description = string.Join(";\n", fields
+                    .Where(field => field != null)
+                    .Select((field) =>
+                    {
+                        string outStr = "";
+                        if (field.GetType() != null && field.GetType().Name != null)
+                        {
+                            outStr += field.GetType().Name + " = ";
+                        }
+                        if (field.Value != null && field.Value.Text != null)
+                        {
+                            outStr += field.Value.Text;
+                        }
+                        return outStr;
+                    })
+                    .ToList()
+                );
+
+
+                Console.WriteLine("GDR Result: ", description);
+                ShowAlert("Result", description);
+            }
+        }
+
+        private void ShowAlert(string title, string message)
+        {
+            var dialog = new AndroidX.AppCompat.App.AlertDialog.Builder(this);
+            AndroidX.AppCompat.App.AlertDialog alert = dialog.Create();
+            alert.SetTitle(title);
+            alert.SetMessage(message);
+            alert.SetButton((int)DialogButtonType.Neutral, "OK", (c, ev) =>
+            {
+                alert.Dismiss();
+            });
+            alert.Show();
         }
     }
 }

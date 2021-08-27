@@ -332,6 +332,13 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
                 PresentViewController(controller, false, null);
             }
+            else if (button.Data.Code == ListItemCode.GenericDocumentRecognizer)
+            {
+                var configuration = SBSDKUIGenericDocumentRecognizerConfiguration.DefaultConfiguration;
+                configuration.BehaviorConfiguration.DocumentType = SBSDKUIDocumentType.IdCardFrontBackDE;
+                var controller = SBSDKUIGenericDocumentRecognizerViewController.CreateNewWithConfiguration(configuration, Delegates.GDR.WithPresentingViewController(this));
+                PresentViewController(controller, false, null);
+            }
         }
 
         void PresentController(string name, SBSDKUIWorkflowStep[] steps,
