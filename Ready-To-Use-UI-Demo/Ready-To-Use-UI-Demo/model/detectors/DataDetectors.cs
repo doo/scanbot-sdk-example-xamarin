@@ -17,6 +17,7 @@ namespace ReadyToUseUIDemo.model
             new ListItem { Title = "Scan DC Form",                  Code = ListItemCode.WorkflowDC           },
             new ListItem { Title = "Scan MRZ + Image",              Code = ListItemCode.WorkflowMRZImage     },
             new ListItem { Title = "Scan MRZ + Front & Back Image", Code = ListItemCode.WorkflowMRZFrontBack },
+            new ListItem { Title = "Generic Document Recognizer",   Code = ListItemCode.GenericDocumentRecognizer },
 #if __IOS__
             new ListItem { Title = "Scan SEPA Pay Form", Code = ListItemCode.WorkflowSEPA },
             new ListItem { Title = "Scan QR Code", Code = ListItemCode.WorkflowQR }

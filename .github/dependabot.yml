@@ -11,9 +11,9 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 10
     reviewers:
-      - "Nikituh"
+      - "rutkayb"
       - "marcosaia1812"
-    target-branch: "dependency-update"
+      - "Sarbjyotsingh"
     
   - package-ecosystem: "nuget" # See documentation for possible values
     directory: "/Ready-To-Use-UI-Demo" # Location of package manifests
@@ -21,6 +21,6 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 10
     reviewers:
-      - "Nikituh"
+      - "rutkayb"
       - "marcosaia1812"
-    target-branch: "dependency-update"
+      - "Sarbjyotsingh"
