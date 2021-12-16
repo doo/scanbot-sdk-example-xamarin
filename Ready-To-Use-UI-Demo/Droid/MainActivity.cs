@@ -352,14 +352,14 @@ namespace ReadyToUseUIDemo.Droid
                 Task.Run(delegate
                 {
                     var bitmap = Utils.ImageUtils.ProcessGalleryResult(this, data);
-                    var detector = new IO.Scanbot.Sdk.ScanbotSDK(this).BarcodeDetector();
+                    var detector = new IO.Scanbot.Sdk.ScanbotSDK(this).CreateBarcodeDetector();
                     var result = detector.DetectFromBitmap(bitmap, 0);
                     var fragment = BarcodeDialogFragment.CreateInstance(result);
 
                     // Estimate blur of imported barcode
                     // Estimating blur on already cropped barcodes should
                     // normally yield the best results, as there is little empty space
-                    var estimator = new IO.Scanbot.Sdk.ScanbotSDK(this).BlurEstimator();
+                    var estimator = new IO.Scanbot.Sdk.ScanbotSDK(this).CreateBlurEstimator();
                     fragment.Blur = estimator.EstimateInBitmap(bitmap, 0);
                     fragment.Show(SupportFragmentManager, BarcodeDialogFragment.NAME);
                 });

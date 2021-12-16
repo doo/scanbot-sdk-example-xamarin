@@ -56,8 +56,7 @@ namespace ReadyToUseUIDemo.iOS.Utils
 
         public class HealthInsuranceCardHandler : SBSDKUIHealthInsuranceCardScannerViewControllerDelegate
         {
-            public override void DidDetect(SBSDKUIHealthInsuranceCardScannerViewController viewController,
-                SBSDKHealthInsuranceCardRecognitionResult card)
+            public override void HealthInsuranceCardDetectionViewController(SBSDKUIHealthInsuranceCardScannerViewController viewController, SBSDKHealthInsuranceCardRecognitionResult card)
             {
                 ShowPopup(viewController, card.StringRepresentation);
             }
