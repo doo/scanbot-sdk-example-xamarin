@@ -118,7 +118,7 @@ namespace ClassicalComponentsDemo.Droid
                         scanbotMagnifierView.SetupMagnifier(editPolygonImageView);
                     });
 
-                    var detector = SDK.ContourDetector();
+                    var detector = SDK.CreateContourDetector();
                     // Since we just need detected polygon and lines here, we use ContourDetector class from the native SDK namespace.
                     var detectionResult = detector.Detect(resizedBitmap);
 
@@ -154,7 +154,7 @@ namespace ClassicalComponentsDemo.Droid
             {
                 try
                 {
-                    var detector = SDK.ContourDetector();
+                    var detector = SDK.CreateContourDetector();
                     var documentImage = SDK.ImageProcessor().ProcessBitmap(originalBitmap, new CropOperation(editPolygonImageView.Polygon), false);
                     documentImage = SBSDK.RotateImage(documentImage, -rotationDegrees);
                     var documentImgUri = MainApplication.TempImageStorage.AddImage(documentImage);

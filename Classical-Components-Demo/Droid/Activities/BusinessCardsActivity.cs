@@ -65,7 +65,7 @@ namespace ClassicalComponentsDemo.Droid.Activities
             });
 
             sdk = new IO.Scanbot.Sdk.ScanbotSDK(this);
-            var detector = sdk.MultipleObjectsDetector();
+            var detector = sdk.CreateMultipleObjectsDetector();
             if (modParams != null)
             {
                 detector.SetParams(modParams);
@@ -119,7 +119,7 @@ namespace ClassicalComponentsDemo.Droid.Activities
             matrix.SetRotate(args.imageOrientation, bitmap.Width / 2, bitmap.Height / 2);
             var result = Bitmap.CreateBitmap(bitmap, 0, 0, bitmap.Width, bitmap.Height, matrix, false);
 
-            var detector = sdk.MultipleObjectsDetector();
+            var detector = sdk.CreateMultipleObjectsDetector();
             if (modParams != null)
             {
                 detector.SetParams(modParams);
@@ -129,14 +129,15 @@ namespace ClassicalComponentsDemo.Droid.Activities
 
             foreach (var polygon in polygons)
             {
-                var id = sdk.PageFileStorage.Add(result);
+                var pageStorage = sdk.CreatePageFileStorage();
+                var id = pageStorage.Add(result);
                 var page = new Page(id, new List<PointF>(), DetectionResult.Ok, ImageFilterType.Binarized);
-                var cropped = sdk.PageProcessor().CropAndRotate(page, 0, polygon.PolygonF);
+                var cropped = sdk.CreatePageProcessor().CropAndRotate(page, 0, polygon.PolygonF);
                 pages.Add(cropped);
             }
 
-            var processor = sdk.BusinessCardsImageProcessor();
-            var languages = sdk.OcrRecognizer().InstalledLanguages;
+            var processor = sdk.CreateBusinessCardsImageProcessor();
+            var languages = sdk.CreateOcrRecognizer().InstalledLanguages;
 
             ProcessedResults = processor.ProcessPages(pages, languages, true, true).ToList();
 
@@ -177,9 +178,9 @@ namespace ClassicalComponentsDemo.Droid.Activities
     {
         public EventHandler<PictureCallbackEventArgs> OnPictureTakenHandler;
 
-        public override void OnPictureTaken(byte[] image, int imageOrientation)
+        public override void OnPictureTaken(byte[] image, CaptureInfo captureInfo)
         {
-            OnPictureTakenHandler?.Invoke(this, new PictureCallbackEventArgs { image = image, imageOrientation = imageOrientation });
+            OnPictureTakenHandler?.Invoke(this, new PictureCallbackEventArgs { image = image, imageOrientation = captureInfo.ImageOrientation });
         }
     }
 }

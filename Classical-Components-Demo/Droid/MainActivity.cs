@@ -16,7 +16,6 @@ using AndroidNetUri = Android.Net.Uri;
 using Android.Util;
 using System.Collections.Generic;
 using IO.Scanbot.Sdk.UI.View.Mrz;
-using IO.Scanbot.Sdk.UI.Genericdocument;
 using IO.Scanbot.Mrzscanner.Model;
 using IO.Scanbot.Sdk.UI.View.Barcode;
 using IO.Scanbot.Sdk.Barcode.Entity;
