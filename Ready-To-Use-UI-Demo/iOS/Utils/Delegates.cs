@@ -57,6 +57,8 @@ namespace ReadyToUseUIDemo.iOS.Utils
             public override void DidDetect(
                 SBSDKUIMRZScannerViewController viewController, SBSDKMachineReadableZoneRecognizerResult zone)
             {
+                viewController.Delegate = null;
+                viewController.RecognitionEnabled = false;
                 viewController.DismissViewController(true, null);
                 ShowPopup(rootViewController, zone.StringRepresentation);
             }
