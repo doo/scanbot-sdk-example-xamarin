@@ -219,9 +219,11 @@ namespace ClassicalComponentsDemo.iOS
             // Alternative method to "scannerController:localizedTextForDetectionStatus:".
             // Here you can return a custom view that you want to use to visualize the latest detection status.
 
-            var label = new SBSDKDetectionStatusLabel();
-            label.BackgroundColor = UIColor.Red;
-            label.TextColor = UIColor.White;
+            var label = new SBSDKDetectionStatusLabel
+            {
+                BackgroundColor = UIColor.Red,
+                TextColor = UIColor.White
+            };
 
             if (scannerViewController.EnergySavingActive)
             {
@@ -259,6 +261,12 @@ namespace ClassicalComponentsDemo.iOS
                 }
             }
 
+            label.SetContentCompressionResistancePriority((float)UILayoutPriority.Required, UILayoutConstraintAxis.Horizontal);
+            label.SetContentHuggingPriority((float)UILayoutPriority.DefaultLow, UILayoutConstraintAxis.Horizontal);
+            label.Lines = 1;
+            label.AdjustsFontSizeToFitWidth = true;
+            label.Font = label.Font.WithSize(20.0f);
+            label.PreferredMaxLayoutWidth = controller.View.Bounds.Width - 64;
             label.SizeToFit();
             return label;
         }

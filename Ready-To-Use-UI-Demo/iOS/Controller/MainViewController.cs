@@ -240,7 +240,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 var aspect = new SBSDKAspectRatio(targetWidth, targetWidth * 0.3);
                 config.UiConfiguration.FinderAspectRatio = aspect;
                 var controller = SBSDKUIMRZScannerViewController
-                    .CreateNewWithConfiguration(config, Delegates.MRZ);
+                    .CreateNewWithConfiguration(config, Delegates.MRZ.WithViewController(this));
                 PresentViewController(controller, true, null);
             }
 

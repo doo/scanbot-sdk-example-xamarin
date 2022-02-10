@@ -46,11 +46,19 @@ namespace ReadyToUseUIDemo.iOS.Utils
 
         public class MRZDelegate : SBSDKUIMRZScannerViewControllerDelegate
         {
-            
+
+            private UIViewController rootViewController;
+
+            public MRZDelegate WithViewController(UIViewController rootViewController) {
+                this.rootViewController = rootViewController;
+                return this;
+            }
+
             public override void DidDetect(
                 SBSDKUIMRZScannerViewController viewController, SBSDKMachineReadableZoneRecognizerResult zone)
             {
-                ShowPopup(viewController, zone.StringRepresentation);
+                viewController.DismissViewController(true, null);
+                ShowPopup(rootViewController, zone.StringRepresentation);
             }
         }
 
