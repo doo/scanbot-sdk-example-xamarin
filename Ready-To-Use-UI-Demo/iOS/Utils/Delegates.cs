@@ -59,8 +59,9 @@ namespace ReadyToUseUIDemo.iOS.Utils
             {
                 viewController.Delegate = null;
                 viewController.RecognitionEnabled = false;
-                viewController.DismissViewController(true, null);
-                ShowPopup(rootViewController, zone.StringRepresentation);
+                viewController.DismissViewController(true, delegate {
+                    ShowPopup(rootViewController, zone.StringRepresentation);
+                });
             }
         }
 
