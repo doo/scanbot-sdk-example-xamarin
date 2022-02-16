@@ -68,7 +68,7 @@ namespace ClassicalComponentsDemo.iOS
                     return WorkflowError.ErrorWithCode(3, new NSString("This does not seem to be an ID card."));
                 }
 
-                if (mrz.DocumentCodeField.Value.Length != 9 || !(mrz.IssuingStateOrOrganizationField.Value != "D"))
+                if (mrz.DocumentCodeField.Value.Length != 9 || mrz.IssuingStateOrOrganizationField.Value != "D")
                 {
                     return WorkflowError.ErrorWithCode(4, new NSString("This does not seem to be an ID card."));
                 }
