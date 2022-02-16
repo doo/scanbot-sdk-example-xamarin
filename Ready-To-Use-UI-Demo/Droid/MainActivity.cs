@@ -3,7 +3,7 @@ using Android.Widget;
 using Android.OS;
 using ReadyToUseUIDemo.model;
 using Android.Views;
-using System;
+
 using ReadyToUseUIDemo.Droid.Views;
 using ReadyToUseUIDemo.Droid.Fragments;
 using IO.Scanbot.Sdk.UI.View.Workflow.Configuration;
@@ -11,7 +11,6 @@ using Android.Graphics;
 using IO.Scanbot.Sdk.UI.View.Workflow;
 using Android.Content;
 using Android.Runtime;
-using System.Collections.Generic;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
 using IO.Scanbot.Sdk.UI.View.Mrz.Configuration;
 using IO.Scanbot.Sdk.UI.View.Mrz;
@@ -44,6 +43,8 @@ using IO.Scanbot.Sdk.UI.View.Genericdocument.Configuration;
 using IO.Scanbot.Genericdocument.Entity;
 using IO.Scanbot.Sdk.UI.View.Genericdocument;
 using IO.Scanbot.Sdk.UI.Result;
+using System;
+using System.Collections.Generic;
 
 namespace ReadyToUseUIDemo.Droid
 {
@@ -393,14 +394,29 @@ namespace ReadyToUseUIDemo.Droid
             else if (requestCode == Constants.MRZ_SNAP_WORKFLOW_REQUEST_CODE)
             {
                 var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
-                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var javaResults = data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+
+                // Here we convert the Java ArrayList to a C# List object before passing it to our Dialog Fragment creator
+                var results = new List<WorkflowStepResult>();
+                foreach (WorkflowStepResult result in javaResults) {
+                    results.Add(result);
+                }
+
                 var fragment = MRZImageResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, MRZImageResultDialogFragment.NAME);
             }
             else if (requestCode == Constants.MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE)
             {
                 var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
-                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var javaResults = data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+
+                // Here we convert the Java ArrayList to a C# List object before passing it to our Dialog Fragment creator
+                var results = new List<WorkflowStepResult>();
+                foreach (WorkflowStepResult result in javaResults)
+                {
+                    results.Add(result);
+                }
+
                 var fragment = MRZFrontBackImageResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, MRZFrontBackImageResultDialogFragment.NAME);
             }
