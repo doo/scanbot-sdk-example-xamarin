@@ -234,13 +234,12 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 config.TextConfiguration.CancelButtonTitle = "Done";
                 //config.TextConfiguration.FinderTextHint = "Custom finder text ..."
                 // see further customization configs
-                var types = SBSDKBarcodeType.AllTypes;
                 var viewSize = View.Frame.Size;
                 var targetWidth = viewSize.Width - ((viewSize.Width * 0.058) * 2);
                 var aspect = new SBSDKAspectRatio(targetWidth, targetWidth * 0.3);
                 config.UiConfiguration.FinderAspectRatio = aspect;
                 var controller = SBSDKUIMRZScannerViewController
-                    .CreateNewWithConfiguration(config, Delegates.MRZ);
+                    .CreateNewWithConfiguration(config, Delegates.MRZ.WithViewController(this));
                 PresentViewController(controller, true, null);
             }
 

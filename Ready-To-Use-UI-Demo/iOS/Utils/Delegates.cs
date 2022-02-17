@@ -46,18 +46,28 @@ namespace ReadyToUseUIDemo.iOS.Utils
 
         public class MRZDelegate : SBSDKUIMRZScannerViewControllerDelegate
         {
-            
+
+            private UIViewController rootViewController;
+
+            public MRZDelegate WithViewController(UIViewController rootViewController) {
+                this.rootViewController = rootViewController;
+                return this;
+            }
+
             public override void DidDetect(
                 SBSDKUIMRZScannerViewController viewController, SBSDKMachineReadableZoneRecognizerResult zone)
             {
-                ShowPopup(viewController, zone.StringRepresentation);
+                viewController.Delegate = null;
+                viewController.RecognitionEnabled = false;
+                viewController.DismissViewController(true, delegate {
+                    ShowPopup(rootViewController, zone.StringRepresentation);
+                });
             }
         }
 
         public class HealthInsuranceCardHandler : SBSDKUIHealthInsuranceCardScannerViewControllerDelegate
         {
-            public override void DidDetect(SBSDKUIHealthInsuranceCardScannerViewController viewController,
-                SBSDKHealthInsuranceCardRecognitionResult card)
+            public override void HealthInsuranceCardDetectionViewController(SBSDKUIHealthInsuranceCardScannerViewController viewController, SBSDKHealthInsuranceCardRecognitionResult card)
             {
                 ShowPopup(viewController, card.StringRepresentation);
             }

@@ -69,7 +69,7 @@ namespace ClassicalComponentsDemo.Droid
 
             imageProcessingProgress = FindViewById<ProgressBar>(Resource.Id.imageProcessingProgress);
 
-            var detector = new IO.Scanbot.Sdk.ScanbotSDK(this).ContourDetector();
+            var detector = new IO.Scanbot.Sdk.ScanbotSDK(this).CreateContourDetector();
             contourDetectorFrameHandler = ContourDetectorFrameHandler.Attach(cameraView, detector);
             
             polygonView = FindViewById<PolygonView>(Resource.Id.scanbotPolygonView);
@@ -328,9 +328,9 @@ namespace ClassicalComponentsDemo.Droid
     {
         public EventHandler<PictureCallbackEventArgs> OnPictureTakenHandler;
 
-        public override void OnPictureTaken(byte[] image, int imageOrientation)
+        public override void OnPictureTaken(byte[] image, CaptureInfo captureInfo)
         {
-            OnPictureTakenHandler?.Invoke(this, new PictureCallbackEventArgs { image = image, imageOrientation = imageOrientation });
+            OnPictureTakenHandler?.Invoke(this, new PictureCallbackEventArgs { image = image, imageOrientation = captureInfo.ImageOrientation });
         }
     }
 }

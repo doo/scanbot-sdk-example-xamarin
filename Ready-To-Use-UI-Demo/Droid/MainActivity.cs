@@ -3,7 +3,7 @@ using Android.Widget;
 using Android.OS;
 using ReadyToUseUIDemo.model;
 using Android.Views;
-using System;
+
 using ReadyToUseUIDemo.Droid.Views;
 using ReadyToUseUIDemo.Droid.Fragments;
 using IO.Scanbot.Sdk.UI.View.Workflow.Configuration;
@@ -11,7 +11,6 @@ using Android.Graphics;
 using IO.Scanbot.Sdk.UI.View.Workflow;
 using Android.Content;
 using Android.Runtime;
-using System.Collections.Generic;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
 using IO.Scanbot.Sdk.UI.View.Mrz.Configuration;
 using IO.Scanbot.Sdk.UI.View.Mrz;
@@ -44,6 +43,8 @@ using IO.Scanbot.Sdk.UI.View.Genericdocument.Configuration;
 using IO.Scanbot.Genericdocument.Entity;
 using IO.Scanbot.Sdk.UI.View.Genericdocument;
 using IO.Scanbot.Sdk.UI.Result;
+using System;
+using System.Collections.Generic;
 
 namespace ReadyToUseUIDemo.Droid
 {
@@ -352,14 +353,14 @@ namespace ReadyToUseUIDemo.Droid
                 Task.Run(delegate
                 {
                     var bitmap = Utils.ImageUtils.ProcessGalleryResult(this, data);
-                    var detector = new IO.Scanbot.Sdk.ScanbotSDK(this).BarcodeDetector();
+                    var detector = new IO.Scanbot.Sdk.ScanbotSDK(this).CreateBarcodeDetector();
                     var result = detector.DetectFromBitmap(bitmap, 0);
                     var fragment = BarcodeDialogFragment.CreateInstance(result);
 
                     // Estimate blur of imported barcode
                     // Estimating blur on already cropped barcodes should
                     // normally yield the best results, as there is little empty space
-                    var estimator = new IO.Scanbot.Sdk.ScanbotSDK(this).BlurEstimator();
+                    var estimator = new IO.Scanbot.Sdk.ScanbotSDK(this).CreateBlurEstimator();
                     fragment.Blur = estimator.EstimateInBitmap(bitmap, 0);
                     fragment.Show(SupportFragmentManager, BarcodeDialogFragment.NAME);
                 });
@@ -393,14 +394,29 @@ namespace ReadyToUseUIDemo.Droid
             else if (requestCode == Constants.MRZ_SNAP_WORKFLOW_REQUEST_CODE)
             {
                 var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
-                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var javaResults = data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+
+                // Here we convert the Java ArrayList to a C# List object before passing it to our Dialog Fragment creator
+                var results = new List<WorkflowStepResult>();
+                foreach (WorkflowStepResult result in javaResults) {
+                    results.Add(result);
+                }
+
                 var fragment = MRZImageResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, MRZImageResultDialogFragment.NAME);
             }
             else if (requestCode == Constants.MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE)
             {
                 var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
-                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var javaResults = data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+
+                // Here we convert the Java ArrayList to a C# List object before passing it to our Dialog Fragment creator
+                var results = new List<WorkflowStepResult>();
+                foreach (WorkflowStepResult result in javaResults)
+                {
+                    results.Add(result);
+                }
+
                 var fragment = MRZFrontBackImageResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, MRZFrontBackImageResultDialogFragment.NAME);
             }
