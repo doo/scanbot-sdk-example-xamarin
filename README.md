@@ -19,7 +19,7 @@ The Scanbot SDK for Xamarin is available as a universal NuGet package for Androi
 
 ## Documentation
 The documentation of the current Scanbot SDK Xamarin release can be found here: [https://scanbotsdk.github.io/documentation/xamarin/](https://scanbotsdk.github.io/documentation/xamarin/)
-
+ 
 
 ## Please note
 
