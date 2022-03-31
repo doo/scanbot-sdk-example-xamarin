@@ -21,14 +21,14 @@ using IO.Scanbot.Sdk.Core.Contourdetector;
 namespace ClassicalComponentsDemo.Droid
 {
     [Activity(Theme = "@style/Theme.AppCompat")]
-    public class CameraViewDemoActivity : AppCompatActivity, ICameraOpenCallback
+    public class CameraXViewDemoActivity : AppCompatActivity, ICameraOpenCallback
     {
-        static string LOG_TAG = typeof(CameraViewDemoActivity).Name;
+        static string LOG_TAG = typeof(CameraXViewDemoActivity).Name;
 
         public static string EXTRAS_ARG_DOC_IMAGE_FILE_URI = "documentImageFileUri";
         public static string EXTRAS_ARG_ORIGINAL_IMAGE_FILE_URI = "originalImageFileUri";
 
-        protected ScanbotCameraView cameraView;
+        protected ScanbotCameraXView cameraView;
         protected DocumentAutoSnappingController autoSnappingController;
         protected ContourDetectorFrameHandler contourDetectorFrameHandler;
         protected PolygonView polygonView;
@@ -49,11 +49,11 @@ namespace ClassicalComponentsDemo.Droid
             SupportRequestWindowFeature(WindowCompat.FeatureActionBarOverlay);
             base.OnCreate(savedInstanceState);
 
-            SetContentView(Resource.Layout.CameraViewDemo);
+            SetContentView(Resource.Layout.CameraXViewDemo);
 
             SupportActionBar.Hide();
 
-            cameraView = FindViewById<ScanbotCameraView>(Resource.Id.scanbotCameraView);
+            cameraView = FindViewById<ScanbotCameraXView>(Resource.Id.scanbotCameraView);
 
             // In this example we demonstrate how to lock the orientation of the UI (Activity)
             // as well as the orientation of the taken picture to portrait.
@@ -125,8 +125,6 @@ namespace ClassicalComponentsDemo.Droid
         {
             cameraView.PostDelayed(() =>
             {
-                // Disable auto-focus sound:
-                cameraView.SetAutoFocusSound(false);
                 // Uncomment to disable shutter sound (supported since Android 4.2+):
                 // Please note that some devices may not allow disabling the camera shutter sound. 
                 // If the shutter sound state cannot be set to the desired value, this method will be ignored.
@@ -134,18 +132,6 @@ namespace ClassicalComponentsDemo.Droid
                 // Enable ContinuousFocus mode:
                 cameraView.ContinuousFocus();
             }, 500);
-        }
-
-        protected override void OnResume()
-        {
-            base.OnResume();
-            cameraView.OnResume();
-        }
-
-        protected override void OnPause()
-        {
-            base.OnPause();
-            cameraView.OnPause();
         }
 
         void ShowUserGuidance(object sender, ContourDetectorEventArgs e)

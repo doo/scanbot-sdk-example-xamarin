@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Activities\CameraViewDemoActivity.cs" />
+    <Compile Include="Activities\CameraXViewDemoActivity.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Activities\CroppingImageDemoActivity.cs" />
     <Compile Include="Activities\WorkflowsActivity.cs" />
@@ -125,6 +126,10 @@
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\CameraXViewDemo.axml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Activities\" />
@@ -142,7 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ScanbotSDK.Xamarin">
-      <Version>3.6.0</Version>
+      <Version>3.7.0-beta2</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
