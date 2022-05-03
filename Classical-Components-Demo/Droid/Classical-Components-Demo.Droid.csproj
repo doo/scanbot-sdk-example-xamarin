@@ -65,6 +65,8 @@
     <Compile Include="Activities\BaseActivity.cs" />
     <Compile Include="Utils\PermissionUtils.cs" />
     <Compile Include="Service\ImageLoader.cs" />
+    <Compile Include="Activities\Common\ScanbotCameraViewDelegates.cs" />
+    <Compile Include="Activities\CameraXViewDemoActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -125,6 +127,10 @@
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\CameraXViewDemo.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Activities\" />
@@ -134,6 +140,7 @@
     <Folder Include="Assets\SBSDKLanguageData\" />
     <Folder Include="Resources\xml\" />
     <Folder Include="Service\" />
+    <Folder Include="Activities\Common\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\SBSDKLanguageData\deu.traineddata" />
@@ -142,7 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ScanbotSDK.Xamarin">
-      <Version>3.6.0</Version>
+      <Version>3.7.0-beta2</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

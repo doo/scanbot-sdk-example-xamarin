@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:minWidth="25px"
     android:minHeight="25px"
@@ -20,6 +20,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Scanning UI" />
+        <Button
+            android:id="@+id/scanningCameraXUIButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Scanning UI (Camera X)" />
         <Button
             android:text="Cropping UI"
             android:layout_width="match_parent"
