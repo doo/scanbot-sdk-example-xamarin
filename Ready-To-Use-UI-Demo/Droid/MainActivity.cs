@@ -3,7 +3,7 @@ using Android.Widget;
 using Android.OS;
 using ReadyToUseUIDemo.model;
 using Android.Views;
-using System;
+
 using ReadyToUseUIDemo.Droid.Views;
 using ReadyToUseUIDemo.Droid.Fragments;
 using IO.Scanbot.Sdk.UI.View.Workflow.Configuration;
@@ -11,7 +11,6 @@ using Android.Graphics;
 using IO.Scanbot.Sdk.UI.View.Workflow;
 using Android.Content;
 using Android.Runtime;
-using System.Collections.Generic;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
 using IO.Scanbot.Sdk.UI.View.Mrz.Configuration;
 using IO.Scanbot.Sdk.UI.View.Mrz;
@@ -25,8 +24,6 @@ using ScanbotSDK.Xamarin.Android;
 using ReadyToUseUIDemo.Droid.Activities;
 using ReadyToUseUIDemo.Droid.Utils;
 using System.Threading.Tasks;
-using System.IO;
-using IO.Scanbot.Sdk.UI.View.Edit;
 using IO.Scanbot.Sdk.Process;
 using IO.Scanbot.Sdk.UI.View.Barcode.Configuration;
 using IO.Scanbot.Sdk.UI.View.Barcode;
@@ -39,13 +36,13 @@ using IO.Scanbot.Sdk.Core.Contourdetector;
 using AndroidX.AppCompat.App;
 using IO.Scanbot.Sdk.UI.View.Barcode.Batch.Configuration;
 using IO.Scanbot.Sdk.UI.View.Barcode.Batch;
-using IO.Scanbot.Sdk.UI.Camera;
 using IO.Scanbot.Sdk.UI.View.Genericdocument.Configuration;
 using IO.Scanbot.Genericdocument.Entity;
 using IO.Scanbot.Sdk.UI.View.Genericdocument;
 using IO.Scanbot.Sdk.UI.Result;
 using IO.Scanbot.Sdk.UI.View.Base;
-
+using System.Collections.Generic;
+using System;
 namespace ReadyToUseUIDemo.Droid
 {
     [Activity(Label = "Ready-to-use UI Demo", MainLauncher = true, Icon = "@mipmap/icon")]
@@ -402,6 +399,7 @@ namespace ReadyToUseUIDemo.Droid
             {
                 var workflow = (Workflow)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
                 var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
+
                 var fragment = MRZFrontBackImageResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, MRZFrontBackImageResultDialogFragment.NAME);
             }
@@ -449,8 +447,6 @@ namespace ReadyToUseUIDemo.Droid
                     })
                     .ToList()
                 );
-
-
                 Console.WriteLine("GDR Result: ", description);
                 ShowAlert("Result", description);
             }

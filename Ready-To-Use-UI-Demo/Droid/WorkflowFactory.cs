@@ -118,6 +118,11 @@ namespace ReadyToUseUIDemo.Droid
 
     class MRZValidator : WorkflowValidator<MachineReadableZoneWorkflowStepResult>
     {
+        public MRZValidator() { }
+
+        protected MRZValidator(IntPtr a, JniHandleOwnership b) : base(a, b)
+        { }
+
         public WorkflowStepError Invoke(Java.Lang.Object t)
         {
             var result = (MachineReadableZoneWorkflowStepResult)t;
