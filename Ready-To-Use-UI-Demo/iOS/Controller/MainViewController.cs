@@ -166,6 +166,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             if (e.OriginalImage is UIImage image)
             {
                 SBSDKBarcodeScannerResult[] results = new SBSDKBarcodeScanner().DetectBarCodesOnImage(image);
+
                 if (results != null && results.Length > 0)
                 {
                     text = "";

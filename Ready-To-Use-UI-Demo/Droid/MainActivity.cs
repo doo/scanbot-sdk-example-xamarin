@@ -44,6 +44,7 @@ using IO.Scanbot.Sdk.UI.View.Genericdocument.Configuration;
 using IO.Scanbot.Genericdocument.Entity;
 using IO.Scanbot.Sdk.UI.View.Genericdocument;
 using IO.Scanbot.Sdk.UI.Result;
+using IO.Scanbot.Sdk.UI.View.Base;
 
 namespace ReadyToUseUIDemo.Droid
 {
@@ -313,7 +314,7 @@ namespace ReadyToUseUIDemo.Droid
 
             if (requestCode == Constants.CAMERA_DEFAULT_UI_REQUEST_CODE)
             {
-                var parcelable = data.GetParcelableArrayExtra(DocumentScannerActivity.SnappedPageExtra);
+                var parcelable = data.GetParcelableArrayExtra(RtuConstants.ExtraKeyRtuResult);
                 var pages = parcelable.Cast<Page>().ToList();
 
                 PageRepository.Add(pages);
@@ -366,62 +367,62 @@ namespace ReadyToUseUIDemo.Droid
             }
             else if (requestCode == Constants.QR_BARCODE_DEFAULT_UI_REQUEST_CODE)
             {
-                var result = (BarcodeScanningResult)data.GetParcelableExtra(BarcodeScannerActivity.ScannedBarcodeExtra);
+                var result = (BarcodeScanningResult)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
                 var fragment = BarcodeDialogFragment.CreateInstance(result);
                 fragment.Show(SupportFragmentManager, BarcodeDialogFragment.NAME);
             }
             else if (requestCode == Constants.CROP_DEFAULT_UI_REQUEST)
             {
-                var page = data.GetParcelableExtra(CroppingActivity.EditedPageExtra) as Page;
+                var page = data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult) as Page;
                 PageRepository.Add(page);
             }
             else if (requestCode == Constants.DC_SCAN_WORKFLOW_REQUEST_CODE)
             {
-                var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
+                var workflow = (Workflow)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
 
-                var list = data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var list = data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
                 var result = (DisabilityCertificateWorkflowStepResult)list[0];
                 var fragment = DCResultDialogFragment.CreateInstance(workflow, result);
                 fragment.Show(SupportFragmentManager, DCResultDialogFragment.NAME);
             }
             else if (requestCode == Constants.MRZ_DEFAULT_UI_REQUEST_CODE)
             {
-                var result = (MRZRecognitionResult)data.GetParcelableExtra(MRZScannerActivity.ExtractedFieldsExtra);
+                var result = (MRZRecognitionResult)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
                 var fragment = MRZDialogFragment.CreateInstance(result);
                 fragment.Show(SupportFragmentManager, MRZDialogFragment.NAME);
             }
             else if (requestCode == Constants.MRZ_SNAP_WORKFLOW_REQUEST_CODE)
             {
-                var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
-                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var workflow = (Workflow)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
+                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
                 var fragment = MRZImageResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, MRZImageResultDialogFragment.NAME);
             }
             else if (requestCode == Constants.MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE)
             {
-                var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
-                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var workflow = (Workflow)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
+                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
                 var fragment = MRZFrontBackImageResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, MRZFrontBackImageResultDialogFragment.NAME);
             }
             else if (requestCode == Constants.REQUEST_EHIC_SCAN)
             {
                 var result = (HealthInsuranceCardRecognitionResult)data.GetParcelableExtra(
-                    HealthInsuranceCardScannerActivity.ExtractedFieldsExtra);
+                    RtuConstants.ExtraKeyRtuResult);
 
                 var fragment = HealthInsuranceCardFragment.CreateInstance(result);
                 fragment.Show(SupportFragmentManager, HealthInsuranceCardFragment.NAME);
             }
             else if (requestCode == Constants.PAYFORM_SCAN_WORKFLOW_REQUEST_CODE)
             {
-                var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
-                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var workflow = (Workflow)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
+                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
                 var fragment = PayFormResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, PayFormResultDialogFragment.NAME);
             }
             else if (requestCode == Constants.GENERIC_DOCUMENT_RECOGNIZER_REQUEST)
             {
-                var resultsArray = data.GetParcelableArrayListExtra(GenericDocumentRecognizerActivity.ExtractedFieldsExtra);
+                var resultsArray = data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
                 if (resultsArray.Count == 0)
                 {
                     return;

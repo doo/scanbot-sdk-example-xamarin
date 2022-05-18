@@ -4,11 +4,12 @@ using System.Text;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using IO.Scanbot.Dcscanner.Model;
+using IO.Scanbot.Mcscanner.Model;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
 using Newtonsoft.Json;
 using ReadyToUseUIDemo.Droid.Views;
 using AndroidX.AppCompat.App;
+using IO.Scanbot.Sdk.Mcrecognizer.Entity;
 
 namespace ReadyToUseUIDemo.Droid.Fragments
 {
@@ -41,7 +42,7 @@ namespace ReadyToUseUIDemo.Droid.Fragments
             if (result.Step is ScanDisabilityCertificateWorkflowStep)
             {
                 var tv = (TextView)view.FindViewById(Resource.Id.tv_data);
-                CopyText = ParseResult(result.DisabilityCertificateResult);
+                CopyText = ParseResult(result.MedicalCertificateResult);
                 tv.Text = CopyText;
             }
             return view;
@@ -72,24 +73,24 @@ namespace ReadyToUseUIDemo.Droid.Fragments
             return dialog;
         }
 
-        string ParseResult(DisabilityCertificateRecognizerResultInfo result)
+        string ParseResult(MedicalCertificateRecognizerResult result)
         {
             var builder = new StringBuilder();
             builder.Append("Type: ");
-            builder.Append(result.DcFormType).Append("\n");
+            builder.Append(result.McFormType).Append("\n");
 
             builder.Append("Checkboxes: \n");
 
-            foreach (DisabilityCertificateInfoBox cb in result.Checkboxes)
+            foreach (MedicalCertificateInfoBox cb in result.Checkboxes)
             {
                 string name = "Unknown";
-                if (cb.SubType == DCInfoBoxSubtype.DCBoxInitialCertificate)
+                if (cb.SubType == McInfoBoxSubtype.McBoxInitialCertificate)
                     name = "Initial certificate";
-                else if (cb.SubType == DCInfoBoxSubtype.DCBoxRenewedCertificate)
+                else if (cb.SubType == McInfoBoxSubtype.McBoxRenewedCertificate)
                     name = "Renewed certificate";
-                else if (cb.SubType == DCInfoBoxSubtype.DCBoxAssignedToAccidentInsuranceDoctor)
+                else if (cb.SubType == McInfoBoxSubtype.McBoxAssignedToAccidentInsuranceDoctor)
                     name = "Assigned to accident insurance doctor";
-                else if (cb.SubType == DCInfoBoxSubtype.DCBoxWorkAccident)
+                else if (cb.SubType == McInfoBoxSubtype.McBoxWorkAccident)
                     name = "Work accident";
                 builder.AppendLine($"{name}: {(cb.HasContents ? "yes" : "no")}");
             }

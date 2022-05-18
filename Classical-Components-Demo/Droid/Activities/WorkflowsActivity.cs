@@ -10,13 +10,14 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using IO.Scanbot.Dcscanner.Model;
+using IO.Scanbot.Mcscanner.Model;
 using IO.Scanbot.Mrzscanner.Model;
 using IO.Scanbot.Sdk.Barcode.Entity;
 using IO.Scanbot.Sdk.Core.Contourdetector;
 using IO.Scanbot.Sdk.Core.Payformscanner.Model;
 using IO.Scanbot.Sdk.Persistence;
 using IO.Scanbot.Sdk.UI.Entity.Workflow;
+using IO.Scanbot.Sdk.UI.View.Base;
 using IO.Scanbot.Sdk.UI.View.Workflow;
 using IO.Scanbot.Sdk.UI.View.Workflow.Configuration;
 using ScanbotSDK.Xamarin.Android;
@@ -42,7 +43,7 @@ namespace ClassicalComponentsDemo.Droid.Activities
         {
 
             var result = (DisabilityCertificateWorkflowStepResult)t;
-            if (result.DisabilityCertificateResult == null || !result.DisabilityCertificateResult.RecognitionSuccessful)
+            if (result.MedicalCertificateResult == null || !result.MedicalCertificateResult.RecognitionSuccessful)
             {
                 return ErrorDialog(1, "This does not seem to be a valid certificate.");
             }
@@ -143,7 +144,7 @@ namespace ClassicalComponentsDemo.Droid.Activities
             {
                 FindViewById<LinearLayout>(Resource.Id.workflowResultsLayout).RemoveAllViews();
 
-                var resultList = data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var resultList = data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
 
                 foreach (WorkflowStepResult result in resultList)
                 {
@@ -155,18 +156,18 @@ namespace ClassicalComponentsDemo.Droid.Activities
                     var descr = new System.Text.StringBuilder();
                     if (result is DisabilityCertificateWorkflowStepResult dcResult)
                     {
-                        var r = dcResult.DisabilityCertificateResult;
+                        var r = dcResult.MedicalCertificateResult;
                         descr.AppendLine($"Recognition successful: {r.RecognitionSuccessful}");
-                        foreach (DisabilityCertificateInfoBox cb in r.Checkboxes)
+                        foreach (MedicalCertificateInfoBox cb in r.Checkboxes)
                         {
                             string name = "Unknown";
-                            if (cb.SubType == DCInfoBoxSubtype.DCBoxInitialCertificate)
+                            if (cb.SubType == McInfoBoxSubtype.McBoxInitialCertificate)
                                 name = "Initial certificate";
-                            else if (cb.SubType == DCInfoBoxSubtype.DCBoxRenewedCertificate)
+                            else if (cb.SubType == McInfoBoxSubtype.McBoxRenewedCertificate)
                                 name = "Renewed certificate";
-                            else if (cb.SubType == DCInfoBoxSubtype.DCBoxAssignedToAccidentInsuranceDoctor)
+                            else if (cb.SubType == McInfoBoxSubtype.McBoxAssignedToAccidentInsuranceDoctor)
                                 name = "Assigned to accident insurance doctor";
-                            else if (cb.SubType == DCInfoBoxSubtype.DCBoxWorkAccident)
+                            else if (cb.SubType == McInfoBoxSubtype.McBoxWorkAccident)
                                 name = "Work accident";
                             descr.AppendLine($"{name}: {(cb.HasContents ? "yes" : "no")}");
                         }

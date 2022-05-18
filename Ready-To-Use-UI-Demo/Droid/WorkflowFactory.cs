@@ -143,12 +143,12 @@ namespace ReadyToUseUIDemo.Droid
         public WorkflowStepError Invoke(Java.Lang.Object t)
         {
             var result = (DisabilityCertificateWorkflowStepResult)t;
-            if (result.DisabilityCertificateResult == null)
+            if (result.MedicalCertificateResult == null)
             {
                 return new WorkflowStepError(1, "No result available", WorkflowStepError.ShowMode.Toast);
             }
 
-            if (!result.DisabilityCertificateResult.RecognitionSuccessful)
+            if (!result.MedicalCertificateResult.RecognitionSuccessful)
             {
                 return new WorkflowStepError(2, "Recognition failed", WorkflowStepError.ShowMode.Toast);
             }
