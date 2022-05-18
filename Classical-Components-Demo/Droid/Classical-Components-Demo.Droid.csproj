@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Activities\CameraViewDemoActivity.cs" />
+    <Compile Include="Activities\CameraXViewDemoActivity.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Activities\CroppingImageDemoActivity.cs" />
     <Compile Include="Activities\WorkflowsActivity.cs" />
@@ -122,6 +123,10 @@
       <Generator></Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\xml\provider_paths.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\CameraXViewDemo.axml">
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>

@@ -64,6 +64,7 @@ namespace ClassicalComponentsDemo.Droid
 
             AssignCopyrightText();
             AssignStartCameraButtonHandler();
+            AssignStartCameraXButtonHandler();
             AssignStartGdrButtonHandler();
             AssingCroppingUIButtonHandler();
             AssignApplyImageFilterButtonHandler();
@@ -91,6 +92,18 @@ namespace ClassicalComponentsDemo.Droid
                 if (!CheckScanbotSDKLicense()) { return; }
 
                 Intent intent = new Intent(this, typeof(CameraViewDemoActivity));
+                StartActivityForResult(intent, REQUEST_SB_SCANNING_UI);
+            };
+        }
+
+        void AssignStartCameraXButtonHandler()
+        {
+            var scanningCameraXUIButton = FindViewById<Button>(Resource.Id.scanningCameraXUIButton);
+            scanningCameraXUIButton.Click += delegate
+            {
+                if (!CheckScanbotSDKLicense()) { return; }
+
+                Intent intent = new Intent(this, typeof(CameraXViewDemoActivity));
                 StartActivityForResult(intent, REQUEST_SB_SCANNING_UI);
             };
         }

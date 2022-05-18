@@ -21,6 +21,11 @@
             android:layout_height="wrap_content"
             android:text="Scanning UI" />
         <Button
+            android:id="@+id/scanningCameraXUIButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Scanning UI (Camera X)" />
+        <Button
             android:text="Cropping UI"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
