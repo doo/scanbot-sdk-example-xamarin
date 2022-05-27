@@ -4,6 +4,7 @@ using System.IO;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -66,19 +67,25 @@ namespace ClassicalComponentsDemo.Droid.Activities
             var type = PageFileStorage.PageFileType.UnfilteredDocument;
             var documentPath = BusinessCardsPreviewActivity.GetPath(context, card.Page.PageId, type);
 
+            var sdk = new IO.Scanbot.Sdk.ScanbotSDK(context);
+            
             type = PageFileStorage.PageFileType.Original;
             var originalImagePath = BusinessCardsPreviewActivity.GetPath(context, card.Page.PageId, type);
 
             (holder as PageViewHolder).imageView.SetImageResource(0);
 
+            Android.Net.Uri imageUri;
             if (File.Exists(documentPath.Path))
             {
-                (holder as PageViewHolder).imageView.SetImageURI(documentPath);
+                imageUri = Android.Net.Uri.Parse(documentPath.Path);
             }
             else
             {
-                (holder as PageViewHolder).imageView.SetImageURI(originalImagePath);
+                imageUri = originalImagePath;
             }
+
+            var bitmap = sdk.FileIOProcessor().ReadImage(imageUri, new BitmapFactory.Options());
+            (holder as PageViewHolder).imageView.SetImageBitmap(bitmap);
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
