@@ -19,7 +19,7 @@ namespace ReadyToUseUIDemo.model
         WorkflowQR,
         WorkflowMRZImage,
         WorkflowMRZFrontBack,
-        WorkflowDC,
+        WorkflowMC,
         WorkflowSEPA,
 
         GenericDocumentRecognizer

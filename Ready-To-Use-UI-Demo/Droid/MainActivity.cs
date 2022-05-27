@@ -226,7 +226,7 @@ namespace ReadyToUseUIDemo.Droid
             }
 
             // Other Data Detectors
-            if (button.Data.Code == ListItemCode.WorkflowDC)
+            if (button.Data.Code == ListItemCode.WorkflowMC)
             {
                 var configuration = new WorkflowScannerConfiguration();
                 configuration.SetIgnoreBadAspectRatio(true);
@@ -234,9 +234,9 @@ namespace ReadyToUseUIDemo.Droid
                 configuration.SetCameraPreviewMode(CameraPreviewMode.FitIn);
 
                 var intent = WorkflowScannerActivity.NewIntent(this, configuration,
-                    WorkflowFactory.DisabilityCertificate, WorkflowScanners
+                    WorkflowFactory.MedicalCertificate, WorkflowScanners
                 );
-                StartActivityForResult(intent, Constants.DC_SCAN_WORKFLOW_REQUEST_CODE);
+                StartActivityForResult(intent, Constants.MC_SCAN_WORKFLOW_REQUEST_CODE);
             }
 
             else if (button.Data.Code == ListItemCode.ScannerMRZ)
@@ -373,14 +373,14 @@ namespace ReadyToUseUIDemo.Droid
                 var page = data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult) as Page;
                 PageRepository.Add(page);
             }
-            else if (requestCode == Constants.DC_SCAN_WORKFLOW_REQUEST_CODE)
+            else if (requestCode == Constants.MC_SCAN_WORKFLOW_REQUEST_CODE)
             {
                 var workflow = (Workflow)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
 
                 var list = data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
                 var result = (DisabilityCertificateWorkflowStepResult)list[0];
-                var fragment = DCResultDialogFragment.CreateInstance(workflow, result);
-                fragment.Show(SupportFragmentManager, DCResultDialogFragment.NAME);
+                var fragment = MCResultDialogFragment.CreateInstance(workflow, result);
+                fragment.Show(SupportFragmentManager, MCResultDialogFragment.NAME);
             }
             else if (requestCode == Constants.MRZ_DEFAULT_UI_REQUEST_CODE)
             {
@@ -391,14 +391,29 @@ namespace ReadyToUseUIDemo.Droid
             else if (requestCode == Constants.MRZ_SNAP_WORKFLOW_REQUEST_CODE)
             {
                 var workflow = (Workflow)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
-                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
+                var javaResults = data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
+
+                // Here we convert the Java ArrayList to a C# List object before passing it to our Dialog Fragment creator
+                var results = new List<WorkflowStepResult>();
+                foreach (WorkflowStepResult result in javaResults)
+                {
+                    results.Add(result);
+                }
+
                 var fragment = MRZImageResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, MRZImageResultDialogFragment.NAME);
             }
             else if (requestCode == Constants.MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE)
             {
                 var workflow = (Workflow)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
-                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
+                var javaResults = data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
+
+                // Here we convert the Java ArrayList to a C# List object before passing it to our Dialog Fragment creator
+                var results = new List<WorkflowStepResult>();
+                foreach (WorkflowStepResult result in javaResults)
+                {
+                    results.Add(result);
+                }
 
                 var fragment = MRZFrontBackImageResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, MRZFrontBackImageResultDialogFragment.NAME);

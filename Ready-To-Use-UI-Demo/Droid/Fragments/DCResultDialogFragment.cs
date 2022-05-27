@@ -13,15 +13,15 @@ using IO.Scanbot.Sdk.Mcrecognizer.Entity;
 
 namespace ReadyToUseUIDemo.Droid.Fragments
 {
-    public class DCResultDialogFragment : BaseDialogFragment
+    public class MCResultDialogFragment : BaseDialogFragment
     {
-        public const string NAME = "DCResultDialogFragment";
+        public const string NAME = "MCResultDialogFragment";
 
         DisabilityCertificateWorkflowStepResult result = null;
 
-        public static DCResultDialogFragment CreateInstance(Workflow flow, DisabilityCertificateWorkflowStepResult result)
+        public static MCResultDialogFragment CreateInstance(Workflow flow, DisabilityCertificateWorkflowStepResult result)
         {
-            var fragment = new DCResultDialogFragment();
+            var fragment = new MCResultDialogFragment();
             fragment.workflow = flow;
             fragment.result = result;
             return fragment;
@@ -31,7 +31,7 @@ namespace ReadyToUseUIDemo.Droid.Fragments
         {
             var view = inflater.Inflate(Resource.Layout.fragment_workflow_result_dialog, container);
             var title = (TextView)view.FindViewById(Resource.Id.title);
-            title.Text = "Detected DC Form";
+            title.Text = "Detected MC Form";
 
             if (result == null)
             {

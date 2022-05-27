@@ -95,7 +95,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             foreach (var page in e.Pages)
             {
                 var result = page.DetectDocument(true);
-                Console.WriteLine("Attempted document detection on imported page: " + result.Status);
+                //Console.WriteLine("Attempted document detection on imported page: " + result.Status);
             }
             PageRepository.Add(e.Pages);
             OpenImageListController();
@@ -244,23 +244,23 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 PresentViewController(controller, true, null);
             }
 
-            else if (button.Data.Code == ListItemCode.WorkflowDC)
+            else if (button.Data.Code == ListItemCode.WorkflowMC)
             {
                 var ratios = new SBSDKAspectRatio[]
                 {
-                    // DC form A5 portrait (e.g. white sheet, AUB Muster 1b/E (1/2018))
+                    // MC form A5 portrait (e.g. white sheet, AUB Muster 1b/E (1/2018))
                     new SBSDKAspectRatio(148.0, 210.0),
-                    // DC form A6 landscape (e.g. yellow sheet, AUB Muster 1b (1.2018))
+                    // MC form A6 landscape (e.g. yellow sheet, AUB Muster 1b (1.2018))
                     new SBSDKAspectRatio(148.0, 105.0)
                 };
 
-                var title = "Please align the DC form in the frame.";
-                var name = "DisabilityCertificateFlow";
+                var title = "Please align the MC form in the frame.";
+                var name = "MedicalCertificateFlow";
 
                 var steps = new SBSDKUIWorkflowStep[]
                 {
                     new SBSDKUIScanDisabilityCertificateWorkflowStep(
-                        title, "", ratios, true, WorkflowStepValidator.OnDCFormStep
+                        title, "", ratios, true, WorkflowStepValidator.OnMCFormStep
                     )
                 };
 

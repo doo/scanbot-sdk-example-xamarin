@@ -14,7 +14,7 @@ namespace ReadyToUseUIDemo.iOS.Utils
         public static UIViewController MainController { get; set; }
         public static UIViewController WorkflowController { get; set; }
 
-        public static NSError OnDCFormStep(SBSDKUIWorkflowStepResult result)
+        public static NSError OnMCFormStep(SBSDKUIWorkflowStepResult result)
         {
             var images = new List<UIImage>();
 

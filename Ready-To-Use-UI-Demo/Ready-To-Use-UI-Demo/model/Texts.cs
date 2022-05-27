@@ -29,7 +29,7 @@ namespace ReadyToUseUIDemo.model
 
         public const string scan_bar_code_and_doc_image = "Scan QR-/Barcode + Document Image";
 
-        public const string scan_dc_form = "Scan DC Form";
+        public const string scan_mc_form = "Scan MC Form";
 
         public const string scan_pay_form = "Scan SEPA Pay Form";
 

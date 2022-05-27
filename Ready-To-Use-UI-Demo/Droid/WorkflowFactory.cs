@@ -11,22 +11,22 @@ namespace ReadyToUseUIDemo.Droid
 {
     public class WorkflowFactory
     {
-        public static Workflow DisabilityCertificate
+        public static Workflow MedicalCertificate
         {
             get
             {
                 var ratios = new List<PageAspectRatio>
                 {
-                    // DC form A5 portrait (e.g. white sheet, AUB Muster 1b/E (1/2018))
+                    // MC form A5 portrait (e.g. white sheet, AUB Muster 1b/E (1/2018))
                     new PageAspectRatio(148.0, 210.0),
-                    // DC form A6 landscape (e.g. yellow sheet, AUB Muster 1b (1.2018))
+                    // MC form A6 landscape (e.g. yellow sheet, AUB Muster 1b (1.2018))
                     new PageAspectRatio(148.0, 105.0)
                 };
 
                 var steps = new List<ScanDisabilityCertificateWorkflowStep>();
 
                 var step = new ScanDisabilityCertificateWorkflowStep(
-                    "Please align the DC form in the frame.",
+                    "Please align the MC form in the frame.",
                     "",
                     ratios.ToArray(),
                     true,
@@ -34,7 +34,7 @@ namespace ReadyToUseUIDemo.Droid
                 );
                 steps.Add(step);
 
-                return new Workflow(steps.ToArray(), "Disability Certificate");
+                return new Workflow(steps.ToArray(), "Medical Certificate");
             }
         }
 
