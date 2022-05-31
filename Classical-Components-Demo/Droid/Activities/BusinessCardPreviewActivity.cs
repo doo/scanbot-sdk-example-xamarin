@@ -2,6 +2,7 @@
 using System.IO;
 
 using Android.App;
+using Android.Graphics;
 using Android.OS;
 using Android.Widget;
 using IO.Scanbot.Sdk.Businesscard;
@@ -30,14 +31,19 @@ namespace ClassicalComponentsDemo.Droid.Activities
             type = PageFileStorage.PageFileType.Original;
             var originalImagePath = BusinessCardsPreviewActivity.GetPath(this, SelectedItem.Page.PageId, type);
 
+            var sdk = new IO.Scanbot.Sdk.ScanbotSDK(this);
+            Android.Net.Uri imageUri;
             if (File.Exists(documentPath.Path))
             {
-                imageView.SetImageURI(documentPath);
+                imageUri = Android.Net.Uri.Parse(documentPath.Path);
             }
             else
             {
-                imageView.SetImageURI(originalImagePath);
+                imageUri = originalImagePath;
             }
+
+            var bitmap = sdk.FileIOProcessor().ReadImage(imageUri, new BitmapFactory.Options());
+            imageView.SetImageBitmap(bitmap);
         }
     }
 }

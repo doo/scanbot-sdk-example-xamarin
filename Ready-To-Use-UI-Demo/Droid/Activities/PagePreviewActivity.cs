@@ -16,6 +16,7 @@ using AndroidX.RecyclerView.Widget;
 using IO.Scanbot.Sdk.Camera;
 using IO.Scanbot.Sdk.Persistence;
 using IO.Scanbot.Sdk.Process;
+using IO.Scanbot.Sdk.UI.View.Base;
 using IO.Scanbot.Sdk.UI.View.Camera;
 using IO.Scanbot.Sdk.UI.View.Camera.Configuration;
 using IO.Scanbot.Sdk.Util.Thread;
@@ -142,7 +143,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
 
             if (resultCode == Result.Ok && requestCode == CAMERA_ACTIVITY)
             {
-                var pages = data.GetParcelableArrayExtra(DocumentScannerActivity.SnappedPageExtra).Cast<Page>().ToList();
+                var pages = data.GetParcelableArrayExtra(RtuConstants.ExtraKeyRtuResult).Cast<Page>().ToList();
                 PageRepository.Add(pages);
             }
             adapter.SetItems(PageRepository.Pages);

@@ -13,11 +13,13 @@ namespace ReadyToUseUIDemo.model
         ScannerBarcode,
         ScannerBatchBarcode,
         ScannerImportBarcode,
+        ScannerImportImagesFromBarcode,
+
 
         WorkflowQR,
         WorkflowMRZImage,
         WorkflowMRZFrontBack,
-        WorkflowDC,
+        WorkflowMC,
         WorkflowSEPA,
 
         GenericDocumentRecognizer
