@@ -13,8 +13,7 @@ namespace ReadyToUseUIDemo.model
         {
             new ListItem { Title = "Scan Barcodes", Code = ListItemCode.ScannerBarcode },
             new ListItem { Title = "Scan Batch Barcodes", Code = ListItemCode.ScannerBatchBarcode },
-            new ListItem { Title = "Import and Detect Barcodes", Code = ListItemCode.ScannerImportBarcode },
-            new ListItem { Title = "Detect Barcodes from Multiple Still Images", Code = ListItemCode.ScannerImportImagesFromBarcode },
+            new ListItem { Title = "Import and Detect Barcodes", Code = ListItemCode.ScannerImportBarcode }
         };
     }
 }
