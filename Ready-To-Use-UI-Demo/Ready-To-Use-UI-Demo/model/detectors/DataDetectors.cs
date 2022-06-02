@@ -14,7 +14,7 @@ namespace ReadyToUseUIDemo.model
             new ListItem { Title = "Scan MRZ",                      Code = ListItemCode.ScannerMRZ           },
             new ListItem { Title = "Scan Health Insurance card",    Code = ListItemCode.ScannerEHIC          },
 
-            new ListItem { Title = "Scan DC Form",                  Code = ListItemCode.WorkflowDC           },
+            new ListItem { Title = "Scan MC Form",                  Code = ListItemCode.WorkflowMC           },
             new ListItem { Title = "Scan MRZ + Image",              Code = ListItemCode.WorkflowMRZImage     },
             new ListItem { Title = "Scan MRZ + Front & Back Image", Code = ListItemCode.WorkflowMRZFrontBack },
             new ListItem { Title = "Generic Document Recognizer",   Code = ListItemCode.GenericDocumentRecognizer },

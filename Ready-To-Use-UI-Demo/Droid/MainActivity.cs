@@ -24,8 +24,6 @@ using ScanbotSDK.Xamarin.Android;
 using ReadyToUseUIDemo.Droid.Activities;
 using ReadyToUseUIDemo.Droid.Utils;
 using System.Threading.Tasks;
-using System.IO;
-using IO.Scanbot.Sdk.UI.View.Edit;
 using IO.Scanbot.Sdk.Process;
 using IO.Scanbot.Sdk.UI.View.Barcode.Configuration;
 using IO.Scanbot.Sdk.UI.View.Barcode;
@@ -38,14 +36,13 @@ using IO.Scanbot.Sdk.Core.Contourdetector;
 using AndroidX.AppCompat.App;
 using IO.Scanbot.Sdk.UI.View.Barcode.Batch.Configuration;
 using IO.Scanbot.Sdk.UI.View.Barcode.Batch;
-using IO.Scanbot.Sdk.UI.Camera;
 using IO.Scanbot.Sdk.UI.View.Genericdocument.Configuration;
 using IO.Scanbot.Genericdocument.Entity;
 using IO.Scanbot.Sdk.UI.View.Genericdocument;
 using IO.Scanbot.Sdk.UI.Result;
-using System;
+using IO.Scanbot.Sdk.UI.View.Base;
 using System.Collections.Generic;
-
+using System;
 namespace ReadyToUseUIDemo.Droid
 {
     [Activity(Label = "Ready-to-use UI Demo", MainLauncher = true, Icon = "@mipmap/icon")]
@@ -229,7 +226,7 @@ namespace ReadyToUseUIDemo.Droid
             }
 
             // Other Data Detectors
-            if (button.Data.Code == ListItemCode.WorkflowDC)
+            if (button.Data.Code == ListItemCode.WorkflowMC)
             {
                 var configuration = new WorkflowScannerConfiguration();
                 configuration.SetIgnoreBadAspectRatio(true);
@@ -237,9 +234,9 @@ namespace ReadyToUseUIDemo.Droid
                 configuration.SetCameraPreviewMode(CameraPreviewMode.FitIn);
 
                 var intent = WorkflowScannerActivity.NewIntent(this, configuration,
-                    WorkflowFactory.DisabilityCertificate, WorkflowScanners
+                    WorkflowFactory.MedicalCertificate, WorkflowScanners
                 );
-                StartActivityForResult(intent, Constants.DC_SCAN_WORKFLOW_REQUEST_CODE);
+                StartActivityForResult(intent, Constants.MC_SCAN_WORKFLOW_REQUEST_CODE);
             }
 
             else if (button.Data.Code == ListItemCode.ScannerMRZ)
@@ -314,7 +311,7 @@ namespace ReadyToUseUIDemo.Droid
 
             if (requestCode == Constants.CAMERA_DEFAULT_UI_REQUEST_CODE)
             {
-                var parcelable = data.GetParcelableArrayExtra(DocumentScannerActivity.SnappedPageExtra);
+                var parcelable = data.GetParcelableArrayExtra(RtuConstants.ExtraKeyRtuResult);
                 var pages = parcelable.Cast<Page>().ToList();
 
                 PageRepository.Add(pages);
@@ -367,38 +364,39 @@ namespace ReadyToUseUIDemo.Droid
             }
             else if (requestCode == Constants.QR_BARCODE_DEFAULT_UI_REQUEST_CODE)
             {
-                var result = (BarcodeScanningResult)data.GetParcelableExtra(BarcodeScannerActivity.ScannedBarcodeExtra);
+                var result = (BarcodeScanningResult)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
                 var fragment = BarcodeDialogFragment.CreateInstance(result);
                 fragment.Show(SupportFragmentManager, BarcodeDialogFragment.NAME);
             }
             else if (requestCode == Constants.CROP_DEFAULT_UI_REQUEST)
             {
-                var page = data.GetParcelableExtra(CroppingActivity.EditedPageExtra) as Page;
+                var page = data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult) as Page;
                 PageRepository.Add(page);
             }
-            else if (requestCode == Constants.DC_SCAN_WORKFLOW_REQUEST_CODE)
+            else if (requestCode == Constants.MC_SCAN_WORKFLOW_REQUEST_CODE)
             {
-                var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
+                var workflow = (Workflow)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
 
-                var list = data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var list = data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
                 var result = (DisabilityCertificateWorkflowStepResult)list[0];
-                var fragment = DCResultDialogFragment.CreateInstance(workflow, result);
-                fragment.Show(SupportFragmentManager, DCResultDialogFragment.NAME);
+                var fragment = MCResultDialogFragment.CreateInstance(workflow, result);
+                fragment.Show(SupportFragmentManager, MCResultDialogFragment.NAME);
             }
             else if (requestCode == Constants.MRZ_DEFAULT_UI_REQUEST_CODE)
             {
-                var result = (MRZRecognitionResult)data.GetParcelableExtra(MRZScannerActivity.ExtractedFieldsExtra);
+                var result = (MRZRecognitionResult)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
                 var fragment = MRZDialogFragment.CreateInstance(result);
                 fragment.Show(SupportFragmentManager, MRZDialogFragment.NAME);
             }
             else if (requestCode == Constants.MRZ_SNAP_WORKFLOW_REQUEST_CODE)
             {
-                var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
-                var javaResults = data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var workflow = (Workflow)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
+                var javaResults = data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
 
                 // Here we convert the Java ArrayList to a C# List object before passing it to our Dialog Fragment creator
                 var results = new List<WorkflowStepResult>();
-                foreach (WorkflowStepResult result in javaResults) {
+                foreach (WorkflowStepResult result in javaResults)
+                {
                     results.Add(result);
                 }
 
@@ -407,8 +405,8 @@ namespace ReadyToUseUIDemo.Droid
             }
             else if (requestCode == Constants.MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE)
             {
-                var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
-                var javaResults = data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var workflow = (Workflow)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
+                var javaResults = data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
 
                 // Here we convert the Java ArrayList to a C# List object before passing it to our Dialog Fragment creator
                 var results = new List<WorkflowStepResult>();
@@ -423,21 +421,21 @@ namespace ReadyToUseUIDemo.Droid
             else if (requestCode == Constants.REQUEST_EHIC_SCAN)
             {
                 var result = (HealthInsuranceCardRecognitionResult)data.GetParcelableExtra(
-                    HealthInsuranceCardScannerActivity.ExtractedFieldsExtra);
+                    RtuConstants.ExtraKeyRtuResult);
 
                 var fragment = HealthInsuranceCardFragment.CreateInstance(result);
                 fragment.Show(SupportFragmentManager, HealthInsuranceCardFragment.NAME);
             }
             else if (requestCode == Constants.PAYFORM_SCAN_WORKFLOW_REQUEST_CODE)
             {
-                var workflow = (Workflow)data.GetParcelableExtra(WorkflowScannerActivity.WorkflowExtra);
-                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(WorkflowScannerActivity.WorkflowResultExtra);
+                var workflow = (Workflow)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
+                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
                 var fragment = PayFormResultDialogFragment.CreateInstance(workflow, results);
                 fragment.Show(SupportFragmentManager, PayFormResultDialogFragment.NAME);
             }
             else if (requestCode == Constants.GENERIC_DOCUMENT_RECOGNIZER_REQUEST)
             {
-                var resultsArray = data.GetParcelableArrayListExtra(GenericDocumentRecognizerActivity.ExtractedFieldsExtra);
+                var resultsArray = data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
                 if (resultsArray.Count == 0)
                 {
                     return;
@@ -464,8 +462,6 @@ namespace ReadyToUseUIDemo.Droid
                     })
                     .ToList()
                 );
-
-
                 Console.WriteLine("GDR Result: ", description);
                 ShowAlert("Result", description);
             }

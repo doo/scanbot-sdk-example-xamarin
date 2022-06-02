@@ -28,6 +28,7 @@ using IO.Scanbot.Sdk.UI.Result;
 using System.Linq;
 using IO.Scanbot.Sdk.UI.View.Genericdocument.Configuration;
 using IO.Scanbot.Genericdocument.Entity;
+using IO.Scanbot.Sdk.UI.View.Base;
 
 namespace ClassicalComponentsDemo.Droid
 {
@@ -63,6 +64,7 @@ namespace ClassicalComponentsDemo.Droid
 
             AssignCopyrightText();
             AssignStartCameraButtonHandler();
+            AssignStartCameraXButtonHandler();
             AssignStartGdrButtonHandler();
             AssingCroppingUIButtonHandler();
             AssignApplyImageFilterButtonHandler();
@@ -90,6 +92,18 @@ namespace ClassicalComponentsDemo.Droid
                 if (!CheckScanbotSDKLicense()) { return; }
 
                 Intent intent = new Intent(this, typeof(CameraViewDemoActivity));
+                StartActivityForResult(intent, REQUEST_SB_SCANNING_UI);
+            };
+        }
+
+        void AssignStartCameraXButtonHandler()
+        {
+            var scanningCameraXUIButton = FindViewById<Button>(Resource.Id.scanningCameraXUIButton);
+            scanningCameraXUIButton.Click += delegate
+            {
+                if (!CheckScanbotSDKLicense()) { return; }
+
+                Intent intent = new Intent(this, typeof(CameraXViewDemoActivity));
                 StartActivityForResult(intent, REQUEST_SB_SCANNING_UI);
             };
         }
@@ -363,14 +377,14 @@ namespace ClassicalComponentsDemo.Droid
 
             if (requestCode == REQUEST_SB_MRZ_SCANNER && resultCode == Result.Ok)
             {
-                var mrzRecognitionResult = data.GetParcelableExtra(MRZScannerActivity.ExtractedFieldsExtra) as MRZRecognitionResult;
+                var mrzRecognitionResult = data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult) as MRZRecognitionResult;
                 Toast.MakeText(this, ExtractMrzResultData(mrzRecognitionResult), ToastLength.Long).Show();
                 return;
             }
 
             if (requestCode == REQUEST_SB_BARCODE_SCANNER && resultCode == Result.Ok)
             {
-                var barcodeResult = data.GetParcelableExtra(BarcodeScannerActivity.ScannedBarcodeExtra) as BarcodeScanningResult;
+                var barcodeResult = data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult) as BarcodeScanningResult;
                 var barcode = barcodeResult.BarcodeItems[0];
                 Toast.MakeText(this, barcode.BarcodeFormat + "\n" + barcode.Text, ToastLength.Long).Show();
                 return;
@@ -378,7 +392,7 @@ namespace ClassicalComponentsDemo.Droid
 
             if (requestCode == REQUEST_SB_GDR_SCANNING_UI && resultCode == Result.Ok)
             {
-                var resultsArray = data.GetParcelableArrayListExtra(GenericDocumentRecognizerActivity.ExtractedFieldsExtra);
+                var resultsArray = data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
                 if (resultsArray.Count == 0)
                 {
                     return;

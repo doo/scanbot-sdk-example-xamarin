@@ -11,6 +11,7 @@ using Android.Widget;
 using AndroidX.AppCompat.App;
 using IO.Scanbot.Sdk.Persistence;
 using IO.Scanbot.Sdk.Process;
+using IO.Scanbot.Sdk.UI.View.Base;
 using IO.Scanbot.Sdk.UI.View.Edit;
 using IO.Scanbot.Sdk.UI.View.Edit.Configuration;
 using ReadyToUseUIDemo.Droid.Fragments;
@@ -137,7 +138,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
 
             if (requestCode == CROP_DEFAULT_UI_REQUEST_CODE)
             {
-                var page = (Page)data.GetParcelableExtra(CroppingActivity.EditedPageExtra);
+                var page = (Page)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
                 SelectedPage = PageRepository.Update(page);
 
                 var uri = SBSDK.PageStorage.GetFilteredPreviewImageURI(SelectedPage.PageId, selectedFilter);

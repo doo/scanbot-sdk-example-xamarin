@@ -205,7 +205,7 @@ namespace ClassicalComponentsDemo.iOS
                 true,
                 (result) =>
                 {
-                    SBSDKDisabilityCertificatesRecognizerResult dc = result.DisabilityCertificateResult;
+                    SBSDKMedicalCertificateRecognizerResult dc = result.DisabilityCertificateResult;
                     if (dc == null || !dc.RecognitionSuccessful)
                     {
                         return WorkflowError.ErrorWithCode(6, new NSString("This does not seem to be a valid certificate."));
