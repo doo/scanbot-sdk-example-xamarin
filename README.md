@@ -2,7 +2,7 @@
 
 ## Scanbot SDK example app for Xamarin
 
-This example app demonstrates how to integrate the Scanbot SDK for Xamarin.
+This example app demonstrates how to integrate the [Scanbot Xamarin & Xamarin.Forms Document Scanner SDK](https://scanbot.io/developer/xamarin-document-scanner/).
 
 
 ## What is Scanbot SDK
