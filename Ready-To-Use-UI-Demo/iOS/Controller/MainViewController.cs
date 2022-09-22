@@ -194,19 +194,14 @@ namespace ReadyToUseUIDemo.iOS.Controller
             if (button.Data.Code == ListItemCode.ScannerBarcode)
             {
                 var configuration = SBSDKUIBarcodeScannerConfiguration.DefaultConfiguration;
-                var controller = SBSDKUIBarcodeScannerViewController
-                    .CreateNewWithAcceptedMachineCodeTypes(
-                    SBSDKBarcodeType.AllTypes, configuration, Delegates.Barcode);
+                var controller = SBSDKUIBarcodeScannerViewController.CreateNewWithConfiguration(configuration, Delegates.Barcode);
                 controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
                 PresentViewController(controller, false, null);
             }
             else if (button.Data.Code == ListItemCode.ScannerBatchBarcode)
             {
                 var configuration = SBSDKUIBarcodesBatchScannerConfiguration.DefaultConfiguration;
-                var controller = SBSDKUIBarcodesBatchScannerViewController
-                    .CreateNewWithAcceptedMachineCodeTypes(
-                    SBSDKBarcodeType.AllTypes, configuration, Delegates.BatchBarcode
-                    );
+                var controller = SBSDKUIBarcodesBatchScannerViewController.CreateNewWithConfiguration(configuration, Delegates.BatchBarcode);
                 controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
                 PresentViewController(controller, false, null);
             }
@@ -339,6 +334,19 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 var controller = SBSDKUIGenericDocumentRecognizerViewController.CreateNewWithConfiguration(configuration, Delegates.GDR.WithPresentingViewController(this));
                 PresentViewController(controller, false, null);
             }
+            else if (button.Data.Code == ListItemCode.CheckRecognizer)
+            {
+                var configuration = SBSDKUICheckRecognizerConfiguration.DefaultConfiguration;
+                configuration.BehaviorConfiguration.AcceptedCheckStandards = new SBSDKCheckDocumentRootType[] {
+                    SBSDKCheckDocumentRootType.AusCheck(),
+                    SBSDKCheckDocumentRootType.FraCheck(),
+                    SBSDKCheckDocumentRootType.IndCheck(),
+                    SBSDKCheckDocumentRootType.KwtCheck(),
+                    SBSDKCheckDocumentRootType.UsaCheck(),
+                };
+                var controller = SBSDKUICheckRecognizerViewController.CreateNewWithConfiguration(configuration, Delegates.Check.WithPresentingViewController(this));
+                PresentViewController(controller, false, null);
+            }
         }
 
         void PresentController(string name, SBSDKUIWorkflowStep[] steps,
@@ -373,15 +381,19 @@ namespace ReadyToUseUIDemo.iOS.Controller
     public class SimpleScanCallback : SBSDKUIDocumentScannerViewControllerDelegate
     {
         public EventHandler<PageEventArgs> Selected;
-        
-        public override void DidFinish(SBSDKUIDocumentScannerViewController viewController, SBSDKUIPage[] pages)
+        public override void DidFinishWithDocument(SBSDKUIDocumentScannerViewController viewController, SBSDKUIDocument document)
         {
-            if (pages.Length == 0)
+            if (document.NumberOfPages == 0)
             {
                 return;
             }
 
-            Selected?.Invoke(this, new PageEventArgs { Pages = pages.ToList() });
+            var pages = new List<SBSDKUIPage>();
+            for (var i = 0; i < document.NumberOfPages; ++i) {
+                pages.Add(document.PageAtIndex(i));
+            }
+
+            Selected?.Invoke(this, new PageEventArgs { Pages = pages });
         }
     }
 }
