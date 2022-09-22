@@ -333,7 +333,7 @@ namespace ReadyToUseUIDemo.Droid
                     var result = Utils.ImageUtils.ProcessGalleryResult(this, data);
 
                     var pageId = SBSDK.PageStorage.Add(result);
-                    var page = new Page(pageId, new List<PointF>(), DetectionResult.Ok, ImageFilterType.None);
+                    var page = new Page(pageId, new List<PointF>(), DetectionStatus.Ok, ImageFilterType.None);
                     page = SBSDK.PageProcessor.DetectDocument(page);
                     PageRepository.Add(page);
 
