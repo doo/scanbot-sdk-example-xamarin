@@ -22,7 +22,8 @@ namespace ReadyToUseUIDemo.model
         WorkflowMC,
         WorkflowSEPA,
 
-        GenericDocumentRecognizer
+        GenericDocumentRecognizer,
+        CheckRecognizer
     }
 
     public class ListItem

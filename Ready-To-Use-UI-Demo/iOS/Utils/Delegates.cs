@@ -19,6 +19,8 @@ namespace ReadyToUseUIDemo.iOS.Utils
 
         public static GenericDocumentRecognizerDelegate GDR = new GenericDocumentRecognizerDelegate();
 
+        public static CheckRecognizerDelegate Check = new CheckRecognizerDelegate();
+
         public static bool IsPresented { get; set; }
 
         public static void ShowPopup(UIViewController controller, string text, Action onClose = null)
@@ -145,6 +147,39 @@ namespace ReadyToUseUIDemo.iOS.Utils
 
                 this.viewController.TryGetTarget(out UIViewController vc);
                 if (vc != null) { 
+                    ShowPopup(vc, description);
+                }
+            }
+        }
+
+        public class CheckRecognizerDelegate : SBSDKUICheckRecognizerViewControllerDelegate
+        {
+            private WeakReference<UIViewController> viewController = new WeakReference<UIViewController>(null);
+
+            public CheckRecognizerDelegate WithPresentingViewController(UIViewController viewController)
+            {
+                this.viewController = new WeakReference<UIViewController>(viewController);
+                return this;
+            }
+
+            public override void DidRecognizeCheck(SBSDKUICheckRecognizerViewController viewController, SBSDKCheckRecognizerResult result)
+            {
+                if (result == null || result.Document == null) {
+                    return;
+                }
+
+                var fields = result.Document.Fields
+                    .Where((f) => f != null && f.Type != null && f.Type.Name != null && f.Value != null && f.Value.Text != null)
+                    .Select((f) => string.Format("{0}: {1}", f.Type.Name, f.Value.Text))
+                    .ToList();
+                var description = string.Join("\n", fields);
+                Console.WriteLine(description);
+
+                viewController.DismissViewController(true, null);
+
+                this.viewController.TryGetTarget(out UIViewController vc);
+                if (vc != null)
+                {
                     ShowPopup(vc, description);
                 }
             }

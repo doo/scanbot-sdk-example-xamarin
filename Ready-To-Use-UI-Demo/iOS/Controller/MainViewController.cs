@@ -334,6 +334,19 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 var controller = SBSDKUIGenericDocumentRecognizerViewController.CreateNewWithConfiguration(configuration, Delegates.GDR.WithPresentingViewController(this));
                 PresentViewController(controller, false, null);
             }
+            else if (button.Data.Code == ListItemCode.CheckRecognizer)
+            {
+                var configuration = SBSDKUICheckRecognizerConfiguration.DefaultConfiguration;
+                configuration.BehaviorConfiguration.AcceptedCheckStandards = new SBSDKCheckDocumentRootType[] {
+                    SBSDKCheckDocumentRootType.AusCheck(),
+                    SBSDKCheckDocumentRootType.FraCheck(),
+                    SBSDKCheckDocumentRootType.IndCheck(),
+                    SBSDKCheckDocumentRootType.KwtCheck(),
+                    SBSDKCheckDocumentRootType.UsaCheck(),
+                };
+                var controller = SBSDKUICheckRecognizerViewController.CreateNewWithConfiguration(configuration, Delegates.Check.WithPresentingViewController(this));
+                PresentViewController(controller, false, null);
+            }
         }
 
         void PresentController(string name, SBSDKUIWorkflowStep[] steps,

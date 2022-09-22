@@ -17,6 +17,7 @@ namespace ReadyToUseUIDemo.Droid.Utils
         public const int MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE = 913;
         public const int REQUEST_EHIC_SCAN = 4715;
         public const int GENERIC_DOCUMENT_RECOGNIZER_REQUEST = 4716;
+        public const int CHECK_RECOGNIZER_REQUEST = 4717;
 
         public const int CROP_DEFAULT_UI_REQUEST = 9999;
     }

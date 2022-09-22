@@ -43,6 +43,10 @@ using IO.Scanbot.Sdk.UI.Result;
 using IO.Scanbot.Sdk.UI.View.Base;
 using System.Collections.Generic;
 using System;
+using IO.Scanbot.Sdk.UI.View.Check.Configuration;
+using IO.Scanbot.Sdk.UI.View.Check;
+using IO.Scanbot.Sdk.Check.Entity;
+
 namespace ReadyToUseUIDemo.Droid
 {
     [Activity(Label = "Ready-to-use UI Demo", MainLauncher = true, Icon = "@mipmap/icon")]
@@ -295,6 +299,20 @@ namespace ReadyToUseUIDemo.Droid
                 var intent = GenericDocumentRecognizerActivity.NewIntent(this, config);
                 StartActivityForResult(intent, Constants.GENERIC_DOCUMENT_RECOGNIZER_REQUEST);
             }
+            else if (button.Data.Code == ListItemCode.CheckRecognizer)
+            {
+                var config = new CheckRecognizerConfiguration();
+                config.SetAcceptedCheckStandards(new List<IO.Scanbot.Check.Entity.RootDocumentType>
+                {
+                    IO.Scanbot.Check.Entity.RootDocumentType.AUSCheck,
+                    IO.Scanbot.Check.Entity.RootDocumentType.FRACheck,
+                    IO.Scanbot.Check.Entity.RootDocumentType.INDCheck,
+                    IO.Scanbot.Check.Entity.RootDocumentType.KWTCheck,
+                    IO.Scanbot.Check.Entity.RootDocumentType.USACheck,
+                });
+                var intent = CheckRecognizerActivity.NewIntent(this, config);
+                StartActivityForResult(intent, Constants.CHECK_RECOGNIZER_REQUEST);
+            }
         }
 
         /**
@@ -463,6 +481,31 @@ namespace ReadyToUseUIDemo.Droid
                     .ToList()
                 );
                 Console.WriteLine("GDR Result: ", description);
+                ShowAlert("Result", description);
+            }
+            else if (requestCode == Constants.CHECK_RECOGNIZER_REQUEST)
+            {
+                var resultWrapper = (ResultWrapper)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
+                var resultRepository = sdkInstance.ResultRepositoryForClass(resultWrapper.Clazz);
+                var checkResult = (CheckRecognizerResult)resultRepository.GetResultAndErase(resultWrapper.ResultId);
+                var fields = checkResult.Check.Fields;
+                var description = string.Join(";\n", fields
+                    .Where(field => field != null)
+                    .Select((field) =>
+                    {
+                        string outStr = "";
+                        if (field.GetType() != null && field.GetType().Name != null)
+                        {
+                            outStr += field.GetType().Name + " = ";
+                        }
+                        if (field.Value != null && field.Value.Text != null)
+                        {
+                            outStr += field.Value.Text;
+                        }
+                        return outStr;
+                    })
+                    .ToList());
+                Console.WriteLine("Check Recognizer Result: ", description);
                 ShowAlert("Result", description);
             }
         }
