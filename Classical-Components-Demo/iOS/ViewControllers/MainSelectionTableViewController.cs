@@ -160,9 +160,11 @@ namespace ClassicalComponentsDemo.iOS
 
             // Select image from PhotoLibrary and run document detection
 
-            imagePicker = new UIImagePickerController();
-            imagePicker.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
-            imagePicker.MediaTypes = new string[] { UTType.Image };
+            imagePicker = new UIImagePickerController
+            {
+                SourceType = UIImagePickerControllerSourceType.PhotoLibrary,
+                MediaTypes = new string[] { UTType.Image }
+            };
             imagePicker.FinishedPickingMedia += Handle_FinishedPickingMedia;
             imagePicker.Canceled += delegate
             {
