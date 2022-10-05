@@ -66,6 +66,8 @@
     <Compile Include="Activities\BaseActivity.cs" />
     <Compile Include="Utils\PermissionUtils.cs" />
     <Compile Include="Service\ImageLoader.cs" />
+    <Compile Include="Activities\CheckRecognizerDemoActivity.cs" />
+    <Compile Include="Activities\CheckRecognizerResultActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -127,6 +129,18 @@
       <Generator></Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\CameraXViewDemo.axml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ActivityCheckRecognizer.axml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ActivityCheckRecognizerResult.axml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ViewKeyValue.xml">
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
