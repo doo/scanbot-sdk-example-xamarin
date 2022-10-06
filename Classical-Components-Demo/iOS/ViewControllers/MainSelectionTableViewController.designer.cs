@@ -17,6 +17,9 @@ namespace ClassicalComponentsDemo.iOS
 		UIKit.UIButton applyImageFilterButton { get; set; }
 
 		[Outlet]
+		UIKit.UIButton checkRecognizerButton { get; set; }
+
+		[Outlet]
 		[GeneratedCode ("iOS Designer", "1.0")]
 		UIKit.UILabel copyrightLabel { get; set; }
 
@@ -64,6 +67,9 @@ namespace ClassicalComponentsDemo.iOS
 
 		[Action ("CameraUITouchUpInside:")]
 		partial void CameraUITouchUpInside (UIKit.UIButton sender);
+
+		[Action ("CheckRecognizerTouchUpInside:")]
+		partial void CheckRecognizerTouchUpInside (UIKit.UIButton sender);
 
 		[Action ("CreatePdfTouchUpInside:")]
 		partial void CreatePdfTouchUpInside (UIKit.UIButton sender);
@@ -113,6 +119,16 @@ namespace ClassicalComponentsDemo.iOS
 				documentDetectionButton = null;
 			}
 
+			if (genericDocumentRecognizerButton != null) {
+				genericDocumentRecognizerButton.Dispose ();
+				genericDocumentRecognizerButton = null;
+			}
+
+			if (checkRecognizerButton != null) {
+				checkRecognizerButton.Dispose ();
+				checkRecognizerButton = null;
+			}
+
 			if (goToPdfViewButton != null) {
 				goToPdfViewButton.Dispose ();
 				goToPdfViewButton = null;
@@ -141,11 +157,6 @@ namespace ClassicalComponentsDemo.iOS
 			if (tableView != null) {
 				tableView.Dispose ();
 				tableView = null;
-			}
-
-			if (genericDocumentRecognizerButton != null) {
-				genericDocumentRecognizerButton.Dispose ();
-				genericDocumentRecognizerButton = null;
 			}
 		}
 	}

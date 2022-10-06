@@ -10,6 +10,7 @@ using ScanbotSDK.Xamarin.iOS;
 
 using ScanbotSDK.iOS;
 using System.Linq;
+using ClassicalComponentsDemo.iOS.ViewControllers;
 
 namespace ClassicalComponentsDemo.iOS
 {
@@ -211,6 +212,13 @@ namespace ClassicalComponentsDemo.iOS
             gdrDelegate.rootVc.SetTarget(this);
             var scanner = SBSDKUIGenericDocumentRecognizerViewController.CreateNewWithConfiguration(configuration, gdrDelegate);
             NavigationController.PushViewController(scanner, true);
+        }
+
+        partial void CheckRecognizerTouchUpInside(UIButton sender)
+        {
+            if (!CheckScanbotSDKLicense()) { return; }
+            var vc = new CheckRecognizerDemoViewController();
+            NavigationController.PushViewController(vc, true);
         }
 
         bool CheckDocumentImageUrl()
