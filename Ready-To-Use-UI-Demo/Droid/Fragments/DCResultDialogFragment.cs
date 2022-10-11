@@ -83,28 +83,12 @@ namespace ReadyToUseUIDemo.Droid.Fragments
 
             foreach (MedicalCertificateInfoBox cb in result.Checkboxes)
             {
-                string name = "Unknown";
-                if (cb.SubType == McInfoBoxSubtype.McBoxInitialCertificate)
-                    name = "Initial certificate";
-                else if (cb.SubType == McInfoBoxSubtype.McBoxRenewedCertificate)
-                    name = "Renewed certificate";
-                else if (cb.SubType == McInfoBoxSubtype.McBoxAssignedToAccidentInsuranceDoctor)
-                    name = "Assigned to accident insurance doctor";
-                else if (cb.SubType == McInfoBoxSubtype.McBoxWorkAccident)
-                    name = "Work accident";
-                builder.AppendLine($"{name}: {(cb.HasContents ? "yes" : "no")}");
+                builder.AppendLine($"{cb.SubType.Name()}: {(cb.HasContents ? "yes" : "no")}");
             }
 
             foreach (DateRecord date in result.Dates)
             {
-                string name = "Unknown";
-                if (date.Type == DateRecordType.DateRecordDiagnosedOn)
-                    name = "Diagnosed on";
-                else if (date.Type == DateRecordType.DateRecordIncapableOfWorkSince)
-                    name = "Incapacitated since";
-                else if (date.Type == DateRecordType.DateRecordIncapableOfWorkUntil)
-                    name = "Incapacitated until";
-                builder.AppendLine($"{name}: {date.DateString}");
+                builder.AppendLine($"{date.Type.Name()}: {date.DateString}");
             }
 
            return builder.ToString();
