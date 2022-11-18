@@ -228,11 +228,10 @@ namespace ReadyToUseUIDemo.iOS.Controller
             {
                 var config = SBSDKUIMRZScannerConfiguration.DefaultConfiguration;
                 config.TextConfiguration.CancelButtonTitle = "Done";
-                //config.TextConfiguration.FinderTextHint = "Custom finder text ..."
-                // see further customization configs
                 var viewSize = View.Frame.Size;
-                var targetWidth = viewSize.Width - ((viewSize.Width * 0.058) * 2);
-                var aspect = new SBSDKAspectRatio(targetWidth, targetWidth * 0.3);
+                var targetWidth = viewSize.Width * 0.8; // leaving 20% for side margin
+
+                var aspect = new SBSDKAspectRatio(targetWidth, targetWidth / 7); // 7:1 ratio for MRZ
                 config.UiConfiguration.FinderAspectRatio = aspect;
                 var controller = SBSDKUIMRZScannerViewController
                     .CreateNewWithConfiguration(config, Delegates.MRZ.WithViewController(this));
