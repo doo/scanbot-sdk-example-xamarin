@@ -226,14 +226,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
             if (button.Data.Code == ListItemCode.ScannerMRZ)
             {
-                var config = SBSDKUIMRZScannerConfiguration.DefaultConfiguration;
+                var config = new SBSDKUIMRZScannerConfiguration();
                 config.TextConfiguration.CancelButtonTitle = "Done";
-                //config.TextConfiguration.FinderTextHint = "Custom finder text ..."
-                // see further customization configs
-                var viewSize = View.Frame.Size;
-                var targetWidth = viewSize.Width - ((viewSize.Width * 0.058) * 2);
-                var aspect = new SBSDKAspectRatio(targetWidth, targetWidth * 0.3);
-                config.UiConfiguration.FinderAspectRatio = aspect;
                 var controller = SBSDKUIMRZScannerViewController
                     .CreateNewWithConfiguration(config, Delegates.MRZ.WithViewController(this));
                 PresentViewController(controller, true, null);
