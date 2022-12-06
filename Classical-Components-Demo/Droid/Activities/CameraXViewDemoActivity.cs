@@ -146,21 +146,21 @@ namespace ClassicalComponentsDemo.Droid
             var color = Color.Red;
             var guideText = "";
 
-            var result = e.Frame.DetectionResult;
-            if (result == DetectionResult.Ok)
+            var result = e.Frame.DetectionStatus;
+            if (result == DetectionStatus.Ok)
             {
                 guideText = "Don't move.\nCapturing...";
                 color = Color.Green;
             }
-            else if (result == DetectionResult.OkButTooSmall)
+            else if (result == DetectionStatus.OkButTooSmall)
             {
                 guideText = "Move closer";
             }
-            else if (result == DetectionResult.OkButBadAngles)
+            else if (result == DetectionStatus.OkButBadAngles)
             {
                 guideText = "Perspective";
             }
-            else if (result == DetectionResult.OkButBadAspectRatio)
+            else if (result == DetectionStatus.OkButBadAspectRatio)
             {
                 guideText = "Wrong aspect ratio.\n Rotate your device";
                 if (ignoreBadAspectRatio)
@@ -169,15 +169,15 @@ namespace ClassicalComponentsDemo.Droid
                     color = Color.Green;
                 }
             }
-            else if (result == DetectionResult.ErrorNothingDetected)
+            else if (result == DetectionStatus.ErrorNothingDetected)
             {
                 guideText = "No Document";
             }
-            else if (result == DetectionResult.ErrorTooNoisy)
+            else if (result == DetectionStatus.ErrorTooNoisy)
             {
                 guideText = "Background too noisy";
             }
-            else if (result == DetectionResult.ErrorTooDark)
+            else if (result == DetectionStatus.ErrorTooDark)
             {
                 guideText = "Poor light";
             }

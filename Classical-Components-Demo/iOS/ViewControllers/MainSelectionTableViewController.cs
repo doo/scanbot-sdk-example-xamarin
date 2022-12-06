@@ -10,6 +10,7 @@ using ScanbotSDK.Xamarin.iOS;
 
 using ScanbotSDK.iOS;
 using System.Linq;
+using ClassicalComponentsDemo.iOS.ViewControllers;
 
 namespace ClassicalComponentsDemo.iOS
 {
@@ -160,9 +161,11 @@ namespace ClassicalComponentsDemo.iOS
 
             // Select image from PhotoLibrary and run document detection
 
-            imagePicker = new UIImagePickerController();
-            imagePicker.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
-            imagePicker.MediaTypes = new string[] { UTType.Image };
+            imagePicker = new UIImagePickerController
+            {
+                SourceType = UIImagePickerControllerSourceType.PhotoLibrary,
+                MediaTypes = new string[] { UTType.Image }
+            };
             imagePicker.FinishedPickingMedia += Handle_FinishedPickingMedia;
             imagePicker.Canceled += delegate
             {
@@ -209,6 +212,13 @@ namespace ClassicalComponentsDemo.iOS
             gdrDelegate.rootVc.SetTarget(this);
             var scanner = SBSDKUIGenericDocumentRecognizerViewController.CreateNewWithConfiguration(configuration, gdrDelegate);
             NavigationController.PushViewController(scanner, true);
+        }
+
+        partial void CheckRecognizerTouchUpInside(UIButton sender)
+        {
+            if (!CheckScanbotSDKLicense()) { return; }
+            var vc = new CheckRecognizerDemoViewController();
+            NavigationController.PushViewController(vc, true);
         }
 
         bool CheckDocumentImageUrl()

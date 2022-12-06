@@ -121,18 +121,18 @@ namespace ClassicalComponentsDemo.Droid
                     var detector = SDK.CreateContourDetector();
                     // Since we just need detected polygon and lines here, we use ContourDetector class from the native SDK namespace.
                     var detectionResult = detector.Detect(resizedBitmap);
-
-                    if (detectionResult == DetectionResult.Ok || detectionResult == DetectionResult.OkButBadAngles ||
-                        detectionResult == DetectionResult.OkButTooSmall || detectionResult == DetectionResult.OkButBadAspectRatio)
+                    var detectionStatus = detectionResult.Status;
+                    if (detectionStatus == DetectionStatus.Ok || detectionStatus == DetectionStatus.OkButBadAngles ||
+                        detectionStatus == DetectionStatus.OkButTooSmall || detectionStatus == DetectionStatus.OkButBadAspectRatio)
                     {
-                        polygon = detector.PolygonF;
+                        polygon = detectionResult.PolygonF;
                         DebugLog("Detected polygon: " + polygon);
                     }
 
                     RunOnUiThread(() =>
                     {
                         editPolygonImageView.Polygon = polygon;
-                        editPolygonImageView.SetLines(detector.HorizontalLines, detector.VerticalLines);
+                        editPolygonImageView.SetLines(detectionResult.HorizontalLines, detectionResult.VerticalLines);
                     });
 
                 }

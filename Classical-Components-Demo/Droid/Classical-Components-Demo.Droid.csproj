@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>ClassicalComponentsDemo.Droid</RootNamespace>
     <AssemblyName>scanbot-sdk-example-xamarin.Droid</AssemblyName>
-    <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -66,6 +66,8 @@
     <Compile Include="Activities\BaseActivity.cs" />
     <Compile Include="Utils\PermissionUtils.cs" />
     <Compile Include="Service\ImageLoader.cs" />
+    <Compile Include="Activities\CheckRecognizerDemoActivity.cs" />
+    <Compile Include="Activities\CheckRecognizerResultActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -130,6 +132,18 @@
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\ActivityCheckRecognizer.axml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ActivityCheckRecognizerResult.axml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ViewKeyValue.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Activities\" />
@@ -147,7 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ScanbotSDK.Xamarin">
-      <Version>3.7.0-beta4</Version>
+      <Version>3.8.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

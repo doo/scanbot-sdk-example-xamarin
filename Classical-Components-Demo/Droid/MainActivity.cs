@@ -74,6 +74,7 @@ namespace ClassicalComponentsDemo.Droid
             AssignOcrButtonsHandler();
             AssignWorkflowsButtonHandler();
             AssignBusinessCardButtonHandler();
+            AssignCheckRecognizerUiButtonHandler();
 
             PermissionUtils.Request(this, FindViewById(Resource.Layout.Main));
         }
@@ -313,6 +314,14 @@ namespace ClassicalComponentsDemo.Droid
         {
             FindViewById<Button>(Resource.Id.businessCardButton).Click += delegate {
                 StartActivity(typeof(BusinessCardsActivity));
+            };
+        }
+
+        void AssignCheckRecognizerUiButtonHandler()
+        {
+            FindViewById<Button>(Resource.Id.checkUiButton).Click += delegate
+            {
+                StartActivity(CheckRecognizerDemoActivity.NewIntent(this));
             };
         }
 

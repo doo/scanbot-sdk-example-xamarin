@@ -70,6 +70,11 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:id="@+id/gdrUiButton" />
+        <Button
+			android:text="Check Recognizer UI"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/checkUiButton" />
         <TextView
             android:text="..."
             android:textAppearance="?android:attr/textAppearanceSmall"

@@ -131,7 +131,7 @@ namespace ClassicalComponentsDemo.Droid.Activities
             {
                 var pageStorage = sdk.CreatePageFileStorage();
                 var id = pageStorage.Add(result);
-                var page = new Page(id, new List<PointF>(), DetectionResult.Ok, ImageFilterType.Binarized);
+                var page = new Page(id, new List<PointF>(), DetectionStatus.Ok, ImageFilterType.Binarized);
                 var cropped = sdk.CreatePageProcessor().CropAndRotate(page, 0, polygon.PolygonF);
                 pages.Add(cropped);
             }

@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>ReadyToUseUIDemo.Droid</RootNamespace>
     <AssemblyName>Ready-To-Use-UI-Demo.Droid</AssemblyName>
-    <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -54,7 +54,7 @@
       <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="ScanbotSDK.Xamarin">
-      <Version>3.7.0-beta4</Version>
+      <Version>3.8.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

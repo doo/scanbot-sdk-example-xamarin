@@ -88,10 +88,9 @@ namespace ReadyToUseUIDemo.Droid.Activities
 
             FindViewById(Resource.Id.action_crop_and_rotate).Click += delegate
             {
-                var configuration = new CroppingConfiguration();
+                var configuration = new CroppingConfiguration(SelectedPage);
                 configuration.SetPolygonColor(Color.Red);
                 configuration.SetPolygonColorMagnetic(Color.Blue);
-                configuration.SetPage(SelectedPage);
                 var asdf = SelectedPage.Filter;
                 var intent = CroppingActivity.NewIntent(this, configuration);
                 StartActivityForResult(intent, CROP_DEFAULT_UI_REQUEST_CODE);
