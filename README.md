@@ -5,7 +5,7 @@ This example app shows how to integrate the [Scanbot Barcode Scanner SDK](https:
 The Scanbot SDK for Xamarin is available as a universal NuGet package for Android and iOS:
 [ScanbotSDK.Xamarin](https://www.nuget.org/packages/ScanbotSDK.Xamarin)
 
-## What is Scanbot SDK?
+## What is the Scanbot SDK?
 
 The Scanbot SDK lets you integrate barcode & document scanning, as well as data extraction functionalities, into your mobile apps and website. It contains different modules that are licensable for an annual fixed price. For more details, visit our website https://scanbot.io.
 
