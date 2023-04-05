@@ -1,6 +1,6 @@
 # Scanbot Barcode & Document Scanning Example App for Xamarin
 
-This example app shows how to integrate the [Scanbot Barcode Scanner SDK](https://scanbot.io/developer/android-barcode-scanner/), [Scanbot Document Scanner SDK](https://scanbot.io/developer/android-document-scanner-sdk/), and [Scanbot Data Capture SDK](https://scanbot.io/developer/android-data-capture/) for Cordova.
+This example app shows how to integrate the [Scanbot Barcode Scanner SDK](https://scanbot.io/developer/android-barcode-scanner/), [Scanbot Document Scanner SDK](https://scanbot.io/developer/android-document-scanner-sdk/), and [Scanbot Data Capture SDK](https://scanbot.io/developer/android-data-capture/) for Xamarin.
 
 The Scanbot SDK for Xamarin is available as a universal NuGet package for Android and iOS:
 [ScanbotSDK.Xamarin](https://www.nuget.org/packages/ScanbotSDK.Xamarin)
