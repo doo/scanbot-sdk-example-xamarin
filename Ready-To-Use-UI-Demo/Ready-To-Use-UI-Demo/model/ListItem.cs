@@ -23,7 +23,8 @@ namespace ReadyToUseUIDemo.model
         WorkflowSEPA,
 
         GenericDocumentRecognizer,
-        CheckRecognizer
+        CheckRecognizer,
+        TextDataRecognizer
     }
 
     public class ListItem

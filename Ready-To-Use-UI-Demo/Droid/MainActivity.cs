@@ -46,6 +46,13 @@ using System;
 using IO.Scanbot.Sdk.UI.View.Check.Configuration;
 using IO.Scanbot.Sdk.UI.View.Check;
 using IO.Scanbot.Sdk.Check.Entity;
+using IO.Scanbot.Sdk.Generictext;
+using IO.Scanbot.Sdk.UI.Camera;
+using IO.Scanbot.Sdk.UI.View.Generictext;
+using IO.Scanbot.Sdk.UI.View.Generictext.Configuration;
+using IO.Scanbot.Sdk.UI.View.Generictext.Entity;
+using System.Runtime.Remoting.Contexts;
+using static Android.Util.EventLogTags;
 
 namespace ReadyToUseUIDemo.Droid
 {
@@ -313,6 +320,27 @@ namespace ReadyToUseUIDemo.Droid
                 var intent = CheckRecognizerActivity.NewIntent(this, config);
                 StartActivityForResult(intent, Constants.CHECK_RECOGNIZER_REQUEST);
             }
+            else if (button.Data.Code == ListItemCode.TextDataRecognizer)
+            {
+                // Launch the TextDataScanner UI
+                var step = new TextDataScannerStep(
+                     stepTag: "tag",
+                     title: string.Empty,
+                     guidanceText: string.Empty,
+                     pattern: string.Empty,
+                     shouldMatchSubstring: true,
+                     validationCallback: new ValidationCallback(),
+                     cleanRecognitionResultCallback: new RecognitionCallback(),
+                     preferredZoom: 1.6f,
+                     aspectRatio: new FinderAspectRatio(4.0, 1.0),
+                     unzoomedFinderHeight: 40f,
+                     allowedSymbols: new List<Java.Lang.Character>(),
+                     textFilterStrategy: TextFilterStrategy.Document,
+                     significantShakeDelay: 0);
+                var config = new TextDataScannerConfiguration();
+                var intent = TextDataScannerActivity.NewIntent(this, config, step);
+                StartActivityForResult(intent, Constants.TEXT_DATA_RECOGNIZER_REQUEST);
+            }
         }
 
         /**
@@ -507,6 +535,20 @@ namespace ReadyToUseUIDemo.Droid
                     .ToList());
                 Console.WriteLine("Check Recognizer Result: ", description);
                 ShowAlert("Result", description);
+            }
+            else if (requestCode == Constants.TEXT_DATA_RECOGNIZER_REQUEST)
+            {
+                var result = data.GetParcelableArrayExtra(RtuConstants.ExtraKeyRtuResult);
+                if (result == null || result.Count() == 0)
+                {
+                    return;
+                }
+                var textDataScannerStepResult = result.First() as TextDataScannerStepResult;
+                Console.WriteLine("Text Recognizer Result: " + textDataScannerStepResult.Text);
+                RunOnUiThread(delegate
+                {
+                    ShowAlert("Result", textDataScannerStepResult.Text);
+                });
             }
         }
 

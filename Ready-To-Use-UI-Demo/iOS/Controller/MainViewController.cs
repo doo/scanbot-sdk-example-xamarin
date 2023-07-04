@@ -13,6 +13,8 @@ using ScanbotSDK.iOS;
 using ScanbotSDK.Xamarin.iOS;
 using UIKit;
 using MobileCoreServices;
+using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ReadyToUseUIDemo.iOS.Controller
 {
@@ -341,6 +343,10 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 var controller = SBSDKUICheckRecognizerViewController.CreateNewWithConfiguration(configuration, Delegates.Check.WithPresentingViewController(this));
                 PresentViewController(controller, false, null);
             }
+            else if (button.Data.Code == ListItemCode.TextDataRecognizer)
+            {
+                TextDataScannerTapped();
+            }
         }
 
         void PresentController(string name, SBSDKUIWorkflowStep[] steps,
@@ -359,6 +365,20 @@ namespace ReadyToUseUIDemo.iOS.Controller
             WorkflowStepValidator.WorkflowController = controller;
             controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
             PresentViewController(controller, false, null);
+        }
+
+        private void TextDataScannerTapped()
+        {
+            Debug.WriteLine("ScanbotSDK Demo: Starting text recognizer controller ...");
+
+            var configuration = SBSDKUITextDataScannerConfiguration.DefaultConfiguration;
+            configuration.TextConfiguration.CancelButtonTitle = "Done";
+            var scanner = SBSDKUITextDataScannerViewController.CreateNewWithConfiguration(configuration, new TextDataScannerDelegate(successHandler: (text) =>
+            {
+                Alert.Show(this, "Result Text:", text);
+            }));
+
+            PresentViewController(scanner, true, null);
         }
 
     }
@@ -388,6 +408,24 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
 
             Selected?.Invoke(this, new PageEventArgs { Pages = pages });
+        }
+    }
+
+    class TextDataScannerDelegate : SBSDKUITextDataScannerViewControllerDelegate
+    {
+        Action<string> RecognitionSuccess;
+        public TextDataScannerDelegate(Action<string> successHandler)
+        {
+            this.RecognitionSuccess = successHandler;
+        }
+
+        public override void DidFinish(SBSDKUITextDataScannerViewController viewController, SBSDKUITextDataScannerStep step, SBSDKUITextDataScannerStepResult result)
+        {
+            if (viewController.RecognitionEnabled && !string.IsNullOrEmpty(result?.Text))
+            {
+                viewController.RecognitionEnabled = false;
+                viewController.DismissViewController(true, () => RecognitionSuccess?.Invoke(result?.Text));
+            }
         }
     }
 }
