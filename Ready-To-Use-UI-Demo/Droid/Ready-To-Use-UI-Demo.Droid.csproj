@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>ReadyToUseUIDemo.Droid</RootNamespace>
     <AssemblyName>Ready-To-Use-UI-Demo.Droid</AssemblyName>
-    <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v13.0</TargetFrameworkVersion>
     <AndroidApplication>True</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -31,6 +31,7 @@
     <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,10 +52,601 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.2</Version>
+      <Version>13.0.3</Version>
     </PackageReference>
     <PackageReference Include="ScanbotSDK.Xamarin">
-      <Version>3.8.1</Version>
+      <Version>3.8.2</Version>
+    </PackageReference>
+    <PackageReference Include="Scanbot.Xamarin.SDK.Dependencies">
+      <Version>3.5.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Android.ReactiveStreams">
+      <Version>1.0.4.5</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Android.ReactiveX.RxAndroid">
+      <Version>2.1.1.4</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Android.ReactiveX.RxJava">
+      <Version>2.2.21.11</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Android.ReactiveX.RxJava3.RxJava">
+      <Version>3.1.6.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Activity">
+      <Version>1.7.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Activity.Ktx">
+      <Version>1.7.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Annotation">
+      <Version>1.6.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Annotation.Experimental">
+      <Version>1.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Annotation.Jvm">
+      <Version>1.6.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.AppCompat">
+      <Version>1.6.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.AppCompat.AppCompatResources">
+      <Version>1.6.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Arch.Core.Common">
+      <Version>2.2.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Arch.Core.Runtime">
+      <Version>2.2.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.AsyncLayoutInflater">
+      <Version>1.0.0.18</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Browser">
+      <Version>1.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Camera.Camera2">
+      <Version>1.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Camera.Core">
+      <Version>1.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Camera.Extensions">
+      <Version>1.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Camera.Lifecycle">
+      <Version>1.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Camera.View">
+      <Version>1.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.CardView">
+      <Version>1.0.0.20</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Collection">
+      <Version>1.2.0.8</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Collection.Ktx">
+      <Version>1.2.0.8</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Concurrent.Futures">
+      <Version>1.1.0.13</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.ConstraintLayout">
+      <Version>2.1.4.5</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.ConstraintLayout.Core">
+      <Version>1.0.4.5</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.ConstraintLayout.Solver">
+      <Version>2.0.4.13</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.CoordinatorLayout">
+      <Version>1.2.0.6</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Core">
+      <Version>1.10.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Core.Core.Ktx">
+      <Version>1.10.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.CursorAdapter">
+      <Version>1.0.0.18</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.CustomView">
+      <Version>1.1.0.17</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.CustomView.PoolingContainer">
+      <Version>1.0.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.DataBinding.ViewBinding">
+      <Version>8.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.DocumentFile">
+      <Version>1.0.1.18</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.DrawerLayout">
+      <Version>1.2.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.DynamicAnimation">
+      <Version>1.0.0.18</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Emoji2">
+      <Version>1.3.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Emoji2.ViewsHelper">
+      <Version>1.3.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.ExifInterface">
+      <Version>1.3.6.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Fragment">
+      <Version>1.6.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Fragment.Ktx">
+      <Version>1.6.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Interpolator">
+      <Version>1.0.0.18</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Legacy.Support.Core.UI">
+      <Version>1.0.0.19</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Legacy.Support.Core.Utils">
+      <Version>1.0.0.18</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Legacy.Support.V4">
+      <Version>1.0.0.18</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Common">
+      <Version>2.6.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Extensions">
+      <Version>2.2.0.18</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData">
+      <Version>2.6.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core">
+      <Version>2.6.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core.Ktx">
+      <Version>2.6.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Process">
+      <Version>2.6.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime">
+      <Version>2.6.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Runtime.Ktx">
+      <Version>2.6.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Service">
+      <Version>2.6.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel">
+      <Version>2.6.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel.Ktx">
+      <Version>2.6.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModelSavedState">
+      <Version>2.6.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Loader">
+      <Version>1.1.0.18</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.LocalBroadcastManager">
+      <Version>1.1.0.6</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Media">
+      <Version>1.6.0.5</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Migration">
+      <Version>1.0.10</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.MultiDex">
+      <Version>2.0.1.18</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Print">
+      <Version>1.0.0.18</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.ProfileInstaller.ProfileInstaller">
+      <Version>1.3.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.RecyclerView">
+      <Version>1.3.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.ResourceInspection.Annotation">
+      <Version>1.0.1.6</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.SavedState">
+      <Version>1.2.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.SavedState.SavedState.Ktx">
+      <Version>1.2.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.SlidingPaneLayout">
+      <Version>1.2.0.6</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Startup.StartupRuntime">
+      <Version>1.1.1.6</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.SwipeRefreshLayout">
+      <Version>1.1.0.13</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Tracing.Tracing">
+      <Version>1.1.0.5</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Transition">
+      <Version>1.4.1.11</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.VectorDrawable">
+      <Version>1.1.0.18</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.VectorDrawable.Animated">
+      <Version>1.1.0.18</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.VersionedParcelable">
+      <Version>1.1.1.18</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.ViewPager">
+      <Version>1.0.0.18</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.ViewPager2">
+      <Version>1.0.0.20</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Window">
+      <Version>1.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Window.Extensions.Core.Core">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Build.Download">
+      <Version>0.11.4</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Essentials">
+      <Version>1.6.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Annotations">
+      <Version>116.2.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Common">
+      <Version>120.3.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Components">
+      <Version>117.1.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Datatransport">
+      <Version>118.1.8.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Encoders">
+      <Version>117.0.0.9</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Encoders.JSON">
+      <Version>118.0.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Encoders.Proto">
+      <Version>116.0.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Iid">
+      <Version>121.1.0.9</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Iid.Interop">
+      <Version>117.1.0.9</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Installations">
+      <Version>117.1.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Installations.InterOp">
+      <Version>117.1.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Measurement.Connector">
+      <Version>120.0.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Messaging">
+      <Version>123.1.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Google.Android.DataTransport.TransportApi">
+      <Version>3.0.0.7</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Google.Android.DataTransport.TransportBackendCct">
+      <Version>3.1.9.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Google.Android.DataTransport.TransportRuntime">
+      <Version>3.1.9.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Google.Android.Material">
+      <Version>1.9.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Google.AutoValue.Annotations">
+      <Version>1.10.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Google.Dagger">
+      <Version>2.46.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Google.ErrorProne.Annotations">
+      <Version>2.20.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Google.Guava.ListenableFuture">
+      <Version>1.0.0.13</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Google.ZXing.Core">
+      <Version>3.5.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.GooglePlayServices.Base">
+      <Version>118.2.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.GooglePlayServices.Basement">
+      <Version>118.2.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.GooglePlayServices.CloudMessaging">
+      <Version>117.0.2.4</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.GooglePlayServices.Location">
+      <Version>121.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.GooglePlayServices.Places.PlaceReport">
+      <Version>117.0.0.9</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.GooglePlayServices.Stats">
+      <Version>117.0.3.4</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.GooglePlayServices.Tasks">
+      <Version>118.0.2.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.JavaX.Inject">
+      <Version>1.0.0.8</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Jetbrains.Annotations">
+      <Version>24.0.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Kotlin.StdLib">
+      <Version>1.9.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Kotlin.StdLib.Common">
+      <Version>1.9.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk7">
+      <Version>1.9.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Kotlin.StdLib.Jdk8">
+      <Version>1.9.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.KotlinX.Coroutines.Android">
+      <Version>1.7.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.KotlinX.Coroutines.Core">
+      <Version>1.7.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.KotlinX.Coroutines.Core.Jvm">
+      <Version>1.7.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.KotlinX.Coroutines.Reactive">
+      <Version>1.7.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.KotlinX.Coroutines.Rx3">
+      <Version>1.7.2</Version>
+    </PackageReference>
+    <PackageReference Include="ZXing.Net">
+      <Version>0.16.6</Version>
+    </PackageReference>
+    <PackageReference Include="ZXing.Net.Mobile">
+      <Version>3.1.0-beta2</Version>
+    </PackageReference>
+    <PackageReference Include="FastAndroidCamera">
+      <Version>2.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CSharp">
+      <Version>4.7.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NETCore.Platforms">
+      <Version>7.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Win32.Primitives">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="NETStandard.Library">
+      <Version>2.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Plugin.CurrentActivity">
+      <Version>2.1.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="Polly">
+      <Version>7.2.4</Version>
+    </PackageReference>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.8.116</Version>
+    </PackageReference>
+    <PackageReference Include="SQLiteNetExtensions">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="SQLiteNetExtensions.Async">
+      <Version>2.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="SQLitePCLRaw.bundle_green">
+      <Version>2.1.5</Version>
+    </PackageReference>
+    <PackageReference Include="SQLitePCLRaw.core">
+      <Version>2.1.5</Version>
+    </PackageReference>
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.android">
+      <Version>2.1.5</Version>
+    </PackageReference>
+    <PackageReference Include="SQLitePCLRaw.provider.e_sqlite3">
+      <Version>2.1.5</Version>
+    </PackageReference>
+    <PackageReference Include="SQLitePCLRaw.provider.e_sqlite3.android">
+      <Version>1.1.14</Version>
+    </PackageReference>
+    <PackageReference Include="Square.OkIO">
+      <Version>3.3.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Square.OkIO.JVM">
+      <Version>3.3.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.AppContext">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Buffers">
+      <Version>4.5.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Collections">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Collections.Concurrent">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.ComponentModel.TypeConverter">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Console">
+      <Version>4.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Diagnostics.Debug">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Diagnostics.Tools">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Diagnostics.Tracing">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Globalization">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Globalization.Calendars">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.IO">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.IO.Compression">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.IO.Compression.ZipFile">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.IO.FileSystem">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.IO.FileSystem.Primitives">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Linq">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Linq.Expressions">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Memory">
+      <Version>4.5.5</Version>
+    </PackageReference>
+    <PackageReference Include="System.Net.Http">
+      <Version>4.3.4</Version>
+    </PackageReference>
+    <PackageReference Include="System.Net.Primitives">
+      <Version>4.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Net.Sockets">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Numerics.Vectors">
+      <Version>4.5.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Reflection">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Reflection.Extensions">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Reflection.Primitives">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Resources.ResourceManager">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime">
+      <Version>4.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
+      <Version>6.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.Extensions">
+      <Version>4.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.Handles">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.InteropServices">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.Numerics">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.Serialization.Formatters">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Runtime.Serialization.Primitives">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Security.AccessControl">
+      <Version>6.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Security.Cryptography.Algorithms">
+      <Version>4.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Security.Cryptography.Encoding">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Security.Cryptography.Primitives">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Security.Cryptography.X509Certificates">
+      <Version>4.3.2</Version>
+    </PackageReference>
+    <PackageReference Include="System.Security.Permissions">
+      <Version>7.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Security.Principal.Windows">
+      <Version>5.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Text.Encoding">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Text.Encoding.Extensions">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Text.RegularExpressions">
+      <Version>4.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Threading">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Threading.Tasks">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Threading.Thread">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Threading.Timer">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Xml.ReaderWriter">
+      <Version>4.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Xml.XDocument">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Xml.XmlDocument">
+      <Version>4.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xam.Plugin.DeviceInfo">
+      <Version>4.1.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
