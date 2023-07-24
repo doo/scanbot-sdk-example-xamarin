@@ -27,11 +27,11 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>None</AndroidLinkMode>
     <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
     <AndroidEnableMultiDex>true</AndroidEnableMultiDex>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,7 +55,7 @@
       <Version>13.0.2</Version>
     </PackageReference>
     <PackageReference Include="ScanbotSDK.Xamarin">
-      <Version>3.9.0-beta.1</Version>
+      <Version>3.9.0-beta.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -63,9 +63,7 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
-    <Compile Include="Fragments\DCResultDialogFragment.cs" />
     <Compile Include="Views\FragmentButton.cs" />
-    <Compile Include="WorkflowFactory.cs" />
     <Compile Include="Fragments\MRZDialogFragment.cs" />
     <Compile Include="Views\BaseDialogFragment.cs" />
     <Compile Include="Repository\PageRepository.cs" />
@@ -76,15 +74,11 @@
     <Compile Include="Activities\PageFilterActivity.cs" />
     <Compile Include="Utils\Alert.cs" />
     <Compile Include="Listeners\FiltersListener.cs" />
-    <Compile Include="Fragments\MRZImageResultDialogFragment.cs" />
-    <Compile Include="Fragments\MRZFrontBackImageResultDialogFragment.cs" />
     <Compile Include="Fragments\BarcodeDialogFragment.cs" />
-    <Compile Include="Fragments\PayFormResultDialogFragment.cs" />
     <Compile Include="Fragments\HealthInsuranceCardFragment.cs" />
     <Compile Include="Utils\Constants.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\ViewUtils.cs" />
-    <Compile Include="Fragments\NfcDialogFragment.cs" />
     <Compile Include="Utils\TextDataScanner.cs" />
     <Compile Include="Service\ImageLoader.cs" />
   </ItemGroup>

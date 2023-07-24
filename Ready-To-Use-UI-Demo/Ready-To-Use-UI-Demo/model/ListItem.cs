@@ -1,5 +1,4 @@
-﻿using System;
-namespace ReadyToUseUIDemo.model
+﻿namespace ReadyToUseUIDemo.model
 {
     public enum ListItemCode
     {
@@ -14,13 +13,6 @@ namespace ReadyToUseUIDemo.model
         ScannerBatchBarcode,
         ScannerImportBarcode,
         ScannerImportImagesFromBarcode,
-
-
-        WorkflowQR,
-        WorkflowMRZImage,
-        WorkflowMRZFrontBack,
-        WorkflowMC,
-        WorkflowSEPA,
 
         GenericDocumentRecognizer,
         CheckRecognizer,

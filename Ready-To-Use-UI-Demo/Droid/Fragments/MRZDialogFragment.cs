@@ -1,7 +1,5 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Android.OS;
-using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
 using IO.Scanbot.Mrzscanner.Model;

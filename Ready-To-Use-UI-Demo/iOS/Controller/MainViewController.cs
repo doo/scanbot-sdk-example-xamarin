@@ -1,9 +1,5 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using CoreGraphics;
-using Foundation;
 using ReadyToUseUIDemo.iOS.Repository;
 using ReadyToUseUIDemo.iOS.Service;
 using ReadyToUseUIDemo.iOS.Utils;
@@ -12,9 +8,7 @@ using ReadyToUseUIDemo.model;
 using ScanbotSDK.iOS;
 using ScanbotSDK.Xamarin.iOS;
 using UIKit;
-using MobileCoreServices;
 using System.Diagnostics;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ReadyToUseUIDemo.iOS.Controller
 {
@@ -39,8 +33,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
             CameraCallback = new SimpleScanCallback();
 
             ContentView.LicenseIndicator.Text = Texts.no_license_found_the_app_will_terminate_after_one_minute;
-
-            WorkflowStepValidator.MainController = this;
         }
 
         public override void ViewWillAppear(bool animated)
@@ -103,7 +95,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             OpenImageListController();
         }
 
-        private void OnScannerButtonClick(object sender, EventArgs e)
+        private async void OnScannerButtonClick(object sender, EventArgs e)
         {
             if (!SBSDK.IsLicenseValid())
             {
@@ -123,7 +115,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 config.UiConfiguration.BottomBarBackgroundColor = UIColor.Blue;
                 config.UiConfiguration.BottomBarButtonsColor = UIColor.White;
                 // see further customization configs...
-                
+
                 var controller = SBSDKUIDocumentScannerViewController
                     .CreateNewWithConfiguration(config, CameraCallback);
                 controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
@@ -131,8 +123,12 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
             else if (button.Data.Code == ListItemCode.ImportImage)
             {
-                ImagePicker.Instance.Present(this);
-                ImagePicker.Instance.Controller.FinishedPickingMedia += ImageImported;
+                var image = await Scanbot.ImagePicker.iOS.ImagePicker.Instance.Pick();
+                var page = PageRepository.Add(image, new SBSDKPolygon());
+                var result = page.DetectDocument(true);
+                Console.WriteLine("Attempted document detection on imported page: " + result.Status);
+
+                OpenImageListController();
             }
             else if (button.Data.Code == ListItemCode.ViewImages)
             {
@@ -234,86 +230,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
                     .CreateNewWithConfiguration(config, Delegates.MRZ.WithViewController(this));
                 PresentViewController(controller, true, null);
             }
-
-            else if (button.Data.Code == ListItemCode.WorkflowMC)
-            {
-                var ratios = new SBSDKAspectRatio[]
-                {
-                    // MC form A5 portrait (e.g. white sheet, AUB Muster 1b/E (1/2018))
-                    new SBSDKAspectRatio(148.0, 210.0),
-                    // MC form A6 landscape (e.g. yellow sheet, AUB Muster 1b (1.2018))
-                    new SBSDKAspectRatio(148.0, 105.0)
-                };
-
-                var title = "Please align the MC form in the frame.";
-                var name = "MedicalCertificateFlow";
-
-                var steps = new SBSDKUIWorkflowStep[]
-                {
-                    new SBSDKUIScanDisabilityCertificateWorkflowStep(
-                        title, "", ratios, true, WorkflowStepValidator.OnMCFormStep
-                    )
-                };
-
-                PresentController(name, steps);
-            }
-            else if (button.Data.Code == ListItemCode.WorkflowMRZImage)
-            {
-                var title = "Please align the Machine readable card with the form in the frame";
-                var name = "MRZScanFlow";
-
-                var steps = new SBSDKUIWorkflowStep[]
-                {
-                    new SBSDKUIScanMachineReadableZoneWorkflowStep(
-                        title, "", MRZRatios, true, WorkflowStepValidator.OnIDCardBackStep
-                    )
-                };
-
-                PresentController(name, steps);
-            }
-            else if (button.Data.Code == ListItemCode.WorkflowMRZFrontBack)
-            {
-                var name = "MRZBackFrontScanFlow";
-
-                var steps = new SBSDKUIWorkflowStep[]
-                {
-                    new SBSDKUIWorkflowStep(
-                        "Step 1/2", "Please scan the front side of your ID card",
-                        MRZRatios, true, false, null, WorkflowStepValidator.OnIDCardFrontStep
-                        ),
-                    new SBSDKUIScanMachineReadableZoneWorkflowStep(
-                        "Step 2/2", "Please scan the back side of your ID card",
-                        MRZRatios, true, WorkflowStepValidator.OnIDCardBackStep
-                    )
-                };
-
-                PresentController(name, steps);
-            }
-            else if (button.Data.Code == ListItemCode.WorkflowSEPA)
-            {
-                var name = "SEPAScanFlow";
-                var steps = new SBSDKUIWorkflowStep[]
-                {
-                    new SBSDKUIScanPayFormWorkflowStep(
-                        "Please scan a SEPA PayForm", "", false, WorkflowStepValidator.OnPayFormStep
-                    )
-                };
-
-                PresentController(name, steps);
-
-            }
-            else if (button.Data.Code == ListItemCode.WorkflowQR)
-            {
-                var name = "QRCodeScanFlow";
-                var types = SBSDKUIMachineCodesCollection.TwoDimensionalBarcodes;
-                var steps = new SBSDKUIWorkflowStep[]
-                {
-                    new SBSDKUIScanBarCodeWorkflowStep("Scan your QR code", "",
-                    types, new SBSDKAspectRatio(1, 1), WorkflowStepValidator.OnBarCodeStep)
-                };
-
-                PresentController(name, steps);
-            }
             else if (button.Data.Code == ListItemCode.ScannerEHIC)
             {
                 var configuration = SBSDKUIHealthInsuranceCardScannerConfiguration.DefaultConfiguration;
@@ -347,24 +263,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
             {
                 TextDataScannerTapped();
             }
-        }
-
-        void PresentController(string name, SBSDKUIWorkflowStep[] steps,
-            SBSDKUIWorkflowScannerConfiguration configuration = null)
-        {
-            if (configuration == null)
-            {
-                configuration = SBSDKUIWorkflowScannerConfiguration.DefaultConfiguration;
-            }
-            
-            SBSDKUIWorkflow workflow = new SBSDKUIWorkflow(steps, name, null);
-
-            var config = SBSDKUIWorkflowScannerConfiguration.DefaultConfiguration;
-            
-            var controller = SBSDKUIWorkflowScannerViewController.CreateNewWithWorkflow(workflow, config, null);
-            WorkflowStepValidator.WorkflowController = controller;
-            controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
-            PresentViewController(controller, false, null);
         }
 
         private void TextDataScannerTapped()
@@ -403,7 +301,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
             }
 
             var pages = new List<SBSDKUIPage>();
-            for (var i = 0; i < document.NumberOfPages; ++i) {
+            for (var i = 0; i < document.NumberOfPages; ++i)
+            {
                 pages.Add(document.PageAtIndex(i));
             }
 
