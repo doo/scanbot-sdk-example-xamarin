@@ -54,7 +54,7 @@
       <Version>13.0.2</Version>
     </PackageReference>
     <PackageReference Include="ScanbotSDK.Xamarin">
-      <Version>3.8.3-beta.1</Version>
+      <Version>3.8.3-beta.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
