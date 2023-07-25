@@ -17,6 +17,8 @@ using AndroidX.Core.View;
 using IO.Scanbot.Sdk.Contourdetector;
 using IO.Scanbot.Sdk.UI;
 using IO.Scanbot.Sdk.Core.Contourdetector;
+using IO.Scanbot.Sdk;
+using ClassicalComponentsDemo.Droid.Delegates;
 
 namespace ClassicalComponentsDemo.Droid
 {
@@ -30,7 +32,7 @@ namespace ClassicalComponentsDemo.Droid
 
         protected ScanbotCameraXView cameraView;
         protected DocumentAutoSnappingController autoSnappingController;
-        protected ContourDetectorFrameHandler contourDetectorFrameHandler;
+        protected ContourDetectorFrameHandlerWrapper frameHandlerWrapper;
         protected PolygonView polygonView;
         protected bool flashEnabled = false;
         protected bool autoSnappingEnabled = true;
@@ -41,7 +43,7 @@ namespace ClassicalComponentsDemo.Droid
         protected ShutterButton shutterButton;
         protected Button autoSnappingToggleButton;
 
-        ContourDetectorDelegate contourDetectorDelegate;
+        ContourDetectorResultDelegate contourDetectorDelegate;
         PictureCallbackDelegate pictureCallbackDelegate;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -60,34 +62,38 @@ namespace ClassicalComponentsDemo.Droid
             cameraView.LockToPortrait(true);
 
             // Uncomment to disable AutoFocus by manually touching the camera view:
-            //cameraView.SetAutoFocusOnTouch(false);
+            cameraView.SetAutoFocusOnTouch(false);
 
             // Preview Mode: See https://github.com/doo/Scanbot-SDK-Examples/wiki/Using-ScanbotCameraView#preview-mode
-            //cameraView.SetPreviewMode(CameraPreviewMode.FitIn);
+            cameraView.SetPreviewMode(CameraPreviewMode.FitIn);
 
             userGuidanceTextView = FindViewById<TextView>(Resource.Id.userGuidanceTextView);
 
             imageProcessingProgress = FindViewById<ProgressBar>(Resource.Id.imageProcessingProgress);
 
-            var detector = new IO.Scanbot.Sdk.ScanbotSDK(this).CreateContourDetector();
-            contourDetectorFrameHandler = ContourDetectorFrameHandler.Attach(cameraView, detector);
-            
+            var contourDetector = new IO.Scanbot.Sdk.ScanbotSDK(this).CreateContourDetector();
+            frameHandlerWrapper = new ContourDetectorFrameHandlerWrapper(this, contourDetector);
+            var contourResultHandlerWrapper = new ContourDetectorResultDelegate();
+            contourResultHandlerWrapper.ContourDetected += ShowUserGuidance;
+            frameHandlerWrapper.AddResultHandler(contourResultHandlerWrapper);
+            ScanbotCameraXViewWrapper.Attach(cameraView, frameHandlerWrapper);
+
+
+          
+            // Add an additional custom contour detector to add user guidance text
+
             polygonView = FindViewById<PolygonView>(Resource.Id.scanbotPolygonView);
             polygonView.SetStrokeColor(Color.Red);
             polygonView.SetStrokeColorOK(Color.Green);
 
             // Attach the default polygon result handler, to draw the default polygon
-            contourDetectorFrameHandler.AddResultHandler(polygonView.ContourDetectorResultHandler);
-            // Add an additional custom contour detector to add user guidance text
-            contourDetectorDelegate = new ContourDetectorDelegate();
-            contourDetectorFrameHandler.AddResultHandler(contourDetectorDelegate);
-            contourDetectorDelegate.ContourDetected += ShowUserGuidance;
+            frameHandlerWrapper.FrameHandler.AddResultHandler(polygonView.ContourDetectorResultHandler);
 
             // See https://github.com/doo/Scanbot-SDK-Examples/wiki/Detecting-and-drawing-contours#contour-detection-parameters
-            contourDetectorFrameHandler.SetAcceptedAngleScore(60);
-            contourDetectorFrameHandler.SetAcceptedSizeScore(70);
+            frameHandlerWrapper.FrameHandler.SetAcceptedAngleScore(60);
+            frameHandlerWrapper.FrameHandler.SetAcceptedSizeScore(70);
 
-            autoSnappingController = DocumentAutoSnappingController.Attach(cameraView, contourDetectorFrameHandler);
+            autoSnappingController = DocumentAutoSnappingController.Attach(cameraView, contourDetector);
             autoSnappingController.SetIgnoreBadAspectRatio(ignoreBadAspectRatio);
 
             pictureCallbackDelegate = new PictureCallbackDelegate();
@@ -263,7 +269,7 @@ namespace ClassicalComponentsDemo.Droid
         protected void SetAutoSnapEnabled(bool enabled)
         {
             autoSnappingController.Enabled = enabled;
-            contourDetectorFrameHandler.Enabled = enabled;
+            //contourDetectorFrameHandler.Enabled = enabled;
             polygonView.Visibility = (enabled ? ViewStates.Visible : ViewStates.Gone);
             autoSnappingToggleButton.Text = ("Automatic " + (enabled ? "ON" : "OFF"));
             if (enabled)
@@ -278,44 +284,5 @@ namespace ClassicalComponentsDemo.Droid
             }
         }
 
-        private class ContourDetectorEventArgs : EventArgs
-        {
-            public ContourDetectorFrameHandler.DetectedFrame Frame { get; set; }
-        }
-
-        private class ContourDetectorDelegate : ContourDetectorFrameHandler.ContourDetectorResultHandler
-        {
-            public EventHandler<ContourDetectorEventArgs> ContourDetected;
-
-            public override bool Handle(FrameHandlerResult result)
-            {
-                if (result.GetType() == typeof(FrameHandlerResult.Success))
-                {
-                    var success = ((FrameHandlerResult.Success)result);
-                    if (success.Value.GetType() == typeof(ContourDetectorFrameHandler.DetectedFrame))
-                    {
-                        var frame = (ContourDetectorFrameHandler.DetectedFrame)success.Value;
-                        ContourDetected?.Invoke(this, new ContourDetectorEventArgs { Frame = frame });
-                    }
-                }
-                return false;
-            }
-        }
-
-        private class PictureCallbackEventArgs : EventArgs
-        {
-            public byte[] image { get; set; }
-            public int imageOrientation { get; set; }
-        }
-
-        private class PictureCallbackDelegate : PictureCallback
-        {
-            public EventHandler<PictureCallbackEventArgs> OnPictureTakenHandler;
-
-            public override void OnPictureTaken(byte[] image, CaptureInfo captureInfo)
-            {
-                OnPictureTakenHandler?.Invoke(this, new PictureCallbackEventArgs { image = image, imageOrientation = captureInfo.ImageOrientation });
-            }
-        }
     }
 }

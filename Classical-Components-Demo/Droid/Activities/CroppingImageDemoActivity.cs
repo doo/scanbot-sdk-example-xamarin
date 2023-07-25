@@ -191,6 +191,5 @@ namespace ClassicalComponentsDemo.Droid
         {
             Log.Error(LOG_TAG, Java.Lang.Throwable.FromException(ex), msg);
         }
-
     }
 }

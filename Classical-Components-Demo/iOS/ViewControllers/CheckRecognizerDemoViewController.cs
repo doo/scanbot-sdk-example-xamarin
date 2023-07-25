@@ -35,6 +35,7 @@ namespace ClassicalComponentsDemo.iOS.ViewControllers
         {
             private Action<SBSDKCheckRecognizerResult> action;
             public Delegate(Action<SBSDKCheckRecognizerResult> action) { this.action = action; }
+
             public override void DidRecognizeCheck(SBSDKCheckRecognizerViewController controller, SBSDKCheckRecognizerResult result)
             {
                 action.Invoke(result);
