@@ -162,7 +162,7 @@ namespace ClassicalComponentsDemo.iOS
         {
             autoSnapButton.Selected = enabled;
             documentScannerViewController.AutoSnappingMode = enabled ? SBSDKAutosnappingMode.Enabled : SBSDKAutosnappingMode.Disabled;
-            documentScannerViewController.HideDetectionStatusLabel = !enabled;
+            documentScannerViewController.SuppressDetectionStatusLabel = !enabled;
             documentScannerViewController.SnapButton.ScannerStatus = enabled ? SBSDKScannerStatus.Scanning : SBSDKScannerStatus.Idle;
         }
 
