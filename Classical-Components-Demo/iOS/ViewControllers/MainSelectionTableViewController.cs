@@ -87,7 +87,7 @@ namespace ClassicalComponentsDemo.iOS
             }
         }
 
-        //CameraDemoDelegateHandler cameraHandler = new CameraDemoDelegateHandler();
+        CameraDemoDelegateHandler cameraHandler = new CameraDemoDelegateHandler();
         CroppingDemoDelegateHandler croppingHandler = new CroppingDemoDelegateHandler();
 
         GenericDocumentRecognizerDelegate gdrDelegate;
@@ -96,7 +96,8 @@ namespace ClassicalComponentsDemo.iOS
 
         UIImage documentImage, originalImage;
 
-        public MainSelectionTableViewController(IntPtr handle) : base(handle) {
+        public MainSelectionTableViewController(IntPtr handle) : base(handle)
+        {
             gdrDelegate = new GenericDocumentRecognizerDelegate(this);
         }
 
@@ -144,9 +145,9 @@ namespace ClassicalComponentsDemo.iOS
 
             Task.Run(() =>
             {
-                
+
                 DebugLog("Performing OCR ...");
-                
+
                 var images = AppDelegate.TempImageStorage.ImageURLs;
                 var result = SBSDK.PerformOCR(images, new[] { "en", "de" });
                 DebugLog("OCR result: " + result.RecognizedText);
@@ -194,10 +195,10 @@ namespace ClassicalComponentsDemo.iOS
         {
             if (!CheckScanbotSDKLicense()) { return; }
 
-            //var cameraViewController = new CameraDemoViewController();
-            //cameraHandler.parentController = this;
-            //cameraViewController.cameraDelegate = this.cameraHandler;
-            //NavigationController.PushViewController(cameraViewController, true);
+            var cameraViewController = new CameraDemoViewController();
+            cameraHandler.parentController = this;
+            cameraViewController.cameraDelegate = this.cameraHandler;
+            NavigationController.PushViewController(cameraViewController, true);
         }
 
         partial void GenericDocumentRecognizerTouchUpInside(UIButton sender)
