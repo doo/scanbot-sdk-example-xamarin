@@ -58,7 +58,6 @@ namespace ClassicalComponentsDemo.iOS
 
         class GenericDocumentRecognizerDelegate : SBSDKUIGenericDocumentRecognizerViewControllerDelegate
         {
-
             public WeakReference<MainSelectionTableViewController> rootVc;
             public GenericDocumentRecognizerDelegate(MainSelectionTableViewController rootVc)
             {
@@ -97,7 +96,8 @@ namespace ClassicalComponentsDemo.iOS
 
         UIImage documentImage, originalImage;
 
-        public MainSelectionTableViewController(IntPtr handle) : base(handle) {
+        public MainSelectionTableViewController(IntPtr handle) : base(handle)
+        {
             gdrDelegate = new GenericDocumentRecognizerDelegate(this);
         }
 
@@ -145,9 +145,9 @@ namespace ClassicalComponentsDemo.iOS
 
             Task.Run(() =>
             {
-                
+
                 DebugLog("Performing OCR ...");
-                
+
                 var images = AppDelegate.TempImageStorage.ImageURLs;
                 var result = SBSDK.PerformOCR(images, new[] { "en", "de" });
                 DebugLog("OCR result: " + result.RecognizedText);
@@ -378,82 +378,6 @@ namespace ClassicalComponentsDemo.iOS
                 DebugLog("PDF file created: " + pdfOutputFileUrl);
                 ShowMessage("PDF file created", "" + pdfOutputFileUrl);
             });
-        }
-
-        partial void WorkflowScannerTouchUpInside(UIButton sender)
-        {
-            this.ShowWorkflowSelector();
-        }
-
-        void ShowWorkflowSelector()
-        {
-            UIAlertController actionSheetAlert = UIAlertController.Create("Select a workflow", "", UIAlertControllerStyle.ActionSheet);
-
-            foreach (var workflow in WorkflowFactory.AllWorkflows())
-            {
-                UIAlertAction action = UIAlertAction.Create(workflow.Name, UIAlertActionStyle.Default, (actn) =>
-                {
-                    this.ShowWorkflow(workflow);
-                });
-
-                actionSheetAlert.AddAction(action);
-            }
-
-            this.PresentViewController(actionSheetAlert, true, null);
-        }
-
-        void ShowWorkflow(SBSDKUIWorkflow workflow)
-        {
-            SBSDKUIWorkflowScannerConfiguration config = SBSDKUIWorkflowScannerConfiguration.DefaultConfiguration;
-            SBSDKUIWorkflowScannerViewController controller = SBSDKUIWorkflowScannerViewController.CreateNewWithWorkflow(workflow, config, null);
-            controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
-            controller.WeakDelegate = this;
-            this.PresentViewController(controller, false, null);
-        }
-
-        [Export("workflowScanViewController:didFinishWorkflow:withResults:")]
-        void WorkflowScanViewController(SBSDKUIWorkflowScannerViewController viewController, SBSDKUIWorkflow workflow, SBSDKUIWorkflowStepResult[] results)
-        {
-            this.ShowWorkflowResults(results, viewController);
-        }
-
-        void ShowWorkflowResults(SBSDKUIWorkflowStepResult[] results, UIViewController viewController)
-        {
-            WorkflowResultsViewController controller = WorkflowResultsViewController.InstantiateWith(results);
-            viewController.PresentViewController(controller, true, null);
-        }
-
-        // @optional -(void)workflowScanViewController:(SBSDKUIWorkflowScannerViewController * _Nonnull)viewController didFailStepValidation:(SBSDKUIWorkflowStep * _Nonnull)step withResult:(SBSDKUIWorkflowStepResult * _Nonnull)result;
-        [Export("workflowScanViewController:didFailStepValidation:withResult:")]
-        void WorkflowScanViewControllerDidFail(SBSDKUIWorkflowScannerViewController viewController, SBSDKUIWorkflowStep step, SBSDKUIWorkflowStepResult result)
-        {
-            this.ShowMessage("Step validation failed", result.ValidationError.LocalizedDescription, viewController);
-        }
-
-        // @optional -(void)workflowScanViewController:(SBSDKUIWorkflowScannerViewController * _Nonnull)viewController didFailWorkflowValidation:(SBSDKUIWorkflow * _Nonnull)workflow withResults:(NSArray<SBSDKUIWorkflowStepResult *> * _Nonnull)results validationError:(NSError * _Nonnull)error;
-        [Export("workflowScanViewController:didFailWorkflowValidation:withResults:validationError:")]
-        void WorkflowScanViewController(SBSDKUIWorkflowScannerViewController viewController, SBSDKUIWorkflow workflow, SBSDKUIWorkflowStepResult[] results, NSError error)
-        {
-            this.ShowMessage("Workflow validation failed", error.LocalizedDescription, viewController);
-        }
-
-        // @required -(SBSDKUIWorkflowStep * _Nullable)nextStepAfterFinishingStep:(SBSDKUIWorkflowStep * _Nonnull)step withResults:(NSArray<SBSDKUIWorkflowStepResult *> * _Nonnull)results;
-        [Export("nextStepAfterFinishingStep:withResults:")]
-        SBSDKUIWorkflowStep WithResults(SBSDKUIWorkflowStep step, SBSDKUIWorkflowStepResult[] results)
-        {
-            if (results.Length >= 2)
-            {
-                return null;
-            }
-
-            if (results.Length >= 1 && results[0].CapturedPage != null)
-            {
-                return WorkflowFactory.QrCodeStep();
-            }
-            else
-            {
-                return WorkflowFactory.DocumentStep();
-            }
         }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)

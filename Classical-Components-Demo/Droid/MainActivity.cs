@@ -15,9 +15,7 @@ using Java.Util;
 using AndroidNetUri = Android.Net.Uri;
 using Android.Util;
 using System.Collections.Generic;
-using IO.Scanbot.Sdk.UI.View.Mrz;
 using IO.Scanbot.Mrzscanner.Model;
-using IO.Scanbot.Sdk.UI.View.Barcode;
 using IO.Scanbot.Sdk.Barcode.Entity;
 using ClassicalComponentsDemo.Droid.Activities;
 using ClassicalComponentsDemo.Droid.Utils;
@@ -53,7 +51,6 @@ namespace ClassicalComponentsDemo.Droid
 
         Button performOcrButton;
 
-
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -63,7 +60,6 @@ namespace ClassicalComponentsDemo.Droid
             imageView = FindViewById<ImageView>(Resource.Id.imageView);
 
             AssignCopyrightText();
-            AssignStartCameraButtonHandler();
             AssignStartCameraXButtonHandler();
             AssignStartGdrButtonHandler();
             AssingCroppingUIButtonHandler();
@@ -72,8 +68,6 @@ namespace ClassicalComponentsDemo.Droid
             AssignCreatePdfButtonHandler();
             AssignCreateTiffButtonHandler();
             AssignOcrButtonsHandler();
-            AssignWorkflowsButtonHandler();
-            AssignBusinessCardButtonHandler();
             AssignCheckRecognizerUiButtonHandler();
 
             PermissionUtils.Request(this, FindViewById(Resource.Layout.Main));
@@ -83,18 +77,6 @@ namespace ClassicalComponentsDemo.Droid
         {
             var copyrightTextView = FindViewById<TextView>(Resource.Id.copyrightTextView);
             copyrightTextView.Text = "Copyright (c) "+DateTime.Now.Year.ToString()+" doo GmbH. All rights reserved.";
-        }
-
-        void AssignStartCameraButtonHandler()
-        {
-            var scanningUIButton = FindViewById<Button>(Resource.Id.scanningUIButton);
-            scanningUIButton.Click += delegate
-            {
-                if (!CheckScanbotSDKLicense()) { return; }
-
-                Intent intent = new Intent(this, typeof(CameraViewDemoActivity));
-                StartActivityForResult(intent, REQUEST_SB_SCANNING_UI);
-            };
         }
 
         void AssignStartCameraXButtonHandler()
@@ -300,23 +282,6 @@ namespace ClassicalComponentsDemo.Droid
             };
         }
 
-        void AssignWorkflowsButtonHandler()
-        {
-            var barcodeScannerButton = FindViewById<Button>(Resource.Id.workflowsButton);
-            barcodeScannerButton.Click += delegate
-            {
-                var intent = new Intent(this, typeof(WorkflowsActivity));
-                StartActivity(intent);
-            };
-        }
-
-        void AssignBusinessCardButtonHandler()
-        {
-            FindViewById<Button>(Resource.Id.businessCardButton).Click += delegate {
-                StartActivity(typeof(BusinessCardsActivity));
-            };
-        }
-
         void AssignCheckRecognizerUiButtonHandler()
         {
             FindViewById<Button>(Resource.Id.checkUiButton).Click += delegate
@@ -363,8 +328,8 @@ namespace ClassicalComponentsDemo.Droid
 
             if (requestCode == REQUEST_SB_SCANNING_UI && resultCode == Result.Ok)
             {
-                documentImageUri = AndroidNetUri.Parse(data.GetStringExtra(CameraViewDemoActivity.EXTRAS_ARG_DOC_IMAGE_FILE_URI));
-                originalImageUri = AndroidNetUri.Parse(data.GetStringExtra(CameraViewDemoActivity.EXTRAS_ARG_ORIGINAL_IMAGE_FILE_URI));
+                documentImageUri = AndroidNetUri.Parse(data.GetStringExtra(CameraXViewDemoActivity.EXTRAS_ARG_DOC_IMAGE_FILE_URI));
+                originalImageUri = AndroidNetUri.Parse(data.GetStringExtra(CameraXViewDemoActivity.EXTRAS_ARG_ORIGINAL_IMAGE_FILE_URI));
                 ShowImageView(ImageLoader.Instance.Load(documentImageUri));
                 return;
             }

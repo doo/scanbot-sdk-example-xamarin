@@ -1,5 +1,4 @@
-﻿using System;
-namespace ReadyToUseUIDemo.model
+﻿namespace ReadyToUseUIDemo.model
 {
     public class Texts
     {

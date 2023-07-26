@@ -1,6 +1,4 @@
-﻿
-using System;
-#if __IOS__
+﻿#if __IOS__
 using UIKit;
 #else
 using Android.Graphics;
