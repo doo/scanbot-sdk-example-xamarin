@@ -154,15 +154,6 @@ namespace ReadyToUseUIDemo.Droid
             return SBSDK.IsLicenseValid();
         }
 
-
-        // WorkflowScannerActivity workflowScanners parameter is an optional parameter,
-        // however, the generated Kotlin -> C# bindings do not that take that into account.
-        // Just create an empty Dictionary and enter it as a parameter
-        Dictionary<Java.Lang.Class, Java.Lang.Class> WorkflowScanners
-        {
-            get => new Dictionary<Java.Lang.Class, Java.Lang.Class>();
-        }
-
         void StartImportActivity(int resultConstant)
         {
             var intent = new Intent();
