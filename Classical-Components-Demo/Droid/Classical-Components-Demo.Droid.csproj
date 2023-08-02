@@ -55,19 +55,15 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
-    <Compile Include="Activities\CameraViewDemoActivity.cs" />
     <Compile Include="Activities\CameraXViewDemoActivity.cs" />
     <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Activities\CroppingImageDemoActivity.cs" />
-    <Compile Include="Activities\WorkflowsActivity.cs" />
-    <Compile Include="Activities\BusinessCardsActivity.cs" />
-    <Compile Include="Activities\BusinessCardsPreviewActivity.cs" />
-    <Compile Include="Activities\BusinessCardPreviewActivity.cs" />
     <Compile Include="Activities\BaseActivity.cs" />
     <Compile Include="Utils\PermissionUtils.cs" />
     <Compile Include="Service\ImageLoader.cs" />
     <Compile Include="Activities\CheckRecognizerDemoActivity.cs" />
     <Compile Include="Activities\CheckRecognizerResultActivity.cs" />
+    <Compile Include="Delegates\DelegateHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -153,6 +149,7 @@
     <Folder Include="Assets\SBSDKLanguageData\" />
     <Folder Include="Resources\xml\" />
     <Folder Include="Service\" />
+    <Folder Include="Delegates\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\SBSDKLanguageData\deu.traineddata" />
@@ -161,7 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ScanbotSDK.Xamarin">
-      <Version>3.8.3</Version>
+      <Version>3.9.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

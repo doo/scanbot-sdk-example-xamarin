@@ -151,21 +151,6 @@
     <Compile Include="Views\ProgressHUD.designer.cs" />
     <Compile Include="Views\ThumbnailCollectionViewCell.cs" />
     <Compile Include="Views\ThumbnailCollectionViewCell.designer.cs" />
-    <Compile Include="ViewControllers\Business Cards\BusinessCardsDemoViewController.cs" />
-    <Compile Include="ViewControllers\Business Cards\BusinessCardsDemoViewController.designer.cs" />
-    <Compile Include="ViewControllers\Business Cards\BusinessCardDetailDemoViewController.cs" />
-    <Compile Include="ViewControllers\Business Cards\BusinessCardDetailDemoViewController.designer.cs" />
-    <Compile Include="ViewControllers\Business Cards\BusinessCardDemoCell.cs" />
-    <Compile Include="ViewControllers\Business Cards\BusinessCardDemoCell.designer.cs" />
-    <Compile Include="ViewControllers\WorkflowFactory.cs" />
-    <Compile Include="ViewControllers\WorkflowResultsCollectionViewCell.cs" />
-    <Compile Include="ViewControllers\WorkflowResultsCollectionViewCell.designer.cs">
-      <DependentUpon>WorkflowResultsCollectionViewCell.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewControllers\WorkflowResultsViewController.cs" />
-    <Compile Include="ViewControllers\WorkflowResultsViewController.designer.cs">
-      <DependentUpon>WorkflowResultsViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="ViewControllers\CheckRecognizerDemoViewController.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -176,7 +161,6 @@
     <Folder Include="Resources\" />
     <Folder Include="Assets.xcassets\ui_autosnap_on.imageset\" />
     <Folder Include="Assets.xcassets\ui_autosnap_off.imageset\" />
-    <Folder Include="ViewControllers\Business Cards\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ScanbotSDKOCRData.bundle\Info.plist" />
@@ -193,7 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ScanbotSDK.Xamarin">
-      <Version>3.8.3</Version>
+      <Version>3.9.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

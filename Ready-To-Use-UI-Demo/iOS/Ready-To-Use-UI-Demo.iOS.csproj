@@ -76,14 +76,18 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="Microsoft.iOS, Version=16.4.0.0, Culture=neutral, PublicKeyToken=84e04ff9cfb79065" />
+    <Reference Include="Scanbot.ImagePicker.iOS">
+      <HintPath>..\packages\Scanbot.Xamarin.ImagePicker.0.0.2\lib\Xamarin.iOS10\Scanbot.ImagePicker.iOS.dll</HintPath>
+    </Reference>
     <Reference Include="ScanbotSDK.iOS">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.3.8.3\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.3.9.0\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.3.8.3\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.3.9.0\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin.iOS">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.3.8.3\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.3.9.0\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -138,7 +142,6 @@
     <Compile Include="Utils\Alert.cs" />
     <Compile Include="Controller\PdfViewController.cs" />
     <Compile Include="View\PdfContainerView.cs" />
-    <Compile Include="Utils\WorkflowStepValidator.cs" />
     <Compile Include="Utils\Delegates.cs" />
   </ItemGroup>
   <ItemGroup>

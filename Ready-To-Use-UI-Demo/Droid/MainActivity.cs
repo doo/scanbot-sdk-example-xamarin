@@ -6,15 +6,11 @@ using Android.Views;
 
 using ReadyToUseUIDemo.Droid.Views;
 using ReadyToUseUIDemo.Droid.Fragments;
-using IO.Scanbot.Sdk.UI.View.Workflow.Configuration;
 using Android.Graphics;
-using IO.Scanbot.Sdk.UI.View.Workflow;
 using Android.Content;
 using Android.Runtime;
-using IO.Scanbot.Sdk.UI.Entity.Workflow;
 using IO.Scanbot.Sdk.UI.View.Mrz.Configuration;
 using IO.Scanbot.Sdk.UI.View.Mrz;
-using IO.Scanbot.Mrzscanner.Model;
 using IO.Scanbot.Sdk.UI.View.Camera.Configuration;
 using IO.Scanbot.Sdk.UI.View.Camera;
 using System.Linq;
@@ -46,6 +42,12 @@ using System;
 using IO.Scanbot.Sdk.UI.View.Check.Configuration;
 using IO.Scanbot.Sdk.UI.View.Check;
 using IO.Scanbot.Sdk.Check.Entity;
+using IO.Scanbot.Sdk.Generictext;
+using IO.Scanbot.Sdk.UI.Camera;
+using IO.Scanbot.Sdk.UI.View.Generictext;
+using IO.Scanbot.Sdk.UI.View.Generictext.Configuration;
+using IO.Scanbot.Sdk.UI.View.Generictext.Entity;
+using IO.Scanbot.Mrzscanner.Model;
 
 namespace ReadyToUseUIDemo.Droid
 {
@@ -152,15 +154,6 @@ namespace ReadyToUseUIDemo.Droid
             return SBSDK.IsLicenseValid();
         }
 
-
-        // WorkflowScannerActivity workflowScanners parameter is an optional parameter,
-        // however, the generated Kotlin -> C# bindings do not that take that into account.
-        // Just create an empty Dictionary and enter it as a parameter
-        Dictionary<Java.Lang.Class, Java.Lang.Class> WorkflowScanners
-        {
-            get => new Dictionary<Java.Lang.Class, Java.Lang.Class>();
-        }
-
         void StartImportActivity(int resultConstant)
         {
             var intent = new Intent();
@@ -228,21 +221,6 @@ namespace ReadyToUseUIDemo.Droid
             {
                 StartImportActivity(Constants.IMPORT_BARCODE_REQUEST);
             }
-
-            // Other Data Detectors
-            if (button.Data.Code == ListItemCode.WorkflowMC)
-            {
-                var configuration = new WorkflowScannerConfiguration();
-                configuration.SetIgnoreBadAspectRatio(true);
-                configuration.SetTopBarBackgroundColor(Color.White);
-                configuration.SetCameraPreviewMode(CameraPreviewMode.FitIn);
-
-                var intent = WorkflowScannerActivity.NewIntent(this, configuration,
-                    WorkflowFactory.MedicalCertificate, WorkflowScanners
-                );
-                StartActivityForResult(intent, Constants.MC_SCAN_WORKFLOW_REQUEST_CODE);
-            }
-
             else if (button.Data.Code == ListItemCode.ScannerMRZ)
             {
                 var configuration = new MRZScannerConfiguration();
@@ -250,35 +228,6 @@ namespace ReadyToUseUIDemo.Droid
 
                 var intent = MRZScannerActivity.NewIntent(this, configuration);
                 StartActivityForResult(intent, Constants.MRZ_DEFAULT_UI_REQUEST_CODE);
-            }
-            else if (button.Data.Code == ListItemCode.WorkflowMRZImage)
-            {
-                var configuration = new WorkflowScannerConfiguration();
-                configuration.SetIgnoreBadAspectRatio(true);
-
-                var flow = WorkflowFactory.ScanMRZAndSnap;
-                var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, WorkflowScanners);
-                StartActivityForResult(intent, Constants.MRZ_SNAP_WORKFLOW_REQUEST_CODE);
-            }
-            else if (button.Data.Code == ListItemCode.WorkflowMRZFrontBack)
-            {
-                var configuration = new WorkflowScannerConfiguration();
-                configuration.SetIgnoreBadAspectRatio(true);
-
-                var flow = WorkflowFactory.ScanMRZAndFrontBackSnap;
-                var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, WorkflowScanners);
-                StartActivityForResult(intent, Constants.MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE);
-            }
-            else if (button.Data.Code == ListItemCode.WorkflowSEPA)
-            {
-                var configuration = new WorkflowScannerConfiguration();
-                configuration.SetIgnoreBadAspectRatio(true);
-                configuration.SetCameraPreviewMode(CameraPreviewMode.FitIn);
-
-                var flow = WorkflowFactory.PayFormWithClassicalDocPolygonDetection;
-                var intent = WorkflowScannerActivity.NewIntent(this, configuration, flow, WorkflowScanners);
-
-                StartActivityForResult(intent, Constants.PAYFORM_SCAN_WORKFLOW_REQUEST_CODE);
             }
             else if (button.Data.Code == ListItemCode.ScannerEHIC)
             {
@@ -312,6 +261,27 @@ namespace ReadyToUseUIDemo.Droid
                 });
                 var intent = CheckRecognizerActivity.NewIntent(this, config);
                 StartActivityForResult(intent, Constants.CHECK_RECOGNIZER_REQUEST);
+            }
+            else if (button.Data.Code == ListItemCode.TextDataRecognizer)
+            {
+                // Launch the TextDataScanner UI
+                var step = new TextDataScannerStep(
+                     stepTag: "tag",
+                     title: string.Empty,
+                     guidanceText: string.Empty,
+                     pattern: string.Empty,
+                     shouldMatchSubstring: true,
+                     validationCallback: new ValidationCallback(),
+                     cleanRecognitionResultCallback: new RecognitionCallback(),
+                     preferredZoom: 1.6f,
+                     aspectRatio: new FinderAspectRatio(4.0, 1.0),
+                     unzoomedFinderHeight: 40f,
+                     allowedSymbols: new List<Java.Lang.Character>(),
+                     textFilterStrategy: TextFilterStrategy.Document,
+                     significantShakeDelay: 0);
+                var config = new TextDataScannerConfiguration();
+                var intent = TextDataScannerActivity.NewIntent(this, config, step);
+                StartActivityForResult(intent, Constants.TEXT_DATA_RECOGNIZER_REQUEST);
             }
         }
 
@@ -391,51 +361,7 @@ namespace ReadyToUseUIDemo.Droid
                 var page = data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult) as Page;
                 PageRepository.Add(page);
             }
-            else if (requestCode == Constants.MC_SCAN_WORKFLOW_REQUEST_CODE)
-            {
-                var workflow = (Workflow)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
-
-                var list = data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
-                var result = (DisabilityCertificateWorkflowStepResult)list[0];
-                var fragment = MCResultDialogFragment.CreateInstance(workflow, result);
-                fragment.Show(SupportFragmentManager, MCResultDialogFragment.NAME);
-            }
-            else if (requestCode == Constants.MRZ_DEFAULT_UI_REQUEST_CODE)
-            {
-                var result = (MRZRecognitionResult)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
-                var fragment = MRZDialogFragment.CreateInstance(result);
-                fragment.Show(SupportFragmentManager, MRZDialogFragment.NAME);
-            }
-            else if (requestCode == Constants.MRZ_SNAP_WORKFLOW_REQUEST_CODE)
-            {
-                var workflow = (Workflow)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
-                var javaResults = data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
-
-                // Here we convert the Java ArrayList to a C# List object before passing it to our Dialog Fragment creator
-                var results = new List<WorkflowStepResult>();
-                foreach (WorkflowStepResult result in javaResults)
-                {
-                    results.Add(result);
-                }
-
-                var fragment = MRZImageResultDialogFragment.CreateInstance(workflow, results);
-                fragment.Show(SupportFragmentManager, MRZImageResultDialogFragment.NAME);
-            }
-            else if (requestCode == Constants.MRZ_FRONBACK_SNAP_WORKFLOW_REQUEST_CODE)
-            {
-                var workflow = (Workflow)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
-                var javaResults = data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
-
-                // Here we convert the Java ArrayList to a C# List object before passing it to our Dialog Fragment creator
-                var results = new List<WorkflowStepResult>();
-                foreach (WorkflowStepResult result in javaResults)
-                {
-                    results.Add(result);
-                }
-
-                var fragment = MRZFrontBackImageResultDialogFragment.CreateInstance(workflow, results);
-                fragment.Show(SupportFragmentManager, MRZFrontBackImageResultDialogFragment.NAME);
-            }
+            
             else if (requestCode == Constants.REQUEST_EHIC_SCAN)
             {
                 var result = (HealthInsuranceCardRecognitionResult)data.GetParcelableExtra(
@@ -444,12 +370,11 @@ namespace ReadyToUseUIDemo.Droid
                 var fragment = HealthInsuranceCardFragment.CreateInstance(result);
                 fragment.Show(SupportFragmentManager, HealthInsuranceCardFragment.NAME);
             }
-            else if (requestCode == Constants.PAYFORM_SCAN_WORKFLOW_REQUEST_CODE)
+            else if (requestCode == Constants.MRZ_DEFAULT_UI_REQUEST_CODE)
             {
-                var workflow = (Workflow)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
-                var results = (List<WorkflowStepResult>)data.GetParcelableArrayListExtra(RtuConstants.ExtraKeyRtuResult);
-                var fragment = PayFormResultDialogFragment.CreateInstance(workflow, results);
-                fragment.Show(SupportFragmentManager, PayFormResultDialogFragment.NAME);
+                var result = (MRZRecognitionResult)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
+                var fragment = MRZDialogFragment.CreateInstance(result);
+                fragment.Show(SupportFragmentManager, MRZDialogFragment.NAME);
             }
             else if (requestCode == Constants.GENERIC_DOCUMENT_RECOGNIZER_REQUEST)
             {
@@ -507,6 +432,20 @@ namespace ReadyToUseUIDemo.Droid
                     .ToList());
                 Console.WriteLine("Check Recognizer Result: ", description);
                 ShowAlert("Result", description);
+            }
+            else if (requestCode == Constants.TEXT_DATA_RECOGNIZER_REQUEST)
+            {
+                var result = data.GetParcelableArrayExtra(RtuConstants.ExtraKeyRtuResult);
+                if (result == null || result.Count() == 0)
+                {
+                    return;
+                }
+                var textDataScannerStepResult = result.First() as TextDataScannerStepResult;
+                Console.WriteLine("Text Recognizer Result: " + textDataScannerStepResult.Text);
+                RunOnUiThread(delegate
+                {
+                    ShowAlert("Result", textDataScannerStepResult.Text);
+                });
             }
         }
 

@@ -116,7 +116,8 @@ namespace ReadyToUseUIDemo.iOS.Utils
                         text += code.Barcode.Type.Name + ": " + code.Barcode.RawTextString + "\n";
                     }
                 }
-                ShowPopup(viewController, text);
+                var controller = UIApplication.SharedApplication.KeyWindow?.RootViewController ?? viewController;
+                ShowPopup(controller, text);
             }
         }
 
