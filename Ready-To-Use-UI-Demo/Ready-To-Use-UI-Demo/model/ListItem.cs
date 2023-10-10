@@ -16,7 +16,8 @@
 
         GenericDocumentRecognizer,
         CheckRecognizer,
-        TextDataRecognizer
+        TextDataRecognizer,
+        VinRecognizer,
     }
 
     public class ListItem

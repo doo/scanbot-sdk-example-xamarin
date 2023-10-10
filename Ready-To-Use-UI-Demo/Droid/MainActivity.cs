@@ -42,12 +42,11 @@ using System;
 using IO.Scanbot.Sdk.UI.View.Check.Configuration;
 using IO.Scanbot.Sdk.UI.View.Check;
 using IO.Scanbot.Sdk.Check.Entity;
-using IO.Scanbot.Sdk.Generictext;
-using IO.Scanbot.Sdk.UI.Camera;
 using IO.Scanbot.Sdk.UI.View.Generictext;
 using IO.Scanbot.Sdk.UI.View.Generictext.Configuration;
 using IO.Scanbot.Sdk.UI.View.Generictext.Entity;
 using IO.Scanbot.Mrzscanner.Model;
+using IO.Scanbot.Sdk.UI.View.Vin.Configuration;
 
 namespace ReadyToUseUIDemo.Droid
 {
@@ -274,14 +273,23 @@ namespace ReadyToUseUIDemo.Droid
                      validationCallback: new ValidationCallback(),
                      cleanRecognitionResultCallback: new RecognitionCallback(),
                      preferredZoom: 1.6f,
-                     aspectRatio: new FinderAspectRatio(4.0, 1.0),
+                     aspectRatio: new IO.Scanbot.Sdk.AspectRatio(4.0, 1.0),
                      unzoomedFinderHeight: 40f,
                      allowedSymbols: new List<Java.Lang.Character>(),
-                     textFilterStrategy: TextFilterStrategy.Document,
                      significantShakeDelay: 0);
                 var config = new TextDataScannerConfiguration();
                 var intent = TextDataScannerActivity.NewIntent(this, config, step);
                 StartActivityForResult(intent, Constants.TEXT_DATA_RECOGNIZER_REQUEST);
+            }
+            else if (button.Data.Code == ListItemCode.VinRecognizer)
+            {
+                // Launch the VinScannerConfigurations
+                var configuration = new VinScannerConfiguration();
+                configuration.SetGuidanceText("Please place the finder over the VIN.");
+                configuration.SetFinderAspectRatio(new IO.Scanbot.Sdk.AspectRatio(7, 1));
+                configuration.SetFlashEnabled(true);
+                var intent = IO.Scanbot.Sdk.UI.View.Vin.VinScannerActivity.NewIntent(this, configuration);
+                StartActivityForResult(intent, Constants.VIN_RECOGNIZER_REQUEST);
             }
         }
 
@@ -372,7 +380,7 @@ namespace ReadyToUseUIDemo.Droid
             }
             else if (requestCode == Constants.MRZ_DEFAULT_UI_REQUEST_CODE)
             {
-                var result = (MRZRecognitionResult)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
+                var result = (MRZGenericDocument)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
                 var fragment = MRZDialogFragment.CreateInstance(result);
                 fragment.Show(SupportFragmentManager, MRZDialogFragment.NAME);
             }
@@ -445,6 +453,19 @@ namespace ReadyToUseUIDemo.Droid
                 RunOnUiThread(delegate
                 {
                     ShowAlert("Result", textDataScannerStepResult.Text);
+                });
+            }
+            else if (requestCode == Constants.VIN_RECOGNIZER_REQUEST)
+            {
+                var result = (IO.Scanbot.Sdk.Vin.VinScanResult)data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult);
+                if (result == null || string.IsNullOrEmpty(result.RawText))
+                {
+                    return;
+                }
+                Console.WriteLine("VIN Recognizer Result: " + result.RawText);
+                RunOnUiThread(delegate
+                {
+                    ShowAlert("Result", result.RawText);
                 });
             }
         }

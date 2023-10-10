@@ -15,6 +15,7 @@ namespace ReadyToUseUIDemo.model
             new ListItem { Title = "Generic Document Recognizer",   Code = ListItemCode.GenericDocumentRecognizer },
             new ListItem { Title = "Text Data Recognizer",          Code = ListItemCode.TextDataRecognizer },
             new ListItem { Title = "Check Recognizer",              Code = ListItemCode.CheckRecognizer },
+            new ListItem { Title = "VIN Recognizer",                Code = ListItemCode.VinRecognizer },
         };
     }
 }

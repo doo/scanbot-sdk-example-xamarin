@@ -351,7 +351,7 @@ namespace ClassicalComponentsDemo.Droid
 
             if (requestCode == REQUEST_SB_MRZ_SCANNER && resultCode == Result.Ok)
             {
-                var mrzRecognitionResult = data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult) as MRZRecognitionResult;
+                var mrzRecognitionResult = data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult) as MRZGenericDocument;
                 Toast.MakeText(this, ExtractMrzResultData(mrzRecognitionResult), ToastLength.Long).Show();
                 return;
             }
@@ -398,29 +398,30 @@ namespace ClassicalComponentsDemo.Droid
 
                 Console.WriteLine("GDR Result: ", description);   
             }
-
         }
 
-        string ExtractMrzResultData(MRZRecognitionResult result)
+        string ExtractMrzResultData(MRZGenericDocument result)
         {
-            return new System.Text.StringBuilder()
-                    .Append("documentCode: ").Append(result.DocumentCodeField().Value).Append("\n")
-                    .Append("First name: ").Append(result.FirstNameField().Value).Append("\n")
-                    .Append("Last name: ").Append(result.LastNameField().Value).Append("\n")
-                    .Append("issuingStateOrOrganization: ").Append(result.IssuingStateOrOrganizationField().Value).Append("\n")
-                    .Append("departmentOfIssuance: ").Append(result.DepartmentOfIssuanceField().Value).Append("\n")
-                    .Append("nationality: ").Append(result.NationalityField().Value).Append("\n")
-                    .Append("dateOfBirth: ").Append(result.DateOfBirthField().Value).Append("\n")
-                    .Append("gender: ").Append(result.GenderField().Value).Append("\n")
-                    .Append("dateOfExpiry: ").Append(result.DateOfExpiryField().Value).Append("\n")
-                    .Append("personalNumber: ").Append(result.PersonalNumberField().Value).Append("\n")
-                    .Append("optional1: ").Append(result.Optional1Field().Value).Append("\n")
-                    .Append("optional2: ").Append(result.Optional2Field().Value).Append("\n")
-                    .Append("discreetIssuingStateOrOrganization: ").Append(result.DiscreetIssuingStateOrOrganizationField().Value).Append("\n")
-                    .Append("validCheckDigitsCount: ").Append(result.ValidCheckDigitsCount).Append("\n")
-                    .Append("checkDigitsCount: ").Append(result.CheckDigitsCount).Append("\n")
-                    .Append("travelDocType: ").Append(result.TravelDocTypeField().Value).Append("\n")
-                    .ToString();
+            var builder = new Java.Lang.StringBuilder();
+
+            var description = string.Join(";\n", result?.Document?.Fields?
+                .Where(field => field != null)
+                .Select((field) =>
+                {
+                    string outStr = "";
+                    if (field.GetType() != null && field.GetType().Name != null)
+                    {
+                        outStr += field.GetType().Name + " = ";
+                    }
+                    if (field.Value != null && field.Value.Text != null)
+                    {
+                        outStr += field.Value.Text;
+                    }
+                    return outStr;
+                })
+                .ToList()
+            );
+            return description;
         }
 
         void RunDocumentDetection(AndroidNetUri imageUri)
