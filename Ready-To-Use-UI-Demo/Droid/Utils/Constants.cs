@@ -14,6 +14,7 @@ namespace ReadyToUseUIDemo.Droid.Utils
         public const int GENERIC_DOCUMENT_RECOGNIZER_REQUEST = 4716;
         public const int CHECK_RECOGNIZER_REQUEST = 4717;
         public const int TEXT_DATA_RECOGNIZER_REQUEST = 4718;
+        public const int VIN_RECOGNIZER_REQUEST = 4719;
 
         public const int CROP_DEFAULT_UI_REQUEST = 9999;
     }
