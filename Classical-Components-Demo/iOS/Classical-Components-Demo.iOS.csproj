@@ -23,7 +23,7 @@
     <MtouchDebug>true</MtouchDebug>
     <MtouchFastDev>true</MtouchFastDev>
     <IOSDebuggerPort>20161</IOSDebuggerPort>
-    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchLink>None</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchTlsProvider>Default</MtouchTlsProvider>
@@ -177,7 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ScanbotSDK.Xamarin">
-      <Version>3.9.0</Version>
+      <Version>3.10.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

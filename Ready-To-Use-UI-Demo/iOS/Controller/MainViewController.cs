@@ -263,6 +263,10 @@ namespace ReadyToUseUIDemo.iOS.Controller
             {
                 TextDataScannerTapped();
             }
+            else if (button.Data.Code == ListItemCode.VinRecognizer)
+            {
+                VinRecognizerTapped();
+            }
         }
 
         private void TextDataScannerTapped()
@@ -279,6 +283,39 @@ namespace ReadyToUseUIDemo.iOS.Controller
             PresentViewController(scanner, true, null);
         }
 
+        private void VinRecognizerTapped()
+        {
+            Debug.WriteLine("ScanbotSDK Demo: Starting VIN recognizer controller ...");
+
+            var configuration = SBSDKUIVINScannerConfiguration.DefaultConfiguration;
+            configuration.TextConfiguration.CancelButtonTitle = "Done";
+            configuration.TextConfiguration.GuidanceText = "Please place the finder over the VIN.";
+            configuration.UiConfiguration.FinderAspectRatio = new SBSDKAspectRatio(7, 1);
+            var scanner = SBSDKUIVINScannerViewController.CreateNewWithConfiguration(configuration, new VINScannerDelegate(successHandler: (text) =>
+            {
+                Alert.Show(this, "Result Text:", text);
+            }));
+
+            PresentViewController(scanner, true, null);
+        }
+    }
+
+    internal class VINScannerDelegate : SBSDKUIVINScannerViewControllerDelegate
+    {
+        private Action<string> successHandler;
+        public VINScannerDelegate(Action<string> successHandler)
+        {
+            this.successHandler = successHandler;
+        }
+
+        public override void DidFinishWithResult(SBSDKUIVINScannerViewController viewController, SBSDKVehicleIdentificationNumberScannerResult result)
+        {
+            if (viewController.RecognitionEnabled && result?.ValidationSuccessful == true)
+            {
+                viewController.RecognitionEnabled = false;
+                viewController.DismissViewController(true, () => successHandler?.Invoke(result.Text ?? string.Empty));
+            }
+        }
     }
 
     public class PageEventArgs : EventArgs
