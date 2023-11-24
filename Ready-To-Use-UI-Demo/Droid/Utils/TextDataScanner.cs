@@ -8,7 +8,7 @@ namespace ReadyToUseUIDemo.Droid.Utils
         public bool Validate(string text)
         {
             Console.WriteLine("ValidationCallback.Validate: " + text);
-            return true;
+            return text.Length > 0;
         }
     }
 
