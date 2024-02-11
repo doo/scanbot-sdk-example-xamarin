@@ -173,7 +173,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
                         text += item.Type.ToString() + ": " + item.RawTextString + "\n";
                     }
 
-                    var blur = new SBSDKBlurrinessEstimator().EstimateImageBlurriness(image);
+                    var blur = new SBSDKDocumentQualityAnalyzer().AnalyzeOnImage(image);
                     Console.WriteLine("Blur of imported image: " + blur);
                     text += "(Additionally, blur: " + blur + ")";
                 }
@@ -354,8 +354,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
         {
             this.RecognitionSuccess = successHandler;
         }
-
-        public override void DidFinish(SBSDKUITextDataScannerViewController viewController, SBSDKUITextDataScannerStep step, SBSDKUITextDataScannerStepResult result)
+        public override void DidFinishStepWithResult(SBSDKUITextDataScannerViewController viewController, SBSDKUITextDataScannerStep step, SBSDKUITextDataScannerStepResult result)
         {
             if (viewController.RecognitionEnabled && !string.IsNullOrEmpty(result?.Text))
             {

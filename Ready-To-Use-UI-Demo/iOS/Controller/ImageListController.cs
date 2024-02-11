@@ -85,7 +85,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             var pdf = CreateButton(Texts.save_without_ocr, delegate
             {
                 var output = new NSUrl(nsurl.AbsoluteString + Guid.NewGuid() + ".pdf");
-                SBSDK.CreatePDF(input, output, PDFPageSize.FixedA4);
+                SBSDK.CreatePDF(input, output, PDFPageSize.A4);
                 OpenDocument(output, false);
             });
 
@@ -95,7 +95,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 var languages = SBSDK.GetOcrConfigs().InstalledLanguages;
                 try
                 {
-                    SBSDK.PerformOCR(input, languages.ToArray(), output);
+                    SBSDK.PerformOCR(input, SBSDK.GetOcrConfigs(), output);
                     OpenDocument(output, true);
                 }
                 catch (Exception ex)
