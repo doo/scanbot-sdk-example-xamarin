@@ -263,7 +263,7 @@ namespace ReadyToUseUIDemo.Droid
             }
             else if (button.Data.Code == ListItemCode.TextDataRecognizer)
             {
-                var listener = new Listeners.TextDataScannerListeners();
+                //var listener = new Listeners.TextDataScannerListeners();
 
                 // Launch the TextDataScanner UI
                 var step = new TextDataScannerStep(
@@ -272,13 +272,14 @@ namespace ReadyToUseUIDemo.Droid
                      guidanceText: string.Empty,
                      pattern: string.Empty,
                      shouldMatchSubstring: true,
-                     validationCallback: listener,
-                     cleanRecognitionResultCallback: listener,
+                     validationCallback: null,
+                     cleanRecognitionResultCallback: null,
                      preferredZoom: 1.6f,
                      aspectRatio: new IO.Scanbot.Sdk.AspectRatio(4.0, 1.0),
                      unzoomedFinderHeight: 40f,
                      allowedSymbols: new List<Java.Lang.Character>(),
                      significantShakeDelay: 0);
+
                 var config = new TextDataScannerConfiguration(step);
                 var intent = TextDataScannerActivity.NewIntent(this, config);
                 StartActivityForResult(intent, Constants.TEXT_DATA_RECOGNIZER_REQUEST);

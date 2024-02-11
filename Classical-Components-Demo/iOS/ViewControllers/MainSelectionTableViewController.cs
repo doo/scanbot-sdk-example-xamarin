@@ -11,6 +11,7 @@ using ScanbotSDK.Xamarin.iOS;
 using ScanbotSDK.iOS;
 using System.Linq;
 using ClassicalComponentsDemo.iOS.ViewControllers;
+using System.Collections.Generic;
 
 namespace ClassicalComponentsDemo.iOS
 {
@@ -64,7 +65,7 @@ namespace ClassicalComponentsDemo.iOS
                 this.rootVc = new WeakReference<MainSelectionTableViewController>(rootVc);
             }
 
-            public override void GenericDocumentRecognizerViewController(SBSDKUIGenericDocumentRecognizerViewController viewController, SBSDKGenericDocument[] documents)
+            public override void DidFinishWithDocuments(SBSDKUIGenericDocumentRecognizerViewController viewController, SBSDKGenericDocument[] documents)
             {
                 if (documents == null || documents.Length == 0)
                 {
@@ -143,13 +144,23 @@ namespace ClassicalComponentsDemo.iOS
             if (!CheckScanbotSDKLicense()) { return; }
             if (!CheckDocumentImageUrl()) { return; }
 
-            Task.Run(() =>
+            Task.Run(async () =>
             {
 
                 DebugLog("Performing OCR ...");
 
                 var images = AppDelegate.TempImageStorage.ImageURLs;
-                var result = SBSDK.PerformOCR(images, new[] { "en", "de" });
+
+                // Uncomment below code to use the old OCR approach. Use [OCRMode.Legacy] and set the required [InstalledLanguages] property.
+                //var languages = new List<string> { "en", "de" };
+                //var ocrConfig = new OcrConfigs
+                //{
+                //    InstalledLanguages = languages,
+                //    OcrMode = OCRMode.Legacy,
+                //    LanguageDataPath = SBSDK.GetOcrConfigs().LanguageDataPath
+                //};
+
+                var result = await SBSDK.PerformOCR(images, SBSDK.GetOcrConfigs());
                 DebugLog("OCR result: " + result.RecognizedText);
                 ShowMessage("OCR Text", result.RecognizedText);
             });
@@ -374,7 +385,7 @@ namespace ClassicalComponentsDemo.iOS
                 DebugLog("Creating PDF file ...");
                 var images = AppDelegate.TempImageStorage.ImageURLs;
                 var pdfOutputFileUrl = GenerateRandomFileUrlInDemoTempStorage(".pdf");
-                SBSDK.CreatePDF(images, pdfOutputFileUrl, PDFPageSize.FixedA4);
+                SBSDK.CreatePDF(images, pdfOutputFileUrl, PDFPageSize.A4);
                 DebugLog("PDF file created: " + pdfOutputFileUrl);
                 ShowMessage("PDF file created", "" + pdfOutputFileUrl);
             });

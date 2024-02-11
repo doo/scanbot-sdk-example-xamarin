@@ -94,7 +94,6 @@ namespace ClassicalComponentsDemo.Droid
             frameHandlerWrapper.FrameHandler.SetAcceptedSizeScore(70);
 
             autoSnappingController = DocumentAutoSnappingController.Attach(cameraView, contourDetector);
-            autoSnappingController.SetIgnoreBadAspectRatio(ignoreBadAspectRatio);
 
             pictureCallbackDelegate = new PictureCallbackDelegate();
             pictureCallbackDelegate.OnPictureTakenHandler += ProcessTakenPicture;
