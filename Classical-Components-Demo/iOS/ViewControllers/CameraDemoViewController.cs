@@ -118,7 +118,7 @@ namespace ClassicalComponentsDemo.iOS
         void SetAutoSnapEnabled(bool enabled)
         {
             autoSnapButton.Selected = enabled;
-            documentScannerViewController.AutoSnappingMode = SBSDKAutosnappingMode.Disabled; //enabled ? SBSDKAutosnappingMode.Enabled : SBSDKAutosnappingMode.Disabled;
+            documentScannerViewController.AutoSnappingMode = enabled ? SBSDKAutosnappingMode.Enabled : SBSDKAutosnappingMode.Disabled;
             documentScannerViewController.SnapButton.ScannerStatus = enabled ? SBSDKScannerStatus.Scanning : SBSDKScannerStatus.Idle;
 
             // set the visibility for detection label.
@@ -206,7 +206,7 @@ namespace ClassicalComponentsDemo.iOS
         // Validation method, asking if auto snapping should be performed.
         public override bool ShouldAutoSnapImageWithForDetectionResult(SBSDKDocumentScannerViewController controller, SBSDKDocumentDetectorResult result)
         {
-            return false;
+            return controller.AutoSnappingMode == SBSDKAutosnappingMode.Enabled;
         }
 
         // Fill color inside the detecting polygon view.
