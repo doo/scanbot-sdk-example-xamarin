@@ -35,11 +35,11 @@ namespace ReadyToUseUIDemo.iOS
             {
                 EnableLogging = true,
                 StorageBaseDirectory = GetDemoStorageBaseDirectory(),
-                Encryption = new SBSDKEncryption
-                {
-                    Mode = EncryptionMode.AES256,
-                    Password = "S0m3W3irDL0ngPa$$w0rdino!!!!"
-                }
+                //Encryption = new SBSDKEncryption
+                //{
+                //    Mode = EncryptionMode.AES256,
+                //    Password = "S0m3W3irDL0ngPa$$w0rdino!!!!"
+                //}
             };
             SBSDK.Initialize(application, LICENSE_KEY, configuration);
 

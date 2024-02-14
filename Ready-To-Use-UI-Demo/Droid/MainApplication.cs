@@ -38,11 +38,11 @@ namespace ReadyToUseUIDemo.Droid
             {
                 EnableLogging = true,
                 StorageBaseDirectory = GetDemoStorageBaseDirectory(),
-                Encryption = new SBSDKEncryption
-                {
-                    Mode = EncryptionMode.AES256,
-                    Password = "S0m3W3irDL0ngPa$$w0rdino!!!!"
-                }
+                //Encryption = new SBSDKEncryption
+                //{
+                //    Mode = EncryptionMode.AES256,
+                //    Password = "S0m3W3irDL0ngPa$$w0rdino!!!!"
+                //}
             });
 
             ImageLoader.Instance = new ImageLoader(this);

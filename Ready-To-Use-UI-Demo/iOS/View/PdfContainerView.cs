@@ -31,13 +31,16 @@ namespace ReadyToUseUIDemo.iOS.View
             content.AutoScales = true;
 
             var data = NSData.FromFile(uri.Path);
-            // If data is encrypted, SBSDK.Encrypter will be evaluated.
-            // In that case, use it to decrypt the data
-            if (SBSDK.Encrypter != null)
+            if (data != null)
             {
-                data = SBSDK.Encrypter.DecryptData(data);
+                // If data is encrypted, SBSDK.Encrypter will be evaluated.
+                // In that case, use it to decrypt the data
+                if (SBSDK.Encrypter != null)
+                {
+                    data = SBSDK.Encrypter.DecryptData(data);
+                }
+                content.Document = new PdfDocument(data);
             }
-            content.Document = new PdfDocument(data);
             
             AddSubview(content);
 

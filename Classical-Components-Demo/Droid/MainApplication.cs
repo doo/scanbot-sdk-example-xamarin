@@ -41,11 +41,11 @@ namespace ClassicalComponentsDemo.Droid
             SBSDK.Initialize(this, LICENSE_KEY, new SBSDKConfiguration
             {
                 EnableLogging = true,
-                Encryption = new SBSDKEncryption
-                {
-                    Mode = EncryptionMode.AES256,
-                    Password = "S0m3W3irDL0ngPa$$w0rdino!!!!"
-                }
+                //Encryption = new SBSDKEncryption
+                //{
+                //    Mode = EncryptionMode.AES256,
+                //    Password = "S0m3W3irDL0ngPa$$w0rdino!!!!"
+                //}
             });
 
             ImageLoader.Instance = new ImageLoader(this);
