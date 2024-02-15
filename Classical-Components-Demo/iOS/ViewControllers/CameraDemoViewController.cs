@@ -76,9 +76,22 @@ namespace ClassicalComponentsDemo.iOS
 
         void SetupDefaultShutterButtonColors()
         {
-            var shutterButton = documentScannerViewController.SnapButton;
-            shutterButton.ButtonSearchingColor = UIColor.Red;
-            shutterButton.ButtonDetectedColor = UIColor.Green;
+
+            // CustomSnapButton: create a custom auto snap button in the View and pass it as a reference.
+            var customButton = new UIButton(new CGRect(View.Center.X - 25, bottomButtonsContainer.Frame.Height - 80, 50, 50));
+            customButton.BackgroundColor = UIColor.White;
+            customButton.Layer.BorderColor = UIColor.Black.CGColor;
+            customButton.Layer.BorderWidth = 5; 
+            customButton.Layer.CornerRadius = 25;
+            documentScannerViewController.CustomSnapButton = customButton;
+
+            bottomButtonsContainer.AddSubview(customButton);
+            bottomButtonsContainer.BringSubviewToFront(customButton);
+
+            // uncomment below code to use the default snap button
+            //var shutterButton = documentScannerViewController.SnapButton;
+            //shutterButton.ButtonSearchingColor = UIColor.Red;
+            //shutterButton.ButtonDetectedColor = UIColor.Green;
         }
 
         void AddAutosnapToggleButton()
