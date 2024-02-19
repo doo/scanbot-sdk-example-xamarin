@@ -45,7 +45,14 @@ namespace ClassicalComponentsDemo.iOS
             var location = new SBSDKStorageLocation(NSUrl.FromFilename(Directory));
             TempImageStorage = new SBSDKIndexedImageStorage(location, SBSDKImageFileFormat.Jpeg, SBSDK.Encrypter);
 
+            ScanbotSDKGlobal.SetLicenseFailureHandler(HandleLicenseFailure);
+
             return true;
+        }
+
+        private void HandleLicenseFailure(dooLicenseStatus arg0, dooFeature arg1, string arg2)
+        {
+            CommonUtils.ShowAlert("License Info", "Please check your license. Status:" + arg0);
         }
 
         private static string GetExampleTempStorageDir()
