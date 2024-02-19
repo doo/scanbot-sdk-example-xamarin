@@ -22,7 +22,7 @@ namespace ClassicalComponentsDemo.iOS
         protected SBSDKDocumentScannerViewController documentScannerViewController;
         protected UIButton flashButton, autoSnapButton;
 
-        protected bool autoSnappingEnabled = true;
+        protected bool autoSnappingEnabled = false;
         public CameraDemoDelegate cameraDelegate;
 
         public override void ViewDidLoad()
@@ -62,6 +62,9 @@ namespace ClassicalComponentsDemo.iOS
             // Sensitivity factor for automatic capturing. Must be in the range [0.0...1.0]. Invalid values are threated as 1.0. 
             // Defaults to 0.66 (1 sec).s A value of 1.0 triggers automatic capturing immediately, a value of 0.0 delays the automatic by 3 seconds.
             documentScannerViewController.AutoSnappingSensitivity = 0.7f;
+
+            documentScannerViewController.PolygonAutoSnapProgressColor = UIColor.Black;
+
         }
 
         public override void ViewWillAppear(bool animated)
@@ -78,7 +81,14 @@ namespace ClassicalComponentsDemo.iOS
         {
 
             // CustomSnapButton: create a custom auto snap button in the View and pass it as a reference.
-            var customButton = new UIButton(new CGRect(View.Center.X - 25, bottomButtonsContainer.Frame.Height - 80, 50, 50));
+            var customButton = new SBSDKShutterButton()
+            {
+                Frame = new CGRect(View.Center.X - 25, bottomButtonsContainer.Frame.Height - 80, 50, 50),
+            };
+
+            // uncomment below code for using a UIButton instead of SBSDKShutterButton.
+            //var customButton = new UIButton(new CGRect(View.Center.X - 25, bottomButtonsContainer.Frame.Height - 80, 50, 50));
+
             customButton.BackgroundColor = UIColor.White;
             customButton.Layer.BorderColor = UIColor.Black.CGColor;
             customButton.Layer.BorderWidth = 5; 
@@ -134,8 +144,9 @@ namespace ClassicalComponentsDemo.iOS
             documentScannerViewController.AutoSnappingMode = enabled ? SBSDKAutosnappingMode.Enabled : SBSDKAutosnappingMode.Disabled;
             documentScannerViewController.SnapButton.ScannerStatus = enabled ? SBSDKScannerStatus.Scanning : SBSDKScannerStatus.Idle;
 
-            // set the visibility for detection label.
-            documentScannerViewController.SuppressDetectionStatusLabel = false;
+            // set the visibility for detection label and polygon.
+            //documentScannerViewController.SuppressDetectionStatusLabel = !enabled;
+            //documentScannerViewController.SuppressPolygonLayer = !enabled;
         }
 
         public void DidDetectDocument(UIImage documentImage, UIImage originalImage, SBSDKDocumentDetectorResult result, bool autoSnapped)
@@ -189,30 +200,56 @@ namespace ClassicalComponentsDemo.iOS
         // Update the detection label on the Document polygon view according to the status.
         public override void ConfigureStatusDetectionLabel(SBSDKDocumentScannerViewController controller, SBSDKDetectionStatusLabel label, SBSDKDocumentDetectorResult result)
         {
+            string labelText = string.Empty;
+            // uncomment below code to check for low power mode.
+            //if (Foundation.NSProcessInfo.ProcessInfo.LowPowerModeEnabled)
+            //{
+            //      labelText = "The energy saving is actived.\n Please move the device to start scanning again.";
+            //}
+
             switch (result.Status)
             {
                 case SBSDKDocumentDetectionStatus.Ok:
-                    label.Text = "Don't move.\nCapturing...";
+                    labelText = "Don't move.\nCapturing...";
                     label.BackgroundColor = successColor;
                     break;
+
                 case SBSDKDocumentDetectionStatus.OK_SmallSize:
-                    label.Text = "Move closer";
+                    labelText = "Move closer";
                     break;
+
                 case SBSDKDocumentDetectionStatus.OK_BadAngles:
-                    label.Text = "Perspective";
+                    labelText = "Perspective";
                     break;
-                case SBSDKDocumentDetectionStatus.Error_NothingDetected:
-                    label.Text = "No Document";
-                    break;
-                case SBSDKDocumentDetectionStatus.Error_Noise:
-                    label.Text = "Background too noisy";
-                    break;
-                case SBSDKDocumentDetectionStatus.Error_Brightness:
-                    label.Text = "Poor light";
-                    break;
+               
                 case SBSDKDocumentDetectionStatus.OK_BadAspectRatio:
-                    label.Text = "Wrong aspect ratio.\n Rotate your device";
+                    labelText = "Wrong aspect ratio.\n Rotate your device";
                     break;
+
+                case SBSDKDocumentDetectionStatus.Error_NothingDetected:
+                    labelText = "No Document";
+                    break;
+
+                case SBSDKDocumentDetectionStatus.Error_Noise:
+                    labelText = "Background too noisy";
+                    break;
+
+                case SBSDKDocumentDetectionStatus.Error_Brightness:
+                    labelText = "Poor light";
+                    break;
+
+                case SBSDKDocumentDetectionStatus.NotAcquired:
+                    labelText = "No Aquired";
+                    break;
+
+                case SBSDKDocumentDetectionStatus.OK_OffCenter:
+                    labelText = "Off Center";
+                    break;
+            }
+
+            if (!labelText.Equals(string.Empty))
+            {
+                label.Text = labelText;
             }
         }
 

@@ -287,7 +287,7 @@ namespace ClassicalComponentsDemo.iOS
 
         void ShowImageView(UIImage hiresImage)
         {
-            var previewImage = ExampleImageUtils.MaxResizeImage(hiresImage, 900, 900);
+            var previewImage = CommonUtils.MaxResizeImage(hiresImage, 900, 900);
             InvokeOnMainThread(() =>
             {
                 selectedImageView.Image = previewImage;

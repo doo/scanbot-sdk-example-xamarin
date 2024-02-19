@@ -142,7 +142,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Utils\ExampleImageUtils.cs" />
+    <Compile Include="Utils\CommonUtils.cs" />
     <Compile Include="ViewControllers\CameraDemoViewController.cs" />
     <Compile Include="ViewControllers\CroppingDemoNavigationController.cs" />
     <Compile Include="ViewControllers\MainSelectionTableViewController.cs" />
