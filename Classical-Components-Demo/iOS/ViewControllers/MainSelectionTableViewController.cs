@@ -363,15 +363,12 @@ namespace ClassicalComponentsDemo.iOS
             if (!CheckScanbotSDKLicense()) { return; }
             if (!CheckDocumentImageUrl()) { return; }
 
-            Task.Run(() =>
-            {
-                DebugLog("Creating TIFF file ...");
-                var images = AppDelegate.TempImageStorage.ImageURLs;
-                var tiffOutputFileUrl = GenerateRandomFileUrlInDemoTempStorage(".tiff");
-                SBSDK.WriteTiff(images, tiffOutputFileUrl, new TiffOptions { OneBitEncoded = true });
-                DebugLog("TIFF file created: " + tiffOutputFileUrl);
-                ShowMessage("TIFF file created", "" + tiffOutputFileUrl);
-            });
+            DebugLog("Creating TIFF file ...");
+            var images = AppDelegate.TempImageStorage.ImageURLs;
+            var tiffOutputFileUrl = GenerateRandomFileUrlInDemoTempStorage(".tiff");
+            SBSDK.WriteTiff(images, tiffOutputFileUrl, new TiffOptions { OneBitEncoded = true });
+            DebugLog("TIFF file created: " + tiffOutputFileUrl);
+            ShowMessage("TIFF file created", "" + tiffOutputFileUrl);
         }
 
         partial void CreatePdfTouchUpInside(UIButton sender)
@@ -379,12 +376,12 @@ namespace ClassicalComponentsDemo.iOS
             if (!CheckScanbotSDKLicense()) { return; }
             if (!CheckDocumentImageUrl()) { return; }
 
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 DebugLog("Creating PDF file ...");
                 var images = AppDelegate.TempImageStorage.ImageURLs;
                 var pdfOutputFileUrl = GenerateRandomFileUrlInDemoTempStorage(".pdf");
-                SBSDK.CreatePDF(images, pdfOutputFileUrl, PDFPageSize.A4);
+                await SBSDK.CreatePDF(images, pdfOutputFileUrl, PDFPageSize.A4);
                 DebugLog("PDF file created: " + pdfOutputFileUrl);
                 ShowMessage("PDF file created", "" + pdfOutputFileUrl);
             });
