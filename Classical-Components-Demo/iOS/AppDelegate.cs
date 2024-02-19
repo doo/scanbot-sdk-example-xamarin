@@ -34,11 +34,15 @@ namespace ClassicalComponentsDemo.iOS
             SBSDK.Initialize(application, LICENSE_KEY, new SBSDKConfiguration
             {
                 EnableLogging = true,
+                // Uncomment the below to test our encyption functionality.
                 //Encryption = new SBSDKEncryption
                 //{
                 //    Mode = EncryptionMode.AES256,
                 //    Password = "S0m3W3irDL0ngPa$$w0rdino!!!!"
                 //}
+                // Note: all the images and files exported through the SDK will
+                // not be openable from external applications, since they will be
+                // encrypted.
             });
 
             Directory = GetExampleTempStorageDir();

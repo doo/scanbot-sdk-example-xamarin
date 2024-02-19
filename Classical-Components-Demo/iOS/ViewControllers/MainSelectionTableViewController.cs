@@ -11,7 +11,6 @@ using ScanbotSDK.Xamarin.iOS;
 using ScanbotSDK.iOS;
 using System.Linq;
 using ClassicalComponentsDemo.iOS.ViewControllers;
-using System.Collections.Generic;
 
 namespace ClassicalComponentsDemo.iOS
 {

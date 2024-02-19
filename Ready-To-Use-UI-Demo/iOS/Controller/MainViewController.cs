@@ -100,6 +100,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             if (!SBSDK.IsLicenseValid())
             {
                 ContentView.LayoutSubviews();
+                Alert.Show(this, "License Info!", "Invalid or missing license");
                 return;
             }
 
