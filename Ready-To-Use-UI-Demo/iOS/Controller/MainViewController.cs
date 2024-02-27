@@ -174,9 +174,9 @@ namespace ReadyToUseUIDemo.iOS.Controller
                         text += item.Type.ToString() + ": " + item.RawTextString + "\n";
                     }
 
-                    var blur = new SBSDKDocumentQualityAnalyzer().AnalyzeOnImage(image);
-                    Console.WriteLine("Blur of imported image: " + blur);
-                    text += "(Additionally, blur: " + blur + ")";
+                    var quality = new SBSDKDocumentQualityAnalyzer().AnalyzeOnImage(image);
+                    Console.WriteLine("Quality of the imported image: " + quality);
+                    text += "(Additionally, Quality: " + quality + ")";
                 }
             }
             else

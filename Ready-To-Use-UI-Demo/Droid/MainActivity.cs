@@ -353,11 +353,11 @@ namespace ReadyToUseUIDemo.Droid
                     var result = detector.DetectFromBitmap(bitmap, 0);
                     var fragment = BarcodeDialogFragment.CreateInstance(result);
 
-                    // Estimate blur of imported barcode
-                    // Estimating blur on already cropped barcodes should
+                    // Estimate quality of the imported barcode image
+                    // Estimating quality on already cropped barcodes should
                     // normally yield the best results, as there is little empty space
-                    var estimator = new IO.Scanbot.Sdk.ScanbotSDK(this).CreateDocumentQualityAnalyzer();
-                    fragment.Blur = estimator.AnalyzeInBitmap(bitmap, 0)?.Ordinal() ?? 0;
+                    var qualityAnalyzer = new IO.Scanbot.Sdk.ScanbotSDK(this).CreateDocumentQualityAnalyzer();
+                    fragment.Quality = qualityAnalyzer.AnalyzeInBitmap(bitmap, 0);
                     fragment.Show(SupportFragmentManager, BarcodeDialogFragment.NAME);
                 });
             }
@@ -372,7 +372,7 @@ namespace ReadyToUseUIDemo.Droid
                 var page = data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult) as Page;
                 PageRepository.Add(page);
             }
-            
+
             else if (requestCode == Constants.REQUEST_EHIC_SCAN)
             {
                 var result = (HealthInsuranceCardRecognitionResult)data.GetParcelableExtra(
