@@ -100,6 +100,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
             if (!SBSDK.IsLicenseValid())
             {
                 ContentView.LayoutSubviews();
+                Alert.Show(this, "License Info!", "Invalid or missing license");
                 return;
             }
 
@@ -173,9 +174,9 @@ namespace ReadyToUseUIDemo.iOS.Controller
                         text += item.Type.ToString() + ": " + item.RawTextString + "\n";
                     }
 
-                    var blur = new SBSDKBlurrinessEstimator().EstimateImageBlurriness(image);
-                    Console.WriteLine("Blur of imported image: " + blur);
-                    text += "(Additionally, blur: " + blur + ")";
+                    var quality = new SBSDKDocumentQualityAnalyzer().AnalyzeOnImage(image);
+                    Console.WriteLine("Quality of the imported image: " + quality);
+                    text += "(Additionally, Quality: " + quality + ")";
                 }
             }
             else
@@ -354,8 +355,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
         {
             this.RecognitionSuccess = successHandler;
         }
-
-        public override void DidFinish(SBSDKUITextDataScannerViewController viewController, SBSDKUITextDataScannerStep step, SBSDKUITextDataScannerStepResult result)
+        public override void DidFinishStepWithResult(SBSDKUITextDataScannerViewController viewController, SBSDKUITextDataScannerStep step, SBSDKUITextDataScannerStepResult result)
         {
             if (viewController.RecognitionEnabled && !string.IsNullOrEmpty(result?.Text))
             {

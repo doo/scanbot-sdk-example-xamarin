@@ -1,6 +1,7 @@
 ﻿using UIKit;
 using ScanbotSDK.iOS;
 using CoreGraphics;
+using System.Collections.Generic;
 
 namespace ClassicalComponentsDemo.iOS
 {
@@ -17,17 +18,11 @@ namespace ClassicalComponentsDemo.iOS
 
     public class CameraDemoViewController : UIViewController, IDocumentCaptureInteraction
     {
-        protected UIView scanningContainerView;
-        protected UIView bottomButtonsContainer;
-
+        protected UIView scanningContainerView, bottomButtonsContainer;
         protected SBSDKDocumentScannerViewController documentScannerViewController;
+        protected UIButton flashButton, autoSnapButton;
 
-        protected UIButton flashButton;
-        protected UIButton autoSnapButton;
-        protected bool autoSnappingEnabled = true;
-
-        protected bool viewAppeared;
-
+        protected bool autoSnappingEnabled = false;
         public CameraDemoDelegate cameraDelegate;
 
         public override void ViewDidLoad()
@@ -42,26 +37,16 @@ namespace ClassicalComponentsDemo.iOS
             bottomButtonsContainer.BackgroundColor = UIColor.Blue;
             View.AddSubview(bottomButtonsContainer);
 
-            // Create a view as container to embed the Scanbot SDK SBSDKScannerViewController:
+            // Create a view as container to embed the Scanbot SDK SBSDKDocumentScannerViewController:
             scanningContainerView = new UIView(new CGRect(0, 0, screenSize.Width, screenSize.Height - buttonsContainerHeight));
             View.AddSubview(scanningContainerView);
 
-            // Create the SBSDKScannerViewController, embedded into our custom scanningContainerView.
-            // As we do not want automatic image storage we pass null here as image storage.
             documentScannerViewController = new SBSDKDocumentScannerViewController(this, scanningContainerView, new DocumentScannerDelegate(this));
 
-            // =================================================================
-            //
-            // UI customizations can be implemented via delegate methods from "SBSDKScannerViewControllerDelegate".
-            // See some examples below the #region SBSDKScannerViewControllerDelegate
-            //
+            // ==================================================================================================
             // Please see the API docs of our native Scanbot SDK for iOS, since all those methods and properties
-            // are also available as Scanbot Xamarin bindings.
-            //
-            // =================================================================
-
-            // Set the delegate to self.
-            //documentScannerViewController.WeakDelegate = this;
+            // are also available as Scanbot Xamarin Native bindings.
+            // ==================================================================================================
 
             // We want unscaled images in full size:
             documentScannerViewController.ImageScale = 1.0f;
@@ -77,6 +62,9 @@ namespace ClassicalComponentsDemo.iOS
             // Sensitivity factor for automatic capturing. Must be in the range [0.0...1.0]. Invalid values are threated as 1.0. 
             // Defaults to 0.66 (1 sec).s A value of 1.0 triggers automatic capturing immediately, a value of 0.0 delays the automatic by 3 seconds.
             documentScannerViewController.AutoSnappingSensitivity = 0.7f;
+
+            documentScannerViewController.PolygonAutoSnapProgressColor = UIColor.Black;
+
         }
 
         public override void ViewWillAppear(bool animated)
@@ -89,39 +77,31 @@ namespace ClassicalComponentsDemo.iOS
             SetupDefaultShutterButtonColors();
         }
 
-        public override void ViewWillDisappear(bool animated)
-        {
-            base.ViewWillDisappear(animated);
-            viewAppeared = false;
-        }
-
-        public override void ViewDidAppear(bool animated)
-        {
-            base.ViewDidAppear(animated);
-            viewAppeared = true;
-        }
-
-        public override bool ShouldAutorotate()
-        {
-            return true;
-        }
-
-        public override UIInterfaceOrientationMask GetSupportedInterfaceOrientations()
-        {
-            return UIInterfaceOrientationMask.AllButUpsideDown;
-        }
-
-        public override UIStatusBarStyle PreferredStatusBarStyle()
-        {
-            // White statusbar
-            return UIStatusBarStyle.LightContent;
-        }
-
         void SetupDefaultShutterButtonColors()
         {
-            var shutterButton = documentScannerViewController.SnapButton;
-            shutterButton.ButtonSearchingColor = UIColor.Red;
-            shutterButton.ButtonDetectedColor = UIColor.Green;
+
+            // CustomSnapButton: create a custom auto snap button in the View and pass it as a reference.
+            var customButton = new SBSDKShutterButton()
+            {
+                Frame = new CGRect(View.Center.X - 25, bottomButtonsContainer.Frame.Height - 80, 50, 50),
+            };
+
+            // uncomment below code for using a UIButton instead of SBSDKShutterButton.
+            //var customButton = new UIButton(new CGRect(View.Center.X - 25, bottomButtonsContainer.Frame.Height - 80, 50, 50));
+
+            customButton.BackgroundColor = UIColor.White;
+            customButton.Layer.BorderColor = UIColor.Black.CGColor;
+            customButton.Layer.BorderWidth = 5; 
+            customButton.Layer.CornerRadius = 25;
+            documentScannerViewController.CustomSnapButton = customButton;
+
+            bottomButtonsContainer.AddSubview(customButton);
+            bottomButtonsContainer.BringSubviewToFront(customButton);
+
+            // uncomment below code to use the default snap button
+            //var shutterButton = documentScannerViewController.SnapButton;
+            //shutterButton.ButtonSearchingColor = UIColor.Red;
+            //shutterButton.ButtonDetectedColor = UIColor.Green;
         }
 
         void AddAutosnapToggleButton()
@@ -162,8 +142,11 @@ namespace ClassicalComponentsDemo.iOS
         {
             autoSnapButton.Selected = enabled;
             documentScannerViewController.AutoSnappingMode = enabled ? SBSDKAutosnappingMode.Enabled : SBSDKAutosnappingMode.Disabled;
-            documentScannerViewController.SuppressDetectionStatusLabel = !enabled;
             documentScannerViewController.SnapButton.ScannerStatus = enabled ? SBSDKScannerStatus.Scanning : SBSDKScannerStatus.Idle;
+
+            // set the visibility for detection label and polygon.
+            //documentScannerViewController.SuppressDetectionStatusLabel = !enabled;
+            //documentScannerViewController.SuppressPolygonLayer = !enabled;
         }
 
         public void DidDetectDocument(UIImage documentImage, UIImage originalImage, SBSDKDocumentDetectorResult result, bool autoSnapped)
@@ -176,29 +159,134 @@ namespace ClassicalComponentsDemo.iOS
 
             if (originalImage != null)
             {
-                cameraDelegate.DidCaptureOriginalImage(documentImage);
+                cameraDelegate.DidCaptureOriginalImage(originalImage);
             }
         }
     }
 
-    // =====================================================================
-    // 
-    // Implementation of some delegate methods from "SBSDKScannerViewControllerDelegate":
-    // 
-    #region
-    #endregion
+    // ================================================================================================
+    // Implementation of a few delegate methods from "SBSDKDocumentScannerViewControllerDelegate"
+    // ================================================================================================
     class DocumentScannerDelegate : SBSDKDocumentScannerViewControllerDelegate
     {
+        private static UIColor successColor = UIColor.Green;
+        private static UIColor warningColor = UIColor.Yellow;
+        private static UIColor errorColor = UIColor.Red;
         private IDocumentCaptureInteraction documentCaptureInteraction;
         public DocumentScannerDelegate(IDocumentCaptureInteraction documentCaptureInteraction)
         {
             this.documentCaptureInteraction = documentCaptureInteraction;
         }
 
+        // Validation method for allowing/restricting document detection.
+        public override bool ShouldDetectDocument(SBSDKDocumentScannerViewController controller)
+        {
+            return true;
+        }
+
+        public override void WillSnapImage(SBSDKDocumentScannerViewController controller)
+        {
+            // this method is invoked before DidSnapDocumentImage(...)
+        }
+
+        // When the document is detected(image captured)
         public override void DidSnapDocumentImage(SBSDKDocumentScannerViewController controller, UIImage documentImage, UIImage originalImage, SBSDKDocumentDetectorResult result, bool autoSnapped)
         {
+            // the "documentImage" is the detected image according to the polygon detection.
+            // orignal image is the whole camera captured image, regardless of the polygon cropping.
             documentCaptureInteraction.DidDetectDocument(documentImage, originalImage, result, autoSnapped);
         }
+
+        // Update the detection label on the Document polygon view according to the status.
+        public override void ConfigureStatusDetectionLabel(SBSDKDocumentScannerViewController controller, SBSDKDetectionStatusLabel label, SBSDKDocumentDetectorResult result)
+        {
+            string labelText = string.Empty;
+            // uncomment below code to check for low power mode.
+            //if (Foundation.NSProcessInfo.ProcessInfo.LowPowerModeEnabled)
+            //{
+            //      labelText = "The energy saving is actived.\n Please move the device to start scanning again.";
+            //}
+
+            switch (result.Status)
+            {
+                case SBSDKDocumentDetectionStatus.Ok:
+                    labelText = "Don't move.\nCapturing...";
+                    label.BackgroundColor = successColor;
+                    break;
+
+                case SBSDKDocumentDetectionStatus.OK_SmallSize:
+                    labelText = "Move closer";
+                    break;
+
+                case SBSDKDocumentDetectionStatus.OK_BadAngles:
+                    labelText = "Perspective";
+                    break;
+               
+                case SBSDKDocumentDetectionStatus.OK_BadAspectRatio:
+                    labelText = "Wrong aspect ratio.\n Rotate your device";
+                    break;
+
+                case SBSDKDocumentDetectionStatus.Error_NothingDetected:
+                    labelText = "No Document";
+                    break;
+
+                case SBSDKDocumentDetectionStatus.Error_Noise:
+                    labelText = "Background too noisy";
+                    break;
+
+                case SBSDKDocumentDetectionStatus.Error_Brightness:
+                    labelText = "Poor light";
+                    break;
+
+                case SBSDKDocumentDetectionStatus.NotAcquired:
+                    labelText = "No Aquired";
+                    break;
+
+                case SBSDKDocumentDetectionStatus.OK_OffCenter:
+                    labelText = "Off Center";
+                    break;
+            }
+
+            if (!labelText.Equals(string.Empty))
+            {
+                label.Text = labelText;
+            }
+        }
+
+        // Validation method, asking if auto snapping should be performed.
+        public override bool ShouldAutoSnapImageWithForDetectionResult(SBSDKDocumentScannerViewController controller, SBSDKDocumentDetectorResult result)
+        {
+            return controller.AutoSnappingMode == SBSDKAutosnappingMode.Enabled;
+        }
+
+        // Fill color inside the detecting polygon view.
+        public override UIColor PolygonFillColorForStatus(SBSDKDocumentScannerViewController controller, SBSDKDocumentDetectionStatus status)
+        {
+            return statusDictionary.GetValueOrDefault(status).ColorWithAlpha(0.3f);
+        }
+
+        // Polygon Line/border color.
+        public override UIColor PolygonLineColorForStatus(SBSDKDocumentScannerViewController controller, SBSDKDocumentDetectionStatus status)
+        {
+            return statusDictionary.GetValueOrDefault(status);
+        }
+
+        public override void DidSampleVideoFrame(SBSDKDocumentScannerViewController controller, UIImage videoFrameImage, SBSDKDocumentDetectorResult result)
+        {
+            // Gets the video frame images. continuos callback
+        }
+
+        public Dictionary<SBSDKDocumentDetectionStatus, UIColor> statusDictionary = new Dictionary<SBSDKDocumentDetectionStatus, UIColor>
+        {
+            { SBSDKDocumentDetectionStatus.Ok,                      successColor },
+
+            { SBSDKDocumentDetectionStatus.OK_SmallSize,            warningColor },
+            { SBSDKDocumentDetectionStatus.OK_BadAngles,            warningColor },
+            { SBSDKDocumentDetectionStatus.OK_BadAspectRatio,       warningColor },
+
+            { SBSDKDocumentDetectionStatus.Error_NothingDetected,   errorColor },
+            { SBSDKDocumentDetectionStatus.Error_Noise,             errorColor },
+            { SBSDKDocumentDetectionStatus.Error_Brightness,        errorColor },
+        };
     }
 }
-

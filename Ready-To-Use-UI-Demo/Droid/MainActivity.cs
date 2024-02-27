@@ -213,7 +213,7 @@ namespace ReadyToUseUIDemo.Droid
             {
                 var configuration = new BatchBarcodeScannerConfiguration();
                 configuration.SetFinderTextHint("Please align the QR-/Barcode in the frame above to scan it");
-                var intent = BatchBarcodeScannerActivity.NewIntent(this, configuration, null);
+                var intent = BatchBarcodeScannerActivity.NewIntent(this, configuration);
                 StartActivityForResult(intent, Constants.QR_BARCODE_DEFAULT_UI_REQUEST_CODE);
             }
             else if (button.Data.Code == ListItemCode.ScannerImportBarcode)
@@ -263,6 +263,8 @@ namespace ReadyToUseUIDemo.Droid
             }
             else if (button.Data.Code == ListItemCode.TextDataRecognizer)
             {
+                //var listener = new Listeners.TextDataScannerListeners();
+
                 // Launch the TextDataScanner UI
                 var step = new TextDataScannerStep(
                      stepTag: "tag",
@@ -270,15 +272,16 @@ namespace ReadyToUseUIDemo.Droid
                      guidanceText: string.Empty,
                      pattern: string.Empty,
                      shouldMatchSubstring: true,
-                     validationCallback: new ValidationCallback(),
-                     cleanRecognitionResultCallback: new RecognitionCallback(),
+                     validationCallback: null,
+                     cleanRecognitionResultCallback: null,
                      preferredZoom: 1.6f,
                      aspectRatio: new IO.Scanbot.Sdk.AspectRatio(4.0, 1.0),
                      unzoomedFinderHeight: 40f,
                      allowedSymbols: new List<Java.Lang.Character>(),
                      significantShakeDelay: 0);
-                var config = new TextDataScannerConfiguration();
-                var intent = TextDataScannerActivity.NewIntent(this, config, step);
+
+                var config = new TextDataScannerConfiguration(step);
+                var intent = TextDataScannerActivity.NewIntent(this, config);
                 StartActivityForResult(intent, Constants.TEXT_DATA_RECOGNIZER_REQUEST);
             }
             else if (button.Data.Code == ListItemCode.VinRecognizer)
@@ -350,11 +353,11 @@ namespace ReadyToUseUIDemo.Droid
                     var result = detector.DetectFromBitmap(bitmap, 0);
                     var fragment = BarcodeDialogFragment.CreateInstance(result);
 
-                    // Estimate blur of imported barcode
-                    // Estimating blur on already cropped barcodes should
+                    // Estimate quality of the imported barcode image
+                    // Estimating quality on already cropped barcodes should
                     // normally yield the best results, as there is little empty space
-                    var estimator = new IO.Scanbot.Sdk.ScanbotSDK(this).CreateBlurEstimator();
-                    fragment.Blur = estimator.EstimateInBitmap(bitmap, 0);
+                    var qualityAnalyzer = new IO.Scanbot.Sdk.ScanbotSDK(this).CreateDocumentQualityAnalyzer();
+                    fragment.Quality = qualityAnalyzer.AnalyzeInBitmap(bitmap, 0);
                     fragment.Show(SupportFragmentManager, BarcodeDialogFragment.NAME);
                 });
             }
@@ -369,7 +372,7 @@ namespace ReadyToUseUIDemo.Droid
                 var page = data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult) as Page;
                 PageRepository.Add(page);
             }
-            
+
             else if (requestCode == Constants.REQUEST_EHIC_SCAN)
             {
                 var result = (HealthInsuranceCardRecognitionResult)data.GetParcelableExtra(

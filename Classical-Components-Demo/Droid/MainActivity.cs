@@ -192,7 +192,7 @@ namespace ClassicalComponentsDemo.Droid
                         var pdfOutputUri = GenerateRandomFileUrlInDemoTempStorage(".pdf");
                         var images = new AndroidNetUri[] { documentImageUri }; // add more images for PDF pages here
                         // The SDK call is sync!
-                        SBSDK.CreatePDF(images, pdfOutputUri, PDFPageSize.FixedA4);
+                        SBSDK.CreatePDF(images, pdfOutputUri, PDFPageSize.A4);
                         DebugLog("PDF file created: " + pdfOutputUri);
                         ShowAlertDialog("PDF file created: " + pdfOutputUri, onDismiss: () =>
                         {
@@ -259,7 +259,7 @@ namespace ClassicalComponentsDemo.Droid
                         var images = new AndroidNetUri[] { documentImageUri }; // add more images for OCR here
 
                         // The SDK call is sync!
-                        var result = SBSDK.PerformOCR(images, new []{ "en", "de" }, pdfOutputUri);
+                        var result = SBSDK.PerformOCR(images, SBSDK.GetOcrConfigs(), pdfOutputUri);
                         DebugLog("Recognized OCR text: " + result.RecognizedText);
                         DebugLog("Sandwiched PDF file created: " + pdfOutputUri);
                         ShowAlertDialog(result.RecognizedText, "OCR Result", () =>

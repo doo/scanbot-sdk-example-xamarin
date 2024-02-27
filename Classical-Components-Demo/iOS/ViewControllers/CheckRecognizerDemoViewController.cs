@@ -12,23 +12,8 @@ namespace ClassicalComponentsDemo.iOS.ViewControllers
         {
             base.ViewDidLoad();
             recognizerViewController = new SBSDKCheckRecognizerViewController(this, View, new Delegate((result) => {
-                ShowResult(result);
+                CommonUtils.ShowAlert("Recognized check", result.StringRepresentation, this);
             }));
-        }
-
-        private void ShowResult(SBSDKCheckRecognizerResult result)
-        {
-            var alert = UIAlertController.Create("Recognized check", result.StringRepresentation, UIAlertControllerStyle.Alert);
-            var okAction = UIAlertAction.Create("OK", UIAlertActionStyle.Default, delegate {
-                if (alert.PresentedViewController is UIViewController controller)
-                {
-                    controller.DismissViewController(true, null);
-                }
-            });
-
-            alert.AddAction(okAction);
-
-            PresentViewController(alert, true, null);
         }
 
         private class Delegate : SBSDKCheckRecognizerViewControllerDelegate

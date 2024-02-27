@@ -142,7 +142,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Utils\ExampleImageUtils.cs" />
+    <Compile Include="Utils\CommonUtils.cs" />
     <Compile Include="ViewControllers\CameraDemoViewController.cs" />
     <Compile Include="ViewControllers\CroppingDemoNavigationController.cs" />
     <Compile Include="ViewControllers\MainSelectionTableViewController.cs" />
@@ -177,7 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ScanbotSDK.Xamarin">
-      <Version>3.10.2</Version>
+      <Version>4.2.0-beta.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
