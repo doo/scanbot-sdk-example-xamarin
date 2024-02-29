@@ -132,8 +132,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
         private void ScanBarcodeTapped()
         {
-
-
             var configuration = SBSDKUIBarcodeScannerConfiguration.DefaultConfiguration;
             var controller = SBSDKUIBarcodeScannerViewController.CreateNewWithConfiguration(configuration, null);
             controller.DidDetectResults += (viewController, args) =>
@@ -425,14 +423,5 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
             PresentViewController(scanner, true, null);
         }
-    }
-
-    public class PageEventArgs : EventArgs
-    {
-        public bool IsMultiPage => Pages.Count > 1;
-
-        public SBSDKUIPage Page => Pages[0];
-
-        public List<SBSDKUIPage> Pages { get; set; }
     }
 }

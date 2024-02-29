@@ -262,6 +262,7 @@ namespace ReadyToUseUIDemo.Droid
                     IO.Scanbot.Check.Entity.RootDocumentType.INDCheck,
                     IO.Scanbot.Check.Entity.RootDocumentType.KWTCheck,
                     IO.Scanbot.Check.Entity.RootDocumentType.USACheck,
+                    IO.Scanbot.Check.Entity.RootDocumentType.ISRCheck,
                 });
                 var intent = CheckRecognizerActivity.NewIntent(this, config);
                 StartActivityForResult(intent, Constants.CHECK_RECOGNIZER_REQUEST);
