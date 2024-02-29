@@ -1,52 +1,57 @@
 ﻿using Android.App;
-using Android.Widget;
-using Android.OS;
-using ReadyToUseUIDemo.model;
-using Android.Views;
-
-using ReadyToUseUIDemo.Droid.Views;
-using ReadyToUseUIDemo.Droid.Fragments;
-using Android.Graphics;
+using AndroidX.AppCompat.App;
 using Android.Content;
+using Android.Graphics;
+using Android.OS;
 using Android.Runtime;
-using IO.Scanbot.Sdk.UI.View.Mrz.Configuration;
-using IO.Scanbot.Sdk.UI.View.Mrz;
-using IO.Scanbot.Sdk.UI.View.Camera.Configuration;
-using IO.Scanbot.Sdk.UI.View.Camera;
-using System.Linq;
-using IO.Scanbot.Sdk.Persistence;
-using ReadyToUseUIDemo.Droid.Repository;
-using ScanbotSDK.Xamarin.Android;
+using Android.Views;
+using Android.Widget;
+
 using ReadyToUseUIDemo.Droid.Activities;
+using ReadyToUseUIDemo.Droid.Fragments;
+using ReadyToUseUIDemo.Droid.Repository;
 using ReadyToUseUIDemo.Droid.Utils;
-using System.Threading.Tasks;
+using ReadyToUseUIDemo.Droid.Views;
+using ReadyToUseUIDemo.model;
+
+using IO.Scanbot.Genericdocument.Entity;
+using IO.Scanbot.Hicscanner.Model;
+using IO.Scanbot.Mrzscanner.Model;
+
+using IO.Scanbot.Sdk.Barcode.Entity;
+using IO.Scanbot.Sdk.Camera;
+using IO.Scanbot.Sdk.Check.Entity;
+using IO.Scanbot.Sdk.Core.Contourdetector;
+using IO.Scanbot.Sdk.Persistence;
 using IO.Scanbot.Sdk.Process;
+
+using IO.Scanbot.Sdk.UI.Result;
 using IO.Scanbot.Sdk.UI.View.Barcode.Configuration;
 using IO.Scanbot.Sdk.UI.View.Barcode;
-using IO.Scanbot.Sdk.Barcode.Entity;
-using IO.Scanbot.Sdk.UI.View.Hic.Configuration;
-using IO.Scanbot.Sdk.UI.View.Hic;
-using IO.Scanbot.Hicscanner.Model;
-using IO.Scanbot.Sdk.Camera;
-using IO.Scanbot.Sdk.Core.Contourdetector;
-using AndroidX.AppCompat.App;
 using IO.Scanbot.Sdk.UI.View.Barcode.Batch.Configuration;
 using IO.Scanbot.Sdk.UI.View.Barcode.Batch;
-using IO.Scanbot.Sdk.UI.View.Genericdocument.Configuration;
-using IO.Scanbot.Genericdocument.Entity;
-using IO.Scanbot.Sdk.UI.View.Genericdocument;
-using IO.Scanbot.Sdk.UI.Result;
 using IO.Scanbot.Sdk.UI.View.Base;
-using System.Collections.Generic;
-using System;
+using IO.Scanbot.Sdk.UI.View.Camera.Configuration;
+using IO.Scanbot.Sdk.UI.View.Camera;
 using IO.Scanbot.Sdk.UI.View.Check.Configuration;
 using IO.Scanbot.Sdk.UI.View.Check;
-using IO.Scanbot.Sdk.Check.Entity;
+using IO.Scanbot.Sdk.UI.View.Genericdocument.Configuration;
+using IO.Scanbot.Sdk.UI.View.Genericdocument;
 using IO.Scanbot.Sdk.UI.View.Generictext;
 using IO.Scanbot.Sdk.UI.View.Generictext.Configuration;
 using IO.Scanbot.Sdk.UI.View.Generictext.Entity;
-using IO.Scanbot.Mrzscanner.Model;
+using IO.Scanbot.Sdk.UI.View.Hic.Configuration;
+using IO.Scanbot.Sdk.UI.View.Hic;
+using IO.Scanbot.Sdk.UI.View.Mrz.Configuration;
+using IO.Scanbot.Sdk.UI.View.Mrz;
 using IO.Scanbot.Sdk.UI.View.Vin.Configuration;
+
+using ScanbotSDK.Xamarin.Android;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ReadyToUseUIDemo.Droid
 {
@@ -257,14 +262,13 @@ namespace ReadyToUseUIDemo.Droid
                     IO.Scanbot.Check.Entity.RootDocumentType.INDCheck,
                     IO.Scanbot.Check.Entity.RootDocumentType.KWTCheck,
                     IO.Scanbot.Check.Entity.RootDocumentType.USACheck,
+                    IO.Scanbot.Check.Entity.RootDocumentType.ISRCheck,
                 });
                 var intent = CheckRecognizerActivity.NewIntent(this, config);
                 StartActivityForResult(intent, Constants.CHECK_RECOGNIZER_REQUEST);
             }
             else if (button.Data.Code == ListItemCode.TextDataRecognizer)
             {
-                //var listener = new Listeners.TextDataScannerListeners();
-
                 // Launch the TextDataScanner UI
                 var step = new TextDataScannerStep(
                      stepTag: "tag",
@@ -272,8 +276,8 @@ namespace ReadyToUseUIDemo.Droid
                      guidanceText: string.Empty,
                      pattern: string.Empty,
                      shouldMatchSubstring: true,
-                     validationCallback: null,
-                     cleanRecognitionResultCallback: null,
+                     validationCallback: new ValidationCallback(),
+                     cleanRecognitionResultCallback: new RecognitionCallback(),
                      preferredZoom: 1.6f,
                      aspectRatio: new IO.Scanbot.Sdk.AspectRatio(4.0, 1.0),
                      unzoomedFinderHeight: 40f,
