@@ -1,5 +1,4 @@
-﻿using System;
-namespace ReadyToUseUIDemo.Droid.Listeners
+﻿namespace ReadyToUseUIDemo.Droid.Listeners
 {
     interface IFiltersListener
     {

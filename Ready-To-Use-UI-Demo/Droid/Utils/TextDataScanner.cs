@@ -1,9 +1,9 @@
 ﻿using System;
-using IO.Scanbot.Sdk.Generictext;
+using static IO.Scanbot.Sdk.UI.View.Generictext.Entity.TextDataScannerStep;
 
 namespace ReadyToUseUIDemo.Droid.Utils
 {
-    public class ValidationCallback : Java.Lang.Object, IGenericTextRecognizerGenericTextValidationCallback
+    public class ValidationCallback : Java.Lang.Object, IGenericTextValidationCallback
     {
         public bool Validate(string text)
         {
@@ -12,7 +12,7 @@ namespace ReadyToUseUIDemo.Droid.Utils
         }
     }
 
-    public class RecognitionCallback : Java.Lang.Object, IGenericTextRecognizerCleanRecognitionResultCallback
+    public class RecognitionCallback : Java.Lang.Object, ICleanRecognitionResultCallback
     {
         public string Process(string rawText)
         {
