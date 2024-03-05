@@ -2,6 +2,8 @@
 using ScanbotSDK.iOS;
 using CoreGraphics;
 using System.Collections.Generic;
+using AVFoundation;
+using System;
 
 namespace ClassicalComponentsDemo.iOS
 {

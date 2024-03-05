@@ -191,9 +191,14 @@ namespace ClassicalComponentsDemo.iOS
             PresentViewController(cropViewController, true, null);
         }
 
-        partial void CameraUITouchUpInside(UIButton sender)
+        async partial void CameraUITouchUpInside(UIButton sender)
         {
             if (!CheckScanbotSDKLicense()) { return; }
+
+            var permissionsGranted = await CommonUtils.CheckCameraPermissions();
+
+            if (!permissionsGranted)
+                return;
 
             var cameraViewController = new CameraDemoViewController();
             cameraHandler.parentController = this;
