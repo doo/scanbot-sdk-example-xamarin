@@ -233,8 +233,17 @@ namespace ClassicalComponentsDemo.Droid
             if (detectionResult.Status.IsOk())
             {
                 var documentImage = detectionResult.Image as Bitmap;
-                // Store the document image as file:
-                documentImgUri = MainApplication.TempImageStorage.AddImage(documentImage);
+                if (documentImage != null)
+                {
+                    // Store the document image as file:
+                    documentImgUri = MainApplication.TempImageStorage.AddImage(documentImage);
+                }
+                else
+                {
+                    // Show progress spinner:
+                    RunOnUiThread(() => Toast.MakeText(this, "The detected document was null.", ToastLength.Short));
+                    documentImgUri = originalImgUri;
+                }
             }
             else
             {

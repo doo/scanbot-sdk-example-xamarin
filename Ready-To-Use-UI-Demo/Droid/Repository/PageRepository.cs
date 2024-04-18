@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Android.Content;
+using IO.Scanbot.Imagefilters;
 using IO.Scanbot.Sdk.Persistence;
 using IO.Scanbot.Sdk.Process;
 using ScanbotSDK.Xamarin.Android;
@@ -47,7 +48,7 @@ namespace ReadyToUseUIDemo.Droid.Repository
             items.Clear();
         }
 
-        public static void Apply(ImageFilterType filter)
+        public static void Apply(LegacyFilter filter)
         {
             var temp = new List<Page>();
 
@@ -62,7 +63,7 @@ namespace ReadyToUseUIDemo.Droid.Repository
             items.AddRange(temp);
         }
 
-        public static Page Apply(ImageFilterType filter, Page page)
+        public static Page Apply(LegacyFilter filter, Page page)
         {
             foreach(Page item in items)
             {

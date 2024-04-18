@@ -9,6 +9,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using IO.Scanbot.Imagefilters;
 using IO.Scanbot.Sdk.Persistence;
 using IO.Scanbot.Sdk.Process;
 using IO.Scanbot.Sdk.UI.View.Base;
@@ -44,7 +45,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
             set => selectedPage = value;
         }
 
-        ImageFilterType selectedFilter;
+        LegacyFilter selectedFilter;
         FilterBottomSheetMenuFragment filterFragment;
         ProgressBar progress;
 
@@ -66,7 +67,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
             var pageId = (Intent.GetParcelableExtra(PAGE_DATA) as Page).PageId;
             selectedPage = PageRepository.Pages.Find(p => p.PageId == pageId);
 
-            selectedFilter = selectedPage.Filter;
+            selectedFilter = new LegacyFilter(selectedPage.Filter.Code);
 
             var crop = FindViewById<TextView>(Resource.Id.action_crop_and_rotate);
             crop.Text = Texts.crop_amp_rotate;
@@ -229,7 +230,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
         public void ApplyFilter(ImageFilterType type)
         {
             progress.Visibility = ViewStates.Visible;
-            selectedFilter = type;
+            selectedFilter = new LegacyFilter(type.Code);
             Task.Run(delegate
             {
                 selectedPage = PageRepository.Apply(selectedFilter, selectedPage);

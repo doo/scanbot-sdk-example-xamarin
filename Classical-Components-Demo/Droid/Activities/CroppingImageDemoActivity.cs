@@ -156,9 +156,8 @@ namespace ClassicalComponentsDemo.Droid
                 try
                 {
                     var detector = SDK.CreateContourDetector();
-                    var documentImage = SDK.ImageProcessor().ProcessBitmap(originalBitmap, new CropOperation(editPolygonImageView.Polygon));
-                    documentImage = SBSDK.RotateImage(documentImage, -rotationDegrees);
-                    var documentImgUri = MainApplication.TempImageStorage.AddImage(documentImage);
+                    var documentImage = new ImageProcessor(originalBitmap)?.Crop(editPolygonImageView.Polygon)?.Rotate(-rotationDegrees);
+                    var documentImgUri = MainApplication.TempImageStorage.AddImage(documentImage.ProcessedBitmap());
 
                     RunOnUiThread(() =>
                     {

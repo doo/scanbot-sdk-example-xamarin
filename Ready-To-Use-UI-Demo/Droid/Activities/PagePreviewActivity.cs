@@ -274,7 +274,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
             progress.Visibility = ViewStates.Visible;
             Task.Run(delegate
             {
-                PageRepository.Apply(type);
+                PageRepository.Apply(new IO.Scanbot.Imagefilters.LegacyFilter(type.Code));
                 RunOnUiThread(delegate {
                     adapter.NotifyDataSetChanged();
                     progress.Visibility = ViewStates.Gone;
