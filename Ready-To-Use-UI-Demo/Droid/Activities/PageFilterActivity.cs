@@ -9,6 +9,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using IO.Scanbot.Sdk;
 using IO.Scanbot.Sdk.Persistence;
 using IO.Scanbot.Sdk.Process;
 using IO.Scanbot.Sdk.UI.View.Base;
@@ -78,6 +79,20 @@ namespace ReadyToUseUIDemo.Droid.Activities
                 filterFragment.Show(SupportFragmentManager, "CHOOSE_FILTERS_DIALOG_TAG");
             };
 
+            var checkQuality = FindViewById<TextView>(Resource.Id.action_check_quality);
+            checkQuality.Text = Texts.check_quality;
+            checkQuality.Click += delegate
+            {
+                // below code returns a siingleton of ScanbotSDK class
+                var scanbotSDK = new IO.Scanbot.Sdk.ScanbotSDK(this);
+                var pageStorage = scanbotSDK.CreatePageFileStorage();
+                var qualityAnalyzer = scanbotSDK.CreateDocumentQualityAnalyzer();
+                var bitmap = pageStorage.GetPreviewImage(selectedPage.PageId, PageFileStorage.PageFileType.Document, null);
+                var quality = qualityAnalyzer.AnalyzeInBitmap(bitmap, 0);
+
+                Alert.Toast(this, "The Document quality is: " + quality.Name());
+            };
+
             var delete = FindViewById<TextView>(Resource.Id.action_delete);
             delete.Text = Texts.delete;
             delete.Click += delegate
@@ -91,7 +106,6 @@ namespace ReadyToUseUIDemo.Droid.Activities
                 var configuration = new CroppingConfiguration(SelectedPage);
                 configuration.SetPolygonColor(Color.Red);
                 configuration.SetPolygonColorMagnetic(Color.Blue);
-                var asdf = SelectedPage.Filter;
                 var intent = CroppingActivity.NewIntent(this, configuration);
                 StartActivityForResult(intent, CROP_DEFAULT_UI_REQUEST_CODE);
             };
