@@ -133,7 +133,6 @@
     <Compile Include="View\ImageProcessingBar.cs" />
     <Compile Include="Repository\PageRepository.cs" />
     <Compile Include="Controller\ProcessingController.cs" />
-    <Compile Include="View\ProcessingView.cs" />
     <Compile Include="Model\Filter.cs" />
     <Compile Include="Model\Filters.cs" />
     <Compile Include="Controller\FilterController.cs" />
