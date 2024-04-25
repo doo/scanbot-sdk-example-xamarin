@@ -1,8 +1,8 @@
-﻿using System;
-using Android.OS;
+﻿using Android.OS;
 using Android.Views;
 using Android.Widget;
 using IO.Scanbot.Sdk.Barcode.Entity;
+using IO.Scanbot.Sdk.Process.Model;
 using ReadyToUseUIDemo.Droid.Views;
 
 namespace ReadyToUseUIDemo.Droid.Fragments
@@ -11,7 +11,7 @@ namespace ReadyToUseUIDemo.Droid.Fragments
     {
         public const string NAME = "BarcodeDialogFragment";
 
-        public float Blur { get; internal set; } = -1;
+        public DocumentQualityResult Quality { get; internal set; }
 
         public static BarcodeDialogFragment CreateInstance(BarcodeScanningResult data)
         {
@@ -41,13 +41,12 @@ namespace ReadyToUseUIDemo.Droid.Fragments
                 resultText += barcode.BarcodeFormat.Name() + ": " + barcode.Text + "\n";
             }
 
-            if (Blur != -1)
+            if (Quality != null)
             {
-                resultText += "Estimated blur: " + Blur;
+                resultText += "Estimated Quality: " + Quality;
             }
             CopyText = resultText;
             content.Text = resultText;
-
 
             return view;
         }

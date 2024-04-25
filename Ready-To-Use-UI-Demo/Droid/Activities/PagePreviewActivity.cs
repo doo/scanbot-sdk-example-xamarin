@@ -224,11 +224,11 @@ namespace ReadyToUseUIDemo.Droid.Activities
                         });
                         return;
                     }
-                    SBSDK.PerformOCR(input, languages, output);
+                    SBSDK.PerformOCR(input, SBSDK.GetOcrConfigs(), output);
                 }
                 else
                 {
-                    SBSDK.CreatePDF(input, output, ScanbotSDK.Xamarin.PDFPageSize.FixedA4);
+                    SBSDK.CreatePDF(input, output, PDFPageSize.A4);
                 }
 
                 Java.IO.File file = Copier.Copy(this, output);

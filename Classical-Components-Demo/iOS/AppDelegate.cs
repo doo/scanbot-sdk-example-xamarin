@@ -34,18 +34,29 @@ namespace ClassicalComponentsDemo.iOS
             SBSDK.Initialize(application, LICENSE_KEY, new SBSDKConfiguration
             {
                 EnableLogging = true,
-                Encryption = new SBSDKEncryption
-                {
-                    Mode = EncryptionMode.AES256,
-                    Password = "S0m3W3irDL0ngPa$$w0rdino!!!!"
-                }
+                // Uncomment the below to test our encyption functionality.
+                //Encryption = new SBSDKEncryption
+                //{
+                //    Mode = EncryptionMode.AES256,
+                //    Password = "S0m3W3irDL0ngPa$$w0rdino!!!!"
+                //}
+                // Note: all the images and files exported through the SDK will
+                // not be openable from external applications, since they will be
+                // encrypted.
             });
 
             Directory = GetExampleTempStorageDir();
             var location = new SBSDKStorageLocation(NSUrl.FromFilename(Directory));
             TempImageStorage = new SBSDKIndexedImageStorage(location, SBSDKImageFileFormat.Jpeg, SBSDK.Encrypter);
 
+            ScanbotSDKGlobal.SetLicenseFailureHandler(HandleLicenseFailure);
+
             return true;
+        }
+
+        private void HandleLicenseFailure(dooLicenseStatus arg0, dooFeature arg1, string arg2)
+        {
+            CommonUtils.ShowAlert("License Info", "Please check your license. Status:" + arg0);
         }
 
         private static string GetExampleTempStorageDir()

@@ -80,13 +80,13 @@
       <HintPath>..\packages\Scanbot.Xamarin.ImagePicker.0.0.2\lib\Xamarin.iOS10\Scanbot.ImagePicker.iOS.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.iOS">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.3.10.2\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.4.2.0\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.3.10.2\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.4.2.0\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin.iOS">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.3.10.2\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.4.2.0\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -133,7 +133,6 @@
     <Compile Include="View\ImageProcessingBar.cs" />
     <Compile Include="Repository\PageRepository.cs" />
     <Compile Include="Controller\ProcessingController.cs" />
-    <Compile Include="View\ProcessingView.cs" />
     <Compile Include="Model\Filter.cs" />
     <Compile Include="Model\Filters.cs" />
     <Compile Include="Controller\FilterController.cs" />
@@ -141,7 +140,6 @@
     <Compile Include="Utils\Alert.cs" />
     <Compile Include="Controller\PdfViewController.cs" />
     <Compile Include="View\PdfContainerView.cs" />
-    <Compile Include="Utils\Delegates.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ScanbotSDKOCRData.bundle\eng.traineddata" />

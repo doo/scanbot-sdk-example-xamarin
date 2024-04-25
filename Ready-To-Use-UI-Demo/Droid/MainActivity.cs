@@ -1,52 +1,57 @@
 ﻿using Android.App;
-using Android.Widget;
-using Android.OS;
-using ReadyToUseUIDemo.model;
-using Android.Views;
-
-using ReadyToUseUIDemo.Droid.Views;
-using ReadyToUseUIDemo.Droid.Fragments;
-using Android.Graphics;
+using AndroidX.AppCompat.App;
 using Android.Content;
+using Android.Graphics;
+using Android.OS;
 using Android.Runtime;
-using IO.Scanbot.Sdk.UI.View.Mrz.Configuration;
-using IO.Scanbot.Sdk.UI.View.Mrz;
-using IO.Scanbot.Sdk.UI.View.Camera.Configuration;
-using IO.Scanbot.Sdk.UI.View.Camera;
-using System.Linq;
-using IO.Scanbot.Sdk.Persistence;
-using ReadyToUseUIDemo.Droid.Repository;
-using ScanbotSDK.Xamarin.Android;
+using Android.Views;
+using Android.Widget;
+
 using ReadyToUseUIDemo.Droid.Activities;
+using ReadyToUseUIDemo.Droid.Fragments;
+using ReadyToUseUIDemo.Droid.Repository;
 using ReadyToUseUIDemo.Droid.Utils;
-using System.Threading.Tasks;
+using ReadyToUseUIDemo.Droid.Views;
+using ReadyToUseUIDemo.model;
+
+using IO.Scanbot.Genericdocument.Entity;
+using IO.Scanbot.Hicscanner.Model;
+using IO.Scanbot.Mrzscanner.Model;
+
+using IO.Scanbot.Sdk.Barcode.Entity;
+using IO.Scanbot.Sdk.Camera;
+using IO.Scanbot.Sdk.Check.Entity;
+using IO.Scanbot.Sdk.Core.Contourdetector;
+using IO.Scanbot.Sdk.Persistence;
 using IO.Scanbot.Sdk.Process;
+
+using IO.Scanbot.Sdk.UI.Result;
 using IO.Scanbot.Sdk.UI.View.Barcode.Configuration;
 using IO.Scanbot.Sdk.UI.View.Barcode;
-using IO.Scanbot.Sdk.Barcode.Entity;
-using IO.Scanbot.Sdk.UI.View.Hic.Configuration;
-using IO.Scanbot.Sdk.UI.View.Hic;
-using IO.Scanbot.Hicscanner.Model;
-using IO.Scanbot.Sdk.Camera;
-using IO.Scanbot.Sdk.Core.Contourdetector;
-using AndroidX.AppCompat.App;
 using IO.Scanbot.Sdk.UI.View.Barcode.Batch.Configuration;
 using IO.Scanbot.Sdk.UI.View.Barcode.Batch;
-using IO.Scanbot.Sdk.UI.View.Genericdocument.Configuration;
-using IO.Scanbot.Genericdocument.Entity;
-using IO.Scanbot.Sdk.UI.View.Genericdocument;
-using IO.Scanbot.Sdk.UI.Result;
 using IO.Scanbot.Sdk.UI.View.Base;
-using System.Collections.Generic;
-using System;
+using IO.Scanbot.Sdk.UI.View.Camera.Configuration;
+using IO.Scanbot.Sdk.UI.View.Camera;
 using IO.Scanbot.Sdk.UI.View.Check.Configuration;
 using IO.Scanbot.Sdk.UI.View.Check;
-using IO.Scanbot.Sdk.Check.Entity;
+using IO.Scanbot.Sdk.UI.View.Genericdocument.Configuration;
+using IO.Scanbot.Sdk.UI.View.Genericdocument;
 using IO.Scanbot.Sdk.UI.View.Generictext;
 using IO.Scanbot.Sdk.UI.View.Generictext.Configuration;
 using IO.Scanbot.Sdk.UI.View.Generictext.Entity;
-using IO.Scanbot.Mrzscanner.Model;
+using IO.Scanbot.Sdk.UI.View.Hic.Configuration;
+using IO.Scanbot.Sdk.UI.View.Hic;
+using IO.Scanbot.Sdk.UI.View.Mrz.Configuration;
+using IO.Scanbot.Sdk.UI.View.Mrz;
 using IO.Scanbot.Sdk.UI.View.Vin.Configuration;
+
+using ScanbotSDK.Xamarin.Android;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ReadyToUseUIDemo.Droid
 {
@@ -213,7 +218,7 @@ namespace ReadyToUseUIDemo.Droid
             {
                 var configuration = new BatchBarcodeScannerConfiguration();
                 configuration.SetFinderTextHint("Please align the QR-/Barcode in the frame above to scan it");
-                var intent = BatchBarcodeScannerActivity.NewIntent(this, configuration, null);
+                var intent = BatchBarcodeScannerActivity.NewIntent(this, configuration);
                 StartActivityForResult(intent, Constants.QR_BARCODE_DEFAULT_UI_REQUEST_CODE);
             }
             else if (button.Data.Code == ListItemCode.ScannerImportBarcode)
@@ -257,6 +262,7 @@ namespace ReadyToUseUIDemo.Droid
                     IO.Scanbot.Check.Entity.RootDocumentType.INDCheck,
                     IO.Scanbot.Check.Entity.RootDocumentType.KWTCheck,
                     IO.Scanbot.Check.Entity.RootDocumentType.USACheck,
+                    IO.Scanbot.Check.Entity.RootDocumentType.ISRCheck,
                 });
                 var intent = CheckRecognizerActivity.NewIntent(this, config);
                 StartActivityForResult(intent, Constants.CHECK_RECOGNIZER_REQUEST);
@@ -277,8 +283,9 @@ namespace ReadyToUseUIDemo.Droid
                      unzoomedFinderHeight: 40f,
                      allowedSymbols: new List<Java.Lang.Character>(),
                      significantShakeDelay: 0);
-                var config = new TextDataScannerConfiguration();
-                var intent = TextDataScannerActivity.NewIntent(this, config, step);
+
+                var config = new TextDataScannerConfiguration(step);
+                var intent = TextDataScannerActivity.NewIntent(this, config);
                 StartActivityForResult(intent, Constants.TEXT_DATA_RECOGNIZER_REQUEST);
             }
             else if (button.Data.Code == ListItemCode.VinRecognizer)
@@ -350,11 +357,11 @@ namespace ReadyToUseUIDemo.Droid
                     var result = detector.DetectFromBitmap(bitmap, 0);
                     var fragment = BarcodeDialogFragment.CreateInstance(result);
 
-                    // Estimate blur of imported barcode
-                    // Estimating blur on already cropped barcodes should
+                    // Estimate quality of the imported barcode image
+                    // Estimating quality on already cropped barcodes should
                     // normally yield the best results, as there is little empty space
-                    var estimator = new IO.Scanbot.Sdk.ScanbotSDK(this).CreateBlurEstimator();
-                    fragment.Blur = estimator.EstimateInBitmap(bitmap, 0);
+                    var qualityAnalyzer = new IO.Scanbot.Sdk.ScanbotSDK(this).CreateDocumentQualityAnalyzer();
+                    fragment.Quality = qualityAnalyzer.AnalyzeInBitmap(bitmap, 0);
                     fragment.Show(SupportFragmentManager, BarcodeDialogFragment.NAME);
                 });
             }
@@ -369,7 +376,7 @@ namespace ReadyToUseUIDemo.Droid
                 var page = data.GetParcelableExtra(RtuConstants.ExtraKeyRtuResult) as Page;
                 PageRepository.Add(page);
             }
-            
+
             else if (requestCode == Constants.REQUEST_EHIC_SCAN)
             {
                 var result = (HealthInsuranceCardRecognitionResult)data.GetParcelableExtra(

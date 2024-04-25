@@ -82,20 +82,20 @@ namespace ReadyToUseUIDemo.iOS.Controller
                 return;
             }
 
-            var pdf = CreateButton(Texts.save_without_ocr, delegate
+            var pdf = CreateButton(Texts.save_without_ocr, async delegate
             {
                 var output = new NSUrl(nsurl.AbsoluteString + Guid.NewGuid() + ".pdf");
-                SBSDK.CreatePDF(input, output, PDFPageSize.FixedA4);
+                await SBSDK.CreatePDF(input, output, PDFPageSize.A4);
                 OpenDocument(output, false);
             });
 
-            var ocr = CreateButton(Texts.save_with_ocr, delegate
+            var ocr = CreateButton(Texts.save_with_ocr, async delegate
             {
                 var output = new NSUrl(nsurl.AbsoluteString + Guid.NewGuid() + ".pdf");
                 var languages = SBSDK.GetOcrConfigs().InstalledLanguages;
                 try
                 {
-                    SBSDK.PerformOCR(input, languages.ToArray(), output);
+                    await SBSDK.PerformOCR(input, SBSDK.GetOcrConfigs(), output);
                     OpenDocument(output, true);
                 }
                 catch (Exception ex)

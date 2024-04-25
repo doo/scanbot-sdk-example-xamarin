@@ -4,7 +4,7 @@ using UIKit;
 
 namespace ClassicalComponentsDemo.iOS
 {
-    public sealed class ExampleImageUtils
+    public sealed class CommonUtils
     {
         public static UIImage MaxResizeImage(UIImage sourceImage, float maxWidth, float maxHeight)
         {
@@ -18,6 +18,19 @@ namespace ClassicalComponentsDemo.iOS
             var resultImage = UIGraphics.GetImageFromCurrentImageContext();
             UIGraphics.EndImageContext();
             return resultImage;
+        }
+
+        internal static void ShowAlert(string title, string message, UIViewController viewController = null, Action<UIAlertAction> OkClicked = null)
+        {
+            UIApplication.SharedApplication.InvokeOnMainThread(() =>
+            {
+                var alert = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
+                var okAction = UIAlertAction.Create("Ok", UIAlertActionStyle.Default, OkClicked);
+                alert.AddAction(okAction);
+
+                viewController = viewController ?? (UIApplication.SharedApplication.Delegate as AppDelegate).Window.RootViewController;
+                viewController.PresentViewController(alert, true, null);
+            });
         }
     }
 }

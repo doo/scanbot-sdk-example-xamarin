@@ -1,24 +1,23 @@
 ﻿using Android.App;
+using AndroidX.AppCompat.App;
+using AndroidX.Core.View;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
-using Android.Widget;
-using Android.Views;
 using Android.Util;
+using Android.Views;
+using Android.Widget;
 
-// Wrapper namespace
-using ScanbotSDK.Xamarin;
-using ScanbotSDK.Xamarin.Android;
+using ClassicalComponentsDemo.Droid.Delegates;
+
 using IO.Scanbot.Sdk.UI.Camera;
 using IO.Scanbot.Sdk.Camera;
-using System;
-using AndroidX.AppCompat.App;
-using AndroidX.Core.View;
 using IO.Scanbot.Sdk.Contourdetector;
 using IO.Scanbot.Sdk.UI;
 using IO.Scanbot.Sdk.Core.Contourdetector;
-using IO.Scanbot.Sdk;
-using ClassicalComponentsDemo.Droid.Delegates;
+
+using ScanbotSDK.Xamarin;
+using ScanbotSDK.Xamarin.Android;
 
 namespace ClassicalComponentsDemo.Droid
 {
@@ -68,19 +67,18 @@ namespace ClassicalComponentsDemo.Droid
             cameraView.SetPreviewMode(CameraPreviewMode.FitIn);
 
             userGuidanceTextView = FindViewById<TextView>(Resource.Id.userGuidanceTextView);
-
             imageProcessingProgress = FindViewById<ProgressBar>(Resource.Id.imageProcessingProgress);
 
             var contourDetector = new IO.Scanbot.Sdk.ScanbotSDK(this).CreateContourDetector();
             frameHandlerWrapper = new ContourDetectorFrameHandlerWrapper(this, contourDetector);
+
+            // Add an additional custom contour detector to add user guidance text
             var contourResultHandlerWrapper = new ContourDetectorResultDelegate();
             contourResultHandlerWrapper.ContourDetected += ShowUserGuidance;
+
+            // attaching the result handler to the cameraView
             frameHandlerWrapper.AddResultHandler(contourResultHandlerWrapper);
             ScanbotCameraXViewWrapper.Attach(cameraView, frameHandlerWrapper);
-
-
-          
-            // Add an additional custom contour detector to add user guidance text
 
             polygonView = FindViewById<PolygonView>(Resource.Id.scanbotPolygonView);
             polygonView.SetStrokeColor(Color.Red);
@@ -94,7 +92,6 @@ namespace ClassicalComponentsDemo.Droid
             frameHandlerWrapper.FrameHandler.SetAcceptedSizeScore(70);
 
             autoSnappingController = DocumentAutoSnappingController.Attach(cameraView, contourDetector);
-            autoSnappingController.SetIgnoreBadAspectRatio(ignoreBadAspectRatio);
 
             pictureCallbackDelegate = new PictureCallbackDelegate();
             pictureCallbackDelegate.OnPictureTakenHandler += ProcessTakenPicture;

@@ -1,59 +1,73 @@
 ﻿using System;
-using Foundation;
 using ReadyToUseUIDemo.iOS.Repository;
-using ReadyToUseUIDemo.iOS.Utils;
-using ReadyToUseUIDemo.iOS.View;
-using ReadyToUseUIDemo.model;
 using ScanbotSDK.iOS;
-using ScanbotSDK.Xamarin;
-using ScanbotSDK.Xamarin.iOS;
 using UIKit;
-using PdfKit;
 
 namespace ReadyToUseUIDemo.iOS.Controller
 {
     public class ProcessingController : UIViewController
     {
-        public ProcessingView ContentView { get; private set; }
+        public UIImageView ImageView { get; private set; }
 
-        CroppingFinishedHandler handler;
+        private CroppingFinishedHandler handler;
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
-            ContentView = new ProcessingView();
-            View = ContentView;
-
             Title = "Process Image";
-            
+
             handler = new CroppingFinishedHandler();
+
+            SetUpPreview();
+            SetupToolbar();
+        }
+
+        private void SetUpPreview()
+        {
+            View.BackgroundColor = UIColor.White;
+
+            ImageView = new UIImageView();
+            ImageView.ContentMode = UIViewContentMode.ScaleAspectFit;
+            ImageView.Image = PageRepository.Current.DocumentImage;
+            ImageView.TranslatesAutoresizingMaskIntoConstraints = false;
+            View.AddSubview(ImageView);
+
+            ImageView.WidthAnchor.ConstraintEqualTo(View.WidthAnchor, 0.9f).Active = true;
+            ImageView.HeightAnchor.ConstraintEqualTo(View.HeightAnchor, 0.75f).Active = true;
+            ImageView.CenterXAnchor.ConstraintEqualTo(View.CenterXAnchor).Active = true;
+            ImageView.CenterYAnchor.ConstraintEqualTo(View.CenterYAnchor).Active = true;
+        }
+
+        private void SetupToolbar()
+        {
+            this.SetToolbarItems(new UIBarButtonItem[]
+            {
+                new UIBarButtonItem("Crop & Rotate", UIBarButtonItemStyle.Plain, CropAndRotate),
+                new UIBarButtonItem("Filter", UIBarButtonItemStyle.Plain, OpenFilterScreen),
+                new UIBarButtonItem("Delete", UIBarButtonItemStyle.Plain, DeleteImage),
+                new UIBarButtonItem("Quality", UIBarButtonItemStyle.Plain, CheckQuality)
+            }, true);
+            this.NavigationController.SetToolbarHidden(false, false);
+        }
+
+        private void CheckQuality(object sender, EventArgs e)
+        {
+            var quality = new SBSDKDocumentQualityAnalyzer().AnalyzeOnImage(PageRepository.Current.DocumentImage);
+            Utils.Alert.Show(this, "Document Quality", quality.ToString());
         }
 
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
 
-            ContentView.ProcessingBar.CropAndRotateButton.Click += CropAndRotate;
-
-            ContentView.ProcessingBar.FilterButton.Click += OpenFilterScreen;
-
-            ContentView.ProcessingBar.DeleteButton.Click += DeleteImage;
-
             handler.Finished += CroppingFinished;
 
-            ContentView.ImageView.Image = PageRepository.Current.DocumentImage;
+            ImageView.Image = PageRepository.Current.DocumentImage;
         }
 
         public override void ViewWillDisappear(bool animated)
         {
             base.ViewWillDisappear(animated);
-
-            ContentView.ProcessingBar.CropAndRotateButton.Click -= CropAndRotate;
-
-            ContentView.ProcessingBar.FilterButton.Click -= OpenFilterScreen;
-
-            ContentView.ProcessingBar.DeleteButton.Click -= DeleteImage;
 
             handler.Finished -= CroppingFinished;
         }
@@ -69,7 +83,7 @@ namespace ReadyToUseUIDemo.iOS.Controller
         private void CroppingFinished(object sender, CroppingFinishedArgs e)
         {
             PageRepository.Current = e.Page;
-            ContentView.ImageView.Image = PageRepository.Current.DocumentImage;
+            ImageView.Image = PageRepository.Current.DocumentImage;
         }
 
         private void OpenFilterScreen(object sender, EventArgs e)
@@ -83,7 +97,6 @@ namespace ReadyToUseUIDemo.iOS.Controller
             PageRepository.Remove(PageRepository.Current);
             NavigationController.PopViewController(true);
         }
-
     }
 
     public class CroppingFinishedArgs : EventArgs

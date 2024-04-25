@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using AndroidX.AppCompat.App;
 using Android.App;
 using Android.Graphics;
 using Android.OS;
@@ -12,7 +14,7 @@ using Android.Util;
 using AndroidNetUri = Android.Net.Uri;
 
 using ScanbotSDK.Xamarin.Android;
-using AndroidX.AppCompat.App;
+
 using IO.Scanbot.Sdk.UI;
 using IO.Scanbot.Sdk.Core.Contourdetector;
 using IO.Scanbot.Sdk.Process;
@@ -47,7 +49,6 @@ namespace ClassicalComponentsDemo.Droid
 
         int rotationDegrees = 0;
         long lastRotationEventTs = 0L;
-
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -155,7 +156,7 @@ namespace ClassicalComponentsDemo.Droid
                 try
                 {
                     var detector = SDK.CreateContourDetector();
-                    var documentImage = SDK.ImageProcessor().ProcessBitmap(originalBitmap, new CropOperation(editPolygonImageView.Polygon), false);
+                    var documentImage = SDK.ImageProcessor().ProcessBitmap(originalBitmap, new CropOperation(editPolygonImageView.Polygon));
                     documentImage = SBSDK.RotateImage(documentImage, -rotationDegrees);
                     var documentImgUri = MainApplication.TempImageStorage.AddImage(documentImage);
 
@@ -175,7 +176,6 @@ namespace ClassicalComponentsDemo.Droid
                 }
             });
         }
-
 
         void DebugLog(string msg)
         {

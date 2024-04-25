@@ -64,7 +64,7 @@ namespace ClassicalComponentsDemo.iOS
                 this.rootVc = new WeakReference<MainSelectionTableViewController>(rootVc);
             }
 
-            public override void GenericDocumentRecognizerViewController(SBSDKUIGenericDocumentRecognizerViewController viewController, SBSDKGenericDocument[] documents)
+            public override void DidFinishWithDocuments(SBSDKUIGenericDocumentRecognizerViewController viewController, SBSDKGenericDocument[] documents)
             {
                 if (documents == null || documents.Length == 0)
                 {
@@ -143,13 +143,23 @@ namespace ClassicalComponentsDemo.iOS
             if (!CheckScanbotSDKLicense()) { return; }
             if (!CheckDocumentImageUrl()) { return; }
 
-            Task.Run(() =>
+            Task.Run(async () =>
             {
 
                 DebugLog("Performing OCR ...");
 
                 var images = AppDelegate.TempImageStorage.ImageURLs;
-                var result = SBSDK.PerformOCR(images, new[] { "en", "de" });
+
+                // Uncomment below code to use the old OCR approach. Use [OCRMode.Legacy] and set the required [InstalledLanguages] property.
+                //var languages = new List<string> { "en", "de" };
+                //var ocrConfig = new OcrConfigs
+                //{
+                //    InstalledLanguages = languages,
+                //    OcrMode = OCRMode.Legacy,
+                //    LanguageDataPath = SBSDK.GetOcrConfigs().LanguageDataPath
+                //};
+
+                var result = await SBSDK.PerformOCR(images, SBSDK.GetOcrConfigs());
                 DebugLog("OCR result: " + result.RecognizedText);
                 ShowMessage("OCR Text", result.RecognizedText);
             });
@@ -287,7 +297,7 @@ namespace ClassicalComponentsDemo.iOS
 
         void ShowImageView(UIImage hiresImage)
         {
-            var previewImage = ExampleImageUtils.MaxResizeImage(hiresImage, 900, 900);
+            var previewImage = CommonUtils.MaxResizeImage(hiresImage, 900, 900);
             InvokeOnMainThread(() =>
             {
                 selectedImageView.Image = previewImage;
@@ -353,15 +363,12 @@ namespace ClassicalComponentsDemo.iOS
             if (!CheckScanbotSDKLicense()) { return; }
             if (!CheckDocumentImageUrl()) { return; }
 
-            Task.Run(() =>
-            {
-                DebugLog("Creating TIFF file ...");
-                var images = AppDelegate.TempImageStorage.ImageURLs;
-                var tiffOutputFileUrl = GenerateRandomFileUrlInDemoTempStorage(".tiff");
-                SBSDK.WriteTiff(images, tiffOutputFileUrl, new TiffOptions { OneBitEncoded = true });
-                DebugLog("TIFF file created: " + tiffOutputFileUrl);
-                ShowMessage("TIFF file created", "" + tiffOutputFileUrl);
-            });
+            DebugLog("Creating TIFF file ...");
+            var images = AppDelegate.TempImageStorage.ImageURLs;
+            var tiffOutputFileUrl = GenerateRandomFileUrlInDemoTempStorage(".tiff");
+            SBSDK.WriteTiff(images, tiffOutputFileUrl, new TiffOptions { OneBitEncoded = true });
+            DebugLog("TIFF file created: " + tiffOutputFileUrl);
+            ShowMessage("TIFF file created", "" + tiffOutputFileUrl);
         }
 
         partial void CreatePdfTouchUpInside(UIButton sender)
@@ -369,12 +376,12 @@ namespace ClassicalComponentsDemo.iOS
             if (!CheckScanbotSDKLicense()) { return; }
             if (!CheckDocumentImageUrl()) { return; }
 
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 DebugLog("Creating PDF file ...");
                 var images = AppDelegate.TempImageStorage.ImageURLs;
                 var pdfOutputFileUrl = GenerateRandomFileUrlInDemoTempStorage(".pdf");
-                SBSDK.CreatePDF(images, pdfOutputFileUrl, PDFPageSize.FixedA4);
+                await SBSDK.CreatePDF(images, pdfOutputFileUrl, PDFPageSize.A4);
                 DebugLog("PDF file created: " + pdfOutputFileUrl);
                 ShowMessage("PDF file created", "" + pdfOutputFileUrl);
             });

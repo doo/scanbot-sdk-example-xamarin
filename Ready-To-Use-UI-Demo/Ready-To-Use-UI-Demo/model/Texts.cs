@@ -40,6 +40,8 @@
 
         public const string filter = "FILTER";
 
+        public const string check_quality = "QUALITY";
+
         public const string delete_all = "DELETE ALL";
 
         public const string low_light_binarization_filter = "Low Light Binarization Filter";
