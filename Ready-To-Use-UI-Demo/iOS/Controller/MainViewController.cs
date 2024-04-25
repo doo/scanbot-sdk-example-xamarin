@@ -282,7 +282,8 @@ namespace ReadyToUseUIDemo.iOS.Controller
 
             controller.DidDetectCard += (sender, args) =>
             {
-                Alert.ShowPopup(this, args.Card.StringRepresentation);
+                controller.RecognitionEnabled = false;
+                controller.DismissViewController(true, () => Alert.ShowPopup(this, args.Card.StringRepresentation));
             };
 
             controller.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
