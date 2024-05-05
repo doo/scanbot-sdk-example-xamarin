@@ -421,7 +421,7 @@ namespace ReadyToUseUIDemo.Droid
                     .ToList()
                 );
                 Console.WriteLine("GDR Result: ", description);
-                ShowAlert("Result", description);
+                Alert.ShowAlert(this, "Result", description);
             }
             else if (requestCode == Constants.CHECK_RECOGNIZER_REQUEST)
             {
@@ -446,7 +446,7 @@ namespace ReadyToUseUIDemo.Droid
                     })
                     .ToList());
                 Console.WriteLine("Check Recognizer Result: ", description);
-                ShowAlert("Result", description);
+                Alert.ShowAlert(this, "Result", description);
             }
             else if (requestCode == Constants.TEXT_DATA_RECOGNIZER_REQUEST)
             {
@@ -459,7 +459,7 @@ namespace ReadyToUseUIDemo.Droid
                 Console.WriteLine("Text Recognizer Result: " + textDataScannerStepResult.Text);
                 RunOnUiThread(delegate
                 {
-                    ShowAlert("Result", textDataScannerStepResult.Text);
+                    Alert.ShowAlert(this, "Result", textDataScannerStepResult.Text);
                 });
             }
             else if (requestCode == Constants.VIN_RECOGNIZER_REQUEST)
@@ -472,22 +472,9 @@ namespace ReadyToUseUIDemo.Droid
                 Console.WriteLine("VIN Recognizer Result: " + result.RawText);
                 RunOnUiThread(delegate
                 {
-                    ShowAlert("Result", result.RawText);
+                    Alert.ShowAlert(this, "Result", result.RawText);
                 });
             }
-        }
-
-        private void ShowAlert(string title, string message)
-        {
-            var dialog = new AndroidX.AppCompat.App.AlertDialog.Builder(this);
-            AndroidX.AppCompat.App.AlertDialog alert = dialog.Create();
-            alert.SetTitle(title);
-            alert.SetMessage(message);
-            alert.SetButton((int)DialogButtonType.Neutral, "OK", (c, ev) =>
-            {
-                alert.Dismiss();
-            });
-            alert.Show();
         }
     }
 }
