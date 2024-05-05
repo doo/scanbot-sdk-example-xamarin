@@ -205,7 +205,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
 
         private async Task<Uri> GeneratePdfAsync(Uri[] inputUris)
         {
-            var outputUrl = await SBSDK.CreatePDF(inputUris,
+            var outputUri = await SBSDK.CreatePDF(inputUris,
                  new PDFConfiguration
                  {
                      PageOrientation = PDFPageOrientation.Auto,
@@ -219,7 +219,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
                          Keywords = new[] { "x-platform", "ios", "android" },
                      }
                  });
-            return outputUrl;
+            return outputUri;
         }
 
         private void PerformOcrAsync(Uri[] inputUris)
@@ -282,13 +282,13 @@ namespace ReadyToUseUIDemo.Droid.Activities
 
         private Uri GenerateTiffAsync(Uri[] input)
         {
-            var output = GetOutputUri(".tiff");
+            var outputUri = GetOutputUri(".tiff");
             // Please note that some compression types are only compatible for 1-bit encoded images (binarized black & white images)!
             var options = new TiffOptions { OneBitEncoded = true, Compression = TiffCompressionOptions.CompressionCcittfax4, Dpi = 250 };
-            bool success = SBSDK.WriteTiff(input, output, options);
+            bool success = SBSDK.WriteTiff(input, outputUri, options);
             if (success)
             {
-                return output;
+                return outputUri;
             }
             return null;
         }

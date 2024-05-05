@@ -66,8 +66,9 @@ namespace ClassicalComponentsDemo.Droid
             AssignApplyImageFilterButtonHandler();
             AssignImportImageButtonHandler();
             AssignCreatePdfButtonHandler();
-            AssignCreateTiffButtonHandler();
             AssignOcrButtonsHandler();
+            AssignCreateSandwichPdfButtonHandler();
+            AssignCreateTiffButtonHandler();
             AssignCheckRecognizerUiButtonHandler();
 
             PermissionUtils.Request(this, FindViewById(Resource.Layout.Main));
@@ -185,14 +186,26 @@ namespace ClassicalComponentsDemo.Droid
 
                 DebugLog("Starting PDF creation...");
 
-                Task.Run(() =>
+                Task.Run(async () =>
                 {
                     try
                     {
-                        var pdfOutputUri = GenerateRandomFileUrlInDemoTempStorage(".pdf");
-                        var images = new AndroidNetUri[] { documentImageUri }; // add more images for PDF pages here
-                        // The SDK call is sync!
-                        SBSDK.CreatePDF(images, pdfOutputUri, PDFPageSize.A4);
+                        var inputUris = new AndroidNetUri[] { documentImageUri }; // add more images for PDF pages here
+                        var pdfOutputUri = await SBSDK.CreatePDF(inputUris,
+                                     new PDFConfiguration
+                                     {
+                                         PageOrientation = PDFPageOrientation.Auto,
+                                         PageSize = PDFPageSize.A4,
+                                         PdfAttributes = new PDFAttributes
+                                         {
+                                             Author = "Scanbot User",
+                                             Creator = "ScanbotSDK",
+                                             Title = "ScanbotSDK PDF",
+                                             Subject = "Generating a sandwiched PDF",
+                                             Keywords = new[] { "x-platform", "ios", "android" },
+                                         }
+                                     });
+
                         DebugLog("PDF file created: " + pdfOutputUri);
                         ShowAlertDialog("PDF file created: " + pdfOutputUri, onDismiss: () =>
                         {
@@ -255,17 +268,22 @@ namespace ClassicalComponentsDemo.Droid
                 Task.Run(() => {
                     try
                     {
-                        var pdfOutputUri = GenerateRandomFileUrlInDemoTempStorage(".pdf");
-                        var images = new AndroidNetUri[] { documentImageUri }; // add more images for OCR here
+                        var inputUris = new AndroidNetUri[] { documentImageUri }; // add more images for OCR here
 
                         // The SDK call is sync!
-                        var result = SBSDK.PerformOCR(images, SBSDK.GetOcrConfigs(), pdfOutputUri);
-                        DebugLog("Recognized OCR text: " + result.RecognizedText);
-                        DebugLog("Sandwiched PDF file created: " + pdfOutputUri);
-                        ShowAlertDialog(result.RecognizedText, "OCR Result", () =>
-                        {
-                            OpenSharingDialog(pdfOutputUri, "application/pdf");
-                        });
+                        // NOTE:
+                        // The default OCR engine is 'OcrConfig.ScanbotOCR' which is ML based. This mode doesn't expect the Langauges array.
+                        // If you wish to use the previous engine please use 'OcrConfig.Tesseract(...)'. The Languages array is mandatory in this mode.
+                        // Uncomment the below code to use the past legacy 'OcrConfig.Tesseract(...)' engine mode.
+                        // var ocrConfig = OcrConfig.Tesseract(withLanguageString: new List<string>{ "en", "de" });
+
+                        // Using the default OCR option
+                        var ocrConfig = OcrConfig.ScanbotOCR;
+
+                        var ocrResult = SBSDK.PerformOCR(inputUris, ocrConfig);
+
+                        DebugLog("Recognized OCR text: " + ocrResult.RecognizedText);
+                        ShowAlertDialog(ocrResult.RecognizedText, "OCR Result", () => { });
                     }
                     catch (Exception e)
                     {
@@ -277,6 +295,61 @@ namespace ClassicalComponentsDemo.Droid
                             performOcrButton.Text = "Perform OCR";
                             performOcrButton.Enabled = true;
                         });
+                    }
+                });
+            };
+        }
+
+        private void AssignCreateSandwichPdfButtonHandler()
+        {
+            var createSandwichPdfButton = FindViewById<Button>(Resource.Id.createSandwichPdfButton);
+            createSandwichPdfButton.Click += delegate
+            {
+                if (!CheckScanbotSDKLicense()) { return; }
+                if (!CheckDocumentImage()) { return; }
+
+                DebugLog("Starting PDF creation...");
+
+                Task.Run(async () =>
+                {
+                    // NOTE:
+                    // The default OCR engine is 'OcrConfig.ScanbotOCR' which is ML based. This mode doesn't expect the Langauges array.
+                    // If you wish to use the previous engine please use 'OcrConfig.Tesseract(...)'. The Languages array is mandatory in this mode.
+                    // Uncomment the below code to use the past legacy 'OcrConfig.Tesseract(...)' engine mode.
+                    //var ocrConfig = OcrConfig.Tesseract(withLanguageString: new List<string>{ "en", "de" });
+
+                    // You may also use the default InstalledLanguages property in the OCR configuration.
+                    // SBSDK.GetOcrConfigs() returns all the default OCR configurations from the SDK.
+                    //var languages = SBSDK.GetOcrConfigs().InstalledLanguages;
+
+                    // Using the default OCR option
+                    var ocrConfig = OcrConfig.ScanbotOCR;
+
+                    try
+                    {
+                        var inputUris = new AndroidNetUri[] { documentImageUri }; // add more images for PDF pages here
+                        var pdfOutputUri = await SBSDK.CreateSandwichPDF(inputUris,
+                            new PDFConfiguration
+                            {
+                                PageOrientation = PDFPageOrientation.Auto,
+                                PageSize = PDFPageSize.A4,
+                                PdfAttributes = new PDFAttributes
+                                {
+                                    Author = "Scanbot User",
+                                    Creator = "ScanbotSDK",
+                                    Title = "ScanbotSDK PDF",
+                                    Subject = "Generating a sandwiched PDF",
+                                    Keywords = new[] { "x-platform", "ios", "android" },
+                                }
+                            }, ocrConfig);
+                        ShowAlertDialog("PDF file created: " + pdfOutputUri, onDismiss: () =>
+                        {
+                            OpenSharingDialog(pdfOutputUri, "application/pdf");
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        ErrorLog("Error creating PDF", e);
                     }
                 });
             };
@@ -502,6 +575,7 @@ namespace ClassicalComponentsDemo.Droid
 
         void OpenSharingDialog(AndroidNetUri publicFileUri, string mimeType)
         {
+            return;
             // Please note: To be able to share a file on Android it must be in a public folder. 
             // If you need a secure place to store PDF, TIFF, etc, do NOT use this sharing solution!
             // Also see the initialization of the TempImageStorage in the MainApplication class.
@@ -513,7 +587,7 @@ namespace ClassicalComponentsDemo.Droid
 
             var authority = ApplicationContext.PackageName + ".provider";
             var uri = FileProvider.GetUriForFile(this, authority, new Java.IO.File(publicFileUri.Path));
-            
+
             shareIntent.PutExtra(Intent.ExtraStream, uri);
             StartActivity(shareIntent);
         }

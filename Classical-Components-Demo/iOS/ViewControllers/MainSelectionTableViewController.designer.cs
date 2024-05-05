@@ -74,6 +74,9 @@ namespace ClassicalComponentsDemo.iOS
 		[Action ("CreatePdfTouchUpInside:")]
 		partial void CreatePdfTouchUpInside (UIKit.UIButton sender);
 
+		[Action ("CreateSandwichPdfTouchUpInside:")]
+		partial void CreateSandwichPdfTouchUpInside (UIKit.UIButton sender);
+
 		[Action ("CreateTiffFileTouchUpInside:")]
 		partial void CreateTiffFileTouchUpInside (UIKit.UIButton sender);
 
@@ -99,6 +102,11 @@ namespace ClassicalComponentsDemo.iOS
 				applyImageFilterButton = null;
 			}
 
+			if (checkRecognizerButton != null) {
+				checkRecognizerButton.Dispose ();
+				checkRecognizerButton = null;
+			}
+
 			if (copyrightLabel != null) {
 				copyrightLabel.Dispose ();
 				copyrightLabel = null;
@@ -122,11 +130,6 @@ namespace ClassicalComponentsDemo.iOS
 			if (genericDocumentRecognizerButton != null) {
 				genericDocumentRecognizerButton.Dispose ();
 				genericDocumentRecognizerButton = null;
-			}
-
-			if (checkRecognizerButton != null) {
-				checkRecognizerButton.Dispose ();
-				checkRecognizerButton = null;
 			}
 
 			if (goToPdfViewButton != null) {

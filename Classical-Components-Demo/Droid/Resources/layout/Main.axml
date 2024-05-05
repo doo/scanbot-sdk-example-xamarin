@@ -40,16 +40,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/createPdfButton" />
-        <Button
-            android:text="Create TIFF"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/createTiffButton" />
+      
         <Button
             android:text="Perform OCR"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/performOcrButton" />
+
+        <Button
+            android:text="Create Sandwich PDF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/createSandwichPdfButton" />
+
+        <Button
+            android:text="Create TIFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/createTiffButton" />
+
         <Button
 			android:text="Generic Document Recognizer UI"
 			android:layout_width="match_parent"

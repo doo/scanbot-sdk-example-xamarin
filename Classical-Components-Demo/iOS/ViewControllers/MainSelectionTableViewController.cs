@@ -11,6 +11,7 @@ using ScanbotSDK.Xamarin.iOS;
 using ScanbotSDK.iOS;
 using System.Linq;
 using ClassicalComponentsDemo.iOS.ViewControllers;
+using System.Collections.Generic;
 
 namespace ClassicalComponentsDemo.iOS
 {
@@ -145,23 +146,22 @@ namespace ClassicalComponentsDemo.iOS
 
             Task.Run(async () =>
             {
-
                 DebugLog("Performing OCR ...");
 
-                var images = AppDelegate.TempImageStorage.ImageURLs;
+                var inputUrls = AppDelegate.TempImageStorage.ImageURLs;
 
-                // Uncomment below code to use the old OCR approach. Use [OCRMode.Legacy] and set the required [InstalledLanguages] property.
-                //var languages = new List<string> { "en", "de" };
-                //var ocrConfig = new OcrConfigs
-                //{
-                //    InstalledLanguages = languages,
-                //    OcrMode = OCRMode.Legacy,
-                //    LanguageDataPath = SBSDK.GetOcrConfigs().LanguageDataPath
-                //};
+                // NOTE:
+                // The default OCR engine is 'OcrConfig.ScanbotOCR' which is ML based. This mode doesn't expect the Langauges array.
+                // If you wish to use the previous engine please use 'OcrConfig.Tesseract(...)'. The Languages array is mandatory in this mode.
+                // Uncomment the below code to use the past legacy 'OcrConfig.Tesseract(...)' engine mode.
+                // var ocrConfig = OcrConfig.Tesseract(withLanguageString: new List<string>{ "en", "de" });
 
-                var result = await SBSDK.PerformOCR(images, SBSDK.GetOcrConfigs());
-                DebugLog("OCR result: " + result.RecognizedText);
-                ShowMessage("OCR Text", result.RecognizedText);
+                // Using the default OCR option
+                var ocrConfig = OcrConfig.ScanbotOCR;
+
+                var ocrResult = await SBSDK.PerformOCR(inputUrls, ocrConfig);
+                DebugLog("OCR result: " + ocrResult.RecognizedText);
+                ShowMessage("OCR Text", ocrResult.RecognizedText);
             });
         }
 
@@ -379,11 +379,70 @@ namespace ClassicalComponentsDemo.iOS
             Task.Run(async () =>
             {
                 DebugLog("Creating PDF file ...");
-                var images = AppDelegate.TempImageStorage.ImageURLs;
-                var pdfOutputFileUrl = GenerateRandomFileUrlInDemoTempStorage(".pdf");
-                await SBSDK.CreatePDF(images, pdfOutputFileUrl, PDFPageSize.A4);
+                var inputUrls = AppDelegate.TempImageStorage.ImageURLs;
+                //var pdfOutputFileUrl = GenerateRandomFileUrlInDemoTempStorage(".pdf");
+                var pdfOutputFileUrl = await SBSDK.CreatePDF(inputUrls,
+                   new PDFConfiguration
+                   {
+                       PageOrientation = PDFPageOrientation.Auto,
+                       PageSize = PDFPageSize.A4,
+                       PdfAttributes = new PDFAttributes
+                       {
+                           Author = "Scanbot User",
+                           Creator = "ScanbotSDK",
+                           Title = "ScanbotSDK PDF",
+                           Subject = "Generating a sandwiched PDF",
+                           Keywords = new[] { "x-platform", "ios", "android" },
+                       }
+                   });
                 DebugLog("PDF file created: " + pdfOutputFileUrl);
                 ShowMessage("PDF file created", "" + pdfOutputFileUrl);
+            });
+        }
+
+        partial void CreateSandwichPdfTouchUpInside(UIButton sender)
+        {
+            Task.Run(async () =>
+            {
+                DebugLog("Creating Sandwich PDF ...");
+
+                var inputUrls = AppDelegate.TempImageStorage.ImageURLs;
+                // NOTE:
+                // The default OCR engine is 'OcrConfig.ScanbotOCR' which is ML based. This mode doesn't expect the Langauges array.
+                // If you wish to use the previous engine please use 'OcrConfig.Tesseract(...)'. The Languages array is mandatory in this mode.
+                // Uncomment the below code to use the past legacy 'OcrConfig.Tesseract(...)' engine mode.
+                 //var ocrConfig = OcrConfig.Tesseract(withLanguageString: new List<string>{ "en", "de" });
+
+                // You may also use the default InstalledLanguages property in the OCR configuration.
+                // SBSDK.GetOcrConfigs() returns all the default OCR configurations from the SDK.
+                 //var languages = SBSDK.GetOcrConfigs().InstalledLanguages;
+
+                // Using the default OCR option
+                var ocrConfig = OcrConfig.ScanbotOCR;
+
+                try
+                {
+                    var pdfOutputFileUrl = await SBSDK.CreateSandwichPDF(inputUrls,
+                        new PDFConfiguration
+                        {
+                            PageOrientation = PDFPageOrientation.Auto,
+                            PageSize = PDFPageSize.A4,
+                            PdfAttributes = new PDFAttributes
+                            {
+                                Author = "Scanbot User",
+                                Creator = "ScanbotSDK",
+                                Title = "ScanbotSDK PDF",
+                                Subject = "Generating a sandwiched PDF",
+                                Keywords = new[] { "x-platform", "ios", "android" },
+                            }
+                        }, ocrConfig);
+                    DebugLog("PDF file created: " + pdfOutputFileUrl);
+                    ShowMessage("PDF file created", "" + pdfOutputFileUrl);
+                }
+                catch (Exception ex)
+                {
+                    ShowErrorMessage(ex.Message);
+                }
             });
         }
 
