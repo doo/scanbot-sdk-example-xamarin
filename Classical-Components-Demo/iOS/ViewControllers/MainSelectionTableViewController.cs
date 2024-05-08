@@ -380,7 +380,6 @@ namespace ClassicalComponentsDemo.iOS
             {
                 DebugLog("Creating PDF file ...");
                 var inputUrls = AppDelegate.TempImageStorage.ImageURLs;
-                //var pdfOutputFileUrl = GenerateRandomFileUrlInDemoTempStorage(".pdf");
                 var pdfOutputFileUrl = await SBSDK.CreatePDF(inputUrls,
                    new PDFConfiguration
                    {
