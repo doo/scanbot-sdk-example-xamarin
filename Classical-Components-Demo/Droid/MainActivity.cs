@@ -575,7 +575,6 @@ namespace ClassicalComponentsDemo.Droid
 
         void OpenSharingDialog(AndroidNetUri publicFileUri, string mimeType)
         {
-            return;
             // Please note: To be able to share a file on Android it must be in a public folder. 
             // If you need a secure place to store PDF, TIFF, etc, do NOT use this sharing solution!
             // Also see the initialization of the TempImageStorage in the MainApplication class.
