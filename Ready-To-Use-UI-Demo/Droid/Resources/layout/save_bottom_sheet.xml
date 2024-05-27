@@ -11,7 +11,7 @@
     android:paddingBottom="16dp">
 
     <Button
-        android:id="@+id/save_with_ocr"
+        android:id="@+id/create_pdf"
         style="@style/Scanbot.Demo.MaterialTwoButtonTeaser.Button"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -25,16 +25,16 @@
         android:background="#1effffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/save_with_ocr" />
+        app:layout_constraintTop_toBottomOf="@+id/create_pdf" />
 
     <Button
-        android:id="@+id/save_without_ocr"
+        android:id="@+id/perform_ocr"
         style="@style/Scanbot.Demo.MaterialTwoButtonTeaser.Button"
         android:layout_width="0dp"
         android:layout_height="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/save_with_ocr" />
+        app:layout_constraintTop_toBottomOf="@+id/create_pdf" />
 
     <View
         android:layout_width="0dp"
@@ -42,7 +42,24 @@
         android:background="#1effffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/save_without_ocr" />
+        app:layout_constraintTop_toBottomOf="@+id/perform_ocr" />
+
+    <Button
+        android:id="@+id/save_with_ocr"
+        style="@style/Scanbot.Demo.MaterialTwoButtonTeaser.Button"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/perform_ocr" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:background="#1effffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/save_with_ocr" />
 
     <Button
         android:id="@+id/save_tiff"
@@ -51,6 +68,6 @@
         android:layout_height="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/save_without_ocr" />
+        app:layout_constraintTop_toBottomOf="@+id/save_with_ocr" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

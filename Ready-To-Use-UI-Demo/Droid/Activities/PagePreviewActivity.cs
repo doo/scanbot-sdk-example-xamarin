@@ -27,6 +27,7 @@ using ReadyToUseUIDemo.Droid.Utils;
 using ReadyToUseUIDemo.model;
 using ScanbotSDK.Xamarin;
 using ScanbotSDK.Xamarin.Android;
+using Uri = Android.Net.Uri;
 
 namespace ReadyToUseUIDemo.Droid.Activities
 {
@@ -58,7 +59,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
 
             var toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
-            
+
             SupportActionBar.Title = Texts.scan_results;
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayShowHomeEnabled(true);
@@ -86,12 +87,12 @@ namespace ReadyToUseUIDemo.Droid.Activities
             recycleView = FindViewById<RecyclerView>(Resource.Id.pages_preview);
             recycleView.HasFixedSize = true;
             recycleView.SetAdapter(adapter);
-            
+
             var layout = new GridLayoutManager(this, 3);
             recycleView.SetLayoutManager(layout);
 
             adapter.SetItems(PageRepository.Pages);
-            
+
             progress = FindViewById<ProgressBar>(Resource.Id.progressBar);
 
             var addPage = FindViewById<TextView>(Resource.Id.action_add_page);
@@ -170,29 +171,7 @@ namespace ReadyToUseUIDemo.Droid.Activities
             save.Enabled = !adapter.IsEmpty;
         }
 
-        enum SaveType
-        {
-            Plain,
-            OCR,
-            TIFF
-        }
-
-        public void SaveWithOcr()
-        {
-            SaveDocument(SaveType.OCR);
-        }
-
-        public void SaveWithoutOcr()
-        {
-            SaveDocument(SaveType.Plain);
-        }
-
-        public void SaveTiff()
-        {
-            SaveDocument(SaveType.TIFF);
-        }
-
-        void SaveDocument(SaveType type)
+       internal void SaveDocument(SaveType type)
         {
             if (!SBSDK.IsLicenseValid())
             {
@@ -200,67 +179,157 @@ namespace ReadyToUseUIDemo.Droid.Activities
                 return;
             }
 
-            Task.Run(delegate
+            Task.Run(async delegate
             {
                 var input = adapter.GetDocumentUris().ToArray();
-                var output = GetOutputUri(".pdf");
-
-                if (type == SaveType.TIFF)
+                Uri outputUri = null;
+                switch (type)
                 {
-                    output = GetOutputUri(".tiff");
-                    // Please note that some compression types are only compatible for 1-bit encoded images (binarized black & white images)!
-                    var options = new TiffOptions { OneBitEncoded = true, Compression = TiffCompressionOptions.CompressionCcittfax4, Dpi = 250 };
-                    bool success = SBSDK.WriteTiff(input, output, options);
-                }
-                else if (type == SaveType.OCR)
-                {
-                    var languages = SBSDK.GetOcrConfigs().InstalledLanguages.ToArray();
-
-                    if (languages.Length == 0)
-                    {
-                        RunOnUiThread(delegate
-                        {
-                            Alert.Toast(this, "OCR languages blobs are not available");
-                        });
+                    case SaveType.PDF:
+                        outputUri = await GeneratePdfAsync(input);
+                        break;
+                    case SaveType.OCR:
+                        PerformOcrAsync(input);
                         return;
-                    }
-                    SBSDK.PerformOCR(input, SBSDK.GetOcrConfigs(), output);
+                    case SaveType.SANDWICH_PDF:
+                        outputUri = await GenerateSandwichPdfAsync(input);
+                        break;
+                    case SaveType.TIFF:
+                        outputUri = GenerateTiffAsync(input);
+                        break;
                 }
-                else
-                {
-                    SBSDK.CreatePDF(input, output, PDFPageSize.A4);
-                }
 
-                Java.IO.File file = Copier.Copy(this, output);
-
-                var intent = new Intent(Intent.ActionView, output);
-                
-                var authority = ApplicationContext.PackageName + ".provider";
-                var uri = FileProvider.GetUriForFile(this, authority, file);
-                
-                intent.SetDataAndType(uri, MimeUtils.GetMimeByName(file.Name));
-                intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);
-                intent.AddFlags(ActivityFlags.GrantReadUriPermission | ActivityFlags.GrantWriteUriPermission);
-
-                RunOnUiThread(delegate
-                {
-                    StartActivity(Intent.CreateChooser(intent, output.LastPathSegment));
-                    Alert.Toast(this, "File saved to: " + output.Path);
-                });
+                ShowResult(outputUri);
             });
         }
 
-        Android.Net.Uri GetOutputUri(string extension)
+        private async Task<Uri> GeneratePdfAsync(Uri[] inputUris)
+        {
+            var outputUri = await SBSDK.CreatePDF(inputUris,
+                 new PDFConfiguration
+                 {
+                     PageOrientation = PDFPageOrientation.Auto,
+                     PageSize = PDFPageSize.A4,
+                     PdfAttributes = new PDFAttributes
+                     {
+                         Author = "Scanbot User",
+                         Creator = "ScanbotSDK",
+                         Title = "ScanbotSDK PDF",
+                         Subject = "Generating a sandwiched PDF",
+                         Keywords = new[] { "x-platform", "ios", "android" },
+                     }
+                 });
+            return outputUri;
+        }
+
+        private void PerformOcrAsync(Uri[] inputUris)
+        {
+            // NOTE:
+            // The default OCR engine is 'OcrConfig.ScanbotOCR' which is ML based. This mode doesn't expect the Langauges array.
+            // If you wish to use the previous engine please use 'OcrConfig.Tesseract(...)'. The Languages array is mandatory in this mode.
+            // Uncomment the below code to use the past legacy 'OcrConfig.Tesseract(...)' engine mode.
+            // var ocrConfig = OcrConfig.Tesseract(withLanguageString: new List<string>{ "en", "de" });
+
+            // Using the default OCR option
+            var ocrConfig = OcrConfig.ScanbotOCR;
+
+            var ocrResult = SBSDK.PerformOCR(inputUris, ocrConfig);
+            RunOnUiThread(delegate
+            {
+                Alert.ShowAlert(this, "Result", ocrResult?.RecognizedText);
+            });
+        }
+
+        private async Task<Uri> GenerateSandwichPdfAsync(Uri[] inputUris)
+        {
+            // NOTE:
+            // The default OCR engine is 'OcrConfig.ScanbotOCR' which is ML based. This mode doesn't expect the Langauges array.
+            // If you wish to use the previous engine please use 'OcrConfig.Tesseract(...)'. The Languages array is mandatory in this mode.
+            // Uncomment the below code to use the past legacy 'OcrConfig.Tesseract(...)' engine mode.
+             //var ocrConfig = OcrConfig.Tesseract(withLanguageString: new List<string>{ "en", "de" });
+
+            // You may also use the default InstalledLanguages property in the OCR configuration.
+            // SBSDK.GetOcrConfigs() returns all the default OCR configurations from the SDK.
+             //var languages = SBSDK.GetOcrConfigs().InstalledLanguages;
+
+            // Using the default OCR option
+            var ocrConfig = OcrConfig.ScanbotOCR;
+
+            try
+            {
+                var outputUri = await SBSDK.CreateSandwichPDF(inputUris,
+                    new PDFConfiguration
+                    {
+                        PageOrientation = PDFPageOrientation.Auto,
+                        PageSize = PDFPageSize.A4,
+                        PdfAttributes = new PDFAttributes
+                        {
+                            Author = "Scanbot User",
+                            Creator = "ScanbotSDK",
+                            Title = "ScanbotSDK PDF",
+                            Subject = "Generating a sandwiched PDF",
+                            Keywords = new[] { "x-platform", "ios", "android" },
+                        }
+                    }, ocrConfig);
+                return outputUri;
+            }
+            catch (Exception ex)
+            {
+                Alert.ShowAlert(this, "Error", ex.Message);
+                return null;
+            }
+        }
+
+        private Uri GenerateTiffAsync(Uri[] input)
+        {
+            var outputUri = GetOutputUri(".tiff");
+            // Please note that some compression types are only compatible for 1-bit encoded images (binarized black & white images)!
+            var options = new TiffOptions { OneBitEncoded = true, Compression = TiffCompressionOptions.CompressionCcittfax4, Dpi = 250 };
+            bool success = SBSDK.WriteTiff(input, outputUri, options);
+            if (success)
+            {
+                return outputUri;
+            }
+            return null;
+        }
+
+        private void ShowResult(Uri outputUri)
+        {
+            if (outputUri == null)
+            {
+                Alert.ShowUnexpectedError(this);
+                return;
+            }
+
+            Java.IO.File file = Copier.Copy(this, outputUri);
+
+            var intent = new Intent(Intent.ActionView, outputUri);
+
+            var authority = ApplicationContext.PackageName + ".provider";
+            var uri = FileProvider.GetUriForFile(this, authority, file);
+
+            intent.SetDataAndType(uri, MimeUtils.GetMimeByName(file.Name));
+            intent.SetFlags(ActivityFlags.ClearWhenTaskReset | ActivityFlags.NewTask);
+            intent.AddFlags(ActivityFlags.GrantReadUriPermission | ActivityFlags.GrantWriteUriPermission);
+
+            RunOnUiThread(delegate
+            {
+                StartActivity(Intent.CreateChooser(intent, outputUri.LastPathSegment));
+                Alert.Toast(this, "File saved to: " + outputUri.Path);
+            });
+        }
+
+        Uri GetOutputUri(string extension)
         {
             var external = GetExternalFilesDir(null).AbsolutePath;
             var filename = Guid.NewGuid() + extension;
             var targetFile = System.IO.Path.Combine(external, filename);
-            return Android.Net.Uri.FromFile(new Java.IO.File(targetFile));
+            return Uri.FromFile(new Java.IO.File(targetFile));
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
-            
+
             if (item.ItemId == Android.Resource.Id.Home)
             {
                 base.OnBackPressed();
@@ -275,7 +344,8 @@ namespace ReadyToUseUIDemo.Droid.Activities
             Task.Run(delegate
             {
                 PageRepository.Apply(type);
-                RunOnUiThread(delegate {
+                RunOnUiThread(delegate
+                {
                     adapter.NotifyDataSetChanged();
                     progress.Visibility = ViewStates.Gone;
                 });
@@ -385,9 +455,9 @@ namespace ReadyToUseUIDemo.Droid.Activities
             NotifyDataSetChanged();
         }
 
-        public List<Android.Net.Uri> GetDocumentUris()
+        public List<Uri> GetDocumentUris()
         {
-            var uris = new List<Android.Net.Uri>();
+            var uris = new List<Uri>();
             foreach (Page page in Items)
             {
                 var documentUri = GetUri(page, PageFileStorage.PageFileType.Document);
@@ -438,13 +508,13 @@ namespace ReadyToUseUIDemo.Droid.Activities
             }
         }
 
-        Android.Net.Uri GetPreviewUri(Page page, PageFileStorage.PageFileType type)
+        Uri GetPreviewUri(Page page, PageFileStorage.PageFileType type)
         {
             // preview URI (low-res!)
             return SBSDK.PageStorage.GetPreviewImageURI(page.PageId, type);
         }
 
-        Android.Net.Uri GetUri(Page page, PageFileStorage.PageFileType type)
+        Uri GetUri(Page page, PageFileStorage.PageFileType type)
         {
             // hi-res(!) URI
             return SBSDK.PageStorage.GetImageURI(page.PageId, type);
