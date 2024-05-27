@@ -80,13 +80,13 @@
       <HintPath>..\packages\Scanbot.Xamarin.ImagePicker.0.0.2\lib\Xamarin.iOS10\Scanbot.ImagePicker.iOS.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.iOS">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.4.2.1-alpha.1\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.4.2.1-alpha.2\lib\Xamarin.iOS10\ScanbotSDK.iOS.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.4.2.1-alpha.1\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.4.2.1-alpha.2\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.dll</HintPath>
     </Reference>
     <Reference Include="ScanbotSDK.Xamarin.iOS">
-      <HintPath>..\packages\ScanbotSDK.Xamarin.4.2.1-alpha.1\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
+      <HintPath>..\packages\ScanbotSDK.Xamarin.4.2.1-alpha.2\lib\Xamarin.iOS10\ScanbotSDK.Xamarin.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
